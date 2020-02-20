@@ -48,7 +48,8 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
-            services.AddControllersWithViews();
+            var mvcBuilder = services.AddControllersWithViews();
+            mvcBuilder.AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);

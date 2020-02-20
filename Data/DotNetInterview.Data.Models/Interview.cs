@@ -19,6 +19,8 @@
             this.Comments = new HashSet<Comment>();
         }
 
+        public PositionSeniority Seniority { get; set; }
+
         [Required]
         [MinLength(PositionTitleMinLength)]
         [MaxLength(PositionTitleMaxLength)]
