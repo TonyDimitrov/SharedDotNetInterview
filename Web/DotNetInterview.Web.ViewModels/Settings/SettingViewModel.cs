@@ -4,9 +4,16 @@
     using DotNetInterview.Services.Mapping;
 
     using AutoMapper;
+    using System.Collections;
+    using System.Collections.Generic;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {
+        public SettingViewModel()
+        {
+            this.UserEmails = new List<string>();
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -14,6 +21,8 @@
         public string Value { get; set; }
 
         public string NameAndValue { get; set; }
+
+        public IList<string> UserEmails { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
