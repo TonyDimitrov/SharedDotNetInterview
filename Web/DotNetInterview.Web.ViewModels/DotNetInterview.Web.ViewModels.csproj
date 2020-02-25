@@ -23,4 +23,9 @@
     <ProjectReference Include="..\..\Services\DotNetInterview.Services.Mapping\DotNetInterview.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Comments\" />
+    <Folder Include="Questions\" />
+  </ItemGroup>
+
 </Project>

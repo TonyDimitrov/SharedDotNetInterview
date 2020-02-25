@@ -8,6 +8,7 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Repositories;
     using DotNetInterview.Data.Seeding;
+    using DotNetInterview.Services;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Services.Mapping;
     using DotNetInterview.Services.Messaging;
@@ -62,6 +63,10 @@
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IInterviewsService, InterviewsService>();
+            services.AddTransient<IQuestionsService, QuestionsService>();
+            services.AddTransient<ICommentsService, CommentsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

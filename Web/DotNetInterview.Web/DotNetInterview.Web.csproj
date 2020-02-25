@@ -54,4 +54,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Comments\" />
+    <Folder Include="Views\Questions\" />
+  </ItemGroup>
 </Project>

@@ -1,14 +1,15 @@
 ﻿namespace DotNetInterview.Web.Controllers
 {
+    using System.Linq;
+
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
 

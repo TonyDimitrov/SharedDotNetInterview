@@ -12,6 +12,7 @@
         <link href="~/css/style.css" rel="stylesheet" asp-append-version="true" />
         <link href="~/css/forms.css" rel="stylesheet" asp-append-version="true" />
         <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+        @RenderSection("styles", false);
     </environment>
     <environment names="Staging,Production">
         <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
@@ -40,33 +41,33 @@
                                     </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle"
-                                           asp-area="" asp-controller="Interviews" asp-action="All" asp-route-seniority="1" id="navbarDropdown"
+                                           asp-controller="Interviews" asp-action="All" asp-route-seniority="1" id="navbarDropdown"
                                            role="button" data-toggle="dropdown" aria-haspopup="true"
                                            aria-expanded="false">Interviews</a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" asp-area="" asp-controller="Interviews" asp-action="All" asp-route-seniority="1">All</a>
-                                            <a class="dropdown-item" href="/Interviews/All/2">Junior Developer</a>
-                                            <a class="dropdown-item" href="/Interviews/All/3">Regular Developer</a>
-                                            <a class="dropdown-item" href="/Interviews/All/4">Senior Developer</a>
-                                            <a class="dropdown-item" href="/Interviews/All/5">Lead Developer</a>
-                                            <a class="dropdown-item" href="/Interviews/All/6">Architect</a>
-                                            <a class="dropdown-item" href="/Interviews/All/7">Other</a>
+                                            <a class="dropdown-item" asp-controller="Interviews" asp-action="All" asp-route-seniority="1">All</a>
+                                            <a class="dropdown-item" asp-controller="Interviews" asp-action="All" asp-route-seniority="2">Junior Developer</a>
+                                            <a class="dropdown-item" asp-controller="Interviews" asp-action="All" asp-route-seniority="3">Regular Developer</a>
+                                            <a class="dropdown-item" asp-controller="Interviews" asp-action="All" asp-route-seniority="4">Senior Developer</a>
+                                            <a class="dropdown-item" asp-controller="Interviews" asp-action="All" asp-route-seniority="5">Lead Developer</a>
+                                            <a class="dropdown-item" asp-controller="Interviews" asp-action="All" asp-route-seniority="6">Architect</a>
+                                            <a class="dropdown-item" asp-controller="Interviews" asp-action="All" asp-route-seniority="7">Other</a>
                                         </div>
                                     </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle"
-                                           asp-area="" asp-controller="Questions" asp-action="All" asp-route-seniority="1" id="navbarDropdown"
+                                           asp-controller="Questions" asp-action="All" asp-route-seniority="1" id="navbarDropdown"
                                            role="button" data-toggle="dropdown" aria-haspopup="true"
                                            aria-expanded="false">Questions</a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" asp-area="" asp-controller="Question" asp-action="All" asp-route-seniority="1">All</a>
-                                            <a class="dropdown-item" href="/Questions/All/2">Most Interesting</a>
-                                            <a class="dropdown-item" href="/Questions/All/3">Most Unexpected</a>
-                                            <a class="dropdown-item" href="/Questions/All/4">Most Difficult</a>
+                                            <a class="dropdown-item" asp-controller="Questions" asp-action="All" asp-route-seniority="1">All</a>
+                                            <a class="dropdown-item" asp-controller="Questions" asp-action="All" asp-route-seniority="2">Most Interesting</a>
+                                            <a class="dropdown-item" asp-controller="Questions" asp-action="All" asp-route-seniority="3">Most Unexpected</a>
+                                            <a class="dropdown-item" asp-controller="Questions" asp-action="All" asp-route-seniority="4">Most Diffucult</a>
                                         </div>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-controller="Home" asp-action="Contact">Contacts</a>
+                                        <a class="nav-link" asp-controller="Home" asp-action="Contacts">Contacts</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" asp-controller="Home" asp-action="About">About Us</a>
@@ -74,7 +75,7 @@
                                     @if (this.User.Identity.IsAuthenticated)
                                     {
                                         <li class="nav-item">
-                                            <a href="/" class="nav-link btn_nav_1 d-md-block">Share</a>
+                                            <a href="/Interviews/Create" class="nav-link btn_nav_1 d-md-block">Share</a>
                                         </li>
 
                                     }

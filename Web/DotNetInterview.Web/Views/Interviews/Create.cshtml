@@ -1,0 +1,124 @@
+﻿@model CreateInterviewVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/create-interview.css")" rel="stylesheet" type="text/css" />
+}
+
+<h1>Share Interview</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form action="/Interviews/Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Seniority" class="control-label"></label>
+                <select asp-for="Seniority" class="form-control">
+                    @foreach (var location in Model.Select.LocationType)
+                    {
+                        <option value="@location" selected>@location</option>
+                    }
+                </select>
+                <span asp-validation-for="Seniority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionTitle" class="control-label"></label>
+                <input asp-for="PositionTitle" class="form-control" />
+                <span asp-validation-for="PositionTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionDescription" class="control-label"></label>
+                <input asp-for="PositionDescription" class="form-control" />
+                <span asp-validation-for="PositionDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LocationType" class="control-label"></label>
+                <input asp-for="LocationType" class="form-control" />
+                <span asp-validation-for="LocationType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HeldOnInterviewLocation" class="control-label"></label>
+                <input asp-for="HeldOnInterviewLocation" class="form-control" />
+                <span asp-validation-for="HeldOnInterviewLocation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employees" class="control-label"></label>
+                <input asp-for="Employees" class="form-control" />
+                <span asp-validation-for="Employees" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HeldOnDate" class="control-label"></label>
+                <input asp-for="HeldOnDate" class="form-control" />
+                <span asp-validation-for="HeldOnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
+
+            <div class="inner-form">
+                <h4>Add interview questions information</h4>
+                <div class="question">
+                    <div class="form-group">
+                        <div class="div-textarea">
+                            <label asp-for="Questions" class="control-label">1. Question</label>
+                            <textarea asp-for="Questions[0].Content" rows="2" cols="50" class="form-control"></textarea>
+                            <span asp-validation-for="Questions[0].Content" class="text-danger"></span>
+                        </div>
+                        <div>                           
+                            <div class="form-check form-check-inline">
+                                <p>You can rank this question as most:</p>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                <label class="form-check-label" for="inlineCheckbox1">interesting</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                <label class="form-check-label" for="inlineCheckbox2">unexpected</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                                <label class="form-check-label" for="inlineCheckbox3">difficult</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group mr-2 btn-answer" role="group" aria-label="First group">
+                            <button type="button" data-add="true"; class="btn btn-sm btn-secondary ">Add answer</button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Third group">
+                            <button type="button" class="btn btn-sm btn-secondary">Upload task</button>
+                        </div>
+                    </div>             
+
+                </div>
+                <div class="btn-group" role="group" aria-label="Third group">
+                    <button type="button" class="btn btn-md btn-secondary button-question">Add question</button>
+                </div>
+            </div>
+
+            <div class="form-group button-question">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<environment names="Development">
+    <script src="~/js/button-question.js" asp-append-version="true"></script>
+</environment>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
