@@ -19,6 +19,10 @@ namespace DotNetInterview.Web.ViewModels.Interviews
 
         public string CorrectAnswer { get; set; }
 
-        public string RankType { get; set; }
+        public int Interesting { get; set; }
+
+        public int Unexpected { get; set; }
+
+        public int Difficult { get; set; }
     }
 }
