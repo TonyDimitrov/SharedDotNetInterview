@@ -66,7 +66,7 @@
                 <div class="question">
                     <div class="form-group">
                         <div class="div-textarea">
-                            <label asp-for="Questions" class="control-label">1. Question</label>
+                            <label asp-for="Questions" class="control-label inner-label">Question</label>
                             <textarea asp-for="Questions[0].Content" rows="2" cols="50" class="form-control"></textarea>
                             <span asp-validation-for="Questions[0].Content" class="text-danger"></span>
                         </div>
@@ -96,15 +96,14 @@
                             <button type="button" class="btn btn-sm btn-secondary">Upload task</button>
                         </div>
                     </div>             
-
                 </div>
-                <div class="btn-group" role="group" aria-label="Third group">
+                <div id="btn-question" class="btn-group" role="group" aria-label="Third group">
                     <button type="button" class="btn btn-md btn-secondary button-question">Add question</button>
                 </div>
             </div>
 
             <div class="form-group button-question">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create Interview" class="btn btn-primary" />
             </div>
         </form>
     </div>
