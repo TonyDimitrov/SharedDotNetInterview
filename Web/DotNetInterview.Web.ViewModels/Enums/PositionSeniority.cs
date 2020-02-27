@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotNetInterview.Web.ViewModels.Enums
+﻿namespace DotNetInterview.Web.ViewModels.Enums
 {
+    using System.ComponentModel.DataAnnotations;
+
     public enum PositionSeniority
     {
-        None = 0,
-        JuniorDeveloper = 1,
-        RegularDeveloper = 2,
-        SeniorDeveloper = 3,
-        LeadDeveloper = 4,
-        TechnicalArchitect = 5,
-        DatabaseAdministrator = 6,
-        ManualQA = 7,
-        AutomationQA = 8,
-        DevOps = 10,
+        [Display(Name = "Other")]
         Other = 99,
+        [Display(Name = "Junior developer")]
+        JuniorDeveloper = 1,
+        [Display(Name = "Regular developer")]
+        RegularDeveloper = 2,
+        [Display(Name = "Senior developer")]
+        SeniorDeveloper = 3,
+        [Display(Name = "Lead developer")]
+        LeadDeveloper = 4,
+        [Display(Name = "Technical architect")]
+        TechnicalArchitect = 5,
     }
 }

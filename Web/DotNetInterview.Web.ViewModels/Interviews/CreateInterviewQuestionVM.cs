@@ -1,23 +1,23 @@
-﻿using DotNetInterview.Web.ViewModels.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotNetInterview.Web.ViewModels.Interviews
+﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Http;
+
+    using static DotNetInterview.Web.ViewModels.Constants.DataConstantVM;
+
     public class CreateInterviewQuestionVM
     {
+        [Required]
+        [MinLength(QuestionContentMinLength)]
+        [MaxLength(QuestionContentMaxLength)]
         public string Content { get; set; }
 
-        public byte[] FileTask { get; set; }
+        public IFormFile FormFile { get; set; }
 
-        public string UrlTask { get; set; }
-
-        public string UrlGitRepo { get; set; }
-
+        [MinLength(GivenAnswerMinLength)]
+        [MaxLength(GivenAnswerMaxLength)]
         public string GivenAnswer { get; set; }
-
-        public string CorrectAnswer { get; set; }
 
         public int Interesting { get; set; }
 

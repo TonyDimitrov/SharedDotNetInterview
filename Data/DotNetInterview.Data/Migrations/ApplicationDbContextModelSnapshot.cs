@@ -250,6 +250,10 @@ namespace DotNetInterview.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CompanyNationality")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -287,6 +291,9 @@ namespace DotNetInterview.Data.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
+                    b.Property<int>("Seniority")
+                        .HasColumnType("int");
+
                     b.Property<string>("Tags")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
@@ -301,6 +308,23 @@ namespace DotNetInterview.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Interviews");
+                });
+
+            modelBuilder.Entity("DotNetInterview.Data.Models.Nationality", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CompanyNationality")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Nationalities");
                 });
 
             modelBuilder.Entity("DotNetInterview.Data.Models.Question", b =>

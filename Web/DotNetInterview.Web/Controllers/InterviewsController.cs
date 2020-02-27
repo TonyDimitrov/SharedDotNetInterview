@@ -1,23 +1,31 @@
-﻿using DotNetInterview.Web.ViewModels.Interviews;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DotNetInterview.Web.Controllers
+﻿namespace DotNetInterview.Web.Controllers
 {
+    using System.Collections.Generic;
+    using System.IO;
+
+    using DotNetInterview.Services;
+    using DotNetInterview.Web.ViewModels.Interviews;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+
     public class InterviewsController : BaseController
     {
+        private readonly IWebHostEnvironment hostingEnvironment;
+        private readonly IInterviewsService interviewsService;
+
+        public InterviewsController(IWebHostEnvironment hostingEnvironment, IInterviewsService interviewsService)
+        {
+            this.hostingEnvironment = hostingEnvironment;
+            this.interviewsService = interviewsService;
+        }
 
         [HttpGet]
         public IActionResult Create()
         {
-            var createGetData = new GetInterviewsVM
+            var createGetData = new GetCreateInterviewsVM
             {
                 Nationality = new List<string> { "Bulgaria", "UK", "USA", "France" },
-                LocationType = new List<string> { "In Office", "Remote" },
-                RankQuestion = new List<string> { "Most interesting", "Most difficult", "Most unexpected" },
             };
             var list = new List<CreateInterviewQuestionVM>
             {
@@ -31,10 +39,30 @@ namespace DotNetInterview.Web.Controllers
         [HttpPost]
         public IActionResult Create(CreateInterviewVM model)
         {
-            var test = model;
+            var fileObject = model.Questions[0].FormFile;
+
+            if (fileObject != null)
+            {
+                var uniqueFileName = fileObject.FileName;
+                var uploads = Path.Combine(this.hostingEnvironment.WebRootPath, "uploads");
+                var filePath = Path.Combine(uploads, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    fileObject.CopyTo(stream);
+                }
+            }
+
             return this.Redirect("/");
         }
 
-
+        private byte[] GetByteArrayFromImage(IFormFile file)
+        {
+            using (var target = new MemoryStream())
+            {
+                file.CopyTo(target);
+                return target.ToArray();
+            }
+        }
     }
 }

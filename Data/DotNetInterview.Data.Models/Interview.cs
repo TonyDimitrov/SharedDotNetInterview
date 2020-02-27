@@ -36,9 +36,13 @@
         [MaxLength(LocationlMaxLength)]
         public string HeldOnInterviewLocation { get; set; }
 
+        public DateTime HeldOnDate { get; set; }
+
         public EmployeesSize Employees { get; set; }
 
-        public DateTime HeldOnDate { get; set; }
+        [MinLength(LocationlMinLength)]
+        [MaxLength(LocationlMaxLength)]
+        public string CompanyNationality { get; set; }
 
         [MaxLength(TagsMaxLength)]
         public string Tags { get; set; }

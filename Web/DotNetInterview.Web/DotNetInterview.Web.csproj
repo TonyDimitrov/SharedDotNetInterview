@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
       <PrivateAssets>all</PrivateAssets>
@@ -58,5 +59,6 @@
   <ItemGroup>
     <Folder Include="Views\Comments\" />
     <Folder Include="Views\Questions\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 </Project>

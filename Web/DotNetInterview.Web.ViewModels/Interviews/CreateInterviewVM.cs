@@ -1,31 +1,54 @@
-﻿using DotNetInterview.Web.ViewModels.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotNetInterview.Web.ViewModels.Interviews
+﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using DotNetInterview.Web.ViewModels.Enums;
+
+    using static DotNetInterview.Web.ViewModels.Constants.DataConstantVM;
+
     public class CreateInterviewVM
     {
-
         public CreateInterviewVM()
         {
             this.Questions = new List<CreateInterviewQuestionVM>();
         }
 
-        public string Seniority { get; set; }
+        [Required]
+        [Display(Name = "Position seniority")]
+        public PositionSeniority Seniority { get; set; }
 
+        [Required]
+        [MinLength(PositionTitleMinLength)]
+        [MaxLength(PositionTitleMaxLength)]
+        [Display(Name = "Position title")]
         public string PositionTitle { get; set; }
 
+        [MinLength(PositionDescriptionMinLength)]
+        [MaxLength(PositionDescriptionMaxLength)]
+        [Display(Name = "Position description")]
         public string PositionDescription { get; set; }
 
+        [Required]
+        [MinLength(LocationTypeMinLength)]
+        [MaxLength(LocationTypeMaxLength)]
+        [Display(Name = "Location type spesification")]
         public string LocationType { get; set; }
 
-        public string HeldOnInterviewLocation { get; set; }
+        [MinLength(LocationTypeMinLength)]
+        [MaxLength(LocationTypeMaxLength)]
+        [Display(Name = "Specify interview location")]
+        public string InterviewLocation { get; set; }
 
-        public string Employees { get; set; }
+        [Required]
+        [MinLength(LocationTypeMinLength)]
+        [MaxLength(LocationTypeMaxLength)]
+        [Display(Name = "Company nationality")]
+        public string CompanyNationality { get; set; }
 
-        public DateTime HeldOnDate { get; set; }
+        [Display(Name = "Company size of employees")]
+        public EmployeesSize Employees { get; set; }
 
         public string Tags { get; set; }
 
@@ -33,6 +56,6 @@ namespace DotNetInterview.Web.ViewModels.Interviews
 
         public List<CreateInterviewQuestionVM> Questions { get; set; }
 
-        public GetInterviewsVM Select { get; set; }
+        public GetCreateInterviewsVM Select { get; set; }
     }
 }
