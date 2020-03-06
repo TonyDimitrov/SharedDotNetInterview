@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -10,6 +11,7 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Web.ViewModels.Interviews;
+    using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using Microsoft.AspNetCore.Http;
 
     public class InterviewsService : IInterviewsService
@@ -21,20 +23,22 @@
             this.db = db;
         }
 
-        public AllInterviewsVM All(int seniority)
+        public T All<T>(int seniority)
         {
-            AllInterviewsVM interviewsDto = new AllInterviewsVM();
+            AllInterviewsDTO interviewsDto = new AllInterviewsDTO();
 
             if (seniority == 0)
             {
                 interviewsDto.Interviews = this.db.Interviews
+                    .Where(i => !i.IsDeleted)
                 .OrderByDescending(i => i.CreatedOn)
-                .Select(i => new AllInterviewVM
+                .Select(i => new AllInterviewDTO
                 {
                     InterviewId = i.Id,
                     PositionTitle = i.PositionTitle,
                     SeniorityAsNumber = (int)i.Seniority,
-                    Date = i.HeldOnDate.ToString("dd MMM yyyy hh:mm"),
+                    Date = i.HeldOnDate.ToLocalTime()
+                    .ToString("dd MMM yyyy HH:mm", CultureInfo.InvariantCulture),
                     Likes = i.Likes,
                     Questions = i.Questions.Count,
                     CreatorId = i.UserId,
@@ -48,7 +52,7 @@
                   interviewsDto.Interviews = this.db.Interviews
                  .Where(i => (int)(object)i.Seniority == seniority)
                  .OrderByDescending(i => i.HeldOnDate)
-                 .Select(i => new AllInterviewVM
+                 .Select(i => new AllInterviewDTO
                  {
                      InterviewId = i.Id,
                      PositionTitle = i.PositionTitle,
@@ -80,7 +84,7 @@
                 .ToList(),
             };
 
-            return interviewsVM;
+            return (T)(object)interviewsVM;
         }
 
         public async Task Create(CreateInterviewVM model, string userId, string filePath)
@@ -89,10 +93,12 @@
 
             foreach (var q in model.Questions)
             {
-                string fileName = this.UniqueFileNameGenerator(q.FormFile);
+                string fileName = null;
 
-                if (fileName != null)
+                if (q?.FormFile != null && q.FormFile.FileName != null)
                 {
+                    fileName = this.UniqueFileNameGenerator(q.FormFile);
+
                     using (var stream = new FileStream(filePath + fileName, FileMode.CreateNew))
                     {
                         await q.FormFile.CopyToAsync(stream);

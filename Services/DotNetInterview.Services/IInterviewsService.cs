@@ -1,11 +1,12 @@
 ﻿namespace DotNetInterview.Services
 {
-    using DotNetInterview.Web.ViewModels.Interviews;
     using System.Threading.Tasks;
+
+    using DotNetInterview.Web.ViewModels.Interviews;
 
     public interface IInterviewsService
     {
-        AllInterviewsVM All(int seniority);
+        T All<T>(int seniority);
 
         CreateInterviewVM CreateGetVM();
 

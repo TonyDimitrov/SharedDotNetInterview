@@ -120,15 +120,15 @@ function addQuestion() {
                                 <p>You can rank this question as most:</p>
                             </div>
                                     <div class="form-check form-check-inline">
-                                         <input class="form-check-input interesting" type="checkbox" name="Questions[0].Interesting" value="1">
+                                         <input class="form-check-input interesting" type="checkbox" name="Questions[${index}].Interesting" value="1">
                                          <label class="form-check-label" for="inlineCheckbox1">interesting</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                         <input class="form-check-input unexpected" type="checkbox" name="Questions[0].Unexpected" value="2">
+                                         <input class="form-check-input unexpected" type="checkbox" name="Questions[${index}].Unexpected" value="2">
                                          <label class="form-check-label" for="inlineCheckbox2">unexpected</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                            <input class="form-check-input difficult" type="checkbox" name="Questions[0].Difficult" value="3">
+                                            <input class="form-check-input difficult" type="checkbox" name="Questions[${index}].Difficult" value="3">
                                             <label class="form-check-label" for="inlineCheckbox3">difficult</label>
                                     </div>
                             </div>
@@ -138,7 +138,7 @@ function addQuestion() {
                                         <button type="button" data-add="true"; class="btn btn-sm btn-secondary ">Add answer</button>
                                     </div>
                                      <div class="btn-group">
-                                        <input class="input-file file" for="customFile" type="file" name="FileTask">
+                                        <input class="input-file file" for="customFile" type="file" name="Questions[${index}].formFile">
                                      </div>
                               </div>`;
 

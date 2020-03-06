@@ -25,7 +25,7 @@
         [HttpGet]
         public IActionResult All(int seniority = 0)
         {
-            var interviews = this.interviewsService.All(seniority);
+            var interviews = this.interviewsService.All<AllInterviewsVM>(seniority);
             return this.View(interviews);
         }
 
