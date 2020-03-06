@@ -59,7 +59,6 @@
   <ItemGroup>
     <Folder Include="Views\Comments\" />
     <Folder Include="Views\Questions\" />
-    <Folder Include="wwwroot\uploads\imageFiles\" />
     <Folder Include="wwwroot\uploads\taskFiles\" />
   </ItemGroup>
 </Project>

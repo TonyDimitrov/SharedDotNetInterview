@@ -1,17 +1,66 @@
-﻿.div-row {
+﻿.h-title {
     color: #0c3e72;
-    font-size: 16px;
-    font-family: "Open Sans", sans-serif;
-    border-bottom-style: solid;
-
-    border-width: 1px;
-    border-color: #e3e8fa;
-    margin: 0%;
-    padding: 2%
-}
-
-.h-title {
-    color: #0c3e72;
+    font-weight: bold;
     font-size: 24px;
     font-family: "Open Sans", sans-serif;
+    margin: 1%;
+}
+
+.div-row-header {
+    color: #fe5c24;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "Open Sans", sans-serif;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: #e3e8fa;
+    padding: 1%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.div-row {
+    color: #0c3e72;
+    font-size: 15px;
+    font-family: "Open Sans", sans-serif;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: #e3e8fa;
+    padding: 1%;
+    padding-top: 2%;
+}
+
+.btn-details {
+    font-size: 15px;
+    background-color: #0c3e72;   
+    border: none;
+    margin-left: 20%;
+}
+
+.btn-details:hover, .btn-details:focus, .btn-details:active {
+    background-color: #fe5c24;
+}
+
+.span-questions {
+    color: #fe5c24;
+    border: solid 1px;
+    border-color: #0c3e72;
+}
+
+.a-user {
+    color: #0c3e72;
+    text-decoration: none;
+}
+
+.a-user:hover, .a-user:focus, .a-user:active {
+    text-decoration: none;
+    color: #fe5c24;
+}
+
+.img-avatar {
+    border-radius: 50%;
+    border: solid 1px;
+    border-color: #0c3e72;
+    padding: 1%;
+    max-width: 40px;
 }
