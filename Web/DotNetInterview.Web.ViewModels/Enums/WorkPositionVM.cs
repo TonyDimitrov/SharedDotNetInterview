@@ -1,6 +1,6 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Enums
 {
-    public enum WorkPosition
+    public enum WorkPositionVM
     {
         None = 0,
         JuniorDeveloper = 1,

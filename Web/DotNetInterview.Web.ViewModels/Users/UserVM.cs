@@ -11,9 +11,7 @@
 
         public string Email { get; set; }
 
-        public WorkPosition Position { get; set; }
-
-        public Country Country { get; set; }
+        public WorkPositionVM Position { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

@@ -2,12 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public enum EmployeesSize
+    public enum EmployeesSizeVM
     {
         [Display(Name = "More than 1000")]
         MoreThan1000 = 4,
-        [Display(Name = "None")]
-        None = 0,
         [Display(Name = "Les than 10")]
         LesThan10 = 1,
         [Display(Name = "Between 10 and 100")]

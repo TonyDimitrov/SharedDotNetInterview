@@ -8,6 +8,6 @@
     {
         public IEnumerable<string> Nationality { get; set; }
 
-        public PositionSeniority SenioritiesCollection { get; set; }
+        public PositionSeniorityVM SenioritiesCollection { get; set; }
     }
 }

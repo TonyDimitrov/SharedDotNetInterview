@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public enum PositionSeniority
+    public enum PositionSeniorityVM
     {
         [Display(Name = "Other")]
         Other = 99,

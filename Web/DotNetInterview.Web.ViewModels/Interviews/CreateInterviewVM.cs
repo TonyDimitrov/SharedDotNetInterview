@@ -17,7 +17,7 @@
 
         [Required]
         [Display(Name = "Position seniority")]
-        public PositionSeniority Seniority { get; set; }
+        public PositionSeniorityVM Seniority { get; set; }
 
         [Required]
         [MinLength(PositionTitleMinLength)]
@@ -38,17 +38,17 @@
 
         [MinLength(LocationTypeMinLength)]
         [MaxLength(LocationTypeMaxLength)]
-        [Display(Name = "Specify interview location")]
+        [Display(Name = "Specify where position is based")]
         public string InterviewLocation { get; set; }
 
         [Required]
-        [MinLength(LocationTypeMinLength)]
-        [MaxLength(LocationTypeMaxLength)]
+        //[MinLength(LocationTypeMinLength)]
+        //[MaxLength(LocationTypeMaxLength)]
         [Display(Name = "Company nationality")]
         public string CompanyNationality { get; set; }
 
         [Display(Name = "Company size of employees")]
-        public EmployeesSize Employees { get; set; }
+        public EmployeesSizeVM Employees { get; set; }
 
         public string Tags { get; set; }
 

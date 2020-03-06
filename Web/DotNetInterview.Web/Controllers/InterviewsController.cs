@@ -1,16 +1,18 @@
 ﻿namespace DotNetInterview.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.IO;
+    using System.Threading.Tasks;
 
     using DotNetInterview.Services;
     using DotNetInterview.Web.ViewModels.Interviews;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     public class InterviewsController : BaseController
     {
+        private const string TaskFilesDirectory = "uploads\\taskFiles\\";
+        private const string ImageFilesDirectory = "uploads\\imageFiles\\";
+
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IInterviewsService interviewsService;
 
@@ -21,48 +23,38 @@
         }
 
         [HttpGet]
+        public IActionResult All(int seniority = 0)
+        {
+            var interviews = this.interviewsService.All(seniority);
+            return this.View(interviews);
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
-            var createGetData = new GetCreateInterviewsVM
-            {
-                Nationality = new List<string> { "Bulgaria", "UK", "USA", "France" },
-            };
-            var list = new List<CreateInterviewQuestionVM>
-            {
-                new CreateInterviewQuestionVM(),
-                new CreateInterviewQuestionVM(),
-            };
+            var getCreateInterviewVM = this.interviewsService.CreateGetVM();
 
-            return this.View(new CreateInterviewVM { Select = createGetData, Questions = list });
+            return this.View(getCreateInterviewVM);
         }
 
         [HttpPost]
-        public IActionResult Create(CreateInterviewVM model)
+        public async Task<IActionResult> Create(CreateInterviewVM model)
         {
-            var fileObject = model.Questions[0].FormFile;
-
-            if (fileObject != null)
+            if (!this.ModelState.IsValid)
             {
-                var uniqueFileName = fileObject.FileName;
-                var uploads = Path.Combine(this.hostingEnvironment.WebRootPath, "uploads");
-                var filePath = Path.Combine(uploads, uniqueFileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    fileObject.CopyTo(stream);
-                }
+                this.View(model);
             }
+
+            var filePath = this.GetRootPath(TaskFilesDirectory);
+
+            await this.interviewsService.Create(model, this.GetUserId(this.User), filePath);
 
             return this.Redirect("/");
         }
 
-        private byte[] GetByteArrayFromImage(IFormFile file)
+        private string GetRootPath(string typeFilesDirectory)
         {
-            using (var target = new MemoryStream())
-            {
-                file.CopyTo(target);
-                return target.ToArray();
-            }
+            return Path.Combine(this.hostingEnvironment.WebRootPath, typeFilesDirectory);
         }
     }
 }

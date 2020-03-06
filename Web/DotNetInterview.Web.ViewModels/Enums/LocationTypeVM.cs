@@ -1,6 +1,6 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Enums
 {
-    public enum LocationType
+    public enum LocationTypeVM
     {
         None = 0,
         InOffice = 1,

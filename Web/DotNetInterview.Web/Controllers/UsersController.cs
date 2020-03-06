@@ -27,8 +27,7 @@
             var usersVM = users.Select(u => new UserVM
             {
                 FullName = u.FirstName + " " + u.LastName,
-                Position = (WorkPosition)u.Position,
-                Country = (Country)u.Country,
+                Position = (WorkPositionVM)u.Position,
                 Email = u.Email,
             });
 

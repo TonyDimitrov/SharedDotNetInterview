@@ -1,0 +1,34 @@
+﻿@model DotNetInterview.Web.ViewModels.Interviews.AllInterviewsVM
+
+@{
+    ViewData["Title"] = "All";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/all-interviews.css")" rel="stylesheet" type="text/css" />
+}
+
+<h3 class="h-title">Interviews</h3>
+
+<div class="row div-row">
+    <div class="col-4">Position title</div>
+    <div class="col-2">Seniority</div>
+    <div class="col-2">Date</div>
+    <div class="col-1">Likes</div>
+    <div class="col-2">Shared by</div>
+    <div class="col-1">Avatar</div>
+</div>
+
+@foreach (var i in Model.Interviews)
+{
+    <div class="row div-row">
+            <div class="col-4">@i.PositionTitle</div>
+            <div class="col-2">@i.Seniority</div>
+            <div class="col-2">@i.Date</div>
+            <div class="col-1">@i.Likes</div>
+            <div class="col-2">@i.CreatorName</div>
+            <div class="col-1">@i.CreatorAvatar</div>       
+    </div>
+}
+
+
