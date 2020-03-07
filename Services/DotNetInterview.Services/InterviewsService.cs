@@ -148,20 +148,20 @@
 
         public CreateInterviewVM CreateGetVM()
         {
-            var nationalityes = this.db.Nationalities
-                .Select(n => n.CompanyNationality)
-                .ToList()
-                .OrderBy(n => n);
+            //var nationalityes = this.db.Nationalities
+            //    .Select(n => n.CompanyNationality)
+            //    .ToList()
+            //    .OrderBy(n => n);
 
-            var getVM = new GetCreateInterviewsVM
-            {
-                Nationality = nationalityes,
-            };
+            //var getDataVM = new GetCreateInterviewsVM
+            //{
+            //    Nationality = nationalityes,
+            //};
 
             return new CreateInterviewVM
             {
                 Questions = new List<CreateInterviewQuestionVM> { new CreateInterviewQuestionVM() },
-                Select = getVM,
+                Select = new GetCreateInterviewsVM(),
             };
         }
 

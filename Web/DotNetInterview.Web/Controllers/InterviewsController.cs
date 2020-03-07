@@ -1,5 +1,6 @@
 ﻿namespace DotNetInterview.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -15,11 +16,16 @@
 
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IInterviewsService interviewsService;
+        private readonly IImporterHelperService importerHelperService;
 
-        public InterviewsController(IWebHostEnvironment hostingEnvironment, IInterviewsService interviewsService)
+        public InterviewsController(
+            IWebHostEnvironment hostingEnvironment,
+            IInterviewsService interviewsService,
+            IImporterHelperService importerHelperService)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.interviewsService = interviewsService;
+            this.importerHelperService = importerHelperService;
         }
 
         [HttpGet]
@@ -33,6 +39,8 @@
         public IActionResult Create()
         {
             var getCreateInterviewVM = this.interviewsService.CreateGetVM();
+
+            getCreateInterviewVM.Select.Nationality = this.importerHelperService.GetAll<IEnumerable<string>>();
 
             return this.View(getCreateInterviewVM);
         }

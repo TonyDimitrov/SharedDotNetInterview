@@ -11,6 +11,7 @@
         <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
         <link href="~/css/style.css" rel="stylesheet" asp-append-version="true" />
         <link href="~/css/forms.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/user-forms.css" rel="stylesheet" asp-append-version="true" />
         <link rel="shortcut icon" type="image/png" href="/favicon.png" />
         @RenderSection("styles", false);
     </environment>
@@ -56,11 +57,11 @@
                                     </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle"
-                                           asp-controller="Questions" asp-action="All" asp-route-seniority="1" id="navbarDropdown"
+                                           asp-area="" asp-controller="Questions" asp-action="All" asp-route-seniority="1" id="navbarDropdown"
                                            role="button" data-toggle="dropdown" aria-haspopup="true"
                                            aria-expanded="false">Questions</a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" asp-controller="Questions" asp-action="All" asp-route-seniority="1">All</a>
+                                            <a class="dropdown-item" asp-area="" asp-controller="Questions" asp-action="All" asp-route-seniority="1">All</a>
                                             <a class="dropdown-item" asp-controller="Questions" asp-action="All" asp-route-seniority="2">Most Interesting</a>
                                             <a class="dropdown-item" asp-controller="Questions" asp-action="All" asp-route-seniority="3">Most Unexpected</a>
                                             <a class="dropdown-item" asp-controller="Questions" asp-action="All" asp-route-seniority="4">Most Diffucult</a>

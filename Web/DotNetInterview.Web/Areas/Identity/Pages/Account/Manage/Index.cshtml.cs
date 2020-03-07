@@ -1,25 +1,36 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-
-using DotNetInterview.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
-namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
+﻿namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+
+    using DotNetInterview.Data.Models;
+    using DotNetInterview.Services;
+    using DotNetInterview.Web.ViewModels.Enums;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IUsersService usersService;
+        private readonly IImporterHelperService importerHelperService;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IUsersService usersService,
+            IImporterHelperService importerHelperService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.usersService = usersService;
+            this.importerHelperService = importerHelperService;
         }
 
         public string Username { get; set; }
@@ -36,64 +47,100 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
+            [Required]
+            [DataType(DataType.Text)]
             [Display(Name = "First name")]
+            [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             public string FirstName { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Last name")]
+            [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            public string LastName { get; set; }
+
+            [Display(Name = "Date of birth")]
+            public DateTime? DateOfBirth { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Nationality")]
+            [StringLength(2, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            public string Nationality { get; set; }
+
+            public IEnumerable<string> Nationalities { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Possition")]
+            [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            public WorkPositionVM Position { get; set; }
+
+            [Display(Name = "Avatar")]
+            public string ImageUrl { get; set; }
+
+            [Display(Name = "Avatar")]
+            public IFormFile FormFile { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var appUser = await _userManager.GetUserAsync(this.User);
-            Username = userName;
+            var userName = await this.userManager.GetUserNameAsync(user);
+            var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
+            var appUser = await this.userManager.GetUserAsync(this.User);
+            this.Username = userName;
 
-            Input = new InputModel
+            this.Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
                 FirstName = appUser.FirstName,
+                LastName = appUser.LastName,
+                DateOfBirth = appUser.DateOfBirth,
+                Nationality = null,// appUser.Country.ToString(),
+                Nationalities = this.importerHelperService.GetAll<IEnumerable<string>>(),
+                Position = Enum.Parse<WorkPositionVM>(appUser.Position.ToString()),
+                ImageUrl = appUser?.Images.FirstOrDefault()?.ImageUrl,
             };
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
-            await LoadAsync(user);
-            return Page();
+            await this.LoadAsync(user);
+            return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                await LoadAsync(user);
-                return Page();
+                await this.LoadAsync(user);
+                return this.Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
+            if (this.Input.PhoneNumber != phoneNumber)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                var setPhoneResult = await this.userManager.SetPhoneNumberAsync(user, this.Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    var userId = await _userManager.GetUserIdAsync(user);
+                    var userId = await this.userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
-            return RedirectToPage();
+            await this.signInManager.RefreshSignInAsync(user);
+            this.StatusMessage = "Your profile has been updated";
+            return this.RedirectToPage();
         }
     }
 }
