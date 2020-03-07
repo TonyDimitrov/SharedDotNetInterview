@@ -4,6 +4,8 @@
 
     public enum PositionSeniorityVM
     {
+        [Display(Name = "None")]
+        None = 0,
         [Display(Name = "Other")]
         Other = 99,
         [Display(Name = "Junior developer")]

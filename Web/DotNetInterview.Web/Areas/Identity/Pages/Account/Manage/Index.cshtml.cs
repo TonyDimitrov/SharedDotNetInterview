@@ -13,9 +13,12 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public partial class IndexModel : PageModel
     {
+        private const string NoDefineNationality = "Not selected";
+
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IUsersService usersService;
@@ -61,18 +64,15 @@
             [Display(Name = "Date of birth")]
             public DateTime? DateOfBirth { get; set; }
 
-            [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Nationality")]
-            [StringLength(2, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             public string Nationality { get; set; }
 
-            public IEnumerable<string> Nationalities { get; set; }
+            public IEnumerable<SelectListItem> Nationalities { get; set; }
 
-            [DataType(DataType.Text)]
-            [Display(Name = "Possition")]
-            [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
-            public WorkPositionVM Position { get; set; }
+            [Display(Name = "Position")]
+          //  [StringLength(40, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            public PositionSeniorityVM Position { get; set; }
 
             [Display(Name = "Avatar")]
             public string ImageUrl { get; set; }
@@ -94,9 +94,20 @@
                 FirstName = appUser.FirstName,
                 LastName = appUser.LastName,
                 DateOfBirth = appUser.DateOfBirth,
-                Nationality = appUser.Nationality,
-                Nationalities = this.importerHelperService.GetAll<IEnumerable<string>>(),
-                Position = Enum.Parse<WorkPositionVM>(appUser.Position.ToString()),
+                Nationality = appUser?.Nationality ?? NoDefineNationality,
+                Nationalities = this.importerHelperService.GetAll<IEnumerable<string>>()
+                .Select(n =>
+                {
+                    if (n == this.Input.Nationality)
+                    {
+                        return new SelectListItem(n, n, true);
+                    }
+                    else
+                    {
+                        return new SelectListItem(n, n, false);
+                    }
+                }),
+                Position = Enum.Parse<PositionSeniorityVM>(appUser.Position.ToString()),
                 ImageUrl = appUser?.Image,
             };
         }

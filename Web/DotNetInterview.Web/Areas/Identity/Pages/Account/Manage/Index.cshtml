@@ -1,13 +1,14 @@
 ﻿@page
 @model IndexModel
+@using DotNetInterview.Web.ViewModels.Enums;
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
 @*@section Styles {
-    <link href="@Url.Content("~/css/user-forms.css")" rel="stylesheet" type="text/css"/>
-}*@
+        <link href="@Url.Content("~/css/user-forms.css")" rel="stylesheet" type="text/css"/>
+    }*@
 
 <h4>@ViewData["Title"]</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
@@ -36,11 +37,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Input.Nationality" class="control-label required"></label>
-                <select asp-for="Input.Nationality" value="Input.Nationality" class="form-control">
-                    @foreach (var nationality in Model.Input.Nationalities)
-                    {
-                        <option name="CompanyNationality" value="@nationality" selected>@nationality</option>
-                    }
+                <select asp-for="Input.Nationality" class="form-control" asp-items="@Model.Input.Nationalities">
+                    <option></option>
                 </select>
                 <span asp-validation-for="Input.Nationality" class="text-danger"></span>
             </div>
@@ -50,11 +48,13 @@
                 <input asp-for="Input.DateOfBirth" type="date" class="form-control" />
                 <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Input.Position"></label>
-                <input asp-for="Input.Position" class="form-control" />
-                <span asp-validation-for="Input.Position" class="text-danger"></span>
+                <select asp-for="Input.Position" class="form-control" asp-items="Html.GetEnumSelectList<PositionSeniorityVM>()">
+                </select>
             </div>
+
             <div form-group>
                 <label>Current avatar</label>
                 <img class="img-avatar" src="~/uploads/imageFiles/default-avatar.jpg" alt="Avatar">
