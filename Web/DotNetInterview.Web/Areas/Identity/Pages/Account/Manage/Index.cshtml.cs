@@ -94,10 +94,10 @@
                 FirstName = appUser.FirstName,
                 LastName = appUser.LastName,
                 DateOfBirth = appUser.DateOfBirth,
-                Nationality = null,// appUser.Country.ToString(),
+                Nationality = appUser.Nationality,
                 Nationalities = this.importerHelperService.GetAll<IEnumerable<string>>(),
                 Position = Enum.Parse<WorkPositionVM>(appUser.Position.ToString()),
-                ImageUrl = appUser?.Images.FirstOrDefault()?.ImageUrl,
+                ImageUrl = appUser?.Image,
             };
         }
 

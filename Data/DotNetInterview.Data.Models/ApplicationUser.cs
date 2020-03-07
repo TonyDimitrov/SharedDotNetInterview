@@ -19,7 +19,6 @@ namespace DotNetInterview.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
-            this.Images = new HashSet<Image>();
             this.Interviews = new HashSet<Interview>();
             this.Comments = new HashSet<Comment>();
         }
@@ -35,7 +34,7 @@ namespace DotNetInterview.Data.Models
 
         public DateTime? DateOfBirth { get; set; }
 
-        public Country Country { get; set; }
+        public string Nationality { get; set; }
 
         public WorkPosition Position { get; set; }
 
@@ -55,7 +54,7 @@ namespace DotNetInterview.Data.Models
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
-        public virtual ICollection<Image> Images { get; set; }
+        public virtual string Image { get; set; }
 
         public virtual ICollection<Interview> Interviews { get; set; }
 
