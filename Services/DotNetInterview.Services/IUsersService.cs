@@ -1,8 +1,10 @@
 ﻿namespace DotNetInterview.Services
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     using DotNetInterview.Data.Models;
     using DotNetInterview.Web.ViewModels.Users.DTO;
-    using System.Collections.Generic;
 
     public interface IUsersService
     {
@@ -10,6 +12,6 @@
 
         T GetById<T>(string id);
 
-        void Updade(ApplicationUser user, UpdateUserDTO formModel);
+        Task Updade(ApplicationUser user, UpdateUserDTO formModel, IFileService fileService, string fileDirectory);
     }
 }

@@ -27,6 +27,14 @@
             return fileName;
         }
 
+        public void DeleteFile(string fileDiretory, string fileName)
+        {
+            if (File.Exists(Path.Combine(fileDiretory, fileName)))
+            {
+                File.Delete(Path.Combine(fileDiretory, fileName));
+            }
+        }
+
         private string UniqueFileNameGenerator(IFormFile file)
         {
             var fileExtension = file.FileName

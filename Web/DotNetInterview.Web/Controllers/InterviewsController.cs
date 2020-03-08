@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
-
+    using DotNetInterview.Common;
     using DotNetInterview.Services;
     using DotNetInterview.Web.ViewModels.Interviews;
     using Microsoft.AspNetCore.Hosting;
@@ -11,9 +11,6 @@
 
     public class InterviewsController : BaseController
     {
-        private const string TaskFilesDirectory = "uploads\\taskFiles\\";
-        private const string ImageFilesDirectory = "uploads\\imageFiles\\";
-
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IInterviewsService interviewsService;
         private readonly IImporterHelperService importerHelperService;
@@ -56,16 +53,11 @@
                 this.View(model);
             }
 
-            var filePath = this.GetRootPath(TaskFilesDirectory);
+            var filePath = this.GetRootPath(this.hostingEnvironment, GlobalConstants.TaskFilesDirectory);
 
             await this.interviewsService.Create(model, this.GetUserId(this.User), filePath, this.fileService);
 
             return this.Redirect("/");
-        }
-
-        private string GetRootPath(string typeFilesDirectory)
-        {
-            return Path.Combine(this.hostingEnvironment.WebRootPath, typeFilesDirectory);
         }
     }
 }

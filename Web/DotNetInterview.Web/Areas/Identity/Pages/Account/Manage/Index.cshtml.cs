@@ -14,6 +14,10 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using DotNetInterview.Web.ViewModels.Users.DTO;
+    using Microsoft.AspNetCore.Hosting;
+    using System.IO;
+    using DotNetInterview.Common;
 
     public partial class IndexModel : PageModel
     {
@@ -22,18 +26,25 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IUsersService usersService;
+        private readonly IFileService fileService;
         private readonly IImporterHelperService importerHelperService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IUsersService usersService,
-            IImporterHelperService importerHelperService)
+            IFileService fileService,
+            IImporterHelperService importerHelperService,
+            IWebHostEnvironment webHostEnvironment
+            )
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.usersService = usersService;
+            this.fileService = fileService;
             this.importerHelperService = importerHelperService;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         public string Username { get; set; }
@@ -68,13 +79,18 @@
             [Display(Name = "Nationality")]
             public string Nationality { get; set; }
 
+            [DataType(DataType.Text)]
+            [Display(Name = "Description")]
+            [StringLength(1000, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            public string Description { get; set; }
+
             public IEnumerable<SelectListItem> Nationalities { get; set; }
 
             [Display(Name = "Position")]
             public PositionSeniorityVM Position { get; set; }
 
             [Display(Name = "Avatar")]
-            public string ImageUrl { get; set; }
+            public string Image { get; set; }
 
             [Display(Name = "Avatar")]
             public IFormFile FormFile { get; set; }
@@ -93,6 +109,7 @@
                 FirstName = appUser.FirstName,
                 LastName = appUser.LastName,
                 DateOfBirth = appUser.DateOfBirth,
+                Description = appUser.Description,
                 Nationality = appUser?.Nationality ?? NoDefineNationality,
                 Nationalities = this.importerHelperService.GetAll<IEnumerable<string>>()
                 .Select(n =>
@@ -107,7 +124,7 @@
                     }
                 }),
                 Position = Enum.Parse<PositionSeniorityVM>(appUser.Position.ToString()),
-                ImageUrl = appUser?.Image,
+                Image = appUser?.Image,
             };
         }
 
@@ -138,6 +155,7 @@
             }
 
             var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
+
             if (this.Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await this.userManager.SetPhoneNumberAsync(user, this.Input.PhoneNumber);
@@ -148,9 +166,31 @@
                 }
             }
 
+            var updateUserDTO = new UpdateUserDTO
+            {
+                LastName = this.Input.LastName,
+                Nationality = this.Input.Nationality,
+                Position = this.Input.Position,
+                Description = this.Input.Description,
+                Image = this.Input.FormFile,
+            };
+
+            await this.usersService.Updade(
+                                        user,
+                                        updateUserDTO,
+                                        this.fileService,
+                                        this.GetRootPath(
+                                            this.webHostEnvironment,
+                                            GlobalConstants.ImageFilesDirectory));
+
             await this.signInManager.RefreshSignInAsync(user);
             this.StatusMessage = "Your profile has been updated";
             return this.RedirectToPage();
+        }
+
+        internal string GetRootPath(IWebHostEnvironment hostingEnvironment, string typeFilesDirectory)
+        {
+            return Path.Combine(hostingEnvironment.WebRootPath, typeFilesDirectory);
         }
     }
 }

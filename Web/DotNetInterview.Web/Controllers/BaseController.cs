@@ -1,7 +1,10 @@
 ﻿namespace DotNetInterview.Web.Controllers
 {
     using System;
+    using System.IO;
     using System.Security.Claims;
+
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
 
     public class BaseController : Controller
@@ -14,6 +17,11 @@
             }
 
             return principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
+
+        internal string GetRootPath(IWebHostEnvironment hostingEnvironment, string typeFilesDirectory)
+        {
+            return Path.Combine(hostingEnvironment.WebRootPath, typeFilesDirectory);
         }
     }
 }
