@@ -87,25 +87,16 @@
             return (T)(object)interviewsVM;
         }
 
-        public async Task Create(CreateInterviewVM model, string userId, string filePath)
+        public async Task Create(CreateInterviewVM model, string userId, string fileDirectory, IFileService fileService)
         {
             var questions = new List<Question>();
 
             foreach (var q in model.Questions)
             {
-                string fileName = null;
-
-                if (q?.FormFile != null && q.FormFile.FileName != null)
-                {
-                    fileName = this.UniqueFileNameGenerator(q.FormFile);
-
-                    using (var stream = new FileStream(filePath + fileName, FileMode.CreateNew))
-                    {
-                        await q.FormFile.CopyToAsync(stream);
-                    }
-                }
+                var fileName = await fileService.SaveFile(q.FormFile, fileDirectory);
 
                 var rankValue = Math.Max(q.Interesting, Math.Max(q.Unexpected, q.Difficult));
+
                 questions.Add(new Question
                 {
                     Content = q.Content,
@@ -165,17 +156,6 @@
             };
         }
 
-        private string UniqueFileNameGenerator(IFormFile file)
-        {
-            var fileExtension = file.FileName
-                .Split(".")
-                .LastOrDefault();
-
-            var uniqueFileName = Guid.NewGuid().ToString() + "." + fileExtension;
-
-            return uniqueFileName;
-        }
-
         private string SeniorityNameParser(int seniority) =>
             seniority switch
             {
@@ -226,27 +206,6 @@
                 {
                     return fullName.Substring(0, 17) + "...";
                 }
-            }
-        }
-
-        private string ImageUserUrlParser(IEnumerable<Image> images, string imagesPath)
-        {
-            var imageTitle = images.Where(i => i.IsDeleted == false).Select(i => i.ImageUrl).FirstOrDefault();
-
-            if (imageTitle != null)
-            {
-                return imagesPath + imageTitle;
-            }
-
-            return null;
-        }
-
-        private byte[] GetByteArrayFromImage(IFormFile file)
-        {
-            using (var target = new MemoryStream())
-            {
-                file.CopyTo(target);
-                return target.ToArray();
             }
         }
     }

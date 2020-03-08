@@ -5,6 +5,8 @@
 
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
+    using DotNetInterview.Data.Models.Enums;
+    using DotNetInterview.Web.ViewModels.Users.DTO;
 
     public class UsersService : IUsersService
     {
@@ -25,9 +27,13 @@
             throw new NotImplementedException();
         }
 
-        public void Updade<T>(T user)
+        public void Updade(ApplicationUser user, UpdateUserDTO formModel)
         {
-            throw new NotImplementedException();
+            user.LastName = formModel.LastName;
+            user.Nationality = formModel.Nationality;
+            user.Position = Enum.Parse<WorkPosition>(formModel.Position.ToString());
+            user.Image = formModel.Image;
+            this.categoriesRepository.Update(user);
         }
     }
 }

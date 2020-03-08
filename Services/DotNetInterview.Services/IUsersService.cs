@@ -1,5 +1,7 @@
 ﻿namespace DotNetInterview.Services
 {
+    using DotNetInterview.Data.Models;
+    using DotNetInterview.Web.ViewModels.Users.DTO;
     using System.Collections.Generic;
 
     public interface IUsersService
@@ -8,6 +10,6 @@
 
         T GetById<T>(string id);
 
-        void Updade<T>(T user);
+        void Updade(ApplicationUser user, UpdateUserDTO formModel);
     }
 }

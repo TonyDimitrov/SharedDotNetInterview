@@ -10,6 +10,6 @@
 
         CreateInterviewVM CreateGetVM();
 
-        Task Create(CreateInterviewVM model, string userId, string filePath);
+        Task Create(CreateInterviewVM model, string userId, string filePath, IFileService fileService);
     }
 }

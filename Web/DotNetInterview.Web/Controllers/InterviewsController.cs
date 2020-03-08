@@ -17,15 +17,18 @@
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IInterviewsService interviewsService;
         private readonly IImporterHelperService importerHelperService;
+        private readonly IFileService fileService;
 
         public InterviewsController(
             IWebHostEnvironment hostingEnvironment,
             IInterviewsService interviewsService,
-            IImporterHelperService importerHelperService)
+            IImporterHelperService importerHelperService,
+            IFileService fileService)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.interviewsService = interviewsService;
             this.importerHelperService = importerHelperService;
+            this.fileService = fileService;
         }
 
         [HttpGet]
@@ -55,7 +58,7 @@
 
             var filePath = this.GetRootPath(TaskFilesDirectory);
 
-            await this.interviewsService.Create(model, this.GetUserId(this.User), filePath);
+            await this.interviewsService.Create(model, this.GetUserId(this.User), filePath, this.fileService);
 
             return this.Redirect("/");
         }
