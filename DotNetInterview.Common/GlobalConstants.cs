@@ -10,5 +10,7 @@
 
         public const string TaskFilesDirectory = "uploads\\taskFiles\\";
         public const string ImageFilesDirectory = "uploads\\imageFiles\\";
+
+        public const string DefaultAvatar = "default-avatar.jpg";
     }
 }

@@ -6,7 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using DotNetInterview.Common;
     using DotNetInterview.Data;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
@@ -44,6 +44,7 @@
                     CreatorId = i.UserId,
                     CreatorFName = i.User.FirstName,
                     CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
+                    CreatorAvatar = i.User.Image,
                 })
                 .ToList();
             }
@@ -63,6 +64,7 @@
                      CreatorId = i.UserId,
                      CreatorFName = i.User.FirstName,
                      CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
+                     CreatorAvatar = i.User.Image,
                  })
                  .ToList();
             }
@@ -80,6 +82,7 @@
                     Questions = i.Questions,
                     CreatorId = i.CreatorId,
                     CreatorName = this.FullUserNameParser(i.CreatorFName, i.CreatorLName),
+                    CreatorAvatar = i.CreatorAvatar != null ? i.CreatorAvatar : GlobalConstants.DefaultAvatar,
                 })
                 .ToList(),
             };
@@ -196,9 +199,9 @@
             }
             else
             {
-                var fullName = $"{firstName} {lastName}";
+                var fullName = $"{firstName} {lastName.Substring(0, 1).ToUpper()}.";
 
-                if ((firstName.Length + lastName.Length) <= 20)
+                if (fullName.Length <= 20)
                 {
                     return fullName;
                 }

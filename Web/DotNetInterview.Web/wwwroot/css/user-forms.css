@@ -1,8 +1,13 @@
-﻿.img-avatar {
-    margin: 1%;
-    border-radius: 50%;
-    border: solid 1px;
-    border-color: #0c3e72;
-    padding: 1%;
-    max-width: 40px;
+﻿.circular-portrait {
+    display: block;
+    position: relative;
+    width: 45px;
+    height: 45px;
+    overflow: hidden;
+    border-radius: 45%;
 }
+
+    .circular-portrait img {
+        width: 100%;
+        height: 100%;
+    }

@@ -124,7 +124,7 @@
                     }
                 }),
                 Position = Enum.Parse<PositionSeniorityVM>(appUser.Position.ToString()),
-                Image = appUser?.Image,
+                Image = appUser.Image != null ? appUser.Image : GlobalConstants.DefaultAvatar,
             };
         }
 

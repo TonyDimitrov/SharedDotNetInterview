@@ -63,16 +63,18 @@
 
             <div form-group>
                 <label>Current avatar</label>
-                <img class="img-avatar" src="~/uploads/imageFiles/@Model.Input.Image" alt="Avatar">
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.FormFile">Choose new </label>
-                <br />
-                <input asp-for="Input.FormFile" type="file" />
-                <span asp-validation-for="Input.FormFile" class="text-danger"></span>
-            </div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Update</button>
-        </form>
+                <div class="circular-portrait">
+                    <img class="img-avatar" src="/uploads/imageFiles/@Model.Input.Image" alt="Avatar">
+                </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.FormFile">Choose new </label>
+                    <br />
+                    <input asp-for="Input.FormFile" type="file" />
+                    <span asp-validation-for="Input.FormFile" class="text-danger"></span>
+                </div>
+                <button id="update-profile-button" type="submit" class="btn btn-primary">Update</button>
+</form>
     </div>
 </div>
 

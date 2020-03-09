@@ -7,7 +7,7 @@
     using System.Text;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
-
+    using DotNetInterview.Common;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Web.ViewModels.Enums;
     using Microsoft.AspNetCore.Authentication;
@@ -93,7 +93,7 @@
                     UserName = Input.Email,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
-                    LastName = Input.LastName
+                    LastName = Input.LastName,
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
