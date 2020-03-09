@@ -12,5 +12,7 @@
         public const string ImageFilesDirectory = "uploads\\imageFiles\\";
 
         public const string DefaultAvatar = "default-avatar.jpg";
+
+        public const string FormatDate = "dd MMM yyyy hh:mm";
     }
 }

@@ -58,7 +58,7 @@
                      InterviewId = i.Id,
                      PositionTitle = i.PositionTitle,
                      SeniorityAsNumber = (int)i.Seniority,
-                     Date = i.HeldOnDate.ToString("dd MMM yyyy hh:mm"),
+                     Date = i.HeldOnDate.ToString(GlobalConstants.FormatDate),
                      Likes = i.Likes,
                      Questions = i.Questions.Count,
                      CreatorId = i.UserId,
