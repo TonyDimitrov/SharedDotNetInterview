@@ -1,0 +1,71 @@
+﻿
+@model DotNetInterview.Web.ViewModels.Users.DetailsUserVM
+
+@{
+    ViewData["Title"] = "All";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/all-interviews.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/user-details.css")" rel="stylesheet" type="text/css" />
+}
+
+<h1 class="text-center h-title">User Details
+    <div class=" circular-portrait">
+    <img src="/uploads/imageFiles/@Model.Image" alt="Avatar">
+    </div>
+    </h1>
+
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Name:</div>
+    <div class="col-3 div-user">@Model.FullName</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Seniority:</div>
+    <div class="col-3 div-user">@Model.Position</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Nationality:</div>
+    <div class="col-3 div-user">@Model.Nationality</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Description:</div>
+    <div class="col-3 div-user">@Model.Description</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-1">DOB:</div>
+    <div class="col-2 div-user">@Model.DateOfBirth</div>
+    <div class="col-2">Member since:</div>
+    <div class="col-2 div-user">@Model.MemberSince</div>
+    <div class="col-1">Shares:</div>
+    <div class="col-1 div-user"><span class="badge badge-pill span-questions">@Model.Interviews.Count()</span></div>
+</div>
+
+<h1 class="text-center h-title">Shared Interviews</h1>
+
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Position title</div>
+    <div class="col-2">Seniority</div>
+    <div class="col-1">Qns</div>
+    <div class="col-2">Date</div>
+    <div class="col-1">Likes</div>
+    <div class="col-1">Check it</div>
+</div>
+
+@foreach (var i in Model.Interviews)
+{
+    <div class="row justify-content-center div-row">
+        <div class="col-3">@i.Title</div>
+        <div class="col-2">@i.Seniority</div>
+        <div class="col-1"><span class="badge badge-pill span-questions">@i.Qns</span></div>
+        <div class="col-2">@i.Date</div>
+        <div class="col-1"><span class="badge badge-pill span-questions">@i.Likes</span></div>
+        <div class="col-1">
+            <a class="btn btn-sm btn-info btn-details" asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@i.InterviewId">Details</a>
+        </div>
+    </div>
+}
+
+
+
+
