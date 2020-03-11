@@ -8,19 +8,25 @@
     using System.Threading.Tasks;
     using DotNetInterview.Common;
     using DotNetInterview.Data;
+    using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
+    using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
+    using DotNetInterview.Web.ViewModels.Questions;
+    using DotNetInterview.Web.ViewModels.Questions.DTO;
     using Microsoft.AspNetCore.Http;
 
     public class InterviewsService : IInterviewsService
     {
         private readonly ApplicationDbContext db;
+        private readonly IDeletableEntityRepository<Interview> categoriesRepository;
 
-        public InterviewsService(ApplicationDbContext db)
+        public InterviewsService(ApplicationDbContext db, IDeletableEntityRepository<Interview> categoriesRepository)
         {
             this.db = db;
+            this.categoriesRepository = categoriesRepository;
         }
 
         public T All<T>(int seniority)
@@ -50,23 +56,23 @@
             }
             else
             {
-                  interviewsDto.Interviews = this.db.Interviews
-                 .Where(i => (int)(object)i.Seniority == seniority)
-                 .OrderByDescending(i => i.HeldOnDate)
-                 .Select(i => new AllInterviewDTO
-                 {
-                     InterviewId = i.Id,
-                     PositionTitle = i.PositionTitle,
-                     SeniorityAsNumber = (int)i.Seniority,
-                     Date = i.HeldOnDate.ToString(GlobalConstants.FormatDate),
-                     Likes = i.Likes,
-                     Questions = i.Questions.Count,
-                     CreatorId = i.UserId,
-                     CreatorFName = i.User.FirstName,
-                     CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
-                     CreatorAvatar = i.User.Image,
-                 })
-                 .ToList();
+                interviewsDto.Interviews = this.db.Interviews
+               .Where(i => (int)(object)i.Seniority == seniority)
+               .OrderByDescending(i => i.HeldOnDate)
+               .Select(i => new AllInterviewDTO
+               {
+                   InterviewId = i.Id,
+                   PositionTitle = i.PositionTitle,
+                   SeniorityAsNumber = (int)i.Seniority,
+                   Date = i.HeldOnDate.ToString(GlobalConstants.FormatDate),
+                   Likes = i.Likes,
+                   Questions = i.Questions.Count,
+                   CreatorId = i.UserId,
+                   CreatorFName = i.User.FirstName,
+                   CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
+                   CreatorAvatar = i.User.Image,
+               })
+               .ToList();
             }
 
             var interviewsVM = new AllInterviewsVM
@@ -159,6 +165,83 @@
             };
         }
 
+        public T Details<T>(string interviewId)
+        {
+            var interviewDTO = this.categoriesRepository.All()
+                .Where(i => i.Id == interviewId && !i.IsDeleted)
+                .Select(i => new DetailsInterviewDTO
+                {
+                    InterviewId = i.Id,
+                    PositionTitle = i.PositionTitle,
+                    PositionDescription = i.PositionDescription,
+                    CompanyNationality = i.CompanyNationality,
+                    CompanySize = Enum.Parse<EmployeesSizeVM>(i.Employees.ToString()),
+                    LocationType = Enum.Parse<LocationTypeVM>(i.LocationType.ToString()),
+                    InterviewLocation = i.HeldOnInterviewLocation,
+                    CreatedOn = i.CreatedOn,
+                    ModifiedOn = i.ModifiedOn,
+                    Likes = i.Likes,
+                    InterviewQns = i.Questions
+                        .Where(q => !q.IsDeleted)
+                        .Select(q => new AllInterviewQuestionsDTO
+                        {
+                            QuestionId = q.Id,
+                            Content = q.Content,
+                            Answer = q.GivenAnswer,
+                            CreatedOn = q.CreatedOn,
+                            ModifiedOn = q.ModifiedOn,
+                            Ranked = Enum.Parse<QuestionRankTypeVM>(q.RankType.ToString()),
+                            File = q.UrlTask,
+                            QnsComments = q.Comments
+                            .Where(q => !q.IsDeleted)
+                            .Select(c => new AllQuestionCommentsDTO
+                            {
+                                Content = c.Content,
+                                CreatedOn = c.CreatedOn,
+                                ModifiedOn = c.ModifiedOn,
+                            })
+                            .ToList(),
+                        })
+                        .ToList(),
+                })
+                .FirstOrDefault();
+
+            var interviewVM = new DetailsInterviewVM
+            {
+                InterviewId = interviewDTO.InterviewId,
+                PositionTitle = interviewDTO.PositionTitle,
+                PositionDescription = interviewDTO.PositionDescription,
+                CompanyNationality = interviewDTO.CompanyNationality,
+                CompanySize = Helper.ParseEnum<EmployeesSizeVM>(interviewDTO.CompanySize),
+                LocationType = Helper.ParseEnum<LocationTypeVM>(interviewDTO.LocationType),
+                InterviewLocation = interviewDTO.InterviewLocation,
+                CreatedOn = interviewDTO.CreatedOn.ToString(GlobalConstants.FormatDate),
+                ModifiedOn = interviewDTO.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                Likes = interviewDTO.Likes,
+                InterviewQns = interviewDTO.InterviewQns
+                    .Select(q => new AllInterviewQuestionsVM
+                    {
+                        QuestionId = q.QuestionId,
+                        Content = q.Content,
+                        Answer = q.Answer,
+                        CreatedOn = q.CreatedOn.ToString(GlobalConstants.FormatDate),
+                        ModifiedOn = q.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                        Ranked = (int)q.Ranked,
+                        File = q.File,
+                        QnsComments = q.QnsComments
+                        .Select(c => new AllQuestionCommentsVM
+                        {
+                            QuestionId = c.QuestionId,
+                            Content = c.Content,
+                            CreatedOn = c.CreatedOn.ToString(GlobalConstants.FormatDate),
+                            ModifiedOn = c.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                        }),
+                    }),
+            };
+
+            return (T)(object)interviewVM;
+        }
+
         private string SeniorityNameParser(int seniority) =>
             seniority switch
             {
@@ -210,6 +293,6 @@
                     return fullName.Substring(0, 17) + "...";
                 }
             }
-        }
+        }        
     }
 }

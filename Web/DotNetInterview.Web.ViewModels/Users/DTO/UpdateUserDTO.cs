@@ -1,11 +1,12 @@
-﻿using DotNetInterview.Web.ViewModels.Enums;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotNetInterview.Web.ViewModels.Users.DTO
+﻿namespace DotNetInterview.Web.ViewModels.Users.DTO
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using DotNetInterview.Web.ViewModels.Enums;
+    using Microsoft.AspNetCore.Http;
+
     public class UpdateUserDTO
     {
         public string LastName { get; set; }

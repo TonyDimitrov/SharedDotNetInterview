@@ -59,5 +59,12 @@
 
             return this.Redirect("/");
         }
+
+        public IActionResult Details(string interviewId)
+        {
+            var interview = this.interviewsService.Details<DetailsInterviewVM>(interviewId);
+
+            return this.View(interview);
+        }
     }
 }

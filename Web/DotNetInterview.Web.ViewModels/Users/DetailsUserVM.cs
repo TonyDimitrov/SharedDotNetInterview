@@ -13,7 +13,7 @@
 
         public string Nationality { get; set; }
 
-        public PositionSeniorityVM Position { get; set; }
+        public string Position { get; set; }
 
         public string Description { get; set; }
 

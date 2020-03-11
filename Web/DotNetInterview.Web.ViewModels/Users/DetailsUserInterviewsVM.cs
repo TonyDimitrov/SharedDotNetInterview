@@ -1,10 +1,11 @@
-﻿using DotNetInterview.Web.ViewModels.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotNetInterview.Web.ViewModels.Users
+﻿namespace DotNetInterview.Web.ViewModels.Users
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using DotNetInterview.Web.ViewModels.Enums;
+
     public class DetailsUserInterviewsVM
     {
         public string InterviewId { get; set; }

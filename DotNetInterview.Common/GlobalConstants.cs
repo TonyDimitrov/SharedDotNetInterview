@@ -14,5 +14,7 @@
         public const string DefaultAvatar = "default-avatar.jpg";
 
         public const string FormatDate = "dd MMM yyyy hh:mm";
+
+        public const string NoInformation = "Not specified";
     }
 }
