@@ -81,7 +81,6 @@
             await this.interviewsService.AddComment(model, userId);
 
             var comments = this.interviewsService.AllInterviewComments<IEnumerable<AllInterviewCommentsVM>>(model.InterviewId);
-            var js = this.Json(comments);
 
             return this.Json(comments);
         }

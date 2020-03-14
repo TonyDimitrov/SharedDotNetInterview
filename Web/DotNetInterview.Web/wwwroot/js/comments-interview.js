@@ -33,7 +33,7 @@ commentsHandler();
 
 function addInterviewComment() {
 
-    const httpMethod = "post";
+    const httpMethod = "POST";
 
     let btnInterviewComment = document.getElementById('form-i-comments');
 
@@ -81,19 +81,33 @@ function addInterviewComment() {
         return x.json();
     }
 
-    function buildComments(x) {
-        let obj = x;
+    function buildComments(commnets) {
+        let obj = commnets;
         let divParent = document.getElementsByClassName('div-m')[0];
         let btnSend = document.getElementsByClassName('div-i-button')[0];
-        let createComment = document.createElement('div');
-        createComment.className = "row justify-content-center div-row div-r-bb div-comment div-i-comment";
 
-        let innerContent = `
-                <div class="col-8">${x[0].content}</div>
-                <div class="col-4">${x[0].createdOn}</div>`;
+        let oldComments = document.getElementsByClassName('div-i-comment');
 
-        createComment.innerHTML = innerContent;
-        divParent.insertBefore(createComment, btnSend);
+        [...oldComments].forEach(oc => divParent.removeChild(oc));
+        var fragment = document.createDocumentFragment();
+
+        for (var i = 0; i < commnets.length; i++) {
+            let createComment = document.createElement('div');
+            createComment.className = "row justify-content-center div-row div-r-bb div-comment div-i-comment";
+
+            let innerContent = `
+                    <div class="col-8">${commnets[i].content}</div>
+                    <div class="col-2 div-small-fond">${commnets[i].modifiedOn}</div>
+                    <div class="col-2 div-small-fond">
+                           <a href="/Users/Details?UserId=${commnets[i].userId}" class="a-user-link">
+                            ${commnets[i].userFullName}
+                        </a>
+                    </div>`;
+
+            createComment.innerHTML = innerContent;
+            fragment.append(createComment);
+        }
+        divParent.insertBefore(fragment, btnSend)
 
         let count = document.getElementsByClassName('div-i-comment').length;
         document.getElementById('comment-count').innerText = `Comments (${count})`;

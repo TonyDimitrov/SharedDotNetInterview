@@ -67,3 +67,14 @@
 .div-textarea{
     width: 85%;
 }
+
+.a-user-link {
+    display: inline-block;
+    color: #0c3e72;
+    text-decoration: none;
+}
+
+.a-user-link:hover, .a-user:focus, .a-user:active {
+    text-decoration: none;
+    color: #fe5c24;
+}

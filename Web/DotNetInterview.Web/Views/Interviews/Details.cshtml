@@ -6,7 +6,7 @@
 
 @section Styles {
     <link href="@Url.Content("~/css/interview-details.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/css/user-details.css")" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/css/user-details.css")" rel="stylesheet" type="text/css" />*@
 }
 
 <div class="container div-r-border">
@@ -15,24 +15,24 @@
             <h1 class="text-center h-title">
                 Interview Details
             </h1>
-            <div class="row justify-content-center div-row-header">
-                <div class="col-2">Position:</div>
-                <div class="col-6 div-user">@Model.Seniority</div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Seniority:</div>
+                <div class="col-6 div-row">@Model.Seniority</div>
             </div>
-            <div class="row justify-content-center div-row-header">
-                <div class="col-2">Title:</div>
-                <div class="col-6 div-user">@Model.PositionTitle</div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Title:</div>
+                <div class="col-6 div-row">@Model.PositionTitle</div>
             </div>
-            <div class="row justify-content-center div-row-header">
-                <div class="col-2">Description:</div>
-                <div class="col-6 div-user">@Model.PositionDescription</div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Description:</div>
+                <div class="col-6 div-row">@Model.PositionDescription</div>
             </div>
-            <div class="row justify-content-center div-row-header">
-                <div class="col-3 div-user">@Model.CreatedOn</div>
-                <div class="col-1">Likes:</div>
-                <div class="col-1 div-user">@Model.Likes</div>
-                <div class="col-1">Qns:</div>
-                <div class="col-1 div-user"><span class="badge badge-pill span-questions">@Model.InterviewQns.Count()</span></div>
+            <div class="row justify-content-center">
+                <div class="col-1 div-row-header">Likes:</div>
+                <div class="col-1 div-row"><span class="badge badge-pill span-questions">@Model.Likes</span></div>
+                <div class="col-1 div-row-header">Qns:</div>
+                <div class="col-1 div-row"><span class="badge badge-pill span-questions">@Model.InterviewQns.Count()</span></div>
+                <div class="col-4 div-row div-small-fond">@Model.CreatedOn</div>
             </div>
         </div>
     </div>
@@ -45,10 +45,15 @@
 
             @foreach (var comment in Model.InterviewComments)
             {
-            <div class="row justify-content-center div-row div-r-bb div-comment div-i-comment" hidden>
+             <div class="row justify-content-center div-row div-r-bb div-comment div-i-comment" hidden>
                 <div class="col-8">@comment.Content</div>
-                <div class="col-4">@comment.CreatedOn</div>
-            </div>
+                <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
+                <div class="col-2 div-small-fond">
+                        <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
+                        @comment.UserFullName
+                    </a>
+                </div>
+             </div>
             }
 
             <div class="row justify-content-start div-row div-r-bb div-comment div-i-button" hidden>

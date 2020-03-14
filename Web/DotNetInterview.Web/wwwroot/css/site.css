@@ -34,6 +34,15 @@ button.accept-policy {
     line-height: inherit;
 }
 
+.span-questions {
+    color: #fe5c24;
+    border: solid 1px;
+    border-color: #0c3e72;
+}
+
+.div-small-fond {
+    font-size: 11px;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

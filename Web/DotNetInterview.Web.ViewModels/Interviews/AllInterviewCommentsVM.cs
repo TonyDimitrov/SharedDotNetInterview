@@ -10,6 +10,8 @@
 
         public string ModifiedOn { get; set; }
 
+        public bool HasBeenModified { get; set; }
+
         public string UserId { get; set; }
 
         public string UserFullName { get; set; }

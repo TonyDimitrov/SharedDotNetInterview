@@ -11,12 +11,14 @@
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
+    using DotNetInterview.Services.Extensions;
     using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using DotNetInterview.Web.ViewModels.Questions;
     using DotNetInterview.Web.ViewModels.Questions.DTO;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
 
     public class InterviewsService : IInterviewsService
     {
@@ -210,7 +212,11 @@
                         Content = c.Content,
                         CreatedOn = c.CreatedOn,
                         ModifiedOn = c.ModifiedOn,
+                        UserId = c.UserId,
+                        UserFName = c.User.FirstName,
+                        UserLName = c.User.LastName,
                     })
+                    .OrderBy(c => c.CreatedOn)
                     .ToList(),
                 })
                 .FirstOrDefault();
@@ -234,8 +240,8 @@
                         QuestionId = q.QuestionId,
                         Content = q.Content,
                         Answer = q.Answer,
-                        CreatedOn = q.CreatedOn.ToString(GlobalConstants.FormatDate),
-                        ModifiedOn = q.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                        CreatedOn = q.CreatedOn.DateTimeViewFormater(),
+                        ModifiedOn = q.ModifiedOn?.DateTimeViewFormater(),
                         Ranked = (int)q.Ranked,
                         File = q.File,
                         QnsComments = q.QnsComments
@@ -243,16 +249,19 @@
                         {
                             QuestionId = c.QuestionId,
                             Content = c.Content,
-                            CreatedOn = c.CreatedOn.ToString(GlobalConstants.FormatDate),
-                            ModifiedOn = c.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                            CreatedOn = c.CreatedOn.DateTimeViewFormater(),
+                            ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
                         }),
                     }),
                 InterviewComments = interviewDTO.InterviewComments
                     .Select(c => new AllInterviewCommentsVM
                     {
                         Content = c.Content,
-                        CreatedOn = c.CreatedOn.ToString(GlobalConstants.FormatDate),
-                        ModifiedOn = c.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                        CreatedOn = c.CreatedOn.DateTimeViewFormater(),
+                        ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
+                        HasBeenModified = c.ModifiedOn != null && c.ModifiedOn != c.CreatedOn ? true : false,
+                        UserId = c.UserId,
+                        UserFullName = this.FullUserNameParser(c.UserFName, c.UserLName),
                     })
                     .ToList(),
             };
@@ -280,6 +289,8 @@
         {
             var commentsDTO = this.categoriesRepository.All()
                .Where(i => i.Id == interviewId)
+               .Include(i => i.Comments)
+               .ThenInclude(c => c.User)
                .FirstOrDefault()
                .Comments
                .Where(c => !c.IsDeleted)
@@ -293,21 +304,19 @@
                    UserFName = c.User.FirstName,
                    UserLName = c.User.LastName,
                })
+               .OrderBy(c => c.CreatedOn)
                .ToList();
 
-            var commentsVM = this.categoriesRepository.All()
-              .Where(i => i.Id == interviewId)
-              .FirstOrDefault()
-              .Comments
-              .Where(c => !c.IsDeleted)
+            var commentsVM = commentsDTO
               .Select(c => new AllInterviewCommentsVM
               {
                   InterviewId = interviewId,
                   Content = c.Content,
-                  CreatedOn = c.CreatedOn.ToString(GlobalConstants.FormatDate),
-                  ModifiedOn = c.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                  CreatedOn = c.CreatedOn.DateTimeViewFormater(),
+                  HasBeenModified = c.ModifiedOn != null && c.ModifiedOn != c.CreatedOn ? true : false,
+                  ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
                   UserId = c.UserId,
-                  UserFullName = this.FullUserNameParser(c.User.FirstName, c.User.LastName),
+                  UserFullName = this.FullUserNameParser(c.UserFName, c.UserLName),
               })
               .ToList();
 
