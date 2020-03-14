@@ -1,0 +1,104 @@
+﻿@model DotNetInterview.Web.ViewModels.Interviews.DetailsInterviewVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/interview-details.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/user-details.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="container div-r-border">
+    <div class="row">
+        <div class="col-10">
+            <h1 class="text-center h-title">
+                Interview Details
+            </h1>
+            <div class="row justify-content-center div-row-header">
+                <div class="col-2">Position:</div>
+                <div class="col-6 div-user">@Model.Seniority</div>
+            </div>
+            <div class="row justify-content-center div-row-header">
+                <div class="col-2">Title:</div>
+                <div class="col-6 div-user">@Model.PositionTitle</div>
+            </div>
+            <div class="row justify-content-center div-row-header">
+                <div class="col-2">Description:</div>
+                <div class="col-6 div-user">@Model.PositionDescription</div>
+            </div>
+            <div class="row justify-content-center div-row-header">
+                <div class="col-3 div-user">@Model.CreatedOn</div>
+                <div class="col-1">Likes:</div>
+                <div class="col-1 div-user">@Model.Likes</div>
+                <div class="col-1">Qns:</div>
+                <div class="col-1 div-user"><span class="badge badge-pill span-questions">@Model.InterviewQns.Count()</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-8 div-r-border div-m">
+            <div class="row justify-content-center div-row">
+                <div id="comment-count" class="col-3">Comments (@Model.InterviewComments.Count())</div>
+                <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments">Show</button></div>
+            </div>
+
+            @foreach (var comment in Model.InterviewComments)
+            {
+            <div class="row justify-content-center div-row div-r-bb div-comment div-i-comment" hidden>
+                <div class="col-8">@comment.Content</div>
+                <div class="col-4">@comment.CreatedOn</div>
+            </div>
+            }
+
+            <div class="row justify-content-start div-row div-r-bb div-comment div-i-button" hidden>
+                <div class="col-md-10">
+                    <form asp-controller="Interviews" asp-action="addComment" method="post" class="form" id="form-i-comments">
+                        <div class="form-group mb-2">
+                            <input class="form-control" name="interviewId" value="@Model.InterviewId" hidden>
+                        </div>
+                        <div class="form-row align-items-start">
+                            <div class="form-group mb-2 div-textarea">
+                                <textarea class="form-control" name="content" rows="1" id="comment"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-light btn-sm btn-comments">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1 class="text-center h-title">Questions</h1>
+
+@{
+    int counter = 1;
+    foreach (var i in Model.InterviewQns)
+    {
+        <div class="row justify-content-center div-row .div-r-border">
+            <div class="col-1 div-r-bb">@counter: </div>
+            <div class="col-6 div-r-bb">@i.Content</div>
+        </div>
+
+        <div class="row justify-content-center div-row div-r-bb">
+            <div class="col-1">Answer: </div>
+            <div class="col-6">@i.Answer</div>
+        </div>
+
+        <div class="row justify-content-center div-row div-r-bb">
+            <div class="col-2">@i.CreatedOn</div>
+            <div class="col-2">@i.Ranked</div>
+        </div>
+
+        counter++;
+    }
+}
+
+<environment names="Development">
+    <script src="~/js/comments-interview.js" asp-append-version="true"></script>
+</environment>
+<environment names="Production, Deploy">
+    <script src="~/js/comments-interview.js" asp-append-version="true"></script>
+</environment>
+

@@ -172,6 +172,7 @@
                 .Select(i => new DetailsInterviewDTO
                 {
                     InterviewId = i.Id,
+                    Seniority = Enum.Parse<PositionSeniorityVM>(i.Seniority.ToString()),
                     PositionTitle = i.PositionTitle,
                     PositionDescription = i.PositionDescription,
                     CompanyNationality = i.CompanyNationality,
@@ -203,14 +204,23 @@
                             .ToList(),
                         })
                         .ToList(),
+                    InterviewComments = i.Comments
+                    .Select(c => new AllInterviewCommentsDTO
+                    {
+                        Content = c.Content,
+                        CreatedOn = c.CreatedOn,
+                        ModifiedOn = c.ModifiedOn,
+                    })
+                    .ToList(),
                 })
                 .FirstOrDefault();
 
             var interviewVM = new DetailsInterviewVM
             {
                 InterviewId = interviewDTO.InterviewId,
+                Seniority = Helper.ParseEnum<PositionSeniorityVM>(interviewDTO.Seniority),
                 PositionTitle = interviewDTO.PositionTitle,
-                PositionDescription = interviewDTO.PositionDescription,
+                PositionDescription = interviewDTO.PositionDescription == null ? "No description" : interviewDTO.PositionDescription,
                 CompanyNationality = interviewDTO.CompanyNationality,
                 CompanySize = Helper.ParseEnum<EmployeesSizeVM>(interviewDTO.CompanySize),
                 LocationType = Helper.ParseEnum<LocationTypeVM>(interviewDTO.LocationType),
@@ -237,9 +247,71 @@
                             ModifiedOn = c.ModifiedOn?.ToString(GlobalConstants.FormatDate),
                         }),
                     }),
+                InterviewComments = interviewDTO.InterviewComments
+                    .Select(c => new AllInterviewCommentsVM
+                    {
+                        Content = c.Content,
+                        CreatedOn = c.CreatedOn.ToString(GlobalConstants.FormatDate),
+                        ModifiedOn = c.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                    })
+                    .ToList(),
             };
 
             return (T)(object)interviewVM;
+        }
+
+        public async Task AddComment(AddInterviewComment interviewComment, string userId)
+        {
+            var interview = await this.categoriesRepository.GetByIdWithDeletedAsync(interviewComment.InterviewId);
+
+            var comment = new Comment
+            {
+                InterviewId = interview.Id,
+                Content = interviewComment.Content,
+                CreatedOn = DateTime.UtcNow,
+                UserId = userId,
+            };
+
+            interview.Comments.Add(comment);
+            await this.categoriesRepository.SaveChangesAsync();
+        }
+
+        public T AllInterviewComments<T>(string interviewId)
+        {
+            var commentsDTO = this.categoriesRepository.All()
+               .Where(i => i.Id == interviewId)
+               .FirstOrDefault()
+               .Comments
+               .Where(c => !c.IsDeleted)
+               .Select(c => new AllInterviewCommentsDTO
+               {
+                   InterviewId = interviewId,
+                   Content = c.Content,
+                   CreatedOn = c.CreatedOn,
+                   ModifiedOn = c.ModifiedOn,
+                   UserId = c.UserId,
+                   UserFName = c.User.FirstName,
+                   UserLName = c.User.LastName,
+               })
+               .ToList();
+
+            var commentsVM = this.categoriesRepository.All()
+              .Where(i => i.Id == interviewId)
+              .FirstOrDefault()
+              .Comments
+              .Where(c => !c.IsDeleted)
+              .Select(c => new AllInterviewCommentsVM
+              {
+                  InterviewId = interviewId,
+                  Content = c.Content,
+                  CreatedOn = c.CreatedOn.ToString(GlobalConstants.FormatDate),
+                  ModifiedOn = c.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                  UserId = c.UserId,
+                  UserFullName = this.FullUserNameParser(c.User.FirstName, c.User.LastName),
+              })
+              .ToList();
+
+            return (T)(object)commentsVM;
         }
 
         private string SeniorityNameParser(int seniority) =>
@@ -293,6 +365,6 @@
                     return fullName.Substring(0, 17) + "...";
                 }
             }
-        }        
+        }
     }
 }

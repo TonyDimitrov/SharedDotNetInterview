@@ -60,11 +60,30 @@
             return this.Redirect("/");
         }
 
+        [HttpGet]
         public IActionResult Details(string interviewId)
         {
             var interview = this.interviewsService.Details<DetailsInterviewVM>(interviewId);
 
             return this.View(interview);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment([FromBody]AddInterviewComment model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Json("Invalid:input");
+            }
+
+            var userId = this.GetUserId(this.User);
+
+            await this.interviewsService.AddComment(model, userId);
+
+            var comments = this.interviewsService.AllInterviewComments<IEnumerable<AllInterviewCommentsVM>>(model.InterviewId);
+            var js = this.Json(comments);
+
+            return this.Json(comments);
         }
     }
 }

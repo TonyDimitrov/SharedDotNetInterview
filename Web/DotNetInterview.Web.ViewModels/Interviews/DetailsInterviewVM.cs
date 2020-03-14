@@ -5,9 +5,17 @@ namespace DotNetInterview.Web.ViewModels.Interviews
 {
    public class DetailsInterviewVM
     {
+        public DetailsInterviewVM()
+        {
+            this.InterviewQns = new List<AllInterviewQuestionsVM>();
+            this.InterviewComments = new List<AllInterviewCommentsVM>();
+        }
+
         public string UserId { get; set; }
 
         public string InterviewId { get; set; }
+
+        public string Seniority { get; set; }
 
         public string PositionTitle { get; set; }
 
@@ -29,6 +37,6 @@ namespace DotNetInterview.Web.ViewModels.Interviews
 
         public IEnumerable<AllInterviewQuestionsVM> InterviewQns { get; set; }
 
-        public IEnumerable<AllInterviewCommentsVM> QnsComments { get; set; }
+        public IEnumerable<AllInterviewCommentsVM> InterviewComments { get; set; }
     }
 }

@@ -13,5 +13,9 @@
         Task Create(CreateInterviewVM model, string userId, string filePath, IFileService fileService);
 
         T Details<T>(string interviewId);
+
+        Task AddComment(AddInterviewComment comment, string userId);
+
+        T AllInterviewComments<T>(string interviewId);
     }
 }

@@ -11,6 +11,8 @@
 
         public string InterviewId { get; set; }
 
+        public PositionSeniorityVM Seniority { get; set; }
+
         public string PositionTitle { get; set; }
 
         public string PositionDescription { get; set; }
@@ -31,6 +33,6 @@
 
         public IEnumerable<AllInterviewQuestionsDTO> InterviewQns { get; set; }
 
-        public IEnumerable<AllInterviewCommentsDTO> QnsComments { get; set; }
+        public IEnumerable<AllInterviewCommentsDTO> InterviewComments { get; set; }
     }
 }
