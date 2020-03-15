@@ -42,13 +42,13 @@ function addInterviewComment() {
     async function createComment(e) {
         e.preventDefault();
 
-        let id = e.target.interviewId['value'];
+        let id = e.target.Id['value'];
         let content = e.target.content['value'];
         let url = e.target.action;
 
 
         let dto = {
-            interviewId: id,
+            id,
             content,
         };
 

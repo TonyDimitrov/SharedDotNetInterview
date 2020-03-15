@@ -33,6 +33,6 @@
 
         public IEnumerable<AllInterviewQuestionsDTO> InterviewQns { get; set; }
 
-        public IEnumerable<AllInterviewCommentsDTO> InterviewComments { get; set; }
+        public IEnumerable<AllCommentsDTO> InterviewComments { get; set; }
     }
 }

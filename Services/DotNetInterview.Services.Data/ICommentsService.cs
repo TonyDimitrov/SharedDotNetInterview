@@ -1,10 +1,13 @@
 ﻿namespace DotNetInterview.Services.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+    using System.Threading.Tasks;
 
-   public interface ICommentsService
+    using DotNetInterview.Web.ViewModels.Interviews.DTO;
+
+    public interface ICommentsService
     {
+        T AllComments<T>(string id);
+
+        Task<T> AddComment<T>(AddCommentDTO interviewComment, string userId);
     }
 }

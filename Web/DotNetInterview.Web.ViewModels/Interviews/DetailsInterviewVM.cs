@@ -1,14 +1,12 @@
-﻿using DotNetInterview.Web.ViewModels.Enums;
-using System.Collections.Generic;
-
-namespace DotNetInterview.Web.ViewModels.Interviews
+﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
-   public class DetailsInterviewVM
+    using System.Collections.Generic;
+    public class DetailsInterviewVM
     {
         public DetailsInterviewVM()
         {
             this.InterviewQns = new List<AllInterviewQuestionsVM>();
-            this.InterviewComments = new List<AllInterviewCommentsVM>();
+            this.InterviewComments = new List<AllCommentsVM>();
         }
 
         public string UserId { get; set; }
@@ -37,6 +35,6 @@ namespace DotNetInterview.Web.ViewModels.Interviews
 
         public IEnumerable<AllInterviewQuestionsVM> InterviewQns { get; set; }
 
-        public IEnumerable<AllInterviewCommentsVM> InterviewComments { get; set; }
+        public IEnumerable<AllCommentsVM> InterviewComments { get; set; }
     }
 }

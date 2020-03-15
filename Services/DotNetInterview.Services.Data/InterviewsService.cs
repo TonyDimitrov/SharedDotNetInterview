@@ -88,7 +88,7 @@
                     Date = i.Date,
                     Questions = i.Questions,
                     CreatorId = i.CreatorId,
-                    CreatorName = this.FullUserNameParser(i.CreatorFName, i.CreatorLName),
+                    CreatorName = i.CreatorFName.FullUserNameParser(i.CreatorLName),
                     CreatorAvatar = i.CreatorAvatar != null ? i.CreatorAvatar : GlobalConstants.DefaultAvatar,
                 })
                 .ToList(),
@@ -191,12 +191,13 @@
                                 Content = c.Content,
                                 CreatedOn = c.CreatedOn,
                                 ModifiedOn = c.ModifiedOn,
+                                UseId = c.UserId,
                             })
                             .ToList(),
                         })
                         .ToList(),
                     InterviewComments = i.Comments
-                    .Select(c => new AllInterviewCommentsDTO
+                    .Select(c => new AllCommentsDTO
                     {
                         Content = c.Content,
                         CreatedOn = c.CreatedOn,
@@ -229,9 +230,12 @@
                         QuestionId = q.QuestionId,
                         Content = q.Content,
                         Answer = q.Answer,
+                        HideAnswer = q.Answer == null,
                         CreatedOn = q.CreatedOn.DateTimeViewFormater(),
                         ModifiedOn = q.ModifiedOn?.DateTimeViewFormater(),
-                        Ranked = (int)q.Ranked,
+                        HideRanked = q.Ranked == 0,
+                        Ranked = Helper.ParseEnum<QuestionRankTypeVM>(q.Ranked),
+                        HideFile = q.File == null,
                         File = q.File,
                         QnsComments = q.QnsComments
                         .Select(c => new AllQuestionCommentsVM
@@ -240,17 +244,18 @@
                             Content = c.Content,
                             CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                             ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
+                            UserId = c.UseId,
                         }),
                     }),
                 InterviewComments = interviewDTO.InterviewComments
-                    .Select(c => new AllInterviewCommentsVM
+                    .Select(c => new AllCommentsVM
                     {
                         Content = c.Content,
                         CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                         ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
                         HasBeenModified = c.ModifiedOn != null && c.ModifiedOn != c.CreatedOn ? true : false,
                         UserId = c.UserId,
-                        UserFullName = this.FullUserNameParser(c.UserFName, c.UserLName),
+                        UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
                     })
                     .ToList(),
             };
@@ -258,14 +263,14 @@
             return (T)(object)interviewVM;
         }
 
-        public async Task AddComment(AddInterviewComment interviewComment, string userId)
+        public async Task AddComment(AddCommentDTO postComment, string userId)
         {
-            var interview = await this.categoriesRepository.GetByIdWithDeletedAsync(interviewComment.InterviewId);
+            var interview = await this.categoriesRepository.GetByIdWithDeletedAsync(postComment.Id);
 
             var comment = new Comment
             {
                 InterviewId = interview.Id,
-                Content = interviewComment.Content,
+                Content = postComment.Content,
                 CreatedOn = DateTime.UtcNow,
                 UserId = userId,
             };
@@ -274,7 +279,7 @@
             await this.categoriesRepository.SaveChangesAsync();
         }
 
-        public T AllInterviewComments<T>(string interviewId)
+        public T AllComments<T>(string interviewId)
         {
             var commentsDTO = this.categoriesRepository.All()
                .Where(i => i.Id == interviewId)
@@ -283,9 +288,9 @@
                .FirstOrDefault()
                .Comments
                .Where(c => !c.IsDeleted)
-               .Select(c => new AllInterviewCommentsDTO
+               .Select(c => new AllCommentsDTO
                {
-                   InterviewId = interviewId,
+                   Id = interviewId,
                    Content = c.Content,
                    CreatedOn = c.CreatedOn,
                    ModifiedOn = c.ModifiedOn,
@@ -297,15 +302,15 @@
                .ToList();
 
             var commentsVM = commentsDTO
-              .Select(c => new AllInterviewCommentsVM
+              .Select(c => new AllCommentsVM
               {
-                  InterviewId = interviewId,
+                  Id = interviewId,
                   Content = c.Content,
                   CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                   HasBeenModified = c.ModifiedOn != null && c.ModifiedOn != c.CreatedOn ? true : false,
                   ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
                   UserId = c.UserId,
-                  UserFullName = this.FullUserNameParser(c.UserFName, c.UserLName),
+                  UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
               })
               .ToList();
 
@@ -334,34 +339,6 @@
             else
             {
                 return positionTitle.Substring(0, 47) + "...";
-            }
-        }
-
-        private string FullUserNameParser(string firstName, string lastName)
-        {
-            if (string.IsNullOrWhiteSpace(lastName))
-            {
-                if (firstName.Length <= 20)
-                {
-                    return firstName;
-                }
-                else
-                {
-                    return firstName.Substring(0, 17) + "...";
-                }
-            }
-            else
-            {
-                var fullName = $"{firstName} {lastName.Substring(0, 1).ToUpper()}.";
-
-                if (fullName.Length <= 20)
-                {
-                    return fullName;
-                }
-                else
-                {
-                    return fullName.Substring(0, 17) + "...";
-                }
             }
         }
     }

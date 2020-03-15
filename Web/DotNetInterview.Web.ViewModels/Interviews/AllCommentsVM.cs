@@ -1,8 +1,8 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
-    public class AllInterviewCommentsVM
+    public class AllCommentsVM
     {
-        public string InterviewId { get; set; }
+        public string Id { get; set; }
 
         public string Content { get; set; }
 

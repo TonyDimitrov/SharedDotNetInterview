@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
 
     using DotNetInterview.Web.ViewModels.Interviews;
+    using DotNetInterview.Web.ViewModels.Interviews.DTO;
 
     public interface IInterviewsService
     {
@@ -14,8 +15,8 @@
 
         T Details<T>(string interviewId);
 
-        Task AddComment(AddInterviewComment comment, string userId);
+        Task AddComment(AddCommentDTO comment, string userId);
 
-        T AllInterviewComments<T>(string interviewId);
+        T AllComments<T>(string interviewId);
     }
 }

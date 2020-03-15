@@ -2,9 +2,9 @@
 {
     using System;
 
-    public class AllInterviewCommentsDTO
+    public class AllCommentsDTO
     {
-        public string InterviewId { get; set; }
+        public string Id { get; set; }
 
         public string Content { get; set; }
 

@@ -59,13 +59,13 @@
                 <div class="col-md-10">
                     <form asp-controller="Interviews" asp-action="addComment" method="post" class="form" id="form-i-comments">
                         <div class="form-group mb-2">
-                            <input class="form-control" name="interviewId" value="@Model.InterviewId" hidden>
+                            <input class="form-control" name="Id" value="@Model.InterviewId" hidden>
                         </div>
                         <div class="form-row align-items-start">
                             <div class="form-group mb-2 div-textarea">
                                 <textarea class="form-control" name="content" rows="1" id="comment"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-light btn-sm btn-comments">Send</button>
+                            <button type="submit" class="btn btn-light btn-sm btn-comments">Add</button>
                         </div>
                     </form>
                 </div>
@@ -73,70 +73,79 @@
         </div>
     </div>
 </div>
-
-<h1 class="text-center h-title">Questions</h1>
-
-
+@*Questions HTML*@
+<h1 class="text-center mt-3 h-title">Questions</h1>
 
 @{
     int counter = 1;
     foreach (var i in Model.InterviewQns)
     {
-    <div class="container div-r-border div-q-row">
-        <div class="row">
-            <div class="col-12">
-                <div class="row justify-content-center div-row div-r-bb">
-                    <div class="col-12">(@counter) @i.Content</div>
+        <div class="container div-r-border div-q-row">
+            <div class="row">
+                <div class="col-12">
 
-                </div>
+                    <div class="row div-row div-r-bb">
 
-                <div class="row justify-content-center div-row">
-                    <div class="col-3">@i.Ranked</div>
-                    <div class="col-3">@i.CreatedOn</div>
-                    <div class="col-3">@i.File</div>
-                </div>
-            </div>
-        </div>
+                        <div class="col-9">@counter. @i.Content</div>
 
-        <div class="row justify-content-center">
-            <div class="col-8 div-r-border div-m">
-                <div class="row justify-content-center div-row">
-                    <div id="comment-count" class="col-3">Comments (@Model.InterviewComments.Count())</div>
-                    <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments">Show</button></div>
-                </div>
-
-                @foreach (var comment in Model.InterviewComments)
-                {
-                    <div class="row justify-content-center div-row div-r-bb div-comment div-i-comment" hidden>
-                        <div class="col-9">@comment.Content</div>
-                        <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
-                        <div class="col-1 div-small-fond">
-                            <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
-                                @comment.UserFullName
+                        <div class="col-1 div-small-fond">@i.ModifiedOn</div>
+                        <div class="col-1 div-small-fond" hidden="@i.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @i.Ranked</div>
+                        <div class="col-1 div-small-fond" hidden="@i.HideFile">
+                            <a class="a-user-link" href="/uploads/taskFiles/@i.File" download>
+                                Download file
                             </a>
                         </div>
                     </div>
-                }
 
-                <div class="row justify-content-start div-row div-r-bb div-comment div-i-button" hidden>
-                    <div class="col-md-10">
-                        <form asp-controller="Interviews" asp-action="addComment" method="post" class="form" id="form-i-comments">
-                            <div class="form-group mb-2">
-                                <input class="form-control" name="interviewId" value="@Model.InterviewId" hidden>
-                            </div>
-                            <div class="form-row align-items-start">
-                                <div class="form-group mb-2 div-textarea">
-                                    <textarea class="form-control" name="content" rows="1" id="comment"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-light btn-sm btn-comments">Send</button>
-                            </div>
-                        </form>
+                    <div class="row justify-content-center div-row div-r-bb" hidden="@i.HideAnswer">
+                        <div class="col-12">@counter. Ans: @i.Answer</div>
+                    </div>
+
+                    <div class="row justify-content-center div-row">
+
                     </div>
                 </div>
             </div>
-        </div>
+            @*Comments HTML*@
+            @*<div class="row justify-content-center">
+                <div class="col-8 div-r-border div-m">
+                    <div class="row justify-content-center div-row">
+                        <div id="comment-count" class="col-3">Comments (@i.QnsComments.Count())</div>
+                        <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments">Show</button></div>
+                    </div>
 
-    </div>
+                    @foreach (var comment in @i.QnsComments)
+                    {
+                        <div class="row justify-content-center div-row div-r-bb div-comment div-q-comment" hidden>
+                            <div class="col-9">@comment.Content</div>
+                            <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
+                            <div class="col-1 div-small-fond">
+                                <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
+                                    @comment.UserFullName
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="row justify-content-start div-row div-r-bb div-comment div-i-button" hidden>
+                        <div class="col-md-10">
+                            <form asp-controller="Question" asp-action="addComment" method="post" class="form" id="form-q-comments">
+                                <div class="form-group mb-2">
+                                    <input class="form-control" name="Id" value="@Model.InterviewId" hidden>
+                                </div>
+                                <div class="form-row align-items-start">
+                                    <div class="form-group mb-2 div-textarea">
+                                        <textarea class="form-control" name="content" rows="1" id="comment"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-light btn-sm btn-comments">Send</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+        </div>
         counter++;
     }
 }

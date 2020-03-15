@@ -7,6 +7,7 @@
     using DotNetInterview.Services;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Interviews;
+    using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
 
@@ -70,7 +71,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddComment([FromBody]AddInterviewComment model)
+        public async Task<IActionResult> AddComment([FromBody]AddCommentDTO model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -81,7 +82,7 @@
 
             await this.interviewsService.AddComment(model, userId);
 
-            var comments = this.interviewsService.AllInterviewComments<IEnumerable<AllInterviewCommentsVM>>(model.InterviewId);
+            var comments = this.interviewsService.AllComments<IEnumerable<AllCommentsVM>>(model.Id);
 
             return this.Json(comments);
         }
