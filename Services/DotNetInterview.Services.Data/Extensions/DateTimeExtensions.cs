@@ -1,4 +1,4 @@
-﻿namespace DotNetInterview.Services.Extensions
+﻿namespace DotNetInterview.Services.Data.Extensions
 {
     using System;
 

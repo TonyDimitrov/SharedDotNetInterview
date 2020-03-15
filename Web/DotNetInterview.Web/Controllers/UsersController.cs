@@ -4,7 +4,7 @@
 
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
-    using DotNetInterview.Services;
+    using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;

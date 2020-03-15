@@ -1,10 +1,11 @@
 ﻿namespace DotNetInterview.Web.Controllers
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Threading.Tasks;
+
     using DotNetInterview.Common;
     using DotNetInterview.Services;
+    using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Interviews;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
@@ -73,7 +74,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.Json("Invalid:input");
+                return this.BadRequest();
             }
 
             var userId = this.GetUserId(this.User);

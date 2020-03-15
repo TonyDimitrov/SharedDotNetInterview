@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-
-namespace DotNetInterview.Common
+﻿namespace DotNetInterview.Common
 {
+    using System.Text.RegularExpressions;
+
     public static class Helper
     {
         public static string ParseEnum<T>(T @enum, string separator = " ")

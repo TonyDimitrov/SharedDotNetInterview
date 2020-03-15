@@ -1,23 +1,22 @@
-﻿namespace DotNetInterview.Services
+﻿namespace DotNetInterview.Services.Data
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+
     using DotNetInterview.Common;
     using DotNetInterview.Data;
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
-    using DotNetInterview.Services.Extensions;
+    using DotNetInterview.Services.Data.Extensions;
     using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using DotNetInterview.Web.ViewModels.Questions;
     using DotNetInterview.Web.ViewModels.Questions.DTO;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
 
     public class InterviewsService : IInterviewsService
@@ -150,16 +149,6 @@
 
         public CreateInterviewVM CreateGetVM()
         {
-            //var nationalityes = this.db.Nationalities
-            //    .Select(n => n.CompanyNationality)
-            //    .ToList()
-            //    .OrderBy(n => n);
-
-            //var getDataVM = new GetCreateInterviewsVM
-            //{
-            //    Nationality = nationalityes,
-            //};
-
             return new CreateInterviewVM
             {
                 Questions = new List<CreateInterviewQuestionVM> { new CreateInterviewQuestionVM() },

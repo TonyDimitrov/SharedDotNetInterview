@@ -1,4 +1,4 @@
-﻿namespace DotNetInterview.Services
+﻿namespace DotNetInterview.Services.Data
 {
     public interface IImporterHelperService
     {

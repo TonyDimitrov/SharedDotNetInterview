@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -20,9 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\DotNetInterview.Data.Common\DotNetInterview.Data.Common.csproj" />
-    <ProjectReference Include="..\..\Data\DotNetInterview.Data.Models\DotNetInterview.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Data\DotNetInterview.Data\DotNetInterview.Data.csproj" />
-    <ProjectReference Include="..\..\Web\DotNetInterview.Web.ViewModels\DotNetInterview.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

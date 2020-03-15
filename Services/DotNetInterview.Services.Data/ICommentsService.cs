@@ -1,4 +1,4 @@
-﻿namespace DotNetInterview.Services
+﻿namespace DotNetInterview.Services.Data
 {
     using System;
     using System.Collections.Generic;

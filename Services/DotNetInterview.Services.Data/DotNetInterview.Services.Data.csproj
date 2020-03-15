@@ -1,12 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
@@ -22,6 +25,8 @@
     <ProjectReference Include="..\..\Data\DotNetInterview.Data.Common\DotNetInterview.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\DotNetInterview.Data.Models\DotNetInterview.Data.Models.csproj" />
     <ProjectReference Include="..\DotNetInterview.Services.Mapping\DotNetInterview.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Data\DotNetInterview.Data\DotNetInterview.Data.csproj" />
+    <ProjectReference Include="..\..\Web\DotNetInterview.Web.ViewModels\DotNetInterview.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
