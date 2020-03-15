@@ -6,8 +6,9 @@
     using DotNetInterview.Common;
     using DotNetInterview.Services;
     using DotNetInterview.Services.Data;
+    using DotNetInterview.Web.ViewModels.Comments;
+    using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
-    using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
 

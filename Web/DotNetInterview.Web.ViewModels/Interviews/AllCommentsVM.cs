@@ -1,4 +1,4 @@
-﻿namespace DotNetInterview.Web.ViewModels.Interviews
+﻿namespace DotNetInterview.Web.ViewModels.Comments
 {
     public class AllCommentsVM
     {

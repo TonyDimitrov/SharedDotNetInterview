@@ -3,10 +3,9 @@
     using System;
     using System.Threading.Tasks;
 
-    using DotNetInterview.Data.Common.Models;
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
-    using DotNetInterview.Web.ViewModels.Interviews.DTO;
+    using DotNetInterview.Web.ViewModels.Comments.DTO;
 
     public class CommentsService : ICommentsService
     {

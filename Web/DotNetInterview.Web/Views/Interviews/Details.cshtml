@@ -6,6 +6,7 @@
 
 @section Styles {
     <link href="@Url.Content("~/css/interview-details.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/questions-details.css")" rel="stylesheet" type="text/css" />
 }
 
 <div class="container div-r-border">
@@ -59,7 +60,7 @@
                 <div class="col-md-10">
                     <form asp-controller="Interviews" asp-action="addComment" method="post" class="form" id="form-i-comments">
                         <div class="form-group mb-2">
-                            <input class="form-control" name="Id" value="@Model.InterviewId" hidden>
+                            <input class="form-control" name="id" value="@Model.InterviewId" hidden>
                         </div>
                         <div class="form-row align-items-start">
                             <div class="form-group mb-2 div-textarea">
@@ -78,7 +79,7 @@
 
 @{
     int counter = 1;
-    foreach (var i in Model.InterviewQns)
+    foreach (var q in Model.InterviewQns)
     {
         <div class="container div-r-border div-q-row">
             <div class="row">
@@ -86,19 +87,19 @@
 
                     <div class="row div-row div-r-bb">
 
-                        <div class="col-9">@counter. @i.Content</div>
+                        <div class="col-9">@counter. @q.Content</div>
 
-                        <div class="col-1 div-small-fond">@i.ModifiedOn</div>
-                        <div class="col-1 div-small-fond" hidden="@i.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @i.Ranked</div>
-                        <div class="col-1 div-small-fond" hidden="@i.HideFile">
-                            <a class="a-user-link" href="/uploads/taskFiles/@i.File" download>
+                        <div class="col-1 div-small-fond">@q.ModifiedOn</div>
+                        <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @q.Ranked</div>
+                        <div class="col-1 div-small-fond" hidden="@q.HideFile">
+                            <a class="a-user-link" href="/uploads/taskFiles/@q.File" download>
                                 Download file
                             </a>
                         </div>
                     </div>
 
-                    <div class="row justify-content-center div-row div-r-bb" hidden="@i.HideAnswer">
-                        <div class="col-12">@counter. Ans: @i.Answer</div>
+                    <div class="row justify-content-center div-row div-r-bb" hidden="@q.HideAnswer">
+                        <div class="col-12">@counter. Ans: @q.Answer</div>
                     </div>
 
                     <div class="row justify-content-center div-row">
@@ -107,16 +108,16 @@
                 </div>
             </div>
             @*Comments HTML*@
-            @*<div class="row justify-content-center">
-                <div class="col-8 div-r-border div-m">
+            <div class="row justify-content-center">
+                <div class="col-8 div-r-border div-m2">
                     <div class="row justify-content-center div-row">
-                        <div id="comment-count" class="col-3">Comments (@i.QnsComments.Count())</div>
-                        <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments">Show</button></div>
+                        <div id="comment-count2" class="col-3">Comments (@q.QnsComments.Count())</div>
+                        <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments2">Show</button></div>
                     </div>
 
-                    @foreach (var comment in @i.QnsComments)
+                    @foreach (var comment in q.QnsComments)
                     {
-                        <div class="row justify-content-center div-row div-r-bb div-comment div-q-comment" hidden>
+                        <div class="row justify-content-center div-row div-r-bb div-comment2 div-q-comment" hidden>
                             <div class="col-9">@comment.Content</div>
                             <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
                             <div class="col-1 div-small-fond">
@@ -127,23 +128,23 @@
                         </div>
                     }
 
-                    <div class="row justify-content-start div-row div-r-bb div-comment div-i-button" hidden>
+                    <div class="row justify-content-start div-row div-r-bb div-comment2 div-q-button" hidden>
                         <div class="col-md-10">
-                            <form asp-controller="Question" asp-action="addComment" method="post" class="form" id="form-q-comments">
+                            <form asp-controller="Questions" asp-action="AddComment" method="post" class="form" id="form-q-comments">
                                 <div class="form-group mb-2">
-                                    <input class="form-control" name="Id" value="@Model.InterviewId" hidden>
+                                    <input class="form-control" name="id" value="@q.QuestionId" hidden>
                                 </div>
                                 <div class="form-row align-items-start">
                                     <div class="form-group mb-2 div-textarea">
-                                        <textarea class="form-control" name="content" rows="1" id="comment"></textarea>
+                                        <textarea class="form-control" name="content" rows="1" id="comment2"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-light btn-sm btn-comments">Send</button>
+                                    <button type="submit" class="btn btn-light btn-sm btn-comments2">Add</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-            </div>*@
+            </div>
 
         </div>
         counter++;
@@ -152,8 +153,10 @@
 
 <environment names="Development">
     <script src="~/js/comments-interview.js" asp-append-version="true"></script>
+    <script src="~/js/comments-question.js" asp-append-version="true"></script>
 </environment>
 <environment names="Production, Deploy">
     <script src="~/js/comments-interview.js" asp-append-version="true"></script>
+    <script src="~/js/comments-question.js" asp-append-version="true"></script>
 </environment>
 

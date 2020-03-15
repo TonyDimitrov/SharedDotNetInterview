@@ -1,9 +1,8 @@
 ﻿namespace DotNetInterview.Services.Data
 {
     using System.Threading.Tasks;
-
+    using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
-    using DotNetInterview.Web.ViewModels.Interviews.DTO;
 
     public interface IInterviewsService
     {

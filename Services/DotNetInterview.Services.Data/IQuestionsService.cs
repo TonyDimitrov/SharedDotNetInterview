@@ -1,6 +1,6 @@
 ﻿namespace DotNetInterview.Services.Data
 {
-    using DotNetInterview.Web.ViewModels.Interviews.DTO;
+    using DotNetInterview.Web.ViewModels.Comments.DTO;
     using System;
     using System.Collections.Generic;
     using System.Text;

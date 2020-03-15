@@ -7,8 +7,8 @@
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data.Extensions;
-    using DotNetInterview.Web.ViewModels.Interviews;
-    using DotNetInterview.Web.ViewModels.Interviews.DTO;
+    using DotNetInterview.Web.ViewModels.Comments;
+    using DotNetInterview.Web.ViewModels.Comments.DTO;
     using Microsoft.EntityFrameworkCore;
 
     public class QuestionsService : IQuestionsService

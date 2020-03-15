@@ -1,17 +1,17 @@
-
-function commentsHandler() {
+﻿
+function commentsHandler2() {
 
     const btnShow = "Show";
     const btnHide = "Hide";
 
-    let btnComments = document.querySelector('.btn-comments');
+    let btnComments = document.querySelector('.btn-comments2');
 
     btnComments.addEventListener('click', displayComments)
 
 
     function displayComments(e) {
 
-        let comments = document.getElementsByClassName('div-comment');
+        let comments = document.getElementsByClassName('div-comment2');
 
         let btnTitleCurrentText = e.target.innerText;
 
@@ -28,16 +28,16 @@ function commentsHandler() {
     }
 }
 
-commentsHandler();
+commentsHandler2();
 
 
-function addInterviewComment() {
+function addQuestionComment() {
 
     const httpMethod = "POST";
 
-    let btnInterviewComment = document.getElementById('form-i-comments');
+    let btnQuestionComment = document.getElementById('form-q-comments');
 
-    btnInterviewComment.addEventListener('submit', createComment);
+    btnQuestionComment.addEventListener('submit', createComment);
 
     async function createComment(e) {
         e.preventDefault();
@@ -83,17 +83,17 @@ function addInterviewComment() {
 
     function buildComments(commnets) {
         let obj = commnets;
-        let divParent = document.getElementsByClassName('div-m')[0];
-        let btnSend = document.getElementsByClassName('div-i-button')[0];
+        let divParent = document.getElementsByClassName('div-m2')[0];
+        let btnSend = document.getElementsByClassName('div-q-button')[0];
 
-        let oldComments = document.getElementsByClassName('div-i-comment');
+        let oldComments = document.getElementsByClassName('div-q-comment');
 
         [...oldComments].forEach(oc => divParent.removeChild(oc));
         var fragment = document.createDocumentFragment();
 
         for (var i = 0; i < commnets.length; i++) {
             let createComment = document.createElement('div');
-            createComment.className = "row justify-content-center div-row div-r-bb div-comment div-i-comment";
+            createComment.className = "row div-row div-r-bb div-comment2 div-q-comment";
 
             let innerContent = `
                     <div class="col-9">${commnets[i].content}</div>
@@ -109,12 +109,12 @@ function addInterviewComment() {
         }
         divParent.insertBefore(fragment, btnSend)
 
-        let count = document.getElementsByClassName('div-i-comment').length;
-        document.getElementById('comment-count').innerText = `Comments (${count})`;
+        let count = document.getElementsByClassName('div-q-comment').length;
+        document.getElementById('comment-count2').innerText = `Comments (${count})`;
 
-        let btnSendtextarea = document.getElementById('comment');
+        let btnSendtextarea = document.getElementById('comment2');
         btnSendtextarea.value = "";
     }
 }
 
-addInterviewComment();
+addQuestionComment();

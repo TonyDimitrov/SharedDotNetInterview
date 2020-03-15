@@ -1,4 +1,4 @@
-﻿namespace DotNetInterview.Web.ViewModels.Interviews.DTO
+﻿namespace DotNetInterview.Web.ViewModels.Comments.DTO
 {
     using System.ComponentModel.DataAnnotations;
 

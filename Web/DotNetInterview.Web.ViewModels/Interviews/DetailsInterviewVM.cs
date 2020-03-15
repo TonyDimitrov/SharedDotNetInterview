@@ -1,6 +1,9 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
     using System.Collections.Generic;
+
+    using DotNetInterview.Web.ViewModels.Comments;
+
     public class DetailsInterviewVM
     {
         public DetailsInterviewVM()

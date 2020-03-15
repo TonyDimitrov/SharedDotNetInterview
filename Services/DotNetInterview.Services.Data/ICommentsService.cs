@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    using DotNetInterview.Web.ViewModels.Interviews.DTO;
+    using DotNetInterview.Web.ViewModels.Comments.DTO;
 
     public interface ICommentsService
     {

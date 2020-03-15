@@ -12,6 +12,8 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Services.Data.Extensions;
+    using DotNetInterview.Web.ViewModels.Comments;
+    using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
@@ -192,6 +194,8 @@
                                 CreatedOn = c.CreatedOn,
                                 ModifiedOn = c.ModifiedOn,
                                 UseId = c.UserId,
+                                UserFName = c.User.FirstName,
+                                UserLName = c.User.LastName,
                             })
                             .ToList(),
                         })
@@ -245,6 +249,7 @@
                             CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                             ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
                             UserId = c.UseId,
+                            UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
                         }),
                     }),
                 InterviewComments = interviewDTO.InterviewComments

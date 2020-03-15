@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Enums;
 
     public class DetailsInterviewDTO
