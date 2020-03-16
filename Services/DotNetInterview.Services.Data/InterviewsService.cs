@@ -165,6 +165,9 @@
                 .Select(i => new DetailsInterviewDTO
                 {
                     InterviewId = i.Id,
+                    UserId = i.UserId,
+                    UserFName = i.User.FirstName,
+                    UserLName = i.User.LastName,
                     Seniority = Enum.Parse<PositionSeniorityVM>(i.Seniority.ToString()),
                     PositionTitle = i.PositionTitle,
                     PositionDescription = i.PositionDescription,
@@ -188,15 +191,16 @@
                             File = q.UrlTask,
                             QnsComments = q.Comments
                             .Where(q => !q.IsDeleted)
-                            .Select(c => new AllQuestionCommentsDTO
+                            .Select(c => new AllCommentsDTO
                             {
                                 Content = c.Content,
                                 CreatedOn = c.CreatedOn,
                                 ModifiedOn = c.ModifiedOn,
-                                UseId = c.UserId,
+                                Id = c.UserId,
                                 UserFName = c.User.FirstName,
                                 UserLName = c.User.LastName,
                             })
+                            .OrderBy(c => c.CreatedOn)
                             .ToList(),
                         })
                         .ToList(),
@@ -218,6 +222,8 @@
             var interviewVM = new DetailsInterviewVM
             {
                 InterviewId = interviewDTO.InterviewId,
+                UserId = interviewDTO.UserId,
+                UserFullName = interviewDTO.UserFName.FullUserNameParser(interviewDTO.UserLName),
                 Seniority = Helper.ParseEnum<PositionSeniorityVM>(interviewDTO.Seniority),
                 PositionTitle = interviewDTO.PositionTitle,
                 PositionDescription = interviewDTO.PositionDescription == null ? "No description" : interviewDTO.PositionDescription,
@@ -244,11 +250,10 @@
                         QnsComments = q.QnsComments
                         .Select(c => new AllQuestionCommentsVM
                         {
-                            QuestionId = c.QuestionId,
                             Content = c.Content,
                             CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                             ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
-                            UserId = c.UseId,
+                            UserId = c.Id,
                             UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
                         }),
                     }),

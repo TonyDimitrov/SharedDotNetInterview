@@ -84,7 +84,7 @@ function addInterviewComment() {
     function buildComments(commnets) {
         let obj = commnets;
         let divParent = document.getElementsByClassName('div-m')[0];
-        let btnSend = document.getElementsByClassName('div-i-button')[0];
+        let btnAdd = document.getElementsByClassName('div-i-button')[0];
 
         let oldComments = document.getElementsByClassName('div-i-comment');
 
@@ -107,7 +107,7 @@ function addInterviewComment() {
             createComment.innerHTML = innerContent;
             fragment.append(createComment);
         }
-        divParent.insertBefore(fragment, btnSend)
+        divParent.insertBefore(fragment, btnAdd)
 
         let count = document.getElementsByClassName('div-i-comment').length;
         document.getElementById('comment-count').innerText = `Comments (${count})`;

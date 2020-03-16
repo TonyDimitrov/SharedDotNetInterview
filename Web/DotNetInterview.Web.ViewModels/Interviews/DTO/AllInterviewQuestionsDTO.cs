@@ -2,8 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+
+    using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Enums;
-    using DotNetInterview.Web.ViewModels.Questions.DTO;
 
     public class AllInterviewQuestionsDTO
     {
@@ -21,6 +22,6 @@
 
         public string File { get; set; }
 
-        public IEnumerable<AllQuestionCommentsDTO> QnsComments { get; set; }
+        public IEnumerable<AllCommentsDTO> QnsComments { get; set; }
     }
 }

@@ -4,14 +4,16 @@ function commentsHandler2() {
     const btnShow = "Show";
     const btnHide = "Hide";
 
-    let btnComments = document.querySelector('.btn-comments2');
+    let btnComments = document.getElementsByClassName('btn-comments2');
 
-    btnComments.addEventListener('click', displayComments)
+    [...btnComments].forEach(c => c.addEventListener('click', displayComments));
 
 
     function displayComments(e) {
 
-        let comments = document.getElementsByClassName('div-comment2');
+        let divCommentsWrapper = e.target.parentElement.parentElement.parentElement;
+
+        let comments = divCommentsWrapper.getElementsByClassName('div-comment2');
 
         let btnTitleCurrentText = e.target.innerText;
 
@@ -35,9 +37,9 @@ function addQuestionComment() {
 
     const httpMethod = "POST";
 
-    let btnQuestionComment = document.getElementById('form-q-comments');
+    let btnQuestionComments = document.getElementsByClassName('form-q-comments');
 
-    btnQuestionComment.addEventListener('submit', createComment);
+    [...btnQuestionComments].forEach(fc => fc.addEventListener('submit', createComment));
 
     async function createComment(e) {
         e.preventDefault();
@@ -63,7 +65,7 @@ function addQuestionComment() {
         await fetch(url, headers)
             .then(handleError)
             .then(serializeData)
-            .then(buildComments);
+            .then(buildComments.bind(null, e.target));
     }
 
     function handleError(e) {
@@ -81,38 +83,52 @@ function addQuestionComment() {
         return x.json();
     }
 
-    function buildComments(commnets) {
-        let obj = commnets;
-        let divParent = document.getElementsByClassName('div-m2')[0];
-        let btnSend = document.getElementsByClassName('div-q-button')[0];
+    function buildComments(form, comments) {
 
-        let oldComments = document.getElementsByClassName('div-q-comment');
+        let divParent = form
+            .parentElement
+            .parentElement
+            .parentElement
+            .parentElement
+            .getElementsByClassName('div-m2')[0];
+
+        let btnAdd = form
+            .parentElement
+            .parentElement
+            .parentElement
+            .getElementsByClassName('div-q-button')[0];
+
+        let oldComments = form
+            .parentElement
+            .parentElement
+            .parentElement.getElementsByClassName('div-q-comment');
 
         [...oldComments].forEach(oc => divParent.removeChild(oc));
         var fragment = document.createDocumentFragment();
 
-        for (var i = 0; i < commnets.length; i++) {
+        for (var i = 0; i < comments.length; i++) {
             let createComment = document.createElement('div');
             createComment.className = "row div-row div-r-bb div-comment2 div-q-comment";
 
             let innerContent = `
-                    <div class="col-9">${commnets[i].content}</div>
-                    <div class="col-2 div-small-fond">${commnets[i].modifiedOn}</div>
+                    <div class="col-9">${comments[i].content}</div>
+                    <div class="col-2 div-small-fond">${comments[i].modifiedOn}</div>
                     <div class="col-1 div-small-fond">
-                           <a href="/Users/Details?UserId=${commnets[i].userId}" class="a-user-link">
-                            ${commnets[i].userFullName}
+                           <a href="/Users/Details?UserId=${comments[i].userId}" class="a-user-link">
+                            ${comments[i].userFullName}
                         </a>
                     </div>`;
 
             createComment.innerHTML = innerContent;
             fragment.append(createComment);
         }
-        divParent.insertBefore(fragment, btnSend)
+        divParent.insertBefore(fragment, btnAdd)
 
-        let count = document.getElementsByClassName('div-q-comment').length;
-        document.getElementById('comment-count2').innerText = `Comments (${count})`;
+        let count = comments.length;
 
-        let btnSendtextarea = document.getElementById('comment2');
+        divParent.getElementsByClassName('comment-count2')[0].innerText = `Comments (${count})`;
+
+        let btnSendtextarea = form.getElementsByClassName('comment2')[0];
         btnSendtextarea.value = "";
     }
 }

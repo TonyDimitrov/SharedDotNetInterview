@@ -8,11 +8,9 @@
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using Microsoft.AspNetCore.Mvc;
 
-
     public class QuestionsController : BaseController
     {
         private readonly IQuestionsService questionsService;
-
 
         public QuestionsController(IQuestionsService questionsService)
         {

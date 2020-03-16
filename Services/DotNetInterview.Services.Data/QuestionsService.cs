@@ -55,7 +55,7 @@
                    UserFName = c.User.FirstName,
                    UserLName = c.User.LastName,
                })
-               .OrderBy(c => c.CreatedOn)
+               .OrderBy(c => c.ModifiedOn)
                .ToList();
 
             var commentsVM = commentsDTO
