@@ -2,7 +2,15 @@
 {
     public class AllCommentsVM
     {
-        public string Id { get; set; }
+        public string CommentId { get; set; }
+
+        public bool CanDelete { get; set; }
+
+        public bool CanAdd { get; set; }
+
+        public string DefaultValue { get; set; }
+
+        public string ParentId { get; set; }
 
         public string Content { get; set; }
 

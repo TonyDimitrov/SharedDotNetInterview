@@ -4,7 +4,9 @@
 
     public class AllCommentsDTO
     {
-        public string Id { get; set; }
+        public string CommentId { get; set; }
+
+        public string ParentId { get; set; }
 
         public string Content { get; set; }
 

@@ -55,10 +55,15 @@
                     <div class="col-9">@comment.Content</div>
                     <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
                     <div class="col-1 div-small-fond">
-                        <a href="/Users/Details?UserId=@comment.Id" class="a-user-link">
+                        <a href="/Users/Details?UserId=@comment.ParentId" class="a-user-link">
                             @comment.UserFullName
                         </a>
                     </div>
+                    @*<div class="col-1 div-small-fond" hidden="@q.HideFile">
+                        <a class="a-user-link" href="/uploads/taskFiles/@q.File" download>
+                            Download file
+                        </a>
+                    </div>*@
                 </div>
             }
 

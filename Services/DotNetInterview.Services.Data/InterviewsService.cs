@@ -12,6 +12,7 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Services.Data.Extensions;
+    using DotNetInterview.Services.Data.Helpers;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Enums;
@@ -158,7 +159,7 @@
             };
         }
 
-        public T Details<T>(string interviewId)
+        public T Details<T>(string interviewId, string currentUserId, bool isAdmin)
         {
             var interviewDTO = this.categoriesRepository.All()
                 .Where(i => i.Id == interviewId && !i.IsDeleted)
@@ -193,10 +194,11 @@
                             .Where(q => !q.IsDeleted)
                             .Select(c => new AllCommentsDTO
                             {
+                                CommentId = c.Id,
                                 Content = c.Content,
                                 CreatedOn = c.CreatedOn,
                                 ModifiedOn = c.ModifiedOn,
-                                Id = c.UserId,
+                                UserId = c.UserId,
                                 UserFName = c.User.FirstName,
                                 UserLName = c.User.LastName,
                             })
@@ -207,6 +209,7 @@
                     InterviewComments = i.Comments
                     .Select(c => new AllCommentsDTO
                     {
+                        CommentId = c.Id,
                         Content = c.Content,
                         CreatedOn = c.CreatedOn,
                         ModifiedOn = c.ModifiedOn,
@@ -248,22 +251,29 @@
                         HideFile = q.File == null,
                         File = q.File,
                         QnsComments = q.QnsComments
-                        .Select(c => new AllQuestionCommentsVM
+                        .Select(c => new AllCommentsVM
                         {
+                            CommentId = c.CommentId,
+                            CanDelete = Utils.CanDelete(c.UserId, currentUserId, isAdmin),
+                            CanAdd = Utils.CanAddComment(currentUserId),
                             Content = c.Content,
                             CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                             ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
-                            UserId = c.Id,
+                            HasBeenModified = Utils.IsModified(c.CreatedOn, c.ModifiedOn),
+                            UserId = c.UserId,
                             UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
                         }),
                     }),
                 InterviewComments = interviewDTO.InterviewComments
                     .Select(c => new AllCommentsVM
                     {
+                        CommentId = c.CommentId,
+                        CanDelete = Utils.CanDelete(c.UserId, currentUserId, isAdmin),
+                        CanAdd = Utils.CanAddComment(currentUserId),
                         Content = c.Content,
                         CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                         ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
-                        HasBeenModified = c.ModifiedOn != null && c.ModifiedOn != c.CreatedOn ? true : false,
+                        HasBeenModified = Utils.IsModified(c.CreatedOn, c.ModifiedOn),
                         UserId = c.UserId,
                         UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
                     })
@@ -289,7 +299,7 @@
             await this.categoriesRepository.SaveChangesAsync();
         }
 
-        public T AllComments<T>(string interviewId)
+        public T AllComments<T>(string interviewId, string currentUserId, bool isAdmin)
         {
             var commentsDTO = this.categoriesRepository.All()
                .Where(i => i.Id == interviewId)
@@ -300,7 +310,8 @@
                .Where(c => !c.IsDeleted)
                .Select(c => new AllCommentsDTO
                {
-                   Id = interviewId,
+                   CommentId = c.Id,
+                   ParentId = interviewId,
                    Content = c.Content,
                    CreatedOn = c.CreatedOn,
                    ModifiedOn = c.ModifiedOn,
@@ -314,7 +325,10 @@
             var commentsVM = commentsDTO
               .Select(c => new AllCommentsVM
               {
-                  Id = interviewId,
+                  CommentId = c.CommentId,
+                  CanDelete = Utils.CanDelete(c.UserId, currentUserId, isAdmin),
+                  CanAdd = Utils.CanAddComment(currentUserId),
+                  ParentId = interviewId,
                   Content = c.Content,
                   CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                   HasBeenModified = c.ModifiedOn != null && c.ModifiedOn != c.CreatedOn ? true : false,

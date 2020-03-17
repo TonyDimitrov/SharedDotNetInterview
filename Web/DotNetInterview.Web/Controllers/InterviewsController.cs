@@ -4,27 +4,31 @@
     using System.Threading.Tasks;
 
     using DotNetInterview.Common;
-    using DotNetInterview.Services;
+    using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class InterviewsController : BaseController
     {
+        private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IInterviewsService interviewsService;
         private readonly IImporterHelperService importerHelperService;
         private readonly IFileService fileService;
 
         public InterviewsController(
+            RoleManager<ApplicationRole> roleManager,
             IWebHostEnvironment hostingEnvironment,
             IInterviewsService interviewsService,
             IImporterHelperService importerHelperService,
             IFileService fileService)
         {
+            this.roleManager = roleManager;
             this.hostingEnvironment = hostingEnvironment;
             this.interviewsService = interviewsService;
             this.importerHelperService = importerHelperService;
@@ -66,7 +70,10 @@
         [HttpGet]
         public IActionResult Details(string interviewId)
         {
-            var interview = this.interviewsService.Details<DetailsInterviewVM>(interviewId);
+            var userId = this.GetUserId(this.User);
+            var isAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
+
+            var interview = this.interviewsService.Details<DetailsInterviewVM>(interviewId, userId, isAdmin);
 
             return this.View(interview);
         }
@@ -83,7 +90,8 @@
 
             await this.interviewsService.AddComment(model, userId);
 
-            var comments = this.interviewsService.AllComments<IEnumerable<AllCommentsVM>>(model.Id);
+            var isAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
+            var comments = this.interviewsService.AllComments<IEnumerable<AllCommentsVM>>(model.Id, userId, isAdmin);
 
             return this.Json(comments);
         }

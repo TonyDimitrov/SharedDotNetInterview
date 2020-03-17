@@ -47,7 +47,7 @@
                .Where(c => !c.IsDeleted)
                .Select(c => new AllCommentsDTO
                {
-                   Id = id,
+                   ParentId = id,
                    Content = c.Content,
                    CreatedOn = c.CreatedOn,
                    ModifiedOn = c.ModifiedOn,
@@ -61,7 +61,7 @@
             var commentsVM = commentsDTO
               .Select(c => new AllCommentsVM
               {
-                  Id = id,
+                  ParentId = id,
                   Content = c.Content,
                   CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                   HasBeenModified = c.ModifiedOn != null && c.ModifiedOn != c.CreatedOn ? true : false,

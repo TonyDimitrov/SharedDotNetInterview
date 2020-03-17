@@ -1,12 +1,11 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
     using System.Collections.Generic;
-
-    using DotNetInterview.Web.ViewModels.Questions;
+    using DotNetInterview.Web.ViewModels.Comments;
 
     public class AllInterviewQuestionsVM
     {
-        public AllInterviewQuestionsVM() => this.QnsComments = new List<AllQuestionCommentsVM>();
+        public AllInterviewQuestionsVM() => this.QnsComments = new List<AllCommentsVM>();
 
         public string QuestionId { get; set; }
 
@@ -28,6 +27,6 @@
 
         public string File { get; set; }
 
-        public IEnumerable<AllQuestionCommentsVM> QnsComments { get; set; }
+        public IEnumerable<AllCommentsVM> QnsComments { get; set; }
     }
 }
