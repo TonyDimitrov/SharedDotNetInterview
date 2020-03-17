@@ -8,7 +8,7 @@
     {
         Task<bool> Delete(string commentId);
 
-        T AllComments<T>(string id);
+        T AllComments<T>(string id, string currentUserId, bool isAdmin);
 
         Task AddComment(AddCommentDTO interviewComment, string userId);
     }

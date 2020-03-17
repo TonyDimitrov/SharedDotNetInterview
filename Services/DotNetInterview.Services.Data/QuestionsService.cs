@@ -7,6 +7,7 @@
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data.Extensions;
+    using DotNetInterview.Services.Data.Helpers;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@
             await this.questionRepository.SaveChangesAsync();
         }
 
-        public T AllComments<T>(string id)
+        public T AllComments<T>(string id, string currentUserId, bool isAdmin)
         {
             var commentsDTO = this.questionRepository.All()
                .Where(i => i.Id == id)
@@ -47,6 +48,9 @@
                .Where(c => !c.IsDeleted)
                .Select(c => new AllCommentsDTO
                {
+                   CommentId = c.Id,
+                   HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
+                   HideAdd = Utils.HideAddComment(currentUserId),
                    ParentId = id,
                    Content = c.Content,
                    CreatedOn = c.CreatedOn,
@@ -61,6 +65,9 @@
             var commentsVM = commentsDTO
               .Select(c => new AllCommentsVM
               {
+                  CommentId = c.CommentId,
+                  HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
+                  HideAdd = Utils.HideAddComment(currentUserId),
                   ParentId = id,
                   Content = c.Content,
                   CreatedOn = c.CreatedOn.DateTimeViewFormater(),

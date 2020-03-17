@@ -94,7 +94,7 @@
 
             await this.interviewsService.AddComment(model, userId);
 
-            var isAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
+            var isAdmin = this.IsAdmin();
             var comments = this.interviewsService.AllComments<IEnumerable<AllCommentsVM>>(model.Id, userId, isAdmin);
             var toJson = JsonSerializer.Serialize(comments.ToList()[0], new JsonSerializerOptions { WriteIndented = true });
             return this.Json(comments);

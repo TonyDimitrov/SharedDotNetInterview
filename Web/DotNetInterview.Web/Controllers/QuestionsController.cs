@@ -28,7 +28,8 @@
 
             await this.questionsService.AddComment(model, userId);
 
-            var comments = this.questionsService.AllComments<IEnumerable<AllCommentsVM>>(model.Id);
+            var isAdmin = this.IsAdmin();
+            var comments = this.questionsService.AllComments<IEnumerable<AllCommentsVM>>(model.Id, userId, isAdmin);
 
             return this.Json(comments);
         }

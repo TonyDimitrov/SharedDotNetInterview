@@ -68,7 +68,7 @@ function addInterviewComment() {
 
 
     function buildComments(commnets) {
-        let obj = commnets;
+
         let divParent = document.getElementsByClassName('div-m')[0];
         let btnAdd = document.getElementsByClassName('div-i-button')[0];
 
@@ -89,7 +89,6 @@ function addInterviewComment() {
                             ${commnets[i].userFullName}
                         </a>
                     </div>
-
                     <div class="col-1 div-small-fond" ${commnets[i].hideDelete}>
                         <form action="/Comments/Delete" method="post" class="form-delete">
                             <div class="form-group mb-2" hidden>

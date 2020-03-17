@@ -3,7 +3,7 @@
     using System;
     using System.IO;
     using System.Security.Claims;
-
+    using DotNetInterview.Common;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +18,8 @@
 
             return principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
+
+        internal bool IsAdmin() => this.User.IsInRole(GlobalConstants.AdministratorRoleName);
 
         internal string GetRootPath(IWebHostEnvironment hostingEnvironment, string typeFilesDirectory)
         {
