@@ -4,9 +4,9 @@
     {
         public string CommentId { get; set; }
 
-        public bool CanDelete { get; set; }
+        public string HideDelete { get; set; }
 
-        public bool CanAdd { get; set; }
+        public string HideAdd { get; set; }
 
         public string DefaultValue { get; set; }
 

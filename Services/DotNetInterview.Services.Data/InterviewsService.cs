@@ -236,6 +236,7 @@
                 InterviewLocation = interviewDTO.InterviewLocation,
                 CreatedOn = interviewDTO.CreatedOn.ToString(GlobalConstants.FormatDate),
                 ModifiedOn = interviewDTO.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                HideAddCommentForm = Utils.HideAddComment(currentUserId),
                 Likes = interviewDTO.Likes,
                 InterviewQns = interviewDTO.InterviewQns
                     .Select(q => new AllInterviewQuestionsVM
@@ -254,8 +255,8 @@
                         .Select(c => new AllCommentsVM
                         {
                             CommentId = c.CommentId,
-                            CanDelete = Utils.CanDelete(c.UserId, currentUserId, isAdmin),
-                            CanAdd = Utils.CanAddComment(currentUserId),
+                            HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
+                            HideAdd = Utils.HideAddComment(currentUserId),
                             Content = c.Content,
                             CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                             ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
@@ -268,8 +269,8 @@
                     .Select(c => new AllCommentsVM
                     {
                         CommentId = c.CommentId,
-                        CanDelete = Utils.CanDelete(c.UserId, currentUserId, isAdmin),
-                        CanAdd = Utils.CanAddComment(currentUserId),
+                        HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
+                        HideAdd = Utils.HideAddComment(currentUserId),
                         Content = c.Content,
                         CreatedOn = c.CreatedOn.DateTimeViewFormater(),
                         ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
@@ -326,8 +327,8 @@
               .Select(c => new AllCommentsVM
               {
                   CommentId = c.CommentId,
-                  CanDelete = Utils.CanDelete(c.UserId, currentUserId, isAdmin),
-                  CanAdd = Utils.CanAddComment(currentUserId),
+                  HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
+                  HideAdd = Utils.HideAddComment(currentUserId),
                   ParentId = interviewId,
                   Content = c.Content,
                   CreatedOn = c.CreatedOn.DateTimeViewFormater(),

@@ -18,23 +18,21 @@
 
         public async Task<T> AddComment<T>(AddCommentDTO interviewComment, string userId)
         {
-            return (T)(object) await this.commentsRepository.GetByIdWithDeletedAsync(interviewComment.Id);
-
-            //var comment = new Comment
-            //{
-            //    InterviewId = interview.Id,
-            //    Content = interviewComment.Content,
-            //    CreatedOn = DateTime.UtcNow,
-            //    UserId = userId,
-            //};
-
-            //interview.Comments.Add(comment);
-            //await this.categoriesRepository.SaveChangesAsync();
+            return (T)(object)await this.commentsRepository.GetByIdWithDeletedAsync(interviewComment.Id);
         }
 
         public T AllComments<T>(string id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> Delete(string commentId)
+        {
+            var comment = await this.commentsRepository.GetByIdWithDeletedAsync(commentId);
+
+            this.commentsRepository.Delete(comment);
+
+            return (await this.commentsRepository.SaveChangesAsync()) != 0 ? true : false;
         }
     }
 }

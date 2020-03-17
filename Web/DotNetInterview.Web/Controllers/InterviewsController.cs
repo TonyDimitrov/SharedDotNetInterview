@@ -1,6 +1,10 @@
 ﻿namespace DotNetInterview.Web.Controllers
 {
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Text.Json;
     using System.Threading.Tasks;
 
     using DotNetInterview.Common;
@@ -92,7 +96,7 @@
 
             var isAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
             var comments = this.interviewsService.AllComments<IEnumerable<AllCommentsVM>>(model.Id, userId, isAdmin);
-
+            var toJson = JsonSerializer.Serialize(comments.ToList()[0], new JsonSerializerOptions { WriteIndented = true });
             return this.Json(comments);
         }
     }

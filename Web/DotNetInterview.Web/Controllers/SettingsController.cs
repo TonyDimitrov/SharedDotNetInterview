@@ -7,9 +7,11 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Settings;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class SettingsController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;

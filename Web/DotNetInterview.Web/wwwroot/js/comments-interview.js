@@ -46,7 +46,6 @@ function addInterviewComment() {
         let content = e.target.content['value'];
         let url = e.target.action;
 
-
         let dto = {
             id,
             content,
@@ -66,20 +65,7 @@ function addInterviewComment() {
             .then(buildComments);
     }
 
-    function handleError(e) {
-        if (!e.ok) {
-            throw new Error(e.statusText);
-        }
 
-        return e;
-    }
-
-    function serializeData(x) {
-        if (x.status === 204) {
-            return x;
-        }
-        return x.json();
-    }
 
     function buildComments(commnets) {
         let obj = commnets;
@@ -96,12 +82,22 @@ function addInterviewComment() {
             createComment.className = "row justify-content-center div-row div-r-bb div-comment div-i-comment";
 
             let innerContent = `
-                    <div class="col-9">${commnets[i].content}</div>
+                    <div class="col-8">${commnets[i].content}</div>
                     <div class="col-2 div-small-fond">${commnets[i].modifiedOn}</div>
                     <div class="col-1 div-small-fond">
                            <a href="/Users/Details?UserId=${commnets[i].userId}" class="a-user-link">
                             ${commnets[i].userFullName}
                         </a>
+                    </div>
+
+                    <div class="col-1 div-small-fond" ${commnets[i].hideDelete}>
+                        <form action="/Comments/Delete" method="post" class="form-delete">
+                            <div class="form-group mb-2" hidden>
+                                <input class="form-control" name="id" value="${commnets[i].commentId}">
+                            </div>
+                            <button type="submit" class="btn btn-link a-user-link div-small-fond b-i-delete p-0">Delete</button>
+                        </form>
+                    </div>
                     </div>`;
 
             createComment.innerHTML = innerContent;
@@ -114,7 +110,75 @@ function addInterviewComment() {
 
         let btnSendtextarea = document.getElementById('comment');
         btnSendtextarea.value = "";
+
+        // Add event to delete comment for new created item
+        deleteInterviewComment();
     }
 }
 
 addInterviewComment();
+
+//   Delete comment logic
+
+function deleteInterviewComment() {
+
+    let [...aDelete] = document.getElementsByClassName('form-delete');
+
+    if (!aDelete) {
+        return;
+    }
+
+    aDelete.forEach(fd => fd.addEventListener('submit', deleteComment));
+
+    async function deleteComment(e) {
+        e.preventDefault();
+
+        const httpMethod = "POST";
+
+        let url = e.target.action;
+        let id = e.target.id['value'];
+        const headers = {
+            method: httpMethod,
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }
+        headers.body = JSON.stringify(id);
+
+        await fetch(url, headers)
+            .then(handleError)
+            .then(serializeData)
+            .then(deleteCommentElement.bind(null, e));
+    }
+
+    function deleteCommentElement(e, responce) {
+
+        let test = e.target;
+        let divComment = test.parentElement.parentElement;
+        let divParent = document.getElementsByClassName('div-m')[0];
+        divParent.removeChild(divComment);
+
+        // Recalculate comments count
+        let count = document.getElementsByClassName('div-i-comment').length;
+        document.getElementById('comment-count').innerText = `Comments (${count})`;
+    }
+}
+
+deleteInterviewComment();
+
+
+// Helper functions
+function handleError(e) {
+    if (!e.ok) {
+        throw new Error(e.statusText);
+    }
+
+    return e;
+}
+
+function serializeData(x) {
+    if (x.status === 204) {
+        return x;
+    }
+    return x.json();
+}

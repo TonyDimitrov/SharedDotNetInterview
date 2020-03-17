@@ -9,5 +9,7 @@
         T AllComments<T>(string id);
 
         Task<T> AddComment<T>(AddCommentDTO interviewComment, string userId);
+
+        Task<bool> Delete(string commentId);
     }
 }

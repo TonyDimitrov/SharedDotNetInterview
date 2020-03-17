@@ -38,6 +38,8 @@
 
         public int Likes { get; set; }
 
+        public string HideAddCommentForm { get; set; }
+
         public IEnumerable<AllInterviewQuestionsVM> InterviewQns { get; set; }
 
         public IEnumerable<AllCommentsVM> InterviewComments { get; set; }
