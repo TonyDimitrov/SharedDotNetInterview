@@ -28,10 +28,15 @@
                 <div class="col-6 div-row">@Model.PositionDescription</div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-1 div-row-header">Likes:</div>
-                <div class="col-1 div-row"><span class="badge badge-pill span-questions">@Model.Likes</span></div>
-                <div class="col-1 div-row-header">Qns:</div>
-                <div class="col-1 div-row"><span class="badge badge-pill span-questions">@Model.InterviewQns.Count()</span></div>
+                <div class="col-2 div-row-header">
+                    Likes:
+                    <span id="likes-count" class="badge badge-pill span-questions">@Model.Likes</span>
+                    <a id="a-likes-glifi" asp-controller="Interviews" asp-action="Like" asp-route-InterviewId="@Model.InterviewId"><img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" /></a>                    
+                </div>
+                <div class="col-2 div-row-header">
+                    Qns:
+                    <span class="badge badge-pill span-questions">@Model.InterviewQns.Count()</span>
+                </div>
                 <div class="col-2 div-row">
                     <span class="div-row-header">Shared by: </span>
                     <a class="a-user-link" href="/Users/Details?UserId=@Model.UserId">@Model.UserFullName</a>
@@ -89,7 +94,10 @@
     </div>
 </div>
 @*Questions HTML*@
-<h1 class="text-center h-title">Questions</h1>
+
+<div class="col-10 justify-content-center">
+    <h1 class="text-center h-title">Questions</h1>
+</div>
 
 @{
     int counter = 1;
@@ -101,7 +109,7 @@
 
                     <div class="row div-row div-r-bb">
 
-                        <div class="col-9"><span class="span-text">@counter. </span>@q.Content</div>
+                        <div class="col-8"><span class="span-text">@counter. </span>@q.Content</div>
 
                         <div class="col-1 div-small-fond">@q.ModifiedOn</div>
                         <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @q.Ranked</div>
@@ -111,13 +119,8 @@
                             </a>
                         </div>
                     </div>
-
                     <div class="row justify-content-center div-row div-r-bb" hidden="@q.HideAnswer">
                         <div class="col-12"><span class="span-text">Answer:</span> @q.Answer</div>
-                    </div>
-
-                    <div class="row justify-content-center div-row">
-
                     </div>
                 </div>
             </div>

@@ -33,5 +33,15 @@
 
             return this.Json(comments);
         }
+
+        [HttpGet]
+        public IActionResult All(int ranked)
+        {
+            var userId = this.GetUserId(this.User);
+            var isAdmin = this.IsAdmin();
+            var questions = this.questionsService.All(ranked, userId, isAdmin);
+
+            return this.View(questions);
+        }
     }
 }

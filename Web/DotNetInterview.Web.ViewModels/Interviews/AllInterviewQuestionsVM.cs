@@ -28,6 +28,8 @@
 
         public string File { get; set; }
 
+        public string InterviewId { get; set; }
+
         public IEnumerable<AllCommentsVM> QnsComments { get; set; }
     }
 }

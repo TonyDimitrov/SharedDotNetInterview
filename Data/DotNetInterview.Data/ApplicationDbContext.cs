@@ -32,6 +32,8 @@
 
         public DbSet<Nationality> Nationalities { get; set; }
 
+        public DbSet<Like> Likes { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);

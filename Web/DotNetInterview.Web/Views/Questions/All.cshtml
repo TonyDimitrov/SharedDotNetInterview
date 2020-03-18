@@ -1,0 +1,112 @@
+﻿@model DotNetInterview.Web.ViewModels.Questions.AllIQuestionsVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/interview-details.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/questions-details.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="container div-r-border">
+
+    @*Questions HTML*@
+    <h1 class="text-center h-title">Questions</h1>
+
+    @{
+        int counter = 1;
+        foreach (var q in Model.Questions)
+        {
+            <div class="container div-r-border div-q-row">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="row div-row div-r-bb">
+
+                            <div class="col-8"><span class="span-text">@counter. </span>@q.Content</div>
+
+                            <div class="col-1 div-small-fond">@q.ModifiedOn</div>
+                            <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @q.Ranked</div>
+                            <div class="col-1 div-small-fond" hidden="@q.HideFile">
+                                <a class="a-user-link" href="/uploads/taskFiles/@q.File" download>
+                                    Download file
+                                </a>
+                            </div>
+                            <div class="col-1 div-small-fond">
+                                <a asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@q.InterviewId" class="a-user-link">
+                                    Check it
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center div-row div-r-bb" hidden="@q.HideAnswer">
+                            <div class="col-12"><span class="span-text">Answer:</span> @q.Answer</div>
+                        </div>
+
+                        <div class="row justify-content-center div-row">
+
+                        </div>
+                    </div>
+                </div>
+                @*Comments HTML*@
+                <div class="row justify-content-center">
+                    <div class="col-8 div-r-border div-m2">
+                        <div class="row justify-content-center div-row">
+                            <div class="col-3 comment-count2">Comments (@q.QnsComments.Count())</div>
+                            <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments2">Show</button></div>
+                        </div>
+
+                        @foreach (var comment in q.QnsComments)
+                        {
+                            <div class="row justify-content-center div-row div-r-bb div-comment2 div-q-comment" hidden>
+                                <div class="col-8">@comment.Content</div>
+                                <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
+                                <div class="col-1 div-small-fond">
+                                    <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
+                                        @comment.UserFullName
+                                    </a>
+                                </div>
+                                <div class="col-1 div-small-fond" @comment.HideDelete>
+                                    <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete2">
+                                        <div class="form-group mb-2" hidden>
+                                            <input class="form-control" name="id" value="@comment.CommentId">
+                                        </div>
+                                        <button type="submit" class="btn btn-link a-user-link div-small-fond b-q-delete p-0">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="row justify-content-start div-row div-r-bb div-comment2 div-q-button" hidden>
+                            <div class="col-md-10">
+                                <form asp-controller="Questions" asp-action="AddComment" method="post" class="form form-q-comments">
+                                    <div class="form-group mb-2">
+                                        <input class="form-control" name="id" value="@q.QuestionId" hidden>
+                                    </div>
+                                    <div class="form-row align-items-start">
+                                        <div class="form-group mb-2 div-textarea">
+                                            <textarea class="form-control comment2" name="content" rows="1"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-light btn-sm btn-comments2">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            counter++;
+        }
+    }
+</div>
+<environment names="Development">
+    <script src="~/js/comments-interview.js" asp-append-version="true"></script>
+    <script src="~/js/comments-question.js" asp-append-version="true"></script>
+</environment>
+<environment names="Production, Deploy">
+    <script src="~/js/comments-interview.js" asp-append-version="true"></script>
+    <script src="~/js/comments-question.js" asp-append-version="true"></script>
+</environment>
+

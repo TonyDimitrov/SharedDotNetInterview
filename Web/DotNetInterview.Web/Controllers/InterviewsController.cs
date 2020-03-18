@@ -99,5 +99,20 @@
             var toJson = JsonSerializer.Serialize(comments.ToList()[0], new JsonSerializerOptions { WriteIndented = true });
             return this.Json(comments);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Like([FromQuery]string interviewId)
+        {
+
+            if (string.IsNullOrWhiteSpace(interviewId))
+            {
+                return this.BadRequest();
+            }
+
+            var userId = this.GetUserId(this.User);
+            var likeVM = await this.interviewsService.Liked(interviewId, userId);
+
+            return this.Json(likeVM);
+        }
     }
 }

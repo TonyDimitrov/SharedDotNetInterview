@@ -4,6 +4,7 @@
 
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
+    using DotNetInterview.Web.ViewModels.Likes;
 
     public interface IInterviewsService
     {
@@ -18,5 +19,7 @@
         Task AddComment(AddCommentDTO comment, string userId);
 
         T AllComments<T>(string interviewId, string currentUserId, bool isAdmin);
+
+        Task<LikeVM> Liked(string interviewId, string userId);
     }
 }

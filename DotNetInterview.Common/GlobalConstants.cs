@@ -17,5 +17,9 @@
         public const string FormatDateShort = "dd MM yy hh:mm";
 
         public const string NoInformation = "Not specified";
+
+        public const string NoDescription = "No description";
+
+        public const string LikedCss = "liked";
     }
 }

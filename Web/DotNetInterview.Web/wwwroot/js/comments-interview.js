@@ -1,4 +1,51 @@
 
+
+function handleUserLike() {
+
+    let clickElement = document.getElementById('a-likes-glifi');
+    clickElement.addEventListener('click', updateLike);
+
+
+    async function updateLike(e) {
+
+        e.preventDefault();
+
+        let url = e.target.parentElement.href;
+
+        const headers = {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }
+
+        await fetch(url, headers)
+            .then(handleError)
+            .then(serializeData)
+            .then(updateLikeUI);
+    }
+
+    function updateLikeUI(response) {
+
+        var count = response['count'];
+        var css = response['likedCss'];
+
+        var image = document.getElementById('img-like');
+
+        if (!css) {
+            image.classList.remove('liked');
+        } 
+        else {
+            image.classList.add(css);
+        }
+        
+        document.getElementById('likes-count').innerText = count;
+    }
+}
+
+handleUserLike();
+
+// Visualise initial loaded comment
 function commentsHandler() {
 
     const btnShow = "Show";
@@ -30,7 +77,7 @@ function commentsHandler() {
 
 commentsHandler();
 
-
+// Add interview comment
 function addInterviewComment() {
 
     const httpMethod = "POST";

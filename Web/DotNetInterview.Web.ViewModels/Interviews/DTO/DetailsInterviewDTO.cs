@@ -36,6 +36,8 @@
 
         public int Likes { get; set; }
 
+        public bool IsLiked { get; set; }
+
         public IEnumerable<AllInterviewQuestionsDTO> InterviewQns { get; set; }
 
         public IEnumerable<AllCommentsDTO> InterviewComments { get; set; }

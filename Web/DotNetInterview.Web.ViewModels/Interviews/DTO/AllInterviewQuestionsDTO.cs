@@ -22,6 +22,8 @@
 
         public string File { get; set; }
 
+        public string InterviewId { get; set; }
+
         public IEnumerable<AllCommentsDTO> QnsComments { get; set; }
     }
 }

@@ -3,13 +3,17 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using DotNetInterview.Common;
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data.Extensions;
     using DotNetInterview.Services.Data.Helpers;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
+    using DotNetInterview.Web.ViewModels.Enums;
+    using DotNetInterview.Web.ViewModels.Interviews;
+    using DotNetInterview.Web.ViewModels.Interviews.DTO;
+    using DotNetInterview.Web.ViewModels.Questions;
     using Microsoft.EntityFrameworkCore;
 
     public class QuestionsService : IQuestionsService
@@ -35,6 +39,74 @@
 
             question.Comments.Add(comment);
             await this.questionRepository.SaveChangesAsync();
+        }
+
+        public AllIQuestionsVM All(int rank, string currentUserId, bool isAdmin)
+        {
+            bool all = rank > 3 ? true : false;
+
+            var questionsDTO = this.questionRepository.All()
+                .Where(q => ((int)(object)q.RankType == rank || all) && !q.IsDeleted)
+                        .Select(q => new AllInterviewQuestionsDTO
+                        {
+                            QuestionId = q.Id,
+                            Content = q.Content,
+                            Answer = q.GivenAnswer,
+                            CreatedOn = q.CreatedOn,
+                            ModifiedOn = q.ModifiedOn,
+                            Ranked = Enum.Parse<QuestionRankTypeVM>(q.RankType.ToString()),
+                            File = q.UrlTask,
+                            InterviewId = q.InterviewId,
+                            QnsComments = q.Comments
+                            .Where(q => !q.IsDeleted)
+                            .Select(c => new AllCommentsDTO
+                            {
+                                CommentId = c.Id,
+                                HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
+                                HideAdd = Utils.HideAddComment(currentUserId),
+                                Content = c.Content,
+                                CreatedOn = c.CreatedOn,
+                                ModifiedOn = c.ModifiedOn,
+                                UserId = c.UserId,
+                                UserFName = c.User.FirstName,
+                                UserLName = c.User.LastName,
+                            })
+                            .OrderBy(c => c.CreatedOn)
+                            .ToList(),
+                        })
+                        .ToList();
+
+            AllIQuestionsVM questions = new AllIQuestionsVM();
+
+            questions.Questions = questionsDTO.Select(q => new AllInterviewQuestionsVM
+            {
+                QuestionId = q.QuestionId,
+                Content = q.Content,
+                Answer = q.Answer,
+                HideAnswer = q.Answer == null,
+                CreatedOn = q.CreatedOn.DateTimeViewFormater(),
+                ModifiedOn = q.ModifiedOn?.DateTimeViewFormater(),
+                HideRanked = q.Ranked == 0,
+                Ranked = Helper.ParseEnum<QuestionRankTypeVM>(q.Ranked),
+                HideFile = q.File == null,
+                File = q.File,
+                InterviewId = q.InterviewId,
+                QnsComments = q.QnsComments
+                        .Select(c => new AllCommentsVM
+                        {
+                            CommentId = c.CommentId,
+                            HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
+                            HideAdd = Utils.HideAddComment(currentUserId),
+                            Content = c.Content,
+                            CreatedOn = c.CreatedOn.DateTimeViewFormater(),
+                            ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
+                            HasBeenModified = Utils.IsModified(c.CreatedOn, c.ModifiedOn),
+                            UserId = c.UserId,
+                            UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
+                        }),
+            });
+
+            return questions;
         }
 
         public T AllComments<T>(string id, string currentUserId, bool isAdmin)

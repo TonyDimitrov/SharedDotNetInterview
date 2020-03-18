@@ -43,7 +43,9 @@
                             Title = i.PositionTitle,
                             Seniority = Enum.Parse<PositionSeniorityVM>(i.Seniority.ToString()),
                             Date = i.CreatedOn.ToString(GlobalConstants.FormatDate),
-                            Likes = i.Likes,
+                            Likes = i.Likes
+                            .Where(l => l.IsLiked)
+                            .Count(),
                             Qns = i.Questions.Count,
                         })
                         .ToList(),

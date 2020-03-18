@@ -17,6 +17,7 @@
             this.Id = Guid.NewGuid().ToString();
             this.Questions = new HashSet<Question>();
             this.Comments = new HashSet<Comment>();
+            this.Likes = new HashSet<Like>();
         }
 
         public PositionSeniority Seniority { get; set; }
@@ -47,8 +48,6 @@
         [MaxLength(TagsMaxLength)]
         public string Tags { get; set; }
 
-        public int Likes { get; set; }
-
         public string UserId { get; set; }
 
         public ApplicationUser User { get; set; }
@@ -56,5 +55,7 @@
         public virtual ICollection<Question> Questions { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
+
+        public virtual ICollection<Like> Likes { get; set; }
     }
 }

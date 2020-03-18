@@ -18,6 +18,7 @@
     using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
+    using DotNetInterview.Web.ViewModels.Likes;
     using DotNetInterview.Web.ViewModels.Questions;
     using DotNetInterview.Web.ViewModels.Questions.DTO;
     using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,9 @@
                     SeniorityAsNumber = (int)i.Seniority,
                     Date = i.HeldOnDate.ToLocalTime()
                     .ToString("dd MMM yyyy HH:mm", CultureInfo.InvariantCulture),
-                    Likes = i.Likes,
+                    Likes = i.Likes
+                    .Where(l => l.IsLiked)
+                    .Count(),
                     Questions = i.Questions.Count,
                     CreatorId = i.UserId,
                     CreatorFName = i.User.FirstName,
@@ -69,7 +72,9 @@
                    PositionTitle = i.PositionTitle,
                    SeniorityAsNumber = (int)i.Seniority,
                    Date = i.HeldOnDate.ToString(GlobalConstants.FormatDate),
-                   Likes = i.Likes,
+                   Likes = i.Likes
+                   .Where(l => l.IsLiked)
+                   .Count(),
                    Questions = i.Questions.Count,
                    CreatorId = i.UserId,
                    CreatorFName = i.User.FirstName,
@@ -89,6 +94,7 @@
                     Seniority = this.SeniorityNameParser(i.SeniorityAsNumber),
                     PositionTitle = this.PositionTitleParser(i.PositionTitle),
                     Date = i.Date,
+                    Likes = i.Likes,
                     Questions = i.Questions,
                     CreatorId = i.CreatorId,
                     CreatorName = i.CreatorFName.FullUserNameParser(i.CreatorLName),
@@ -178,7 +184,11 @@
                     InterviewLocation = i.HeldOnInterviewLocation,
                     CreatedOn = i.CreatedOn,
                     ModifiedOn = i.ModifiedOn,
-                    Likes = i.Likes,
+                    Likes = i.Likes
+                    .Where(l => l.IsLiked)
+                    .Count(),
+                    IsLiked = i.Likes
+                    .FirstOrDefault(l => l.UserId == currentUserId && l.IsLiked) != null ? true : false,
                     InterviewQns = i.Questions
                         .Where(q => !q.IsDeleted)
                         .Select(q => new AllInterviewQuestionsDTO
@@ -190,6 +200,7 @@
                             ModifiedOn = q.ModifiedOn,
                             Ranked = Enum.Parse<QuestionRankTypeVM>(q.RankType.ToString()),
                             File = q.UrlTask,
+                            InterviewId = q.InterviewId,
                             QnsComments = q.Comments
                             .Where(q => !q.IsDeleted)
                             .Select(c => new AllCommentsDTO
@@ -233,7 +244,7 @@
                 UserFullName = interviewDTO.UserFName.FullUserNameParser(interviewDTO.UserLName),
                 Seniority = Helper.ParseEnum<PositionSeniorityVM>(interviewDTO.Seniority),
                 PositionTitle = interviewDTO.PositionTitle,
-                PositionDescription = interviewDTO.PositionDescription == null ? "No description" : interviewDTO.PositionDescription,
+                PositionDescription = interviewDTO.PositionDescription == null ? GlobalConstants.NoDescription : interviewDTO.PositionDescription,
                 CompanyNationality = interviewDTO.CompanyNationality,
                 CompanySize = Helper.ParseEnum<EmployeesSizeVM>(interviewDTO.CompanySize),
                 LocationType = Helper.ParseEnum<LocationTypeVM>(interviewDTO.LocationType),
@@ -242,6 +253,7 @@
                 ModifiedOn = interviewDTO.ModifiedOn?.ToString(GlobalConstants.FormatDate),
                 HideAddCommentForm = Utils.HideAddComment(currentUserId),
                 Likes = interviewDTO.Likes,
+                AddLike = interviewDTO.IsLiked ? GlobalConstants.LikedCss : string.Empty,
                 InterviewQns = interviewDTO.InterviewQns
                     .Select(q => new AllInterviewQuestionsVM
                     {
@@ -255,6 +267,7 @@
                         Ranked = Helper.ParseEnum<QuestionRankTypeVM>(q.Ranked),
                         HideFile = q.File == null,
                         File = q.File,
+                        InterviewId = q.InterviewId,
                         QnsComments = q.QnsComments
                         .Select(c => new AllCommentsVM
                         {
@@ -346,6 +359,64 @@
               .ToList();
 
             return (T)(object)commentsVM;
+        }
+
+        public async Task<LikeVM> Liked(string interviewId, string userId)
+        {
+            var liked = this.categoriesRepository.All()
+                 .Where(i => i.Id == interviewId)
+                 .SelectMany(i => i.Likes)
+                 .FirstOrDefault(l => l.UserId == userId);
+
+            bool isLiked = false;
+
+            if (liked == null)
+            {
+                var interview = this.categoriesRepository.All()
+              .FirstOrDefault(i => i.Id == interviewId);
+
+                var like = new Like
+                {
+                    InterviewId = interviewId,
+                    UserId = userId,
+                    CreatedOn = DateTime.UtcNow,
+                    IsLiked = true,
+                };
+
+                interview.Likes.Add(like);
+                await this.categoriesRepository.SaveChangesAsync();
+
+                isLiked = true;
+            }
+            else if (!liked.IsLiked)
+            {
+                liked.IsLiked = true;
+                await this.categoriesRepository.SaveChangesAsync();
+
+                isLiked = true;
+            }
+            else if (liked.IsLiked)
+            {
+                liked.IsLiked = false;
+                await this.categoriesRepository.SaveChangesAsync();
+
+                isLiked = false;
+            }
+
+            var count = this.categoriesRepository.All()
+                .Where(i => i.Id == interviewId)
+                .SelectMany(i => i.Likes)
+                .Where(l => l.IsLiked).Count();
+
+            var countWrong = this.categoriesRepository.All()
+                .FirstOrDefault(i => i.Id == interviewId)
+                .Likes.Where(l => l.IsLiked).Count();
+
+            return new LikeVM
+            {
+                Count = count,
+                LikedCss = isLiked ? GlobalConstants.LikedCss : string.Empty,
+            };
         }
 
         private string SeniorityNameParser(int seniority) =>
