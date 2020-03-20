@@ -408,10 +408,6 @@
                 .SelectMany(i => i.Likes)
                 .Where(l => l.IsLiked).Count();
 
-            var countWrong = this.categoriesRepository.All()
-                .FirstOrDefault(i => i.Id == interviewId)
-                .Likes.Where(l => l.IsLiked).Count();
-
             return new LikeVM
             {
                 Count = count,
