@@ -8,15 +8,16 @@
 
     public class CreateInterviewQuestionVM
     {
-        [Required]
-        [MinLength(QuestionContentMinLength)]
-        [MaxLength(QuestionContentMaxLength)]
+        [Required(ErrorMessage = "Question content is required!")]
+        [MinLength(QuestionContentMinLength, ErrorMessage = "Question content should have minimum 2 characters!")]
+        [MaxLength(QuestionContentMaxLength, ErrorMessage = "Question content should have maximum 1000 characters!")]
         public string Content { get; set; }
 
         public IFormFile FormFile { get; set; }
 
-        [MinLength(GivenAnswerMinLength)]
-        [MaxLength(GivenAnswerMaxLength)]
+        [Required(ErrorMessage = "Cannot leave given answer empty!")]
+        [MinLength(GivenAnswerMinLength, ErrorMessage = "Question content should have minimum 2 characters!")]
+        [MaxLength(GivenAnswerMaxLength, ErrorMessage = "Question content should have maximum 5000 characters!")]
         public string GivenAnswer { get; set; }
 
         public int Interesting { get; set; }

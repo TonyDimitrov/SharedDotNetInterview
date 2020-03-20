@@ -54,7 +54,6 @@ function handleQuestionAnswer(event) {
         event.target.innerText = "Add answer";
         event.target.dataset.add = "true";
     }
-
 }
 
 function addAnswer(event) {
@@ -71,9 +70,19 @@ function addAnswer(event) {
     div.classList.add("form-group");
     div.classList.add("answer");
     div.innerHTML = `<label for="Questions" class="control-label inner-label">Answer for question ${currentNumber}</label>
-                     <textarea name="Questions[${currentIndex}].GivenAnswer" rows="2" cols="50" class="form-control"></textarea>
-                     <span data-valmsg-for="Questions[${currentIndex}].GivenAnswer" class="text-danger"></span>`;
+
+                     <textarea rows="2" cols="50" class="form-control" data-val="true"
+                     data-val-maxlength="Question content should have maximum 5000 characters!"
+                     data-val-maxlength-max="5000" data-val-minlength="Answer content should have minimum 2 characters!"
+                     data-val-minlength-min="2" data-val-required="Answer content is required!" 
+                     id="Questions_${currentIndex}__GivenAnswer" maxlength="5000" name="Questions[${currentIndex}].GivenAnswer"></textarea>
+
+                     <span class="text-danger field-validation-valid" data-valmsg-for="Questions[${currentIndex}].GivenAnswer" data-valmsg-replace="true"></span>`;
+
     questionDiv.append(div);
+
+    $('form').data('validator', null);
+    $.validator.unobtrusive.parse($('form'));
 }
 
 function deleteAnswer(event) {
@@ -112,8 +121,12 @@ function addQuestion() {
     let questionTemplate = `<div class="form-group question-group" data-index="${index}" data-number="${number}">
                             <div class="div-textarea">
                                 <label for="Questions" class="control-label inner-label required">${number} Question</label>
-                                <textarea name="Questions[${index}].Content" rows="2" cols="50" class="form-control"></textarea>
-                                <span asp-validation-for="Questions[${index}].Content" class="text-danger"></span>
+                                 <textarea rows="2" cols="50" class="form-control" data-val="true"
+                                 data-val-maxlength="Question content should have maximum 1000 characters!"
+                                 data-val-maxlength-max="1000" data-val-minlength="Question content should have minimum 2 characters!"
+                                 data-val-minlength-min="2" data-val-required="Question content is required!" 
+                                 id="Questions_${index}__Content" maxlength="1000" name="Questions[${index}].Content"></textarea>
+                                <span class="text-danger field-validation-valid" data-valmsg-for="Questions[${index}].Content" data-valmsg-replace="true"></span>
                             </div>
                             <div>
                             <div class="form-check form-check-inline">
@@ -157,6 +170,9 @@ function addQuestion() {
     disableCheckbox(interestedType);
     disableCheckbox(difficultType);
     addEventOnInputButton();
+
+    $('form').data('validator', null);
+    $.validator.unobtrusive.parse($('form'));
 }
 
 setQuestion();
@@ -251,10 +267,4 @@ function clickFileButton(event) {
     Promise.resolve([...file][0].click()).then(function () {
         [...fileLabel][0].innerText = [...file][0].value;
     });
-
-    // [...fileLabel][0].innerText = [...file][0].value;
 }
-
-//<div class="btn-group mr-2 question-delete" role="group" aria-label="Third group">
-//    <button type="button" class="btn btn-sm btn-secondary">Delete question</button>
-//</div>

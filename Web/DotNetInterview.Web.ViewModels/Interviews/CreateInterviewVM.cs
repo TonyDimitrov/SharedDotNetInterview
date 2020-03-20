@@ -15,19 +15,19 @@
             this.Questions = new List<CreateInterviewQuestionVM>();
         }
 
-        [Required]
+        [Required(ErrorMessage = "Position seniority required!")]
         [Display(Name = "Position seniority")]
         public PositionSeniorityVM Seniority { get; set; }
 
-        [Required]
-        [MinLength(PositionTitleMinLength)]
-        [MaxLength(PositionTitleMaxLength)]
-        [Display(Name = "Position title")]
+        [Required(ErrorMessage = "Position title required!")]
+        [MinLength(PositionTitleMinLength, ErrorMessage = "Position title should be minimum 2 characters!")]
+        [MaxLength(PositionTitleMaxLength, ErrorMessage = "Position title should be maximum 200 characters!")]
+        [Display(Name = "Applying position title")]
         public string PositionTitle { get; set; }
 
-        [MinLength(PositionDescriptionMinLength)]
-        [MaxLength(PositionDescriptionMaxLength)]
-        [Display(Name = "Position description")]
+        [MinLength(PositionDescriptionMinLength, ErrorMessage = "Position description should be minimum 2 characters!")]
+        [MaxLength(PositionDescriptionMaxLength, ErrorMessage = "Position description should be maximum 5000 characters!")]
+        [Display(Name = "Applying position description")]
         public string PositionDescription { get; set; }
 
         [Required]
@@ -36,6 +36,7 @@
         [Display(Name = "Location type spesification")]
         public string LocationType { get; set; }
 
+        [Required(ErrorMessage = "Position location is required!")]
         [MinLength(LocationTypeMinLength)]
         [MaxLength(LocationTypeMaxLength)]
         [Display(Name = "Specify where position is based")]
