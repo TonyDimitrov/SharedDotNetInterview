@@ -16,6 +16,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class InterviewsController : BaseController
     {
@@ -51,7 +52,7 @@
         {
             var getCreateInterviewVM = this.interviewsService.CreateGetVM();
 
-            getCreateInterviewVM.Select.Nationality = this.importerHelperService.GetAll<IEnumerable<string>>();
+            getCreateInterviewVM.Select.Nationality = this.importerHelperService.GetAll();
 
             return this.View(getCreateInterviewVM);
         }

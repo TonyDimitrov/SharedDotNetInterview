@@ -6,6 +6,7 @@
     using System.Text;
 
     using DotNetInterview.Data;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class ImporterHelperService : IImporterHelperService
     {
@@ -16,12 +17,12 @@
             this.db = db;
         }
 
-        public T GetAll<T>()
+        public IEnumerable<SelectListItem> GetAll()
         {
-            return (T)this.db.Nationalities
-                .Select(n => n.CompanyNationality)
+            return this.db.Nationalities
+                .Select(n => new SelectListItem { Text = n.CompanyNationality })
                 .ToList()
-                .OrderBy(n => n);
+                .OrderBy(n => n.Text);
         }
     }
 }

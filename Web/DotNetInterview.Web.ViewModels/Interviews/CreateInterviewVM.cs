@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using DotNetInterview.Web.ViewModels.Enums;
-
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using static DotNetInterview.Web.ViewModels.Constants.DataConstantVM;
 
     public class CreateInterviewVM
@@ -37,14 +37,14 @@
         public string LocationType { get; set; }
 
         [Required(ErrorMessage = "Position location is required!")]
-        [MinLength(LocationTypeMinLength)]
-        [MaxLength(LocationTypeMaxLength)]
+        [MinLength(LocationTypeMinLength, ErrorMessage = "Position location should be minimum 2 characters!")]
+        [MaxLength(LocationTypeMaxLength, ErrorMessage = "Position location should be maximum 2 characters!")]
         [Display(Name = "Specify where position is based")]
         public string InterviewLocation { get; set; }
 
-        [Required]
-        //[MinLength(LocationTypeMinLength)]
-        //[MaxLength(LocationTypeMaxLength)]
+        //[Required]
+        //[MinLength(LocationTypeMinLength, ErrorMessage = "Company nationality should be minimum 2 characters!")]
+        //[MaxLength(LocationTypeMaxLength, ErrorMessage = "Company nationality should be maximum 2 characters!")]
         [Display(Name = "Company nationality")]
         public string CompanyNationality { get; set; }
 

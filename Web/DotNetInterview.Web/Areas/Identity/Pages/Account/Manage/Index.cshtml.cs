@@ -78,6 +78,7 @@
 
             [DataType(DataType.Text)]
             [Display(Name = "Nationality")]
+         //   [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             public string Nationality { get; set; }
 
             [DataType(DataType.Text)]
@@ -112,16 +113,17 @@
                 DateOfBirth = appUser.DateOfBirth,
                 Description = appUser.Description,
                 Nationality = appUser?.Nationality ?? NoDefineNationality,
-                Nationalities = this.importerHelperService.GetAll<IEnumerable<string>>()
+                Nationalities = this.importerHelperService.GetAll()
                 .Select(n =>
                 {
-                    if (n == this.Input.Nationality)
+                    if (n.Text == this.Input.Nationality)
                     {
-                        return new SelectListItem(n, n, true);
+                        n.Selected = true;
+                        return n;
                     }
                     else
                     {
-                        return new SelectListItem(n, n, false);
+                        return n;
                     }
                 }),
                 Position = Enum.Parse<PositionSeniorityVM>(appUser.Position.ToString()),

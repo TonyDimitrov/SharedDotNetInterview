@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace DotNetInterview.Services.Data.Helpers
+﻿namespace DotNetInterview.Services.Data.Helpers
 {
+    using System;
+
     public static class Utils
     {
 
