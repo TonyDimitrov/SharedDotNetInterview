@@ -424,7 +424,7 @@
                 3 => "Senior developer",
                 4 => "Lead developer",
                 5 => "Architect",
-                6 => "Other",
+                99 => "Other",
                 _ => throw new ArgumentException($"Seniority type [{seniority}] is invalid!"),
             };
 

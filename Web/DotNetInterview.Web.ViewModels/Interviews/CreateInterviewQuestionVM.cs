@@ -16,8 +16,8 @@
         public IFormFile FormFile { get; set; }
 
         [Required(ErrorMessage = "Cannot leave given answer empty!")]
-        [MinLength(GivenAnswerMinLength, ErrorMessage = "Question content should have minimum 2 characters!")]
-        [MaxLength(GivenAnswerMaxLength, ErrorMessage = "Question content should have maximum 5000 characters!")]
+        [MinLength(GivenAnswerMinLength, ErrorMessage = "Answer content should have minimum 2 characters!")]
+        [MaxLength(GivenAnswerMaxLength, ErrorMessage = "Answer content should have maximum 5000 characters!")]
         public string GivenAnswer { get; set; }
 
         public int Interesting { get; set; }

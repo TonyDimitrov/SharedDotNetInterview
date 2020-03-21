@@ -58,37 +58,35 @@ function handleQuestionAnswer(event) {
 
 function addAnswer(event) {
 
-    let questionDiv = event.target
-        .parentElement.parentElement
-        .parentElement
-        .getElementsByClassName("form-group")[0];
+    let answerElement = event.target;
 
-    let currentIndex = questionDiv.dataset.index;
-    let currentNumber = questionDiv.dataset.number;
+    while (answerElement.parentElement) {
 
-    let div = document.createElement('div');
-    div.classList.add("form-group");
-    div.classList.add("answer");
-    div.innerHTML = `<label for="Questions" class="control-label inner-label">Answer for question ${currentNumber}</label>
+        if (answerElement.getElementsByClassName('answer').length > 0) {
 
-                     <textarea rows="2" cols="50" class="form-control" data-val="true"
-                     data-val-maxlength="Question content should have maximum 5000 characters!"
-                     data-val-maxlength-max="5000" data-val-minlength="Answer content should have minimum 2 characters!"
-                     data-val-minlength-min="2" data-val-required="Answer content is required!" 
-                     id="Questions_${currentIndex}__GivenAnswer" maxlength="5000" name="Questions[${currentIndex}].GivenAnswer"></textarea>
-
-                     <span class="text-danger field-validation-valid" data-valmsg-for="Questions[${currentIndex}].GivenAnswer" data-valmsg-replace="true"></span>`;
-
-    questionDiv.append(div);
-
-    $('form').data('validator', null);
-    $.validator.unobtrusive.parse($('form'));
+            answerElement.getElementsByClassName('answer')[0].hidden = false;
+            break;
+        }
+        answerElement = answerElement.parentElement;
+    }
 }
 
 function deleteAnswer(event) {
 
-    let questionDiv = event.target.parentElement.parentElement.parentElement;
-    questionDiv.getElementsByClassName("answer")[0].remove();
+    let answerElement = event.target;
+
+    while (answerElement.parentElement) {
+
+        if (answerElement.getElementsByClassName('answer').length > 0) {
+
+            answerElement.getElementsByClassName('answer')[0].hidden = true;
+            break;
+        }
+        answerElement = answerElement.parentElement;
+    }
+
+    //let questionDiv = event.target.parentElement.parentElement.parentElement;
+    //questionDiv.getElementsByClassName("answer")[0].remove();
 }
 
 function updateQuestionAndAnswerIndex() {
@@ -144,8 +142,20 @@ function addQuestion() {
                                             <input class="form-check-input difficult" type="checkbox" name="Questions[${index}].Difficult" value="3">
                                             <label class="form-check-label" for="inlineCheckbox3">difficult</label>
                                     </div>
-                            </div>
-                                </div>
+                              </div>
+                           </div>
+
+                               <div class="answer" hidden>
+                                 <label for="Questions" class="control-label inner-label">Given answer</label>
+                                 <textarea rows="2" cols="50" class="form-control" data-val="true"
+                                 data-val-maxlength="Question content should have maximum 5000 characters!"
+                                 data-val-maxlength-max="5000" data-val-minlength="Answer content should have minimum 2 characters!"
+                                 data-val-minlength-min="2" data-val-required="Answer content is required!"
+                                 id="Questions_${index}__GivenAnswer" maxlength="5000" name="Questions[${index}].GivenAnswer"></textarea>
+
+                                 <span class="text-danger field-validation-valid" data-valmsg-for="Questions[${index}].GivenAnswer" data-valmsg-replace="true"></span>
+                              </div>
+
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                     <div class="btn-group mr-2 btn-answer" role="group" aria-label="First group">
                                         <button type="button" data-add="true"; class="btn btn-sm btn-secondary ">Add answer</button>
@@ -179,19 +189,44 @@ setQuestion();
 
 // add delete question logic
 
-function addDeleteEventListener() {
+function addDeleteEventListener() { 
 
-    var btnDeleteQuestion = document.getElementsByClassName("question-delete");
+    hideDeleteQuestionBtn();
 
-    [...btnDeleteQuestion].forEach(btnDel => btnDel.addEventListener("click", deleteQuestion))
+    var btnDeleteQuestion = document.getElementsByClassName("question-delete")[0];
+
+    btnDeleteQuestion.addEventListener("click", deleteQuestion);
 
 }
 
 function deleteQuestion(event) {
 
-    let divQuestion = event.target.parentElement.parentElement.parentElement;
-    divQuestion.remove();
+    let questionElement = event.target;
 
+    while (questionElement.parentElement) {
+
+        if (questionElement.getElementsByClassName('question').length > 1) {
+
+            questions = questionElement.getElementsByClassName('question');
+            questions[questions.length-1].remove();
+            break;
+        }
+        questionElement = questionElement.parentElement;
+    }
+
+    hideDeleteQuestionBtn();
+}
+
+function hideDeleteQuestionBtn() {
+
+    var btnDeleteQuestion = document.getElementsByClassName("question-delete")[0];
+    let questionDivs = document.getElementsByClassName("question");
+    if (questionDivs.length > 1) {
+        btnDeleteQuestion.hidden = false;
+    }
+    else {
+        btnDeleteQuestion.hidden = true;
+    }
 }
 
 addDeleteEventListener();
