@@ -10,6 +10,7 @@
     using DotNetInterview.Common;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data;
+    using DotNetInterview.Services.Data.Helpers;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
@@ -52,7 +53,7 @@
         {
             var getCreateInterviewVM = this.interviewsService.CreateGetVM();
 
-            getCreateInterviewVM.Select.Nationality = this.importerHelperService.GetAll();
+            getCreateInterviewVM.Nationality = this.importerHelperService.GetAll();
 
             return this.View(getCreateInterviewVM);
         }
@@ -62,14 +63,21 @@
         {
             if (!this.ModelState.IsValid)
             {
-                this.View(model);
+                foreach (var q in model.Questions)
+                {
+                    Utils.SetStringValues(q.GivenAnswer, q.GivenAnswerCss, q.GivenAnswerBtnText);
+                }
+
+                model.Nationality = this.importerHelperService.GetAll();
+
+                return this.View(model);
             }
 
             var filePath = this.GetRootPath(this.hostingEnvironment, GlobalConstants.TaskFilesDirectory);
 
             await this.interviewsService.Create(model, this.GetUserId(this.User), filePath, this.fileService);
 
-            return this.Redirect("/");
+            return this.RedirectToAction("All");
         }
 
         [HttpGet]

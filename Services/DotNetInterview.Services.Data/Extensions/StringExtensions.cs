@@ -1,6 +1,8 @@
 ﻿namespace DotNetInterview.Services.Data.Extensions
 {
-   public static class StringExtensions
+    using Ganss.XSS;
+
+    public static class StringExtensions
     {
         public static string FullUserNameParser(this string firstName, string lastName)
         {
@@ -28,6 +30,13 @@
                     return fullName.Substring(0, 17) + "...";
                 }
             }
+        }
+
+        public static string SanitizeTextInput(this string text)
+        {
+            var sanitizer = new HtmlSanitizer();
+
+            return sanitizer.Sanitize(text);
         }
     }
 }

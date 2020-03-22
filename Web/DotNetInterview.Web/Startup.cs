@@ -13,7 +13,7 @@
     using DotNetInterview.Services.Mapping;
     using DotNetInterview.Services.Messaging;
     using DotNetInterview.Web.ViewModels;
-
+    using Ganss.XSS;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;

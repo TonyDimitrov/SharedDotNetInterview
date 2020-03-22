@@ -21,6 +21,7 @@
     using DotNetInterview.Web.ViewModels.Likes;
     using DotNetInterview.Web.ViewModels.Questions;
     using DotNetInterview.Web.ViewModels.Questions.DTO;
+    using Ganss.XSS;
     using Microsoft.EntityFrameworkCore;
 
     public class InterviewsService : IInterviewsService
@@ -28,7 +29,9 @@
         private readonly ApplicationDbContext db;
         private readonly IDeletableEntityRepository<Interview> categoriesRepository;
 
-        public InterviewsService(ApplicationDbContext db, IDeletableEntityRepository<Interview> categoriesRepository)
+        public InterviewsService(
+            ApplicationDbContext db,
+            IDeletableEntityRepository<Interview> categoriesRepository)
         {
             this.db = db;
             this.categoriesRepository = categoriesRepository;
@@ -160,8 +163,14 @@
         {
             return new CreateInterviewVM
             {
-                Questions = new List<CreateInterviewQuestionVM> { new CreateInterviewQuestionVM() },
-                Select = new GetCreateInterviewsVM(),
+                Questions = new List<CreateInterviewQuestionVM>
+                {
+                    new CreateInterviewQuestionVM
+                    {
+                        GivenAnswerCss = GlobalConstants.Hidden,
+                        GivenAnswerBtnText = GlobalConstants.AddAnswer,
+                    },
+                },
             };
         }
 
@@ -258,8 +267,8 @@
                     .Select(q => new AllInterviewQuestionsVM
                     {
                         QuestionId = q.QuestionId,
-                        Content = q.Content,
-                        Answer = q.Answer,
+                        Content = q.Content.SanitizeTextInput(),
+                        Answer = q.Answer.SanitizeTextInput(),
                         HideAnswer = q.Answer == null,
                         CreatedOn = q.CreatedOn.DateTimeViewFormater(),
                         ModifiedOn = q.ModifiedOn?.DateTimeViewFormater(),

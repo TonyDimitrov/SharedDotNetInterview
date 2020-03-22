@@ -1,6 +1,5 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -36,7 +35,7 @@
         [Display(Name = "Location type spesification")]
         public string LocationType { get; set; }
 
-        [Required(ErrorMessage = "Position location is required!")]
+       // [Required(ErrorMessage = "Position location is required!")]
         [MinLength(LocationTypeMinLength, ErrorMessage = "Position location should be minimum 2 characters!")]
         [MaxLength(LocationTypeMaxLength, ErrorMessage = "Position location should be maximum 2 characters!")]
         [Display(Name = "Specify where position is based")]
@@ -57,6 +56,8 @@
 
         public List<CreateInterviewQuestionVM> Questions { get; set; }
 
-        public GetCreateInterviewsVM Select { get; set; }
+        public IEnumerable<SelectListItem> Nationality { get; set; }
+
+        public PositionSeniorityVM SenioritiesCollection { get; set; }
     }
 }

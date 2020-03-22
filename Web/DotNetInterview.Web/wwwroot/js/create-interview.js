@@ -42,7 +42,7 @@ function setQuestionAnswerBtnListener() {
 
 function handleQuestionAnswer(event) {
 
-    let shouldAdd = event.target.getAttribute("data-add") === "true";
+    let shouldAdd = event.target.getAttribute("data-add").toLowerCase() === "true";
 
     if (shouldAdd) {
         addAnswer(event)
@@ -80,13 +80,13 @@ function deleteAnswer(event) {
         if (answerElement.getElementsByClassName('answer').length > 0) {
 
             answerElement.getElementsByClassName('answer')[0].hidden = true;
+
+            answerElement.querySelector('.answer textarea').value = null;
+
             break;
         }
         answerElement = answerElement.parentElement;
     }
-
-    //let questionDiv = event.target.parentElement.parentElement.parentElement;
-    //questionDiv.getElementsByClassName("answer")[0].remove();
 }
 
 function updateQuestionAndAnswerIndex() {
@@ -117,15 +117,17 @@ function addQuestion() {
     var number = index + 1;
 
     let questionTemplate = `<div class="form-group question-group" data-index="${index}" data-number="${number}">
-                            <div class="div-textarea">
-                                <label for="Questions" class="control-label inner-label required">${number} Question</label>
-                                 <textarea rows="2" cols="50" class="form-control" data-val="true"
-                                 data-val-maxlength="Question content should have maximum 1000 characters!"
-                                 data-val-maxlength-max="1000" data-val-minlength="Question content should have minimum 2 characters!"
-                                 data-val-minlength-min="2" data-val-required="Question content is required!" 
-                                 id="Questions_${index}__Content" maxlength="1000" name="Questions[${index}].Content"></textarea>
-                                <span class="text-danger field-validation-valid" data-valmsg-for="Questions[${index}].Content" data-valmsg-replace="true"></span>
-                            </div>
+                        
+                             <div class="div-textarea">
+	                            <label for="Questions" class="control-label inner-label required">${number} Question</label>
+	                             <textarea rows="2" cols="50" class="edit-with-tinymce form-control" data-val="true"
+	                             data-val-maxlength="Question content should have maximum 1000 characters!"
+	                             data-val-maxlength-max="1000" data-val-minlength="Question content should have minimum 2 characters!"
+	                             data-val-minlength-min="2" data-val-required="Question content is required!" 
+	                             id="Questions_${index}__Content" maxlength="1000" name="Questions[${index}].Content"></textarea>
+                            	<span class="text-danger field-validation-valid" data-valmsg-for="Questions[${index}].Content" data-valmsg-replace="true"></span>
+                             </div>
+
                             <div>
                             <div class="form-check form-check-inline">
                                 <p>You can rank this question as most:</p>
@@ -143,18 +145,17 @@ function addQuestion() {
                                             <label class="form-check-label" for="inlineCheckbox3">difficult</label>
                                     </div>
                               </div>
-                           </div>
+                            </div>
 
-                               <div class="answer" hidden>
-                                 <label for="Questions" class="control-label inner-label">Given answer</label>
-                                 <textarea rows="2" cols="50" class="form-control" data-val="true"
-                                 data-val-maxlength="Question content should have maximum 5000 characters!"
-                                 data-val-maxlength-max="5000" data-val-minlength="Answer content should have minimum 2 characters!"
-                                 data-val-minlength-min="2" data-val-required="Answer content is required!"
-                                 id="Questions_${index}__GivenAnswer" maxlength="5000" name="Questions[${index}].GivenAnswer"></textarea>
-
-                                 <span class="text-danger field-validation-valid" data-valmsg-for="Questions[${index}].GivenAnswer" data-valmsg-replace="true"></span>
-                              </div>
+                                <div class="answer" hidden>
+                                    <label for="Questions" class="control-label inner-label">Given answer</label>
+                                    <textarea rows="2" cols="50" class="edit-with-tinymce form-control" data-val="true"
+                                    data-val-maxlength="Question content should have maximum 5000 characters!"
+                                    data-val-maxlength-max="5000" data-val-minlength="Answer content should have minimum 2 characters!"
+                                    data-val-minlength-min="2" data-val-required="Answer content is required!"
+                                    id="Questions_${index}__GivenAnswer" maxlength="5000" name="Questions[${index}].GivenAnswer"></textarea>
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="Questions[${index}].GivenAnswer" data-valmsg-replace="true"></span>
+                                </div>
 
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                     <div class="btn-group mr-2 btn-answer" role="group" aria-label="First group">
@@ -181,15 +182,29 @@ function addQuestion() {
     disableCheckbox(difficultType);
     addEventOnInputButton();
 
+    addTinyMc();
+
     $('form').data('validator', null);
     $.validator.unobtrusive.parse($('form'));
 }
 
 setQuestion();
 
+// Add tinymc tect editor
+
+function addTinyMc() {
+
+    tinymce.init({
+        selector: "textarea.edit-with-tinymce",
+        plugins: [
+            "image paste table link code media"
+        ]
+    });
+}
+
 // add delete question logic
 
-function addDeleteEventListener() { 
+function addDeleteEventListener() {
 
     hideDeleteQuestionBtn();
 
@@ -208,7 +223,7 @@ function deleteQuestion(event) {
         if (questionElement.getElementsByClassName('question').length > 1) {
 
             questions = questionElement.getElementsByClassName('question');
-            questions[questions.length-1].remove();
+            questions[questions.length - 1].remove();
             break;
         }
         questionElement = questionElement.parentElement;

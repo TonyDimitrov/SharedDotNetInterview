@@ -2,7 +2,7 @@
 @using DotNetInterview.Web.ViewModels.Enums;
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Shere";
 }
 
 @section Styles {
@@ -13,6 +13,17 @@
 
 <div class="row">
     <div class="col-md-10">
+
+        <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            tinymce.init({
+                selector: "textarea.edit-with-tinymce",
+                plugins: [
+                    "image paste table link code media"
+                ]
+            });
+        </script>
+
         <form asp-controller="Interviews" asp-action="Create" method="post" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -56,65 +67,72 @@
 
             <div class="form-group">
                 <label asp-for="CompanyNationality" class="control-label required"></label>
-                <select asp-for="CompanyNationality" class="form-control"  data-val="true" aria-describedby="CompanyNationality-error" asp-items="@Model.Select.Nationality">
+                <select asp-for="CompanyNationality" class="form-control" data-val="true" aria-describedby="CompanyNationality-error" asp-items="Model.Nationality">
                 </select>
                 <span asp-validation-for="CompanyNationality" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Employees" class="control-label required">Company size</label>
-                <select asp-for="Employees" class="form-control"  data-val="true" asp-items="Html.GetEnumSelectList<EmployeesSizeVM>()">
+                <select asp-for="Employees" class="form-control" data-val="true" asp-items="Html.GetEnumSelectList<EmployeesSizeVM>()">
                 </select>
                 <span asp-validation-for="Employees" class="text-danger"></span>
             </div>
 
             <div class="inner-form">
                 <h4>Add interview questions information</h4>
-                <div class="question">
-                    <div class="form-group question-group mb-0" data-index="0" data-number="1">
-                        <div class="div-textarea">
-                            <label asp-for="Questions" class="control-label inner-label required">1. Question - interview must have at least one question</label>
-                            <textarea asp-for="Questions[0].Content" rows="2" cols="50" class="form-control"></textarea>
-                            <span asp-validation-for="Questions[0].Content" class="text-danger"></span>
-                        </div>
+                @{
+                    for (var q = 0; q < Model.Questions.Count; q++)
+                    {
+                        int number = q + 1;
+                        bool InitialState = string.IsNullOrWhiteSpace(Model.Questions[q].GivenAnswer);
 
-                        <div>
-                            <div class="form-check form-check-inline">
-                                <p>You can rank this question as most:</p>
+                        <div class="question">
+                            <div class="form-group question-group mb-0" data-index="0" data-number="1">
+                                <div class="div-textarea">
+                                    <label asp-for="Questions" class="control-label inner-label required">@number. Question - interview must have at least one question</label>
+                                    <textarea asp-for="Questions[q].Content" rows="2" cols="50" class="form-control edit-with-tinymce"></textarea>
+                                    <span asp-validation-for="Questions[q].Content" class="text-danger"></span>
+                                </div>
+
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <p>You can rank this question as most:</p>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input interesting" type="checkbox" name="Questions[@q].Interesting" value="1">
+                                        <label class="form-check-label" for="inlineCheckbox1">interesting</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input unexpected" type="checkbox" name="Questions[@q].Unexpected" value="2">
+                                        <label class="form-check-label" for="inlineCheckbox2">unexpected</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input difficult" type="checkbox" name="Questions[@q].Difficult" value="3">
+                                        <label class="form-check-label" for="inlineCheckbox3">difficult</label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input interesting" type="checkbox" name="Questions[0].Interesting" value="1">
-                                <label class="form-check-label" for="inlineCheckbox1">interesting</label>
+                            @*// Answer*@
+                            <div class="answer" @Model.Questions[q].GivenAnswerCss>
+                                <label asp-for="Questions" class="control-label inner-label required">Given answer</label>
+                                <textarea asp-for="Questions[q].GivenAnswer" rows="2" cols="50" class="form-control edit-with-tinymce"></textarea>
+                                <span asp-validation-for="Questions[q].GivenAnswer" class="text-danger"></span>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input unexpected" type="checkbox" name="Questions[0].Unexpected" value="2">
-                                <label class="form-check-label" for="inlineCheckbox2">unexpected</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input difficult" type="checkbox" name="Questions[0].Difficult" value="3">
-                                <label class="form-check-label" for="inlineCheckbox3">difficult</label>
+                            @*// Button*@
+                            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                <div class="btn-group mr-2 btn-answer" role="group" aria-label="First group">
+                                    <button type="button" data-add="@InitialState" class="btn btn-sm btn-secondary">@Model.Questions[q].GivenAnswerBtnText</button>
+                                </div>
+
+                                <div class="btn-group">
+                                    <input class="input-file file" type="file" id="FileUpload_FormFile" asp-for="Questions[q].FormFile">
+                                </div>
+
                             </div>
                         </div>
-                    </div>
-                    @*// Answer*@
-                    <div class="answer" hidden>
-                        <label asp-for="Questions" class="control-label inner-label required">Given answer</label>
-                        <textarea asp-for="Questions[0].GivenAnswer" rows="2" cols="50" class="form-control"></textarea>
-                        <span asp-validation-for="Questions[0].GivenAnswer" class="text-danger"></span>
-                    </div>
-                    @*// Button*@
-                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                        <div class="btn-group mr-2 btn-answer" role="group" aria-label="First group">
-                            <button type="button" data-add="true" class="btn btn-sm btn-secondary">Add answer</button>
-                        </div>
-
-                        <div class="btn-group">
-                            <input class="input-file file" type="file" id="FileUpload_FormFile" name="Questions[0].formFile">
-                        </div>
-
-                    </div>
-                </div>
-
+                    }
+                }
                 <div id="btn-question" class="btn-group mr-2" role="group">
                     <button type="button" class="btn btn-sm btn-secondary">Add question</button>
                 </div>

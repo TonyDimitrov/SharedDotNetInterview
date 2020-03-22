@@ -109,7 +109,7 @@
 
                     <div class="row div-row div-r-bb">
 
-                        <div class="col-8"><span class="span-text">@counter. </span>@q.Content</div>
+                        <div class="col-8"><span class="span-text">@counter. </span>@Html.Raw(q.Content)</div>
 
                         <div class="col-1 div-small-fond">@q.ModifiedOn</div>
                         <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @q.Ranked</div>
@@ -120,7 +120,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-center div-row div-r-bb" hidden="@q.HideAnswer">
-                        <div class="col-12"><span class="span-text">Answer:</span> @q.Answer</div>
+                        <div class="col-12"><span class="span-text">Answer:</span> @Html.Raw(@q.Answer)</div>
                     </div>
                 </div>
             </div>

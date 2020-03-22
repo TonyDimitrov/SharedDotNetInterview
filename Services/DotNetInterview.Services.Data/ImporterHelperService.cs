@@ -20,7 +20,7 @@
         public IEnumerable<SelectListItem> GetAll()
         {
             return this.db.Nationalities
-                .Select(n => new SelectListItem { Text = n.CompanyNationality })
+                .Select(n => new SelectListItem { Text = n.CompanyNationality, Value = n.CompanyNationality })
                 .ToList()
                 .OrderBy(n => n.Text);
         }

@@ -21,5 +21,11 @@
         public const string NoDescription = "No description";
 
         public const string LikedCss = "liked";
+
+        public const string Hidden = "hidden";
+
+        public const string AddAnswer = "Add answer";
+
+        public const string DeleteAnswer = "Delete answer";
     }
 }
