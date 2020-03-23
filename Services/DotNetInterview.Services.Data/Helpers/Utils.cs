@@ -1,7 +1,9 @@
 ﻿namespace DotNetInterview.Services.Data.Helpers
 {
     using DotNetInterview.Common;
+    using DotNetInterview.Web.ViewModels.Interviews;
     using System;
+    using System.Reflection;
 
     public static class Utils
     {
@@ -21,18 +23,30 @@
             return modifiedOn != null && modifiedOn != createdOn ? true : false;
         }
 
-        public static void SetStringValues(string inputField, string css, string text)
+        public static T SetStringValues<T>(T model, string inputField)
         {
             if (string.IsNullOrEmpty(inputField))
             {
-                css = "hidden";
-                text = GlobalConstants.AddAnswer;
+                model.GetType()
+               .GetProperty("GivenAnswerCss", BindingFlags.Public | BindingFlags.Instance)
+               .SetValue(model, GlobalConstants.Hidden);
+
+                model.GetType()
+               .GetProperty("GivenAnswerBtnText", BindingFlags.Public | BindingFlags.Instance)
+               .SetValue(model, GlobalConstants.AddAnswer);
             }
             else
             {
-                css = string.Empty;
-                text = GlobalConstants.DeleteAnswer;
+                model.GetType()
+                .GetProperty("GivenAnswerCss", BindingFlags.Public | BindingFlags.Instance)
+                .SetValue(model, string.Empty);
+
+                model.GetType()
+               .GetProperty("GivenAnswerBtnText", BindingFlags.Public | BindingFlags.Instance)
+               .SetValue(model, GlobalConstants.DeleteAnswer);
             }
+
+            return model;
         }
     }
 }

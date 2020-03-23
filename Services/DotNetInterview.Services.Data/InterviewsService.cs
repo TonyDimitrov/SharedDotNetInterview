@@ -28,13 +28,16 @@
     {
         private readonly ApplicationDbContext db;
         private readonly IDeletableEntityRepository<Interview> categoriesRepository;
+        private readonly IImporterHelperService importerHelperService;
 
         public InterviewsService(
             ApplicationDbContext db,
-            IDeletableEntityRepository<Interview> categoriesRepository)
+            IDeletableEntityRepository<Interview> categoriesRepository,
+            IImporterHelperService importerHelperService)
         {
             this.db = db;
             this.categoriesRepository = categoriesRepository;
+            this.importerHelperService = importerHelperService;
         }
 
         public T All<T>(int seniority)
@@ -109,6 +112,21 @@
             return (T)(object)interviewsVM;
         }
 
+        public CreateInterviewVM CreateGetVM()
+        {
+            return new CreateInterviewVM
+            {
+                Questions = new List<CreateInterviewQuestionVM>
+                {
+                    new CreateInterviewQuestionVM
+                    {
+                        GivenAnswerCss = GlobalConstants.Hidden,
+                        GivenAnswerBtnText = GlobalConstants.AddAnswer,
+                    },
+                },
+            };
+        }
+
         public async Task Create(CreateInterviewVM model, string userId, string fileDirectory, IFileService fileService)
         {
             var questions = new List<Question>();
@@ -146,7 +164,7 @@
                 CompanyNationality = model.CompanyNationality,
                 Employees = (EmployeesSize)model.Employees,
                 LocationType = locationType,
-                HeldOnInterviewLocation = locationType == LocationType.InOffice ? model.InterviewLocation : null,
+                HeldOnInterviewLocation = locationType == LocationType.InOffice ? model.BasedPositionlocation : null,
                 UserId = userId,
             };
 
@@ -157,21 +175,6 @@
 
             this.db.Interviews.Add(interview);
             this.db.SaveChanges();
-        }
-
-        public CreateInterviewVM CreateGetVM()
-        {
-            return new CreateInterviewVM
-            {
-                Questions = new List<CreateInterviewQuestionVM>
-                {
-                    new CreateInterviewQuestionVM
-                    {
-                        GivenAnswerCss = GlobalConstants.Hidden,
-                        GivenAnswerBtnText = GlobalConstants.AddAnswer,
-                    },
-                },
-            };
         }
 
         public T Details<T>(string interviewId, string currentUserId, bool isAdmin)
@@ -257,6 +260,7 @@
                 CompanyNationality = interviewDTO.CompanyNationality,
                 CompanySize = Helper.ParseEnum<EmployeesSizeVM>(interviewDTO.CompanySize),
                 LocationType = Helper.ParseEnum<LocationTypeVM>(interviewDTO.LocationType),
+                ShowLocation = interviewDTO.LocationType == LocationTypeVM.Remote ? GlobalConstants.Hidden : string.Empty,
                 InterviewLocation = interviewDTO.InterviewLocation,
                 CreatedOn = interviewDTO.CreatedOn.ToString(GlobalConstants.FormatDate),
                 ModifiedOn = interviewDTO.ModifiedOn?.ToString(GlobalConstants.FormatDate),
@@ -308,6 +312,143 @@
             };
 
             return (T)(object)interviewVM;
+        }
+
+        public async Task<EditInterviewDTO> EditGet(string interviewId)
+        {
+            return await Task.Run(() =>
+             {
+                 var interviewDTO = this.categoriesRepository.All()
+                 .Where(i => i.Id == interviewId)
+                 .Select(i => new EditInterviewDTO
+                 {
+                     InterviewId = i.Id,
+                     Seniority = Enum.Parse<PositionSeniorityVM>(i.Seniority.ToString()),
+                     PositionTitle = i.PositionTitle,
+                     PositionDescription = i.PositionDescription,
+                     TotalEmployees = Enum.Parse<EmployeesSizeVM>(i.Employees.ToString()),
+                     LocationType = Enum.Parse<LocationTypeVM>(i.LocationType.ToString()),
+                     InOfficeChecked = i.LocationType == LocationType.InOffice ? GlobalConstants.LocationTypeChecked : string.Empty,
+                     RemoteChecked = i.LocationType == LocationType.Remote ? GlobalConstants.LocationTypeChecked : string.Empty,
+                     ShowLocation = i.LocationType == LocationType.Remote ? GlobalConstants.Hidden : string.Empty,
+                     BasedPositionlocation = i.HeldOnInterviewLocation,
+                     CompanyNationality = i.CompanyNationality,
+                     Questions = i.Questions
+                         .Where(q => !q.IsDeleted)
+                         .Select(q => new EditInterviewQuestionsDTO
+                         {
+                             QuestionId = q.Id,
+                             Content = q.Content,
+                             GivenAnswer = q.GivenAnswer,
+                             Ranked = Enum.Parse<QuestionRankTypeVM>(q.RankType.ToString()),
+                             File = q.UrlTask,
+                         })
+                         .ToList(),
+                 })
+                 .FirstOrDefault();
+
+                 interviewDTO.CompanyListNationalities = this.importerHelperService.GetAll();
+
+                 return interviewDTO;
+             });
+        }
+
+        public async Task Edit(EditInterviewDTO interviewDTO, string userId, string fileDirectory, IFileService fileService)
+        {
+            var dbInterview = this.db.Interviews
+                .Where(i => i.Id == interviewDTO.InterviewId)
+                .Include(i => i.Questions)
+                .ToList()
+                .FirstOrDefault();
+
+            LocationType locationType;
+
+            if (!Enum.TryParse<LocationType>(interviewDTO.LocationType.ToString(), out locationType))
+            {
+                throw new ArgumentException($"Location type value: '{interviewDTO.LocationType}' is invalid!");
+            }
+
+            dbInterview.Seniority = (PositionSeniority)interviewDTO.Seniority;
+            dbInterview.PositionTitle = interviewDTO.PositionTitle;
+            dbInterview.PositionDescription = interviewDTO.PositionDescription;
+            dbInterview.HeldOnDate = DateTime.UtcNow;
+            dbInterview.CompanyNationality = interviewDTO.CompanyNationality;
+            dbInterview.Employees = (EmployeesSize)interviewDTO.TotalEmployees;
+            dbInterview.LocationType = locationType;
+            dbInterview.HeldOnInterviewLocation = (locationType == LocationType.InOffice) ? interviewDTO.BasedPositionlocation : null;
+
+            var allChangedQnsIds = interviewDTO.Questions.Where(q => q.QuestionId != null);
+
+            foreach (var qdb in dbInterview.Questions)
+            {
+                var questionDTO = interviewDTO.Questions.FirstOrDefault(qu => qu.QuestionId != null && qu.QuestionId == qdb.Id);
+
+                if (questionDTO != null)
+                {
+                    var rankValue = Math.Max(
+                      questionDTO.Interesting,
+                      Math.Max(
+                      questionDTO.Unexpected,
+                      questionDTO.Difficult));
+
+                    var fileName = await fileService.SaveFile(questionDTO.FormFile, fileDirectory);
+
+                    qdb.Content = questionDTO.Content;
+                    qdb.GivenAnswer = questionDTO.GivenAnswer;
+                    qdb.ModifiedOn = DateTime.UtcNow;
+                    qdb.RankType = (QuestionRankType)rankValue;
+                    qdb.UrlTask = fileName == null ? qdb.UrlTask : fileName;
+                }
+                else
+                {
+                    qdb.IsDeleted = true;
+                }
+            }
+
+            this.db.Interviews.Update(dbInterview);
+            await this.db.SaveChangesAsync();
+
+            var allNewQns = interviewDTO.Questions.Where(q => q.QuestionId == null);
+
+            if (allNewQns.Count() == 0)
+            {
+                return;
+            }
+
+            var newQuestions = new List<Question>();
+
+            foreach (var q in allNewQns)
+            {
+                var fileName = await fileService.SaveFile(q.FormFile, fileDirectory);
+
+                var rankValue = Math.Max(q.Interesting, Math.Max(q.Unexpected, q.Difficult));
+
+                newQuestions.Add(new Question
+                {
+                    Content = q.Content,
+                    GivenAnswer = q.GivenAnswer,
+                    CreatedOn = DateTime.UtcNow,
+                    RankType = (QuestionRankType)rankValue,
+                    UrlTask = fileName,
+                });
+            }
+
+            var dbInterviewForNewQns = this.db.Interviews
+                .Where(i => i.Id == interviewDTO.InterviewId)
+                .FirstOrDefault();
+
+            foreach (var q in newQuestions)
+            {
+                dbInterviewForNewQns.Questions.Add(q);
+            }
+
+            this.db.Interviews.Update(dbInterviewForNewQns);
+            await this.db.SaveChangesAsync();
+        }
+
+        public Task Delete(string interviewId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task AddComment(AddCommentDTO postComment, string userId)

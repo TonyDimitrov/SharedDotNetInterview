@@ -14,6 +14,7 @@
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
+    using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -53,7 +54,7 @@
         {
             var getCreateInterviewVM = this.interviewsService.CreateGetVM();
 
-            getCreateInterviewVM.Nationality = this.importerHelperService.GetAll();
+            getCreateInterviewVM.CompanyListNationalities = this.importerHelperService.GetAll();
 
             return this.View(getCreateInterviewVM);
         }
@@ -65,10 +66,10 @@
             {
                 foreach (var q in model.Questions)
                 {
-                    Utils.SetStringValues(q.GivenAnswer, q.GivenAnswerCss, q.GivenAnswerBtnText);
+                    Utils.SetStringValues<CreateInterviewQuestionVM>(q, q.GivenAnswer);
                 }
 
-                model.Nationality = this.importerHelperService.GetAll();
+                model.CompanyListNationalities = this.importerHelperService.GetAll();
 
                 return this.View(model);
             }
@@ -89,6 +90,39 @@
             var interview = this.interviewsService.Details<DetailsInterviewVM>(interviewId, userId, isAdmin);
 
             return this.View(interview);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string interviewId)
+        {
+            var interview = await this.interviewsService.EditGet(interviewId);
+
+            foreach (var q in interview.Questions)
+            {
+                Utils.SetStringValues<EditInterviewQuestionsDTO>(q, q.GivenAnswer);
+            }
+
+            interview.CompanyListNationalities = this.importerHelperService.GetAllWithSelected(interview.CompanyNationality);
+
+            return this.View(interview);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditInterviewDTO model)
+        {
+            var userId = this.GetUserId(this.User);
+
+            var filePath = this.GetRootPath(this.hostingEnvironment, GlobalConstants.TaskFilesDirectory);
+
+            await this.interviewsService.Edit(model, userId, filePath, this.fileService);
+
+            return this.RedirectToAction("Details", new { model.InterviewId });
+        }
+
+        [HttpGet]
+        public IActionResult Delete(string interviewId)
+        {
+            return null;
         }
 
         [HttpPost]

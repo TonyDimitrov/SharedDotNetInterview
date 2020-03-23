@@ -28,10 +28,26 @@
                 <div class="col-6 div-row">@Model.PositionDescription</div>
             </div>
             <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Position based: </div>
+                <div class="col-6 div-row">@Model.LocationType</div>
+            </div>
+            <div class="row justify-content-center" @Model.ShowLocation>
+                <div class="col-2 div-row-header">Location: </div>
+                <div class="col-6 div-row">@Model.InterviewLocation</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Company nationality: </div>
+                <div class="col-6 div-row">@Model.CompanyNationality</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Employees: </div>
+                <div class="col-6 div-row">@Model.CompanySize</div>
+            </div>
+            <div class="row justify-content-center">
                 <div class="col-2 div-row-header">
                     Likes:
                     <span id="likes-count" class="badge badge-pill span-questions">@Model.Likes</span>
-                    <a id="a-likes-glifi" asp-controller="Interviews" asp-action="Like" asp-route-InterviewId="@Model.InterviewId"><img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" /></a>                    
+                    <a id="a-likes-glifi" asp-controller="Interviews" asp-action="Like" asp-route-InterviewId="@Model.InterviewId"><img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" /></a>
                 </div>
                 <div class="col-2 div-row-header">
                     Qns:
@@ -43,6 +59,23 @@
                 </div>
                 <div class="col-2 div-row">
                     <span class="div-row-header">On: </span>@Model.ModifiedOn
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-1 div-row-header">
+                    <div id="btn-question" class="btn-group" role="group">
+                        <a class="btn btn-sm btn-primary" asp-controller="Interviews" asp-action="Edit" asp-route-interviewId="@Model.InterviewId" role="button">Edit</a>
+                    </div>
+                </div>
+                <div class="col-1 div-row-header">
+                    <div id="btn-question" class="btn-group" role="group">
+                        <a class="btn btn-sm btn-danger" asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId" role="button">Delete</a>
+                    </div>
+                </div>
+                <div class="col-2 div-row-header">
+                    <div id="btn-question" class="btn-group" role="group">
+                        <a class="btn btn-sm btn-danger" asp-controller="Interviews" asp-action="HardDelete" asp-route-interviewId="@Model.InterviewId" role="button">Hard Delete</a>
+                    </div>
                 </div>
             </div>
         </div>

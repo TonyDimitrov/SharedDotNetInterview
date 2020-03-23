@@ -27,5 +27,9 @@
         public const string AddAnswer = "Add answer";
 
         public const string DeleteAnswer = "Delete answer";
+
+        public const string LocationTypeRemote = "Remote";
+
+        public const string LocationTypeChecked = "checked";
     }
 }

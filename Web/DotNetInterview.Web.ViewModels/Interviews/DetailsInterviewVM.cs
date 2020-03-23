@@ -26,6 +26,8 @@
 
         public string LocationType { get; set; }
 
+        public string ShowLocation { get; set; }
+
         public string InterviewLocation { get; set; }
 
         public string CompanyNationality { get; set; }

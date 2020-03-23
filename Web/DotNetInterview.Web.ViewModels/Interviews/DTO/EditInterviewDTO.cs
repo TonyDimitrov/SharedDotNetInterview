@@ -1,4 +1,4 @@
-﻿namespace DotNetInterview.Web.ViewModels.Interviews
+﻿namespace DotNetInterview.Web.ViewModels.Interviews.DTO
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -8,12 +8,15 @@
 
     using static DotNetInterview.Web.ViewModels.Constants.DataConstantVM;
 
-    public class CreateInterviewVM
+    public class EditInterviewDTO
+    {
+        public EditInterviewDTO()
         {
-        public CreateInterviewVM()
-        {
-            this.Questions = new List<CreateInterviewQuestionVM>();
+            this.Questions = new List<EditInterviewQuestionsDTO>();
         }
+
+        [Required]
+        public string InterviewId { get; set; }
 
         [Required(ErrorMessage = "Position seniority required!")]
         [Display(Name = "Position seniority")]
@@ -31,10 +34,14 @@
         public string PositionDescription { get; set; }
 
         [Required]
-        [MinLength(LocationTypeMinLength)]
-        [MaxLength(LocationTypeMaxLength)]
         [Display(Name = "Location type spesification")]
-        public string LocationType { get; set; }
+        public LocationTypeVM LocationType { get; set; }
+
+        public string InOfficeChecked { get; set; }
+
+        public string RemoteChecked { get; set; }
+
+        public string ShowLocation { get; set; }
 
         [MinLength(LocationTypeMinLength, ErrorMessage = "Position location should be minimum 2 characters!")]
         [MaxLength(LocationTypeMaxLength, ErrorMessage = "Position location should be maximum 2 characters!")]
@@ -47,11 +54,13 @@
         [Display(Name = "Company nationality")]
         public string CompanyNationality { get; set; }
 
-        [Display(Name = "Company size of employees")]
-        public EmployeesSizeVM Employees { get; set; }
-
-        public List<CreateInterviewQuestionVM> Questions { get; set; }
-
         public IEnumerable<SelectListItem> CompanyListNationalities { get; set; }
+
+        public List<EditInterviewQuestionsDTO> Questions { get; set; }
+
+        public PositionSeniorityVM SenioritiesCollection { get; set; }
+
+        [Display(Name = "Total employees")]
+        public EmployeesSizeVM TotalEmployees { get; set; }
     }
 }

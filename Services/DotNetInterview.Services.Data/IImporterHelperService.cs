@@ -7,5 +7,7 @@
     public interface IImporterHelperService
     {
         IEnumerable<SelectListItem> GetAll();
+
+        IEnumerable<SelectListItem> GetAllWithSelected(string selectNationality);
     }
 }
