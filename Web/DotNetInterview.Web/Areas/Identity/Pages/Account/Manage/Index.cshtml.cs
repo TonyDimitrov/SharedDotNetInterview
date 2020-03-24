@@ -114,6 +114,8 @@
                 Description = appUser.Description,
                 Nationality = appUser?.Nationality ?? NoDefineNationality,
                 Nationalities = this.importerHelperService.GetAll()
+                .GetAwaiter()
+                .GetResult()
                 .Select(n =>
                 {
                     if (n.Text == this.Input.Nationality)

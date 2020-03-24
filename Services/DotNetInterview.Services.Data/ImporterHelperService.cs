@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-
+    using System.Threading.Tasks;
     using DotNetInterview.Data;
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
@@ -19,31 +19,37 @@
             this.db = db;
         }
 
-        public IEnumerable<SelectListItem> GetAll()
+        public async Task<IEnumerable<SelectListItem>> GetAll()
         {
-            return this.db.Nationalities
-                  .Select(n => new SelectListItem { Text = n.CompanyNationality, Value = n.CompanyNationality })
-                  .ToList()
-                  .OrderBy(n => n.Text);
+            return await Task.Run(() =>
+            {
+                return this.db.Nationalities
+                       .Select(n => new SelectListItem { Text = n.CompanyNationality, Value = n.CompanyNationality })
+                       .ToList()
+                       .OrderBy(n => n.Text);
+            });
         }
 
-        public IEnumerable<SelectListItem> GetAllWithSelected(string selectNationality)
+        public async Task<IEnumerable<SelectListItem>> GetAllWithSelected(string selectNationality)
         {
-            return this.db.Nationalities
-                  .AsEnumerable()
-                  .Select(n =>
-                  {
-                      if (selectNationality == n.CompanyNationality)
-                      {
-                          return new SelectListItem { Text = n.CompanyNationality, Value = n.CompanyNationality, Selected = true };
-                      }
-                      else
-                      {
-                          return new SelectListItem { Text = n.CompanyNationality, Value = n.CompanyNationality };
-                      }
-                  })
-                  .ToList()
-                  .OrderBy(n => n.Text);
+            return await Task.Run(() =>
+            {
+                return this.db.Nationalities
+                    .AsEnumerable()
+                    .Select(n =>
+                    {
+                        if (selectNationality == n.CompanyNationality)
+                        {
+                            return new SelectListItem { Text = n.CompanyNationality, Value = n.CompanyNationality, Selected = true };
+                        }
+                        else
+                        {
+                            return new SelectListItem { Text = n.CompanyNationality, Value = n.CompanyNationality };
+                        }
+                    })
+                    .ToList()
+                    .OrderBy(n => n.Text);
+            });
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿namespace DotNetInterview.Services.Data
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     public interface IImporterHelperService
     {
-        IEnumerable<SelectListItem> GetAll();
+        Task<IEnumerable<SelectListItem>> GetAll();
 
-        IEnumerable<SelectListItem> GetAllWithSelected(string selectNationality);
+        Task<IEnumerable<SelectListItem>> GetAllWithSelected(string selectNationality);
     }
 }

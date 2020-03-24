@@ -27,7 +27,7 @@
     public class InterviewsService : IInterviewsService
     {
         private readonly ApplicationDbContext db;
-        private readonly IDeletableEntityRepository<Interview> categoriesRepository;
+        private readonly IDeletableEntityRepository<Interview> interviewsRepository;
         private readonly IImporterHelperService importerHelperService;
 
         public InterviewsService(
@@ -36,63 +36,39 @@
             IImporterHelperService importerHelperService)
         {
             this.db = db;
-            this.categoriesRepository = categoriesRepository;
+            this.interviewsRepository = categoriesRepository;
             this.importerHelperService = importerHelperService;
         }
 
-        public T All<T>(int seniority)
+        public async Task<AllInterviewsVM> All(int seniority)
         {
-            AllInterviewsDTO interviewsDto = new AllInterviewsDTO();
+            var selectAllSeniorities = seniority == 0;
 
-            if (seniority == 0)
+            var interviewsDto = await Task.Run(() =>
             {
-                interviewsDto.Interviews = this.db.Interviews
-                    .Where(i => !i.IsDeleted)
-                .OrderByDescending(i => i.CreatedOn)
-                .Select(i => new AllInterviewDTO
-                {
-                    InterviewId = i.Id,
-                    PositionTitle = i.PositionTitle,
-                    SeniorityAsNumber = (int)i.Seniority,
-                    Date = i.HeldOnDate.ToLocalTime()
-                    .ToString("dd MMM yyyy HH:mm", CultureInfo.InvariantCulture),
-                    Likes = i.Likes
-                    .Where(l => l.IsLiked)
-                    .Count(),
-                    Questions = i.Questions.Count,
-                    CreatorId = i.UserId,
-                    CreatorFName = i.User.FirstName,
-                    CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
-                    CreatorAvatar = i.User.Image,
-                })
-                .ToList();
-            }
-            else
-            {
-                interviewsDto.Interviews = this.db.Interviews
-               .Where(i => (int)(object)i.Seniority == seniority)
-               .OrderByDescending(i => i.HeldOnDate)
-               .Select(i => new AllInterviewDTO
-               {
-                   InterviewId = i.Id,
-                   PositionTitle = i.PositionTitle,
-                   SeniorityAsNumber = (int)i.Seniority,
-                   Date = i.HeldOnDate.ToString(GlobalConstants.FormatDate),
-                   Likes = i.Likes
-                   .Where(l => l.IsLiked)
-                   .Count(),
-                   Questions = i.Questions.Count,
-                   CreatorId = i.UserId,
-                   CreatorFName = i.User.FirstName,
-                   CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
-                   CreatorAvatar = i.User.Image,
-               })
-               .ToList();
-            }
+                 return this.interviewsRepository.All()
+                 .Where(i => (int)(object)i.Seniority == seniority || selectAllSeniorities)
+                 .OrderByDescending(i => i.HeldOnDate)
+                 .Select(i => new AllInterviewDTO
+                 {
+                     InterviewId = i.Id,
+                     PositionTitle = i.PositionTitle,
+                     SeniorityAsNumber = (int)i.Seniority,
+                     Date = i.HeldOnDate.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture),
+                     Likes = i.Likes
+                     .Where(l => l.IsLiked)
+                     .Count(),
+                     Questions = i.Questions.Count,
+                     CreatorId = i.UserId,
+                     CreatorFName = i.User.FirstName,
+                     CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
+                     CreatorAvatar = i.User.Image,
+                 }).ToList();
+            });
 
             var interviewsVM = new AllInterviewsVM
             {
-                Interviews = interviewsDto.Interviews
+                Interviews = interviewsDto
                 .Select(i =>
                 new AllInterviewVM
                 {
@@ -105,11 +81,10 @@
                     CreatorId = i.CreatorId,
                     CreatorName = i.CreatorFName.FullUserNameParser(i.CreatorLName),
                     CreatorAvatar = i.CreatorAvatar != null ? i.CreatorAvatar : GlobalConstants.DefaultAvatar,
-                })
-                .ToList(),
+                }),
             };
 
-            return (T)(object)interviewsVM;
+            return interviewsVM;
         }
 
         public CreateInterviewVM CreateGetVM()
@@ -179,8 +154,8 @@
 
         public T Details<T>(string interviewId, string currentUserId, bool isAdmin)
         {
-            var interviewDTO = this.categoriesRepository.All()
-                .Where(i => i.Id == interviewId && !i.IsDeleted)
+            var interviewDTO = this.interviewsRepository.All()
+                .Where(i => i.Id == interviewId)
                 .Select(i => new DetailsInterviewDTO
                 {
                     InterviewId = i.Id,
@@ -260,13 +235,16 @@
                 CompanyNationality = interviewDTO.CompanyNationality,
                 CompanySize = Helper.ParseEnum<EmployeesSizeVM>(interviewDTO.CompanySize),
                 LocationType = Helper.ParseEnum<LocationTypeVM>(interviewDTO.LocationType),
-                ShowLocation = interviewDTO.LocationType == LocationTypeVM.Remote ? GlobalConstants.Hidden : string.Empty,
+                ShowLocation = interviewDTO.LocationType == LocationTypeVM.InOffice ? string.Empty : GlobalConstants.Hidden,
                 InterviewLocation = interviewDTO.InterviewLocation,
                 CreatedOn = interviewDTO.CreatedOn.ToString(GlobalConstants.FormatDate),
                 ModifiedOn = interviewDTO.ModifiedOn?.ToString(GlobalConstants.FormatDate),
                 HideAddCommentForm = Utils.HideAddComment(currentUserId),
                 Likes = interviewDTO.Likes,
                 AddLike = interviewDTO.IsLiked ? GlobalConstants.LikedCss : string.Empty,
+                CanEdit = interviewDTO.UserId == currentUserId ? string.Empty : GlobalConstants.Hidden,
+                CanDelete = (interviewDTO.UserId == currentUserId || isAdmin) ? string.Empty : GlobalConstants.Hidden,
+                CanHardDelete = isAdmin ? string.Empty : GlobalConstants.Hidden,
                 InterviewQns = interviewDTO.InterviewQns
                     .Select(q => new AllInterviewQuestionsVM
                     {
@@ -316,50 +294,55 @@
 
         public async Task<EditInterviewDTO> EditGet(string interviewId)
         {
-            return await Task.Run(() =>
-             {
-                 var interviewDTO = this.categoriesRepository.All()
-                 .Where(i => i.Id == interviewId)
-                 .Select(i => new EditInterviewDTO
-                 {
-                     InterviewId = i.Id,
-                     Seniority = Enum.Parse<PositionSeniorityVM>(i.Seniority.ToString()),
-                     PositionTitle = i.PositionTitle,
-                     PositionDescription = i.PositionDescription,
-                     TotalEmployees = Enum.Parse<EmployeesSizeVM>(i.Employees.ToString()),
-                     LocationType = Enum.Parse<LocationTypeVM>(i.LocationType.ToString()),
-                     InOfficeChecked = i.LocationType == LocationType.InOffice ? GlobalConstants.LocationTypeChecked : string.Empty,
-                     RemoteChecked = i.LocationType == LocationType.Remote ? GlobalConstants.LocationTypeChecked : string.Empty,
-                     ShowLocation = i.LocationType == LocationType.Remote ? GlobalConstants.Hidden : string.Empty,
-                     BasedPositionlocation = i.HeldOnInterviewLocation,
-                     CompanyNationality = i.CompanyNationality,
-                     Questions = i.Questions
-                         .Where(q => !q.IsDeleted)
-                         .Select(q => new EditInterviewQuestionsDTO
-                         {
-                             QuestionId = q.Id,
-                             Content = q.Content,
-                             GivenAnswer = q.GivenAnswer,
-                             Ranked = Enum.Parse<QuestionRankTypeVM>(q.RankType.ToString()),
-                             File = q.UrlTask,
-                         })
-                         .ToList(),
-                 })
-                 .FirstOrDefault();
+            return await Task.Run(async () =>
+            {
+                var interviewDTO = this.interviewsRepository.All()
+                .Where(i => i.Id == interviewId)
+                .Select(i => new EditInterviewDTO
+                {
+                    InterviewId = i.Id,
+                    Seniority = Enum.Parse<PositionSeniorityVM>(i.Seniority.ToString()),
+                    PositionTitle = i.PositionTitle,
+                    PositionDescription = i.PositionDescription,
+                    TotalEmployees = Enum.Parse<EmployeesSizeVM>(i.Employees.ToString()),
+                    LocationType = Enum.Parse<LocationTypeVM>(i.LocationType.ToString()),
+                    InOfficeChecked = i.LocationType == LocationType.InOffice ? GlobalConstants.LocationTypeChecked : string.Empty,
+                    RemoteChecked = i.LocationType == LocationType.Remote ? GlobalConstants.LocationTypeChecked : string.Empty,
+                    ShowLocation = i.LocationType == LocationType.Remote ? GlobalConstants.Hidden : string.Empty,
+                    BasedPositionlocation = i.HeldOnInterviewLocation,
+                    CompanyNationality = i.CompanyNationality,
+                    Questions = i.Questions
+                        .Where(q => !q.IsDeleted)
+                        .Select(q => new EditInterviewQuestionsDTO
+                        {
+                            QuestionId = q.Id,
+                            Content = q.Content,
+                            GivenAnswer = q.GivenAnswer,
+                            Ranked = Enum.Parse<QuestionRankTypeVM>(q.RankType.ToString()),
+                            File = q.UrlTask,
+                        })
+                        .ToList(),
+                })
+                .FirstOrDefault();
 
-                 interviewDTO.CompanyListNationalities = this.importerHelperService.GetAll();
+                interviewDTO.CompanyListNationalities = await this.importerHelperService.GetAll();
 
-                 return interviewDTO;
-             });
+                return interviewDTO;
+            });
         }
 
-        public async Task Edit(EditInterviewDTO interviewDTO, string userId, string fileDirectory, IFileService fileService)
+        public async Task Edit(EditInterviewDTO interviewDTO, string currentUserId, string fileDirectory, IFileService fileService)
         {
             var dbInterview = this.db.Interviews
                 .Where(i => i.Id == interviewDTO.InterviewId)
                 .Include(i => i.Questions)
                 .ToList()
                 .FirstOrDefault();
+
+            if (dbInterview == null || dbInterview.UserId != currentUserId)
+            {
+                return;
+            }
 
             LocationType locationType;
 
@@ -446,14 +429,33 @@
             await this.db.SaveChangesAsync();
         }
 
-        public Task Delete(string interviewId)
+        public async Task HardDelete(string interviewId, bool isAdmin)
         {
-            throw new NotImplementedException();
+            var dbInterview = this.interviewsRepository.All()
+           .FirstOrDefault(i => i.Id == interviewId);
+
+            if (dbInterview != null && isAdmin)
+            {
+                this.interviewsRepository.HardDelete(dbInterview);
+                await this.interviewsRepository.SaveChangesAsync();
+            }
+        }
+
+        public async Task Delete(string interviewId, string currentUserId, bool isAdmin)
+        {
+            var dbInterview = this.interviewsRepository.All()
+                .FirstOrDefault(i => i.Id == interviewId);
+
+            if (dbInterview != null && (dbInterview.UserId == currentUserId || isAdmin))
+            {
+                dbInterview.IsDeleted = true;
+                await this.interviewsRepository.SaveChangesAsync();
+            }
         }
 
         public async Task AddComment(AddCommentDTO postComment, string userId)
         {
-            var interview = await this.categoriesRepository.GetByIdWithDeletedAsync(postComment.Id);
+            var interview = await this.interviewsRepository.GetByIdWithDeletedAsync(postComment.Id);
 
             var comment = new Comment
             {
@@ -464,12 +466,12 @@
             };
 
             interview.Comments.Add(comment);
-            await this.categoriesRepository.SaveChangesAsync();
+            await this.interviewsRepository.SaveChangesAsync();
         }
 
         public T AllComments<T>(string interviewId, string currentUserId, bool isAdmin)
         {
-            var commentsDTO = this.categoriesRepository.All()
+            var commentsDTO = this.interviewsRepository.All()
                .Where(i => i.Id == interviewId)
                .Include(i => i.Comments)
                .ThenInclude(c => c.User)
@@ -513,7 +515,7 @@
 
         public async Task<LikeVM> Liked(string interviewId, string userId)
         {
-            var liked = this.categoriesRepository.All()
+            var liked = this.interviewsRepository.All()
                  .Where(i => i.Id == interviewId)
                  .SelectMany(i => i.Likes)
                  .FirstOrDefault(l => l.UserId == userId);
@@ -522,7 +524,7 @@
 
             if (liked == null)
             {
-                var interview = this.categoriesRepository.All()
+                var interview = this.interviewsRepository.All()
               .FirstOrDefault(i => i.Id == interviewId);
 
                 var like = new Like
@@ -534,26 +536,26 @@
                 };
 
                 interview.Likes.Add(like);
-                await this.categoriesRepository.SaveChangesAsync();
+                await this.interviewsRepository.SaveChangesAsync();
 
                 isLiked = true;
             }
             else if (!liked.IsLiked)
             {
                 liked.IsLiked = true;
-                await this.categoriesRepository.SaveChangesAsync();
+                await this.interviewsRepository.SaveChangesAsync();
 
                 isLiked = true;
             }
             else if (liked.IsLiked)
             {
                 liked.IsLiked = false;
-                await this.categoriesRepository.SaveChangesAsync();
+                await this.interviewsRepository.SaveChangesAsync();
 
                 isLiked = false;
             }
 
-            var count = this.categoriesRepository.All()
+            var count = this.interviewsRepository.All()
                 .Where(i => i.Id == interviewId)
                 .SelectMany(i => i.Likes)
                 .Where(l => l.IsLiked).Count();

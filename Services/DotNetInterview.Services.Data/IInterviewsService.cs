@@ -9,7 +9,7 @@
 
     public interface IInterviewsService
     {
-        T All<T>(int seniority);
+        Task<AllInterviewsVM> All(int seniority);
 
         CreateInterviewVM CreateGetVM();
 
@@ -21,7 +21,9 @@
 
         Task Edit(EditInterviewDTO interview, string userId, string fileDirectory, IFileService fileService);
 
-        Task Delete(string interviewId);
+        Task Delete(string interviewId, string currentUserId, bool isAdmin);
+
+        Task HardDelete(string interviewId, bool isAdmin);
 
         Task AddComment(AddCommentDTO comment, string userId);
 

@@ -15,6 +15,7 @@
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -43,22 +44,24 @@
         }
 
         [HttpGet]
-        public IActionResult All(int seniority = 0)
+        public async Task<IActionResult> All(int seniority = 0)
         {
-            var interviews = this.interviewsService.All<AllInterviewsVM>(seniority);
+            var interviews = await this.interviewsService.All(seniority);
             return this.View(interviews);
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var getCreateInterviewVM = this.interviewsService.CreateGetVM();
 
-            getCreateInterviewVM.CompanyListNationalities = this.importerHelperService.GetAll();
+            getCreateInterviewVM.CompanyListNationalities = await this.importerHelperService.GetAll();
 
             return this.View(getCreateInterviewVM);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateInterviewVM model)
         {
@@ -69,7 +72,7 @@
                     Utils.SetStringValues<CreateInterviewQuestionVM>(q, q.GivenAnswer);
                 }
 
-                model.CompanyListNationalities = this.importerHelperService.GetAll();
+                model.CompanyListNationalities = await this.importerHelperService.GetAll();
 
                 return this.View(model);
             }
@@ -92,6 +95,7 @@
             return this.View(interview);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Edit(string interviewId)
         {
@@ -102,11 +106,12 @@
                 Utils.SetStringValues<EditInterviewQuestionsDTO>(q, q.GivenAnswer);
             }
 
-            interview.CompanyListNationalities = this.importerHelperService.GetAllWithSelected(interview.CompanyNationality);
+            interview.CompanyListNationalities = await this.importerHelperService.GetAllWithSelected(interview.CompanyNationality);
 
             return this.View(interview);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(EditInterviewDTO model)
         {
@@ -119,12 +124,41 @@
             return this.RedirectToAction("Details", new { model.InterviewId });
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult Delete(string interviewId)
+        public async Task<IActionResult> Delete(string interviewId)
         {
-            return null;
+            if (string.IsNullOrWhiteSpace(interviewId))
+            {
+                return this.RedirectToAction("Error", "Home", "Invalid Interview ID!");
+            }
+
+            var userId = this.GetUserId(this.User);
+            var isAdmin = this.IsAdmin();
+
+            await this.interviewsService.Delete(interviewId, userId, isAdmin);
+
+            return this.RedirectToAction("All");
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        [HttpGet]
+        public async Task<IActionResult> HardDelete(string interviewId)
+        {
+            if (string.IsNullOrWhiteSpace(interviewId))
+            {
+                return this.RedirectToAction("Error", "Home", "Invalid Interview ID!");
+            }
+
+            var userId = this.GetUserId(this.User);
+            var isAdmin = this.IsAdmin();
+
+            await this.interviewsService.HardDelete(interviewId, isAdmin);
+
+            return this.RedirectToAction("All");
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody]AddCommentDTO model)
         {
@@ -143,6 +177,7 @@
             return this.Json(comments);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Like([FromQuery]string interviewId)
         {

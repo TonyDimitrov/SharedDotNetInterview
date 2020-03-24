@@ -44,6 +44,12 @@
 
         public string HideAddCommentForm { get; set; }
 
+        public string CanEdit { get; set; }
+
+        public string CanDelete { get; set; }
+
+        public string CanHardDelete { get; set; }
+
         public IEnumerable<AllInterviewQuestionsVM> InterviewQns { get; set; }
 
         public IEnumerable<AllCommentsVM> InterviewComments { get; set; }
