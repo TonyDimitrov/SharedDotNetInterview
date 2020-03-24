@@ -82,6 +82,9 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            // Configure entity relationship
+            ConfigureEntitiesRelations(builder);
         }
 
         private static void ConfigureUserIdentityRelations(ModelBuilder builder)
@@ -106,6 +109,33 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+        }
+
+        private static void ConfigureEntitiesRelations(ModelBuilder builder)
+        {
+            builder.Entity<Question>()
+                .HasMany(q => q.Comments)
+                .WithOne(c => c.Question)
+                .HasForeignKey(q => q.QuestionId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Interview>()
+                .HasMany(i => i.Comments)
+                .WithOne(c => c.Interview)
+                .HasForeignKey(c => c.InterviewId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Interview>()
+                .HasMany(i => i.Likes)
+                .WithOne(l => l.Interview)
+                .HasForeignKey(c => c.InterviewId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Interview>()
+                .HasMany(i => i.Questions)
+                .WithOne()
+                .HasForeignKey(e => e.InterviewId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
