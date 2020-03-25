@@ -11,6 +11,8 @@
             this.Questions = new List<AllInterviewQuestionsVM>();
         }
 
+        public string HideAddComment { get; set; }
+
         public IEnumerable<AllInterviewQuestionsVM> Questions { get; set; }
     }
 }

@@ -10,6 +10,6 @@
 
         Task<T> AddComment<T>(AddCommentDTO interviewComment, string userId);
 
-        Task<bool> Delete(string commentId);
+        Task<bool> Delete(string commentId, string currentUserId, bool isAdmin);
     }
 }

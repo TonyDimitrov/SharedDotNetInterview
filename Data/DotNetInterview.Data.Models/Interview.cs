@@ -11,7 +11,6 @@
 
     public class Interview : BaseDeletableModel<string>
     {
-
         public Interview()
         {
             this.Id = Guid.NewGuid().ToString();

@@ -76,22 +76,23 @@
                         })
                         .ToList();
 
-            AllIQuestionsVM questions = new AllIQuestionsVM();
-
-            questions.Questions = questionsDTO.Select(q => new AllInterviewQuestionsVM
+            var questions = new AllIQuestionsVM
             {
-                QuestionId = q.QuestionId,
-                Content = q.Content,
-                Answer = q.Answer,
-                HideAnswer = q.Answer == null,
-                CreatedOn = q.CreatedOn.DateTimeViewFormater(),
-                ModifiedOn = q.ModifiedOn?.DateTimeViewFormater(),
-                HideRanked = q.Ranked == 0,
-                Ranked = Helper.ParseEnum<QuestionRankTypeVM>(q.Ranked),
-                HideFile = q.File == null,
-                File = q.File,
-                InterviewId = q.InterviewId,
-                QnsComments = q.QnsComments
+                HideAddComment = Utils.HideAddComment(currentUserId),
+                Questions = questionsDTO.Select(q => new AllInterviewQuestionsVM
+                {
+                    QuestionId = q.QuestionId,
+                    Content = q.Content.SanitizeTextInput(),
+                    Answer = q.Answer.SanitizeTextInput(),
+                    HideAnswer = q.Answer == null,
+                    CreatedOn = q.CreatedOn.DateTimeViewFormater(),
+                    ModifiedOn = q.ModifiedOn?.DateTimeViewFormater(),
+                    HideRanked = q.Ranked == 0,
+                    Ranked = Helper.ParseEnum<QuestionRankTypeVM>(q.Ranked),
+                    HideFile = q.File == null,
+                    File = q.File,
+                    InterviewId = q.InterviewId,
+                    QnsComments = q.QnsComments
                         .Select(c => new AllCommentsVM
                         {
                             CommentId = c.CommentId,
@@ -104,7 +105,8 @@
                             UserId = c.UserId,
                             UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
                         }),
-            });
+                }),
+            };
 
             return questions;
         }

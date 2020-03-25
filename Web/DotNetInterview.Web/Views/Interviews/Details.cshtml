@@ -90,21 +90,24 @@
             @foreach (var comment in Model.InterviewComments)
             {
                 <div class="row justify-content-center div-row div-r-bb div-comment div-i-comment" hidden>
-                    <div class="col-8">@comment.Content</div>
+                    <div class="col-8 pos-absolute">@comment.Content</div>
                     <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
-                    <div class="col-1 div-small-fond">
+                    <div class="col-2 div-small-fond">
                         <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
                             @comment.UserFullName
                         </a>
+
+                        <div class="dis-flex div-small-fond" @comment.HideDelete>
+                            <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete">
+                                <div class="form-group mb-2" hidden>
+                                    <input class="form-control" name="id" value="@comment.CommentId">
+                                </div>
+                                <button type="submit" class="btn btn-link a-user-link div-small-fond b-i-delete p-0">Delete</button>
+                            </form>
+                        </div>
+
                     </div>
-                    <div class="col-1 div-small-fond" @comment.HideDelete>
-                        <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete">
-                            <div class="form-group mb-2" hidden>
-                                <input class="form-control" name="id" value="@comment.CommentId">
-                            </div>
-                            <button type="submit" class="btn btn-link a-user-link div-small-fond b-i-delete p-0">Delete</button>
-                        </form>
-                    </div>
+              
                 </div>
             }
 
@@ -170,18 +173,20 @@
                         <div class="row justify-content-center div-row div-r-bb div-comment2 div-q-comment" hidden>
                             <div class="col-8">@comment.Content</div>
                             <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
-                            <div class="col-1 div-small-fond">
+                            <div class="col-2 div-small-fond">
                                 <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
                                     @comment.UserFullName
                                 </a>
-                            </div>
-                            <div class="col-1 div-small-fond" @comment.HideDelete>
-                                <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete2">
-                                    <div class="form-group mb-2" hidden>
-                                        <input class="form-control" name="id" value="@comment.CommentId">
-                                    </div>
-                                    <button type="submit" class="btn btn-link a-user-link div-small-fond b-q-delete p-0">Delete</button>
-                                </form>
+
+                                <div class="dis-flex div-small-fond" @comment.HideDelete>
+                                    <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete2">
+                                        <div class="form-group mb-2" hidden>
+                                            <input class="form-control" name="id" value="@comment.CommentId">
+                                        </div>
+                                        <button type="submit" class="btn btn-link a-user-link div-small-fond b-q-delete p-0">Delete</button>
+                                    </form>
+                                </div>
+
                             </div>
                         </div>
                     }
@@ -192,7 +197,7 @@
                                 <div class="form-group mb-2">
                                     <input class="form-control" name="id" value="@q.QuestionId" hidden>
                                 </div>
-                                <div class="form-row align-items-start">
+                                <div class="form-row align-items-start" @Model.HideAddCommentForm>
                                     <div class="form-group mb-2 div-textarea">
                                         <textarea class="form-control comment2" name="content" rows="1"></textarea>
                                     </div>

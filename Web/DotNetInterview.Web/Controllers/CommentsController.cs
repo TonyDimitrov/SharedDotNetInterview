@@ -17,14 +17,18 @@
             this.commentsService = commentsService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Delete([FromBody]string id)
         {
-            var deleted = await this.commentsService.Delete(id);
+            var currentUserId = this.GetUserId(this.User);
+            var isAdmin = this.IsAdmin();
+
+            var deleted = await this.commentsService.Delete(id, currentUserId, isAdmin);
 
             if (deleted)
             {
-                return this.Json("Toni");
+                return this.Json("Deleted");
             }
 
             return this.NotFound();

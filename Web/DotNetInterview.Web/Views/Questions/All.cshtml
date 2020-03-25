@@ -24,7 +24,7 @@
 
                         <div class="row div-row div-r-bb">
 
-                            <div class="col-8"><span class="span-text">@counter. </span>@q.Content</div>
+                            <div class="col-8"><span class="span-text">@counter. </span>@Html.Raw(q.Content)</div>
 
                             <div class="col-1 div-small-fond">@q.ModifiedOn</div>
                             <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @q.Ranked</div>
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="row justify-content-center div-row div-r-bb" hidden="@q.HideAnswer">
-                            <div class="col-12"><span class="span-text">Answer:</span> @q.Answer</div>
+                            <div class="col-12"><span class="span-text">Answer: </span>@Html.Raw(q.Answer)</div>
                         </div>
 
                         <div class="row justify-content-center div-row">
@@ -66,15 +66,17 @@
                                     <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
                                         @comment.UserFullName
                                     </a>
-                                </div>
-                                <div class="col-1 div-small-fond" @comment.HideDelete>
-                                    <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete2">
-                                        <div class="form-group mb-2" hidden>
-                                            <input class="form-control" name="id" value="@comment.CommentId">
-                                        </div>
-                                        <button type="submit" class="btn btn-link a-user-link div-small-fond b-q-delete p-0">Delete</button>
-                                    </form>
-                                </div>
+
+                                    <div class="dis-flex div-small-fond" @comment.HideDelete>
+                                        <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete2">
+                                            <div class="form-group mb-2" hidden>
+                                                <input class="form-control" name="id" value="@comment.CommentId">
+                                            </div>
+                                            <button type="submit" class="btn btn-link a-user-link div-small-fond b-q-delete p-0">Delete</button>
+                                        </form>
+                                    </div>
+
+                                </div>       
                             </div>
                         }
 
@@ -84,7 +86,7 @@
                                     <div class="form-group mb-2">
                                         <input class="form-control" name="id" value="@q.QuestionId" hidden>
                                     </div>
-                                    <div class="form-row align-items-start">
+                                    <div class="form-row align-items-start" @Model.HideAddComment>
                                         <div class="form-group mb-2 div-textarea">
                                             <textarea class="form-control comment2" name="content" rows="1"></textarea>
                                         </div>
@@ -102,11 +104,11 @@
     }
 </div>
 <environment names="Development">
-    <script src="~/js/comments-interview.js" asp-append-version="true"></script>
+    @*<script src="~/js/comments-interview.js" asp-append-version="true"></script>*@
     <script src="~/js/comments-question.js" asp-append-version="true"></script>
 </environment>
 <environment names="Production, Deploy">
-    <script src="~/js/comments-interview.js" asp-append-version="true"></script>
+    @*<script src="~/js/comments-interview.js" asp-append-version="true"></script>*@
     <script src="~/js/comments-question.js" asp-append-version="true"></script>
 </environment>
 

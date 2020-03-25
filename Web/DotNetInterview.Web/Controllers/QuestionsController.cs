@@ -6,6 +6,7 @@
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class QuestionsController : BaseController
@@ -17,6 +18,8 @@
             this.questionsService = questionsService;
         }
 
+        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> AddComment([FromBody]AddCommentDTO model)
         {
             if (!this.ModelState.IsValid)

@@ -6,6 +6,11 @@
     {
         public static string FullUserNameParser(this string firstName, string lastName)
         {
+            if (firstName == null)
+            {
+                return string.Empty;
+            }
+
             if (string.IsNullOrWhiteSpace(lastName))
             {
                 if (firstName.Length <= 20)

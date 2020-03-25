@@ -28,15 +28,24 @@
     {
         private readonly ApplicationDbContext db;
         private readonly IDeletableEntityRepository<Interview> interviewsRepository;
+        private readonly IDeletableEntityRepository<Question> questionsEntityRepository;
+        private readonly IDeletableEntityRepository<Comment> commentsEntityRepository;
+        private readonly IDeletableEntityRepository<Like> likesEntityRepository;
         private readonly IImporterHelperService importerHelperService;
 
         public InterviewsService(
             ApplicationDbContext db,
             IDeletableEntityRepository<Interview> categoriesRepository,
+            IDeletableEntityRepository<Question> questionsEntityRepository,
+            IDeletableEntityRepository<Comment> commentsEntityRepository,
+            IDeletableEntityRepository<Like> likesEntityRepository,
             IImporterHelperService importerHelperService)
         {
             this.db = db;
             this.interviewsRepository = categoriesRepository;
+            this.questionsEntityRepository = questionsEntityRepository;
+            this.commentsEntityRepository = commentsEntityRepository;
+            this.likesEntityRepository = likesEntityRepository;
             this.importerHelperService = importerHelperService;
         }
 
@@ -46,24 +55,24 @@
 
             var interviewsDto = await Task.Run(() =>
             {
-                 return this.interviewsRepository.All()
-                 .Where(i => (int)(object)i.Seniority == seniority || selectAllSeniorities)
-                 .OrderByDescending(i => i.HeldOnDate)
-                 .Select(i => new AllInterviewDTO
-                 {
-                     InterviewId = i.Id,
-                     PositionTitle = i.PositionTitle,
-                     SeniorityAsNumber = (int)i.Seniority,
-                     Date = i.HeldOnDate.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture),
-                     Likes = i.Likes
-                     .Where(l => l.IsLiked)
-                     .Count(),
-                     Questions = i.Questions.Count,
-                     CreatorId = i.UserId,
-                     CreatorFName = i.User.FirstName,
-                     CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
-                     CreatorAvatar = i.User.Image,
-                 }).ToList();
+                return this.interviewsRepository.All()
+                .Where(i => (int)(object)i.Seniority == seniority || selectAllSeniorities)
+                .OrderByDescending(i => i.HeldOnDate)
+                .Select(i => new AllInterviewDTO
+                {
+                    InterviewId = i.Id,
+                    PositionTitle = i.PositionTitle,
+                    SeniorityAsNumber = (int)i.Seniority,
+                    Date = i.HeldOnDate.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture),
+                    Likes = i.Likes
+                    .Where(l => l.IsLiked)
+                    .Count(),
+                    Questions = i.Questions.Count,
+                    CreatorId = i.UserId,
+                    CreatorFName = i.User.FirstName,
+                    CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
+                    CreatorAvatar = i.User.Image,
+                }).ToList();
             });
 
             var interviewsVM = new AllInterviewsVM
@@ -429,26 +438,98 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task HardDelete(string interviewId, bool isAdmin)
+        public async Task Delete(string interviewId, string currentUserId, bool isAdmin)
         {
             var dbInterview = this.interviewsRepository.All()
-           .FirstOrDefault(i => i.Id == interviewId);
+                 .Include(i => i.Comments)
+                 .Include(i => i.Likes)
+                 .Include(i => i.Questions)
+                 .ThenInclude(q => q.Comments)
+                 .FirstOrDefault(i => i.Id == interviewId);
 
-            if (dbInterview != null && isAdmin)
+            if (dbInterview != null && (dbInterview.UserId == currentUserId || isAdmin))
             {
-                this.interviewsRepository.HardDelete(dbInterview);
+                foreach (var q in dbInterview.Questions)
+                {
+                    foreach (var c in q.Comments)
+                    {
+                        this.commentsEntityRepository.Delete(c);
+                    }
+                }
+
+                await this.commentsEntityRepository.SaveChangesAsync();
+
+                foreach (var q in dbInterview.Questions)
+                {
+                    this.questionsEntityRepository.Delete(q);
+                }
+
+                await this.questionsEntityRepository.SaveChangesAsync();
+
+                foreach (var c in dbInterview.Comments)
+                {
+                    this.commentsEntityRepository.Delete(c);
+                }
+
+                await this.commentsEntityRepository.SaveChangesAsync();
+
+                foreach (var l in dbInterview.Likes)
+                {
+                    this.likesEntityRepository.Delete(l);
+                }
+
+                await this.likesEntityRepository.SaveChangesAsync();
+
+                this.interviewsRepository.Delete(dbInterview);
+
                 await this.interviewsRepository.SaveChangesAsync();
             }
         }
 
-        public async Task Delete(string interviewId, string currentUserId, bool isAdmin)
+        public async Task HardDelete(string interviewId, bool isAdmin)
         {
-            var dbInterview = this.interviewsRepository.All()
-                .FirstOrDefault(i => i.Id == interviewId);
+            var dbInterview = this.interviewsRepository.AllWithDeleted()
+           .Include(i => i.Comments)
+           .Include(i => i.Likes)
+           .Include(i => i.Questions)
+           .ThenInclude(q => q.Comments)
+           .FirstOrDefault(i => i.Id == interviewId);
 
-            if (dbInterview != null && (dbInterview.UserId == currentUserId || isAdmin))
+            if (dbInterview != null && isAdmin)
             {
-                dbInterview.IsDeleted = true;
+                foreach (var q in dbInterview.Questions)
+                {
+                    foreach (var c in q.Comments)
+                    {
+                        this.commentsEntityRepository.HardDelete(c);
+                    }
+                }
+
+                await this.commentsEntityRepository.SaveChangesAsync();
+
+                foreach (var q in dbInterview.Questions)
+                {
+                    this.questionsEntityRepository.HardDelete(q);
+                }
+
+                await this.questionsEntityRepository.SaveChangesAsync();
+
+                foreach (var c in dbInterview.Comments)
+                {
+                    this.commentsEntityRepository.HardDelete(c);
+                }
+
+                await this.commentsEntityRepository.SaveChangesAsync();
+
+                foreach (var l in dbInterview.Likes)
+                {
+                    this.likesEntityRepository.HardDelete(l);
+                }
+
+                await this.likesEntityRepository.SaveChangesAsync();
+
+                this.interviewsRepository.HardDelete(dbInterview);
+
                 await this.interviewsRepository.SaveChangesAsync();
             }
         }

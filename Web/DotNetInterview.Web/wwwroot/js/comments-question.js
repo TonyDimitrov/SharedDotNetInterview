@@ -98,18 +98,18 @@ function addQuestionComment() {
             let innerContent = `
                     <div class="col-8">${comments[i].content}</div>
                     <div class="col-2 div-small-fond">${comments[i].modifiedOn}</div>
-                    <div class="col-1 div-small-fond">
+                    <div class="col-2 div-small-fond">
                            <a href="/Users/Details?UserId=${comments[i].userId}" class="a-user-link">
                             ${comments[i].userFullName}
                         </a>
-                    </div>
-                    <div class="col-1 div-small-fond" ${comments[i].hideDelete}>
-                        <form action="/Comments/Delete" method="post" class="form-delete2">
-                            <div class="form-group mb-2" hidden>
-                                <input class="form-control" name="id" value="${comments[i].commentId}">
-                            </div>
-                            <button type="submit" class="btn btn-link a-user-link div-small-fond b-i-delete p-0">Delete</button>
-                        </form>
+                        <div class="dis-flex div-small-fond" ${comments[i].hideDelete}>
+                            <form action="/Comments/Delete" method="post" class="form-delete2">
+                                <div class="form-group mb-2" hidden>
+                                    <input class="form-control" name="id" value="${comments[i].commentId}">
+                                </div>
+                                <button type="submit" class="btn btn-link a-user-link div-small-fond b-i-delete p-0">Delete</button>
+                            </form>
+                        </div>
                     </div>`;
 
             createComment.innerHTML = innerContent;
@@ -167,8 +167,9 @@ function deleteQuestionComment() {
     function deleteCommentElement(e, responce) {
 
         let form = e.target;
-        let divComment = form.parentElement.parentElement;
+        let divComment = form.parentElement.parentElement.parentElement;
         let divParent = form
+            .parentElement
             .parentElement
             .parentElement
             .parentElement
@@ -176,6 +177,7 @@ function deleteQuestionComment() {
             .getElementsByClassName('div-m2')[0];
 
         let count = --form
+            .parentElement
             .parentElement
             .parentElement
             .parentElement

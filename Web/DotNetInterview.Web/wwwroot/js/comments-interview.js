@@ -131,18 +131,18 @@ function addInterviewComment() {
             let innerContent = `
                     <div class="col-8">${commnets[i].content}</div>
                     <div class="col-2 div-small-fond">${commnets[i].modifiedOn}</div>
-                    <div class="col-1 div-small-fond">
+                    <div class="col-2 div-small-fond">
                            <a href="/Users/Details?UserId=${commnets[i].userId}" class="a-user-link">
                             ${commnets[i].userFullName}
                         </a>
-                    </div>
-                    <div class="col-1 div-small-fond" ${commnets[i].hideDelete}>
-                        <form action="/Comments/Delete" method="post" class="form-delete">
-                            <div class="form-group mb-2" hidden>
-                                <input class="form-control" name="id" value="${commnets[i].commentId}">
-                            </div>
-                            <button type="submit" class="btn btn-link a-user-link div-small-fond b-i-delete p-0">Delete</button>
-                        </form>
+                        <div class="dis-flex div-small-fond" ${commnets[i].hideDelete}>
+                            <form action="/Comments/Delete" method="post" class="form-delete">
+                                <div class="form-group mb-2" hidden>
+                                    <input class="form-control" name="id" value="${commnets[i].commentId}">
+                                </div>
+                                <button type="submit" class="btn btn-link a-user-link div-small-fond b-i-delete p-0">Delete</button>
+                            </form>
+                        </div>
                     </div>
                     </div>`;
 
@@ -200,7 +200,7 @@ function deleteInterviewComment() {
     function deleteCommentElement(e, responce) {
 
         let test = e.target;
-        let divComment = test.parentElement.parentElement;
+        let divComment = test.parentElement.parentElement.parentElement;
         let divParent = document.getElementsByClassName('div-m')[0];
         divParent.removeChild(divComment);
 
