@@ -129,7 +129,7 @@ function addInterviewComment() {
             createComment.className = "row justify-content-center div-row div-r-bb div-comment div-i-comment";
 
             let innerContent = `
-                    <div class="col-8">${commnets[i].content}</div>
+                    <div class="col-8 wrap">${commnets[i].content}</div>
                     <div class="col-2 div-small-fond">${commnets[i].modifiedOn}</div>
                     <div class="col-2 div-small-fond">
                            <a href="/Users/Details?UserId=${commnets[i].userId}" class="a-user-link">

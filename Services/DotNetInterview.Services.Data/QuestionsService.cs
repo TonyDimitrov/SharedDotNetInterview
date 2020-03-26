@@ -46,7 +46,7 @@
             bool all = rank > 3 ? true : false;
 
             var questionsDTO = this.questionRepository.All()
-                .Where(q => ((int)(object)q.RankType == rank || all) && !q.IsDeleted)
+                .Where(q => (int)(object)q.RankType == rank || all)
                         .Select(q => new AllInterviewQuestionsDTO
                         {
                             QuestionId = q.Id,

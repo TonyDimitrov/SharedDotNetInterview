@@ -89,7 +89,7 @@
             public IEnumerable<SelectListItem> Nationalities { get; set; }
 
             [Display(Name = "Position")]
-            public PositionSeniorityVM Position { get; set; }
+            public PersonSeniorityVM Position { get; set; }
 
             [Display(Name = "Avatar")]
             public string Image { get; set; }
@@ -118,7 +118,7 @@
                 .GetResult()
                 .Select(n =>
                 {
-                    if (n.Text == this.Input.Nationality)
+                    if (n.Text == this.Input?.Nationality)
                     {
                         n.Selected = true;
                         return n;
@@ -128,7 +128,7 @@
                         return n;
                     }
                 }),
-                Position = Enum.Parse<PositionSeniorityVM>(appUser.Position.ToString()),
+                Position = Enum.Parse<PersonSeniorityVM>(appUser.Position.ToString()),
                 Image = appUser.Image != null ? appUser.Image : GlobalConstants.DefaultAvatar,
             };
         }

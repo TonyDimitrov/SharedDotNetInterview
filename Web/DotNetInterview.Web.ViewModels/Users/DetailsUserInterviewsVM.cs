@@ -12,7 +12,7 @@
 
         public string Title { get; set; }
 
-        public PositionSeniorityVM Seniority { get; set; }
+        public PersonSeniorityVM Seniority { get; set; }
 
         public int Qns { get; set; }
 

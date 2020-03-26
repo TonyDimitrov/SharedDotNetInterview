@@ -158,6 +158,7 @@
             return this.RedirectToAction("All");
         }
 
+       // [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody]AddCommentDTO model)

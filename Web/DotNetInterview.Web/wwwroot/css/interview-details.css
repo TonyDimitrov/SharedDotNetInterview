@@ -25,6 +25,12 @@
     padding-top: 2%;
 }
 
+.div-row-plain-text {
+    color: white;
+    font-size: 15px;
+    font-family: "Open Sans", sans-serif;
+}
+
 .div-q-interviews {
 }
 
@@ -89,4 +95,8 @@
 
 .liked {
     background-color: #fe5c24;
+}
+
+.wrap {
+    overflow-wrap: break-word;
 }

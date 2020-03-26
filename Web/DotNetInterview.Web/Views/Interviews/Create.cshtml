@@ -30,7 +30,7 @@
 
             <div class="form-group">
                 <label asp-for="Seniority" class="control-label required"></label>
-                <select asp-for="Seniority" class="form-control" asp-items="Html.GetEnumSelectList<PositionSeniorityVM>()">
+                <select asp-for="Seniority" class="form-control" asp-items="Html.GetEnumSelectList<PersonSeniorityVM>()">
                 </select>
                 <span asp-validation-for="Seniority" class="text-danger"></span>
             </div>

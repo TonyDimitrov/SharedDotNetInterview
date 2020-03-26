@@ -62,19 +62,23 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-1 div-row-header" @Model.CanEdit>
+                <div class="col-1" @Model.CanEdit>
                     <div id="btn-question" class="btn-group" role="group">
-                        <a class="btn btn-sm btn-primary" asp-controller="Interviews" asp-action="Edit" asp-route-interviewId="@Model.InterviewId" role="button">Edit</a>
+                        <a class="btn btn-sm btn-primary"
+                           asp-controller="Interviews" asp-action="Edit" asp-route-interviewId="@Model.InterviewId" role="button">Edit</a>
                     </div>
                 </div>
-                <div class="col-1 div-row-header" @Model.CanDelete>
-                    <div id="btn-question" class="btn-group" role="group">
-                        <a class="btn btn-sm btn-danger" asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId" role="button">Delete</a>
+                <div class="col-1" @Model.CanDelete>
+                    <div id="btn-question div-row-plain-text" class="btn-group" role="group">
+                        <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
+                           asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId">Delete</a>
                     </div>
                 </div>
-                <div class="col-2 div-row-header" @Model.CanHardDelete>
+
+                <div class="col-2" @Model.CanHardDelete>
                     <div id="btn-question" class="btn-group" role="group">
-                        <a class="btn btn-sm btn-danger" asp-controller="Interviews" asp-action="HardDelete" asp-route-interviewId="@Model.InterviewId" role="button">Hard Delete</a>
+                        <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hardDelete"
+                           asp-controller="Interviews" asp-action="HardDelete" asp-route-interviewId="@Model.InterviewId">Hard Delete</a>
                     </div>
                 </div>
             </div>
@@ -90,13 +94,12 @@
             @foreach (var comment in Model.InterviewComments)
             {
                 <div class="row justify-content-center div-row div-r-bb div-comment div-i-comment" hidden>
-                    <div class="col-8 pos-absolute">@comment.Content</div>
+                    <div class="col-8 wrap">@comment.Content</div>
                     <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
                     <div class="col-2 div-small-fond">
                         <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
                             @comment.UserFullName
                         </a>
-
                         <div class="dis-flex div-small-fond" @comment.HideDelete>
                             <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete">
                                 <div class="form-group mb-2" hidden>
@@ -105,12 +108,9 @@
                                 <button type="submit" class="btn btn-link a-user-link div-small-fond b-i-delete p-0">Delete</button>
                             </form>
                         </div>
-
                     </div>
-              
                 </div>
             }
-
             <div class="row justify-content-start div-row div-r-bb div-comment div-i-button" hidden>
                 <div class="col-md-10" @Model.HideAddCommentForm>
                     <form asp-controller="Interviews" asp-action="addComment" method="post" class="form" id="form-i-comments">
@@ -171,7 +171,7 @@
                     @foreach (var comment in q.QnsComments)
                     {
                         <div class="row justify-content-center div-row div-r-bb div-comment2 div-q-comment" hidden>
-                            <div class="col-8">@comment.Content</div>
+                            <div class="col-8 wrap">@comment.Content</div>
                             <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
                             <div class="col-2 div-small-fond">
                                 <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
@@ -213,6 +213,52 @@
         counter++;
     }
 }
+
+@*Modal window delete*@
+<div class="modal" id="delete" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete interview?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-sm btn-danger" asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId"
+                   role="button">Delete</a>
+                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*end delete*@
+
+@*Modal window hard delete*@
+<div class="modal" id="hardDelete" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm hard delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to hard delete interview?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-sm btn-danger" asp-controller="Interviews" asp-action="HardDelete" asp-route-interviewId="@Model.InterviewId"
+                   role="button">Hard delete</a>
+                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*end hard delete*@
 
 <environment names="Development">
     <script src="~/js/comments-interview.js" asp-append-version="true"></script>

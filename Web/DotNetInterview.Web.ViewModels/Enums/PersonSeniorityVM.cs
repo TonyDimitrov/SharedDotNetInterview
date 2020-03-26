@@ -2,10 +2,8 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public enum PositionSeniorityVM
+    public enum PersonSeniorityVM
     {
-        [Display(Name = "None")]
-        None = 0,
         [Display(Name = "Other")]
         Other = 99,
         [Display(Name = "Junior developer")]

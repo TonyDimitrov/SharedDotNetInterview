@@ -31,7 +31,7 @@
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     Nationality = u.Nationality,
-                    Position = Enum.Parse<PositionSeniorityVM>(u.Position.ToString()),
+                    Position = Enum.Parse<PersonSeniorityVM>(u.Position.ToString()),
                     Description = u.Description,
                     MemberSince = u.CreatedOn,
                     DateOfBirth = u.DateOfBirth,
@@ -41,7 +41,7 @@
                         {
                             InterviewId = i.Id,
                             Title = i.PositionTitle,
-                            Seniority = Enum.Parse<PositionSeniorityVM>(i.Seniority.ToString()),
+                            Seniority = Enum.Parse<PersonSeniorityVM>(i.Seniority.ToString()),
                             Date = i.CreatedOn.ToString(GlobalConstants.FormatDate),
                             Likes = i.Likes
                             .Where(l => l.IsLiked)
@@ -55,7 +55,7 @@
             return (T)(object)new DetailsUserVM
             {
                 FullName = $"{userDTO.FirstName} {userDTO.LastName}",
-                Position = Helper.ParseEnum<PositionSeniorityVM>(userDTO.Position),
+                Position = Helper.ParseEnum<PersonSeniorityVM>(userDTO.Position),
                 Nationality = userDTO.Nationality != null ? userDTO.Nationality : GlobalConstants.NoInformation,
                 MemberSince = userDTO.MemberSince.ToString(GlobalConstants.FormatDate),
                 DateOfBirth = userDTO.DateOfBirth != null ? userDTO.DateOfBirth?.ToString(GlobalConstants.FormatDate) : GlobalConstants.NoInformation,
