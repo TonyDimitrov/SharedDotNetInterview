@@ -13,6 +13,8 @@
 
         public const string DefaultAvatar = "default-avatar.jpg";
 
+        public const string DefaultRanking = "star.png";
+
         public const string FormatDate = "dd MMM yyyy hh:mm";
         public const string FormatDateShort = "dd MM yy hh:mm";
 
@@ -31,5 +33,7 @@
         public const string LocationTypeRemote = "Remote";
 
         public const string LocationTypeChecked = "checked";
+
+        public const string ImageContentType = "image/";
     }
 }

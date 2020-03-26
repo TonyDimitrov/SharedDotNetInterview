@@ -1,24 +1,25 @@
 ﻿namespace DotNetInterview.Web.Controllers
 {
-    using System.Linq;
+    using System.IO;
 
-    using DotNetInterview.Data.Common.Repositories;
-    using DotNetInterview.Data.Models;
+    using DotNetInterview.Common;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Users;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class UsersController : BaseController
     {
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IUsersService usersService;
-        private readonly IDeletableEntityRepository<ApplicationUser> repository;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
-        public UsersController(UserManager<ApplicationUser> userManager, IUsersService usersService)
+        public UsersController(
+            IUsersService usersService,
+            IWebHostEnvironment hostingEnvironment)
         {
-            this.userManager = userManager;
             this.usersService = usersService;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         //public IActionResult Index()
@@ -44,6 +45,22 @@
             var userDetails = this.usersService.Details<DetailsUserVM>(userId);
 
             return this.View(userDetails);
+        }
+
+        public IActionResult UserAvatar(string imageName)
+        {
+            var imagePath = this.GetRootPath(this.hostingEnvironment, GlobalConstants.ImageFilesDirectory);
+
+            if (!string.IsNullOrWhiteSpace(imageName))
+            {
+                var amagePathAndName = Path.Combine(imagePath, imageName);
+
+                return this.PhysicalFile(amagePathAndName, this.BuildFileContenttype(imageName));
+            }
+
+            var amagePathAndDefaultName = Path.Combine(imagePath, GlobalConstants.DefaultAvatar);
+
+            return this.PhysicalFile(amagePathAndDefaultName, this.BuildFileContenttype(GlobalConstants.DefaultAvatar));
         }
     }
 }

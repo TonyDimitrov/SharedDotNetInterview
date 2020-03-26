@@ -19,6 +19,7 @@
     using Microsoft.AspNetCore.Hosting;
     using System.IO;
     using DotNetInterview.Common;
+    using Microsoft.AspNetCore.Authorization;
 
     public partial class IndexModel : PageModel
     {
@@ -145,6 +146,8 @@
             return this.Page();
         }
 
+        [ValidateAntiForgeryToken]
+        [Authorize]        
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await this.userManager.GetUserAsync(this.User);

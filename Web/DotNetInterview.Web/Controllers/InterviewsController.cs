@@ -61,6 +61,7 @@
             return this.View(getCreateInterviewVM);
         }
 
+        [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateInterviewVM model)
@@ -111,6 +112,7 @@
             return this.View(interview);
         }
 
+        [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(EditInterviewDTO model)
