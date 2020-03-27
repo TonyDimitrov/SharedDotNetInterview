@@ -42,6 +42,12 @@
                 .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = this.configuration.GetSection("FakebookAuth").GetSection("AppId").Value;
+                facebookOptions.AppSecret = this.configuration.GetSection("FakebookAuth").GetSection("AppSecret").Value;
+            });
+
             services.Configure<CookiePolicyOptions>(
                 options =>
                     {
@@ -52,6 +58,11 @@
             var mvcBuilder = services.AddControllersWithViews();
             mvcBuilder.AddRazorRuntimeCompilation();
             services.AddRazorPages();
+
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
 
             services.AddSingleton(this.configuration);
 

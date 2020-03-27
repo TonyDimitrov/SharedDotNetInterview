@@ -160,7 +160,7 @@
             return this.RedirectToAction("All");
         }
 
-       // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody]AddCommentDTO model)
@@ -184,7 +184,6 @@
         [HttpGet]
         public async Task<IActionResult> Like([FromQuery]string interviewId)
         {
-
             if (string.IsNullOrWhiteSpace(interviewId))
             {
                 return this.BadRequest();

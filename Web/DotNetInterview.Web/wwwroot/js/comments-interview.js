@@ -91,6 +91,7 @@ function addInterviewComment() {
 
         let id = e.target.id['value'];
         let content = e.target.content['value'];
+        let token = e.target.__RequestVerificationToken['value'];
         let url = e.target.action;
 
         let dto = {
@@ -101,7 +102,8 @@ function addInterviewComment() {
         const headers = {
             method: httpMethod,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": token
             },
         }
         headers.body = JSON.stringify(dto);

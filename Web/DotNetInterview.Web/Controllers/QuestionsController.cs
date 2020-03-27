@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
+
     using DotNetInterview.Common;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Comments;
@@ -22,6 +23,7 @@
             this.hostingEnvironment = hostingEnvironment;
         }
 
+        [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody]AddCommentDTO model)

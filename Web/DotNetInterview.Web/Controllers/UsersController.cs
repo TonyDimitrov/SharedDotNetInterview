@@ -22,19 +22,6 @@
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        //public IActionResult Index()
-        //{
-        //    var users = this.repository.All().ToList();
-        //    var usersVM = users.Select(u => new UserVM
-        //    {
-        //        FullName = u.FirstName + " " + u.LastName,
-        //        Position = (WorkPositionVM)u.Position,
-        //        Email = u.Email,
-        //    });
-
-        //    return this.View(usersVM);
-        //}
-
         public IActionResult Details(string userId)
         {
             if (string.IsNullOrWhiteSpace(userId))
