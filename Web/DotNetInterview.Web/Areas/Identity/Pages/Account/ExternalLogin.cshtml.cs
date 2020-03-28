@@ -135,16 +135,14 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account
 
             if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
             {
-                DateTime dob;
-
-                DateTime.TryParse(info.Principal.FindFirstValue(ClaimTypes.DateOfBirth), out dob);
+                DateTime.TryParse(info.Principal.FindFirstValue(ClaimTypes.DateOfBirth), out var dob);
 
                 Input = new InputModel
                 {
                     Email = info.Principal.FindFirstValue(ClaimTypes.Email),
                     FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
                     LastName = info.Principal.FindFirstValue(ClaimTypes.Surname),
-                    DateOfBirth = true ? dob : new DateTime()
+                    DateOfBirth = dob.Year > 1900 ? dob : new DateTime()
                 };
                 if (string.IsNullOrEmpty(Input.FirstName))
                 {

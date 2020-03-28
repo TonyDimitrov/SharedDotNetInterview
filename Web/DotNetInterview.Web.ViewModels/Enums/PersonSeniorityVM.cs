@@ -4,6 +4,8 @@
 
     public enum PersonSeniorityVM
     {
+        [Display(Name = "Not specified")]
+        None = 0,
         [Display(Name = "Other")]
         Other = 99,
         [Display(Name = "Junior developer")]

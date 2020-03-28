@@ -130,7 +130,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
                         return n;
                     }
                 }),
-                Position = Enum.Parse<PersonSeniorityVM>(appUser.Position.ToString()),
+                Position = Enum.Parse<PersonSeniorityVM>(appUser?.Position.ToString()),
                 Image = appUser.Image != null ? appUser.Image : GlobalConstants.DefaultAvatar,
             };
         }
@@ -181,6 +181,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
                 Nationality = this.Input.Nationality,
                 Position = this.Input.Position,
                 Description = this.Input.Description,
+                DateOfBirth = this.Input.DateOfBirth,
                 Image = this.Input.FormFile,
             };
 

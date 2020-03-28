@@ -80,6 +80,7 @@
             user.LastName = formModel.LastName;
             user.Nationality = formModel.Nationality;
             user.Position = Enum.Parse<WorkPosition>(formModel.Position.ToString());
+            user.DateOfBirth = formModel.DateOfBirth;
             user.Description = formModel.Description;
 
             var savedFileName = await fileService.SaveFile(formModel.Image, fileDirectory);

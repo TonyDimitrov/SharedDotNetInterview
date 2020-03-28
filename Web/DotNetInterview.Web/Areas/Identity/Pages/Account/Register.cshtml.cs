@@ -10,6 +10,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account
     using System.Threading.Tasks;
     using DotNetInterview.Common;
     using DotNetInterview.Data.Models;
+    using DotNetInterview.Web.Infrastructure;
     using DotNetInterview.Web.ViewModels.Enums;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
@@ -75,6 +76,9 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account
             [Display(Name = "Last name")]
             [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             public string LastName { get; set; }
+
+            [GoogleReCaptchaValidation]
+            public string RecaptchaValue { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)

@@ -17,6 +17,8 @@
 
         public string Description { get; set; }
 
+        public DateTime? DateOfBirth { get; set; }
+
         public DateTime? DeletedOn { get; set; }
 
         public IFormFile Image { get; set; }

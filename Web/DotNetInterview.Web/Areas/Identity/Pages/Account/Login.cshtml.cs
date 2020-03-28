@@ -9,6 +9,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account
     using System.Threading.Tasks;
 
     using DotNetInterview.Data.Models;
+    using DotNetInterview.Web.Infrastructure;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -55,6 +56,9 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account
 
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
+
+            [GoogleReCaptchaValidation]
+            public string RecaptchaValue { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -99,11 +103,13 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
+                    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
             }
 
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             // If we got this far, something failed, redisplay form
             return Page();
         }
