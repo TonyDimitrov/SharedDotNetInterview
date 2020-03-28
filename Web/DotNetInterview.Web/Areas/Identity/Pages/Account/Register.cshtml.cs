@@ -132,6 +132,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account
                 }
             }
 
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             // If we got this far, something failed, redisplay form
             return Page();
         }

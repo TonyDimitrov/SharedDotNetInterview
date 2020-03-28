@@ -42,10 +42,11 @@
                 .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            // External authentication
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
-                facebookOptions.AppId = this.configuration.GetSection("FakebookAuth").GetSection("AppId").Value;
-                facebookOptions.AppSecret = this.configuration.GetSection("FakebookAuth").GetSection("AppSecret").Value;
+                facebookOptions.AppId = this.configuration["FakebookAuth:AppId"];
+                facebookOptions.AppSecret = this.configuration["FakebookAuth:AppSecret"];
             });
 
             services.Configure<CookiePolicyOptions>(
@@ -59,6 +60,7 @@
             mvcBuilder.AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
+            // Add anti-forgery-token in headers for Ajax form calls 
             services.AddAntiforgery(options =>
             {
                 options.HeaderName = "X-CSRF-TOKEN";
