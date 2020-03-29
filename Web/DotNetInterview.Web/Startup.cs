@@ -8,16 +8,13 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Repositories;
     using DotNetInterview.Data.Seeding;
-    using DotNetInterview.Services;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Services.Mapping;
     using DotNetInterview.Services.Messaging;
     using DotNetInterview.Web.ViewModels;
-    using Ganss.XSS;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -60,7 +57,7 @@
             mvcBuilder.AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
-            // Add anti-forgery-token in headers for Ajax form calls 
+            // Add anti-forgery-token in headers for Ajax form calls
             services.AddAntiforgery(options =>
             {
                 options.HeaderName = "X-CSRF-TOKEN";
@@ -74,7 +71,8 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
+
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IInterviewsService, InterviewsService>();

@@ -4,6 +4,8 @@
     {
         public const string SystemName = "DotNetInterview";
 
+        public const string SystemEmail = "01tonydimitrov@gmail.com";
+
         public const string AdministratorRoleName = "Administrator";
 
         public const string DefaultFilePart = "default";
