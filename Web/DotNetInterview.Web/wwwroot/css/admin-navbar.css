@@ -1,0 +1,15 @@
+﻿.admin-nav-link {
+    color: #0c3e72;
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.a-admin-nav-link:hover {
+    text-decoration: none;
+    color: #fe5c24;
+}
+
+.admin-title {
+    color: #0c3e72;
+    font-family: "Open Sans", sans-serif;
+}

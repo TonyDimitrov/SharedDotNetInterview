@@ -83,7 +83,6 @@
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            // Configure entity relationship
             ConfigureEntitiesRelations(builder);
         }
 
