@@ -140,6 +140,7 @@
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
             where T : class, IDeletableEntity
         {
+            // Set true to be able to get IsDeleted entities for admin panel
             builder.Entity<T>().HasQueryFilter(e => !e.IsDeleted);
         }
 

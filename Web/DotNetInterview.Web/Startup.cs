@@ -79,6 +79,7 @@
             services.AddTransient<IQuestionsService, QuestionsService>();
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<IImporterHelperService, ImporterHelperService>();
+            services.AddTransient<IAdministrationService, AdministrationService>();
             services.AddTransient<IFileService, FileService>();
         }
 

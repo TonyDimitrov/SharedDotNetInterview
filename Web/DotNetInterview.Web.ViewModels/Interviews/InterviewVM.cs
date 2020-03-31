@@ -1,6 +1,6 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
-    public class AllInterviewVM
+    public class InterviewVM
     {
         public string InterviewId { get; set; }
 

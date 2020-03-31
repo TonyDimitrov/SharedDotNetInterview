@@ -40,6 +40,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\DotNetInterview.Data.Models\DotNetInterview.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\DotNetInterview.Data\DotNetInterview.Data.csproj" />
+    <ProjectReference Include="..\..\DotNetInterview.Common\DotNetInterview.Common.csproj" />
     <ProjectReference Include="..\..\Services\DotNetInterview.Services.Data\DotNetInterview.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\DotNetInterview.Services.Mapping\DotNetInterview.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\DotNetInterview.Services.Messaging\DotNetInterview.Services.Messaging.csproj" />

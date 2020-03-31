@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\DotNetInterview.Data.Common\DotNetInterview.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\DotNetInterview.Data.Models\DotNetInterview.Data.Models.csproj" />
     <ProjectReference Include="..\DotNetInterview.Services.Mapping\DotNetInterview.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Data\DotNetInterview.Data\DotNetInterview.Data.csproj" />

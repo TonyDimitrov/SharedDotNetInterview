@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class UsersListVM
+    public class AllUsersVM
     {
         public IEnumerable<UserVM> Users { get; set; }
     }

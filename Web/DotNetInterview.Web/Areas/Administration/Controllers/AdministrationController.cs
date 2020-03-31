@@ -1,17 +1,27 @@
 ﻿namespace DotNetInterview.Web.Areas.Administration.Controllers
 {
-    using DotNetInterview.Common;
-    using DotNetInterview.Web.Controllers;
-    using DotNetInterview.Web.ViewModels.Administration.Interviews;
-    using DotNetInterview.Web.ViewModels.Administration.Nationalities;
-    using DotNetInterview.Web.ViewModels.Administration.Users;
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+
+    using DotNetInterview.Common;
+    using DotNetInterview.Web.Controllers;
+    using DotNetInterview.Web.ViewModels.Administration.Users;
+    using DotNetInterview.Services.Data;
+    using DotNetInterview.Web.ViewModels.Administration.Interviews;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
     public class AdministrationController : BaseController
     {
+        private readonly IAdministrationService administratorService;
+
+        public AdministrationController(IAdministrationService administratorService)
+        {
+            this.administratorService = administratorService;
+        }
+
         [HttpGet]
         public IActionResult AdminPanel()
         {
@@ -21,7 +31,22 @@
         [HttpGet]
         public IActionResult DeletedInterviews()
         {
-            return this.View(new DeletedInterviewsVM());
+            var allDeleted = this.administratorService.GetDeletedInterviews<DeletedInterviewVM>();
+
+            return this.View(allDeleted);
+        }
+
+        [HttpGet]
+        public Task<IActionResult> UndeleteInterview(string interviewId)
+        {
+            return null;
+        }
+
+        [HttpGet]
+        public IActionResult DetailsDeleteInterview(string interviewId)
+        {
+            var interview = this.administratorService.GetDetailsDeletedInterview<DetailsDeletedInterviewVM>(interviewId);
+            return this.View(interview);
         }
 
         [HttpGet]
@@ -36,10 +61,15 @@
             return this.View();
         }
 
-        [HttpGet]
-        public IActionResult ManageNationalities(ManageNationalitiesVM model)
+        public Task<IActionResult> AddNationality(string nationality)
         {
-            return this.View();
+            return null;
+        }
+
+        [HttpGet]
+        public Task<IActionResult> DeleteNationality(string nationality)
+        {
+            return null;
         }
     }
 }

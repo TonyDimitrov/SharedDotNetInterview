@@ -79,7 +79,7 @@
             {
                 Interviews = interviewsDto
                 .Select(i =>
-                new AllInterviewVM
+                new InterviewVM
                 {
                     InterviewId = i.InterviewId,
                     Seniority = this.SeniorityNameParser(i.SeniorityAsNumber),
