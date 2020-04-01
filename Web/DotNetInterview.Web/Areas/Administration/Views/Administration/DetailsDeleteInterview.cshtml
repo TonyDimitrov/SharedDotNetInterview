@@ -1,0 +1,270 @@
+﻿@model DotNetInterview.Web.ViewModels.Administration.Interviews.DetailsDeletedInterviewVM
+
+@{
+    ViewData["Title"] = "Deleted Interview Details";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/interview-details.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/questions-details.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="container div-r-border">
+    <div class="row">
+        <div class="col-10">
+            <h1 class="text-center h-title">
+                Interview Details
+            </h1>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Seniority:</div>
+                <div class="col-6 div-row">@Model.Seniority</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Title:</div>
+                <div class="col-6 div-row">@Model.PositionTitle</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Description:</div>
+                <div class="col-6 div-row">@Model.PositionDescription</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Position based: </div>
+                <div enum-text="@Model.LocationType" class="col-6 div-row">@Model.LocationType</div>
+            </div>
+            <div class="row justify-content-center" @Model.ShowLocation>
+                <div class="col-2 div-row-header">Location: </div>
+                <div class="col-6 div-row">@Model.InterviewLocation</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Company nationality: </div>
+                <div class="col-6 div-row">@Model.CompanyNationality</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">Employees: </div>
+                <div enum-text="@Model.CompanySize" class="col-6 div-row">@Model.CompanySize</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-2 div-row-header">
+                    Likes:
+                    <span id="likes-count" class="badge badge-pill span-questions">@Model.Likes</span>                   
+                </div>
+                <div class="col-2 div-row-header">
+                    Qns:
+                    <span class="badge badge-pill span-questions">@Model.Questions.Count()</span>
+                </div>
+                <div class="col-2 div-row">
+                    <span class="div-row-header">Shared by: </span>
+                    <a class="a-user-link" href="/Users/Details?UserId=@Model.UserId">@Model.UserFullName</a>
+                </div>
+                <div class="col-2 div-row">
+                    <span class="div-row-header">On: </span>@Model.CreatedOn
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-1" @Model.CanEdit>
+                    <div id="btn-question" class="btn-group" role="group">
+                        <a class="btn btn-sm btn-primary"
+                           asp-controller="Interviews" asp-action="Edit" asp-route-interviewId="@Model.InterviewId" role="button">Edit</a>
+                    </div>
+                </div>
+                <div class="col-1" @Model.CanDelete>
+                    <div id="btn-question div-row-plain-text" class="btn-group" role="group">
+                        <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
+                           asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId">Delete</a>
+                    </div>
+                </div>
+
+                <div class="col-2" @Model.CanHardDelete>
+                    <div id="btn-question" class="btn-group" role="group">
+                        <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hardDelete"
+                           asp-controller="Interviews" asp-action="HardDelete" asp-route-interviewId="@Model.InterviewId">Hard Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-8 div-r-border div-m">
+            <div class="row justify-content-center div-row">
+                <div id="comment-count" class="col-3">Comments (@Model.Comments.Count())</div>
+                <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments">Show</button></div>
+            </div>
+
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="row justify-content-center div-row div-r-bb div-comment div-i-comment" hidden>
+                    <div class="col-8 wrap">@comment.Content</div>
+                    <div class="col-2 div-small-fond">@comment.CreatedOn</div>
+                    <div class="col-2 div-small-fond">
+                        <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
+                            @comment.UserFullName
+                        </a>
+                        <div class="dis-flex div-small-fond" @comment.HideDelete>
+                            <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete">
+                                <div class="form-group mb-2" hidden>
+                                    <input class="form-control" name="id" value="">
+                                </div>
+                                <button type="submit" class="btn btn-link a-user-link div-small-fond b-i-delete p-0">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row justify-content-start div-row div-r-bb div-comment div-i-button" hidden>
+                <div class="col-md-10" @Model.HideAddCommentForm>
+                    <form asp-controller="Interviews" asp-action="addComment" method="post" class="form" id="form-i-comments">
+                        <div class="form-group mb-2">
+                            <input class="form-control" name="id" value="@Model.InterviewId" hidden>
+                        </div>
+                        <div class="form-row align-items-start">
+                            <div class="form-group mb-2 div-textarea">
+                                <textarea class="form-control" name="content" rows="1" id="comment"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-light btn-sm btn-comments">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Questions HTML*@
+
+<div class="col-10 justify-content-center">
+    <h1 class="text-center h-title">Questions</h1>
+</div>
+
+@{
+    int counter = 1;
+    foreach (var q in Model.Questions)
+    {
+        <div class="container div-r-border div-q-row">
+            <div class="row">
+                <div class="col-12">
+
+                    <div class="row div-row div-r-bb">
+
+                        <div class="col-8"><span class="span-text">@counter. </span>@Html.Raw(q.Content)</div>
+
+                        <div class="col-1 div-small-fond">@q.CreatedOn</div>
+                        <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @q.Ranked</div>
+                        <div class="col-1 div-small-fond" hidden="@q.HideFile">
+                            <a class="a-user-link" asp-controller="Questions" asp-action="File" asp-route-fileName="@q.File" download>
+                                Download file
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center div-row div-r-bb" hidden="@q.HideAnswer">
+                        <div class="col-12"><span class="span-text">Answer:</span> @Html.Raw(@q.Answer)</div>
+                    </div>
+                </div>
+            </div>
+            @*Comments HTML*@
+            <div class="row justify-content-center">
+                <div class="col-8 div-r-border div-m2">
+                    <div class="row justify-content-center div-row">
+                        <div class="col-3 comment-count2">Comments (@q.Comments.Count())</div>
+                        <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments2">Show</button></div>
+                    </div>
+
+                    @foreach (var comment in q.Comments)
+                    {
+                        <div class="row justify-content-center div-row div-r-bb div-comment2 div-q-comment" hidden>
+                            <div class="col-8 wrap">@comment.Content</div>
+                            <div class="col-2 div-small-fond">@comment.CreatedOn</div>
+                            <div class="col-2 div-small-fond">
+                                <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
+                                    @comment.UserFullName
+                                </a>
+
+                                <div class="dis-flex div-small-fond" @comment.HideDelete>
+                                    <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete2">
+                                        <div class="form-group mb-2" hidden>
+                                            <input class="form-control" name="id" value="">
+                                        </div>
+                                        <button type="submit" class="btn btn-link a-user-link div-small-fond b-q-delete p-0">Delete</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+
+                    <div class="row justify-content-start div-row div-r-bb div-comment2 div-q-button" hidden>
+                        <div class="col-md-10">
+                            <form asp-controller="Questions" asp-action="AddComment" method="post" class="form form-q-comments">
+                                <div class="form-group mb-2">
+                                    <input class="form-control" name="id" value="" hidden>
+                                </div>
+                                <div class="form-row align-items-start" @Model.HideAddCommentForm>
+                                    <div class="form-group mb-2 div-textarea">
+                                        <textarea class="form-control comment2" name="content" rows="1"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-light btn-sm btn-comments2">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        counter++;
+    }
+}
+
+@*Modal window delete*@
+<div class="modal" id="delete" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete interview?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-sm btn-danger" asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId"
+                   role="button">Delete</a>
+                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*end delete*@
+
+@*Modal window hard delete*@
+<div class="modal" id="hardDelete" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm hard delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to hard delete interview?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-sm btn-danger" asp-controller="Interviews" asp-action="HardDelete" asp-route-interviewId="@Model.InterviewId"
+                   role="button">Hard delete</a>
+                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*end hard delete*@
+
+<environment names="Development">
+    <script src="~/js/comments-interview.js" asp-append-version="true"></script>
+    <script src="~/js/comments-question.js" asp-append-version="true"></script>
+</environment>
+<environment names="Production, Deploy">
+    <script src="~/js/comments-interview.js" asp-append-version="true"></script>
+    <script src="~/js/comments-question.js" asp-append-version="true"></script>
+</environment>
+

@@ -62,13 +62,6 @@
             configuration.CreateMap<Comment, DetailsDeletedCommentsVM>();
             configuration.CreateMap<Question, DetailsDeletedInterviewQuestionsVM>();
 
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<Interview, DetailsDeletedInterviewVM>().ReverseMap();
-            //    cfg.CreateMap<ICollection<Question>, IEnumerable<DetailsDeletedInterviewQuestionsVM>>().ReverseMap();
-            //    cfg.CreateMap<ICollection<Comment>, IEnumerable<DetailsDeletedCommentsVM>>().ReverseMap();
-            //});
-
             configuration.CreateMap<Interview, DetailsDeletedInterviewVM>()
                 .ForMember(i => i.InterviewId, opt => opt.MapFrom(i => i.Id))
                 .ForMember(i => i.UserFullName, opt => opt.MapFrom(i =>
@@ -80,6 +73,7 @@
                          ? i.User.FirstName + " " + i.User.LastName.Substring(0, 1).ToUpper()
                          : (i.User.FirstName + " " + i.User.LastName.Substring(0, 1).ToUpper()).Substring(0, 17) + "..."))
                 .ForMember(i => i.Seniority, opt => opt.MapFrom(i => i.Seniority.ToString()))
+                .ForMember(i => i.PositionDescription, opt => opt.MapFrom(i => i.PositionDescription != null ? i.PositionDescription : GlobalConstants.NoDescription))
                 .ForMember(i => i.LocationType, opt => opt.MapFrom(i => i.LocationType.ToString()))
                 .ForMember(i => i.ShowLocation, opt => opt.MapFrom(i =>
                 i.LocationType == Data.Models.Enums.LocationType.InOffice

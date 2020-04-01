@@ -3,6 +3,10 @@
 function handleUserLike() {
 
     let clickElement = document.getElementById('a-likes-glifi');
+
+    if (clickElement === 'undefined' || clickElement == null) {
+        return;
+    }
     clickElement.addEventListener('click', updateLike);
 
 

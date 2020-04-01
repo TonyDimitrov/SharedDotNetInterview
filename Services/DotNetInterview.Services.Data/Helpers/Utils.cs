@@ -1,9 +1,9 @@
 ﻿namespace DotNetInterview.Services.Data.Helpers
 {
-    using DotNetInterview.Common;
-    using DotNetInterview.Web.ViewModels.Interviews;
     using System;
     using System.Reflection;
+
+    using DotNetInterview.Common;
 
     public static class Utils
     {
