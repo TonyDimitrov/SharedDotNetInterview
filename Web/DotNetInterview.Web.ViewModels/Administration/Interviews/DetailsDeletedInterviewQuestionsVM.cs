@@ -27,7 +27,7 @@
 
         public string DeletedOn { get; set; }
 
-        public bool HideFile { get; set; }
+        public string HideFile { get; set; }
 
         public string File { get; set; }
 
@@ -46,7 +46,8 @@
                 .ForMember(q => q.DeletedOn, opt => opt.MapFrom(q => q.DeletedOn != null
                 ? q.DeletedOn.Value.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null))
                 .ForMember(q => q.File, opt => opt.MapFrom(q => q.UrlTask))
-                .ForMember(q => q.HideFile, opt => opt.MapFrom(q => string.IsNullOrEmpty(q.UrlTask) ? string.Empty : "hidden"));
+                .ForMember(q => q.HideFile, opt => opt.MapFrom(q => !string.IsNullOrEmpty(q.UrlTask) ? string.Empty : "hidden"))
+                .ForMember(q => q.Comments, opt => opt.MapFrom(q => q.Comments));
         }
     }
 }

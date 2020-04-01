@@ -121,6 +121,8 @@
 
                 var rankValue = Math.Max(q.Interesting, Math.Max(q.Unexpected, q.Difficult));
 
+                questions.Reverse();
+
                 questions.Add(new Question
                 {
                     Content = q.Content,
@@ -246,8 +248,8 @@
                 LocationType = Helper.ParseEnum<LocationTypeVM>(interviewDTO.LocationType),
                 ShowLocation = interviewDTO.LocationType == LocationTypeVM.InOffice ? string.Empty : GlobalConstants.Hidden,
                 InterviewLocation = interviewDTO.InterviewLocation,
-                CreatedOn = interviewDTO.CreatedOn.ToString(GlobalConstants.FormatDate),
-                ModifiedOn = interviewDTO.ModifiedOn?.ToString(GlobalConstants.FormatDate),
+                CreatedOn = interviewDTO.CreatedOn.DateTimeViewFormater(),
+                ModifiedOn = interviewDTO.ModifiedOn?.DateTimeViewFormater(),
                 HideAddCommentForm = Utils.HideAddComment(currentUserId),
                 Likes = interviewDTO.Likes,
                 AddLike = interviewDTO.IsLiked ? GlobalConstants.LikedCss : string.Empty,
@@ -651,7 +653,7 @@
         private string SeniorityNameParser(int seniority) =>
             seniority switch
             {
-                0 => "All",
+                0 => "Not specified",
                 1 => "Junior developer",
                 2 => "Regular developer",
                 3 => "Senior developer",

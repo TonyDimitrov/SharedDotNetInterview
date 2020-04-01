@@ -88,6 +88,10 @@ function addInterviewComment() {
 
     let btnInterviewComment = document.getElementById('form-i-comments');
 
+    if (btnInterviewComment === 'undefined' || btnInterviewComment == null) {
+        return;
+    }
+
     btnInterviewComment.addEventListener('submit', createComment);
 
     async function createComment(e) {

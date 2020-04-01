@@ -81,7 +81,11 @@ function deleteAnswer(event) {
 
             answerElement.getElementsByClassName('answer')[0].hidden = true;
 
-            answerElement.querySelector('.answer textarea').value = null;
+            answerElement.querySelector('.answer textarea').innerHTML = "";
+
+            let answerId = answerElement.querySelector('.answer textarea').getAttribute('id');
+
+            tinyMCE.editors[answerId].setContent('');
 
             break;
         }

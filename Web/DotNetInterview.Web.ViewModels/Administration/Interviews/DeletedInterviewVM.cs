@@ -31,10 +31,10 @@
             opt => opt.MapFrom(x => x.Id))
                 .ForMember(
             i => i.CreatedOn,
-            opt => opt.MapFrom(x => x.CreatedOn.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
+            opt => opt.MapFrom(x => x.CreatedOn.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
                 .ForMember(
             i => i.DeletedOn,
-            opt => opt.MapFrom(x => x.DeletedOn != null ? x.DeletedOn.Value.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null))
+            opt => opt.MapFrom(x => x.DeletedOn != null ? x.DeletedOn.Value.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null))
                 .ForMember(
             i => i.PositionTitle,
             opt => opt.MapFrom(x => x.PositionTitle != null && x.PositionTitle.Length <= 50 ? x.PositionTitle : x.PositionTitle.Substring(0, 47) + "..."))

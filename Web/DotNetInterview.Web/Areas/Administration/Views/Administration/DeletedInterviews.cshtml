@@ -33,20 +33,52 @@
 
 @foreach (var i in Model)
 {
-<div class="row div-row div-r-bb">
-    <div class="col-2">@i.InterviewId</div>
-    <div class="col-3">@i.PositionTitle</div>
-    <div class="col-2">@i.Seniority</div>
-    <div class="col-1"><span class="badge badge-pill span-questions">@i.Questions</span></div>
-    <div class="col-1">@i.CreatedOn</div>
-    <div class="col-1">@i.DeletedOn</div>
-    <div class="col-1">
-        <a class="btn btn-sm btn-info btn-details"
-           asp-area="Administration" asp-controller="Administration" asp-action="DetailsDeleteInterview" asp-route-interviewId="@i.InterviewId">Details</a>
+    <div class="row div-row div-r-bb">
+        <div class="col-2">@i.InterviewId</div>
+        <div class="col-3">@i.PositionTitle</div>
+        <div class="col-2">@i.Seniority</div>
+        <div class="col-1"><span class="badge badge-pill span-questions">@i.Questions</span></div>
+        <div class="col-1">@i.CreatedOn</div>
+        <div class="col-1">@i.DeletedOn</div>
+        <div class="col-1">
+            <a class="btn btn-sm btn-info btn-details"
+               asp-area="Administration" asp-controller="Administration" asp-action="DetailsDeleteInterview" asp-route-interviewId="@i.InterviewId">Details</a>
+        </div>
+
+        @*<div class="col-1" @Model.CanDelete>
+                <div id="btn-question div-row-plain-text" class="btn-group" role="group">
+                    <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
+                       asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId">Delete</a>
+                </div>
+            </div>*@
+
+        <div class="col-1">
+            <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#undelete" asp-area="Administration"
+               asp-controller="Administration" asp-action="UndeleteInterview" asp-route-interviewId="@i.InterviewId">Undelete</a>
+        </div>
     </div>
-    <div class="col-1">
-        <a class="btn btn-sm btn-danger"
-          asp-area="Administration" asp-controller="Administration" asp-action="UndeleteInterview" asp-route-interviewId="@i.InterviewId">Undelete</a>
+
+    @*Modal window delete*@
+    <div class="modal" id="undelete" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm undelete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to undelete interview?</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-sm btn-danger" asp-area="Administration"
+                       asp-controller="Administration" asp-action="UndeleteInterview" asp-route-interviewId="@i.InterviewId"
+                       role="button">Undelete</a>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    @*end delete*@
 }

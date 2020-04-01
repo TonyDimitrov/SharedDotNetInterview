@@ -5,6 +5,7 @@
     using AutoMapper;
     using DotNetInterview.Common;
     using DotNetInterview.Data.Models;
+    using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Services.Mapping;
 
     public class DetailsDeletedInterviewVM : IMapFrom<Interview>, IHaveCustomMappings
@@ -59,8 +60,31 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Comment, DetailsDeletedCommentsVM>();
-            configuration.CreateMap<Question, DetailsDeletedInterviewQuestionsVM>();
+            configuration.CreateMap<Comment, DetailsDeletedCommentsVM>()
+                .ForMember(c => c.ParentId, opt => opt.MapFrom(c => c.Id))
+                .ForMember(c => c.CreatedOn, opt => opt.MapFrom(c => c.CreatedOn.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
+                .ForMember(c => c.DeletedOn, opt => opt.MapFrom(c => c.DeletedOn != null ? c.DeletedOn.Value.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null))
+                .ForMember(c => c.UserId, opt => opt.MapFrom(c => c.UserId))
+                .ForMember(c => c.UserFullName, opt => opt.MapFrom(c =>
+                string.IsNullOrWhiteSpace(c.User.LastName)
+                    ? c.User.FirstName.Length <= 20
+                        ? c.User.FirstName
+                        : c.User.FirstName.Substring(0, 17) + "..."
+                     : (c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper()).Length <= 20
+                         ? c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper()
+                         : (c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper()).Substring(0, 17) + "..."));
+
+            configuration.CreateMap<Question, DetailsDeletedInterviewQuestionsVM>()
+                .ForMember(q => q.Answer, opt => opt.MapFrom(q => q.GivenAnswer))
+                .ForMember(q => q.HideAnswer, opt => opt.MapFrom(q => q.GivenAnswer != null ? string.Empty : "hidden"))
+                .ForMember(q => q.Ranked, opt => opt.MapFrom(q => q.RankType.ToString()))
+                .ForMember(q => q.HideRanked, opt => opt.MapFrom(q => q.RankType != QuestionRankType.None ? string.Empty : "hidden"))
+                .ForMember(q => q.CreatedOn, opt => opt.MapFrom(q => q.CreatedOn.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
+                .ForMember(q => q.DeletedOn, opt => opt.MapFrom(q => q.DeletedOn != null
+                ? q.DeletedOn.Value.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null))
+                .ForMember(q => q.File, opt => opt.MapFrom(q => q.UrlTask))
+                .ForMember(q => q.HideFile, opt => opt.MapFrom(q => !string.IsNullOrEmpty(q.UrlTask) ? string.Empty : "hidden"))
+                .ForMember(q => q.Comments, opt => opt.MapFrom(q => q.Comments));
 
             configuration.CreateMap<Interview, DetailsDeletedInterviewVM>()
                 .ForMember(i => i.InterviewId, opt => opt.MapFrom(i => i.Id))
@@ -80,8 +104,8 @@
                 ? string.Empty : "hidden"))
                 .ForMember(i => i.InterviewLocation, opt => opt.MapFrom(i => i.HeldOnInterviewLocation))
                 .ForMember(i => i.CompanySize, opt => opt.MapFrom(i => i.Employees.ToString()))
-                .ForMember(i => i.CreatedOn, opt => opt.MapFrom(i => i.CreatedOn.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
-                .ForMember(i => i.DeletedOn, opt => opt.MapFrom(i => i.DeletedOn != null ? i.DeletedOn.Value.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null))
+                .ForMember(i => i.CreatedOn, opt => opt.MapFrom(i => i.CreatedOn.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
+                .ForMember(i => i.DeletedOn, opt => opt.MapFrom(i => i.DeletedOn != null ? i.DeletedOn.Value.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null))
                 .ForMember(i => i.Likes, opt => opt.MapFrom(i => i.Likes.Count))
                 .ForMember(i => i.Comments, opt => opt.MapFrom(i => i.Comments))
                 .ForMember(i => i.Questions, opt => opt.MapFrom(i => i.Questions));

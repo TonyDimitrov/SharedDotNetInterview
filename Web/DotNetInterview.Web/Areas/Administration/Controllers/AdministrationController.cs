@@ -37,15 +37,18 @@
         }
 
         [HttpGet]
-        public Task<IActionResult> UndeleteInterview(string interviewId)
+        public async Task<IActionResult> UndeleteInterview(string interviewId)
         {
-            return null;
+           await this.administratorService.UndeleteInterview(interviewId);
+
+           return this.RedirectToAction("DeletedInterviews");
         }
 
         [HttpGet]
         public IActionResult DetailsDeleteInterview(string interviewId)
         {
             var interview = this.administratorService.GetDetailsDeletedInterview<DetailsDeletedInterviewVM>(interviewId);
+
             return this.View(interview);
         }
 
