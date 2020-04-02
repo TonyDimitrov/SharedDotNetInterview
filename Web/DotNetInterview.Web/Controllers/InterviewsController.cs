@@ -80,7 +80,7 @@
 
             var filePath = this.GetRootPath(this.hostingEnvironment, GlobalConstants.TaskFilesDirectory);
 
-            await this.interviewsService.Create(model, this.GetUserId(this.User), filePath, this.fileService);
+            await this.interviewsService.Create(model, this.GetLoggedInUserId(this.User), filePath, this.fileService);
 
             return this.RedirectToAction("All");
         }
@@ -88,7 +88,7 @@
         [HttpGet]
         public IActionResult Details(string interviewId)
         {
-            var userId = this.GetUserId(this.User);
+            var userId = this.GetLoggedInUserId(this.User);
             var isAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
 
             var interview = this.interviewsService.Details<DetailsInterviewVM>(interviewId, userId, isAdmin);
@@ -117,7 +117,7 @@
         [HttpPost]
         public async Task<IActionResult> Edit(EditInterviewDTO model)
         {
-            var userId = this.GetUserId(this.User);
+            var userId = this.GetLoggedInUserId(this.User);
 
             var filePath = this.GetRootPath(this.hostingEnvironment, GlobalConstants.TaskFilesDirectory);
 
@@ -135,7 +135,7 @@
                 return this.RedirectToAction("Error", "Home", "Invalid Interview ID!");
             }
 
-            var userId = this.GetUserId(this.User);
+            var userId = this.GetLoggedInUserId(this.User);
             var isAdmin = this.IsAdmin();
 
             await this.interviewsService.Delete(interviewId, userId, isAdmin);
@@ -152,7 +152,7 @@
                 return this.RedirectToAction("Error", "Home", "Invalid Interview ID!");
             }
 
-            var userId = this.GetUserId(this.User);
+            var userId = this.GetLoggedInUserId(this.User);
             var isAdmin = this.IsAdmin();
 
             await this.interviewsService.HardDelete(interviewId, isAdmin);
@@ -170,7 +170,7 @@
                 return this.BadRequest();
             }
 
-            var userId = this.GetUserId(this.User);
+            var userId = this.GetLoggedInUserId(this.User);
 
             await this.interviewsService.AddComment(model, userId);
 
@@ -189,7 +189,7 @@
                 return this.BadRequest();
             }
 
-            var userId = this.GetUserId(this.User);
+            var userId = this.GetLoggedInUserId(this.User);
             var likeVM = await this.interviewsService.Liked(interviewId, userId);
 
             return this.Json(likeVM);

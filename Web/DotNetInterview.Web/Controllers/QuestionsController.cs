@@ -33,7 +33,7 @@
                 return this.BadRequest();
             }
 
-            var userId = this.GetUserId(this.User);
+            var userId = this.GetLoggedInUserId(this.User);
 
             await this.questionsService.AddComment(model, userId);
 
@@ -46,7 +46,7 @@
         [HttpGet]
         public IActionResult All(int ranked)
         {
-            var userId = this.GetUserId(this.User);
+            var userId = this.GetLoggedInUserId(this.User);
             var isAdmin = this.IsAdmin();
             var questions = this.questionsService.All(ranked, userId, isAdmin);
 

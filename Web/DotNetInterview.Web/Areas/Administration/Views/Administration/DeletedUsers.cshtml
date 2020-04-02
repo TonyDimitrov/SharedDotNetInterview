@@ -1,11 +1,13 @@
-﻿
+﻿@using DotNetInterview.Web.ViewModels.Administration.Users
+@model DeletedUsersVM
 
 @{
-    ViewData["Title"] = "Deleted users";
+    ViewData["Title"] = "All Deleted Users";
 }
 
 @section Styles {
     <link href="@Url.Content("~/css/admin-navbar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/all-interviews.css")" rel="stylesheet" type="text/css" />
 }
 
 <div class="row justify-content-center">
@@ -16,5 +18,57 @@
 
 <partial name="_AdminNavigationPartial" />
 
-<h3>Deleted users</h3>
+<h1 class="text-center h-title">Users</h1>
 
+<div class="row div-row-header">
+    <div class="col-3">Id</div>
+    <div class="col-2">Name</div>
+    <div class="col-2">Seniority</div>
+    <div class="col-1">Shared</div>
+    <div class="col-1">Created On</div>
+    <div class="col-1 delete">Deleted On</div>
+    <div class="col-1">Check it</div>
+</div>
+
+@foreach (var u in Model.DeletedUsers)
+{
+    <div class="row div-row div-r-bb">
+        <div class="col-3">@u.Id</div>
+        <div class="col-2">@u.FullName</div>
+        <div class="col-2">@u.Senioriry</div>
+        <div class="col-1"><span class="badge badge-pill span-questions">@u.Shared</span></div>
+        <div class="col-1">@u.MemberSince</div>
+        <div class="col-1">@u.DeletedOn</div>
+        <div class="col-1">
+            <a class="btn btn-sm btn-info btn-details"
+               asp-area="Administration" asp-controller="Administration" asp-action="DetailsDeletedUser" asp-route-userId="@u.Id">Details</a>
+        </div>
+        <div class="col-1">
+            <a class="btn btn-sm btn-sm btn-danger" data-toggle="modal" data-target="#undelete" 
+               asp-area="Administration" asp-controller="Administration" asp-action="UndeleteUser" asp-route-userId="@u.Id">Undelete</a>
+        </div>
+    </div>
+    @*Modal window undelete*@
+    <div class="modal" id="undelete" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm undelete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to undelete user?</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-sm btn-danger" asp-area="Administration"
+                       asp-controller="Administration" asp-action="UndeleteUser" asp-route-userId="@u.Id"
+                       role="button">Undelete</a>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*end undelete*@
+}

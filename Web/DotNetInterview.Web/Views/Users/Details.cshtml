@@ -10,11 +10,12 @@
     <link href="@Url.Content("~/css/user-details.css")" rel="stylesheet" type="text/css" />
 }
 
-<h1 class="text-center h-title">User Details
+<h1 class="text-center h-title">
+    User Details
     <div class=" circular-portrait">
-    <img src="/Users/UserAvatar?imageName=@Model.Image" alt="Avatar">
+        <img src="/Users/UserAvatar?imageName=@Model.Image" alt="Avatar">
     </div>
-    </h1>
+</h1>
 
 <div class="row justify-content-center div-row-header">
     <div class="col-3">Name:</div>
@@ -31,6 +32,20 @@
 <div class="row justify-content-center div-row-header">
     <div class="col-3">Description:</div>
     <div class="col-3 div-user">@Model.Description</div>
+</div>
+<div class="row justify-content-center div-row-header" @(Model.ShowEdit == Model.ShowDelete ? Model.ShowEdit : string.Empty )>
+    <div class="col-3" @Model.ShowEdit>
+        <div class="btn-group" role="group">
+            <a class="btn btn-sm btn-primary"
+               asp-area="Identity" asp-controller="Account" asp-action="Manage" role="button">Manage User</a>
+        </div>
+    </div>
+    <div class="col-3 div-user" @Model.ShowDelete>
+        <div class="btn-group" role="group">
+            <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
+               asp-area="" asp-controller="Users" asp-action="Delete" asp-route-userId="@Model.Id">Delete</a>
+        </div>
+    </div>
 </div>
 <div class="row justify-content-center div-row-header">
     <div class="col-1">DOB:</div>
@@ -61,11 +76,32 @@
         <div class="col-2">@i.Date</div>
         <div class="col-1"><span class="badge badge-pill span-questions">@i.Likes</span></div>
         <div class="col-1">
-            <a class="btn btn-sm btn-info btn-details" asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@i.InterviewId">Details</a>
+            <a class="btn btn-sm btn-info btn-details"
+               asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@i.InterviewId">Details</a>
         </div>
     </div>
 }
-
-
+@*Modal window delete*@
+<div class="modal" id="delete" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete user?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-sm btn-danger" asp-area="" asp-controller="Users" asp-action="Delete" asp-route-userId="@Model.Id"
+                   role="button">Delete</a>
+                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*end window delete*@
 
 

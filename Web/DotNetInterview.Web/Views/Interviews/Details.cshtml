@@ -47,7 +47,8 @@
                 <div class="col-2 div-row-header">
                     Likes:
                     <span id="likes-count" class="badge badge-pill span-questions">@Model.Likes</span>
-                    <a id="a-likes-glifi" asp-controller="Interviews" asp-action="Like" asp-route-InterviewId="@Model.InterviewId"><img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" /></a>
+                    <a id="a-likes-glifi" asp-controller="Interviews" asp-action="Like" asp-route-InterviewId="@Model.InterviewId">
+                    <img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" /></a>
                 </div>
                 <div class="col-2 div-row-header">
                     Qns:

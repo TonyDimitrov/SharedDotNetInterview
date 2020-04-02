@@ -21,7 +21,7 @@
         [HttpPost]
         public async Task<IActionResult> Delete([FromBody]string id)
         {
-            var currentUserId = this.GetUserId(this.User);
+            var currentUserId = this.GetLoggedInUserId(this.User);
             var isAdmin = this.IsAdmin();
 
             var deleted = await this.commentsService.Delete(id, currentUserId, isAdmin);

@@ -11,7 +11,7 @@
 
     public class BaseController : Controller
     {
-        internal string GetUserId(ClaimsPrincipal principal)
+        internal string GetLoggedInUserId(ClaimsPrincipal principal)
         {
             if (principal == null)
             {

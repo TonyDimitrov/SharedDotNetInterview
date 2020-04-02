@@ -29,6 +29,29 @@
         }
 
         [HttpGet]
+        public IActionResult DeletedUsers(int? page)
+        {
+            var allDeleted = this.administratorService.GetAllDeletedUsers<DeletedUserVM>();
+
+            return this.View(new DeletedUsersVM { DeletedUsers = allDeleted });
+        }
+
+        [HttpGet]
+        public IActionResult DetailsDeletedUser(string userId)
+        {
+            var deletedUser = this.administratorService.GetDetailsDeletedUser<DetailsDeletedUser>(userId);
+
+            return this.View(deletedUser);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UndeleteUser(string userId)
+        {
+           await this.administratorService.UndeleteUser(userId);
+
+           return this.RedirectToAction("DeletedUsers");
+        }
+
         public IActionResult DeletedInterviews()
         {
             var allDeleted = this.administratorService.GetDeletedInterviews<DeletedInterviewVM>();
@@ -37,15 +60,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> UndeleteInterview(string interviewId)
-        {
-           await this.administratorService.UndeleteInterview(interviewId);
-
-           return this.RedirectToAction("DeletedInterviews");
-        }
-
-        [HttpGet]
-        public IActionResult DetailsDeleteInterview(string interviewId)
+        public IActionResult DetailsDeletedInterview(string interviewId)
         {
             var interview = this.administratorService.GetDetailsDeletedInterview<DetailsDeletedInterviewVM>(interviewId);
 
@@ -53,9 +68,11 @@
         }
 
         [HttpGet]
-        public IActionResult DeletedUsers()
+        public async Task<IActionResult> UndeleteInterview(string interviewId)
         {
-            return this.View(new DeletedUsersVM());
+           await this.administratorService.UndeleteInterview(interviewId);
+
+           return this.RedirectToAction("DeletedInterviews");
         }
 
         [HttpGet]

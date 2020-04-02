@@ -1,10 +1,12 @@
 ﻿namespace DotNetInterview.Web.Controllers
 {
     using System.IO;
-
+    using System.Threading.Tasks;
     using DotNetInterview.Common;
+    using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Users;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -12,13 +14,16 @@
     public class UsersController : BaseController
     {
         private readonly IUsersService usersService;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IWebHostEnvironment hostingEnvironment;
 
         public UsersController(
             IUsersService usersService,
+            SignInManager<ApplicationUser> signInManager,
             IWebHostEnvironment hostingEnvironment)
         {
             this.usersService = usersService;
+            this.signInManager = signInManager;
             this.hostingEnvironment = hostingEnvironment;
         }
 
@@ -29,9 +34,35 @@
                 return this.Redirect("/Interviews/All");
             }
 
-            var userDetails = this.usersService.Details<DetailsUserVM>(userId);
+            var isLoggedInUser = userId == this.GetLoggedInUserId(this.User);
+
+            var userDetails = this.usersService.Details<DetailsUserVM>(userId, isLoggedInUser, this.IsAdmin());
 
             return this.View(userDetails);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Delete(string userId)
+        {
+            var cuurentLoggedInUserId = this.GetLoggedInUserId(this.User);
+            var isCurrentLoogedInUserAdmin = this.IsAdmin();
+
+            if (cuurentLoggedInUserId == userId)
+            {
+                await this.usersService.Delete(userId);
+                await this.signInManager.SignOutAsync();
+
+                return this.Redirect("/Home/Index");
+            }
+            else if (isCurrentLoogedInUserAdmin)
+            {
+                await this.usersService.Delete(userId);
+
+                return this.Redirect("/Home/Index");
+            }
+
+            return this.View("Error");
         }
 
         public IActionResult UserAvatar(string imageName)

@@ -20,25 +20,46 @@
         private readonly IDeletableEntityRepository<Question> questionsRepository;
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
         private readonly IDeletableEntityRepository<Like> likesRepository;
-        private readonly ApplicationDbContext db;
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
         public AdministrationService(
             IDeletableEntityRepository<Interview> interviewsRepository,
-            IDeletableEntityRepository<Question> questionEntityRepository,
-            IDeletableEntityRepository<Comment> commentsEntityRepository,
+            IDeletableEntityRepository<Question> questionRepository,
+            IDeletableEntityRepository<Comment> commentsRepository,
             IDeletableEntityRepository<Like> likesRepository,
-            ApplicationDbContext db)
+            IDeletableEntityRepository<ApplicationUser> usersRepository)
         {
             this.interviewsRepository = interviewsRepository;
-            this.questionsRepository = questionEntityRepository;
-            this.commentsRepository = commentsEntityRepository;
+            this.questionsRepository = questionRepository;
+            this.commentsRepository = commentsRepository;
             this.likesRepository = likesRepository;
-            this.db = db;
+            this.usersRepository = usersRepository;
         }
 
-        public DeletedUsersVM GetAllDeletedUsers()
+        public IEnumerable<T> GetAllDeletedUsers<T>()
         {
-            return null;
+            return this.usersRepository.AllAsNoTrackingWithDeleted()
+                .Where(u => u.IsDeleted)
+                .OrderByDescending(u => u.DeletedOn)
+                .To<T>()
+                .ToList();
+        }
+
+        public T GetDetailsDeletedUser<T>(string userId)
+        {
+            return this.usersRepository.AllWithDeleted()
+                .Where(u => u.Id == userId)
+                .To<T>()
+                .FirstOrDefault();
+        }
+
+        public async Task UndeleteUser(string userId)
+        {
+            var deletedUser = await this.usersRepository.GetByIdWithDeletedAsync(userId);
+
+            this.usersRepository.Undelete(deletedUser);
+
+            await this.usersRepository.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetDeletedInterviews<T>()
@@ -110,6 +131,6 @@
         public ManageNationalitiesVM GetNationalities()
         {
             throw new NotImplementedException();
-        }
+        }  
     }
 }

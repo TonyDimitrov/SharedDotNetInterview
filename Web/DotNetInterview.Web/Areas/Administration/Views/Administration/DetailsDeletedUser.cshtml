@@ -1,0 +1,59 @@
+﻿
+@model DotNetInterview.Web.ViewModels.Administration.Users.DetailsDeletedUser
+
+@{
+    ViewData["Title"] = "Details Deleted User";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/all-interviews.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/user-details.css")" rel="stylesheet" type="text/css" />
+}
+
+<h1 class="text-center h-title">
+    User Details
+    <div class=" circular-portrait">
+        <img src="/Users/UserAvatar?imageName=@Model.Image" alt="Avatar">
+    </div>
+</h1>
+
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Id:</div>
+    <div class="col-3 div-user">@Model.Id</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Name:</div>
+    <div class="col-3 div-user">@Model.FullName</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Staus:</div>
+    <div class="col-3 div-user deleted">@Model.Status</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Seniority:</div>
+    <div class="col-3 div-user">@Model.Position</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Nationality:</div>
+    <div class="col-3 div-user">@Model.Nationality</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-3">Description:</div>
+    <div class="col-3 div-user">@Model.Description</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-1">DOB:</div>
+    <div class="col-2 div-user">@Model.DateOfBirth</div>
+    <div class="col-2">Member since:</div>
+    <div class="col-2 div-user">@Model.MemberSince</div>
+    <div class="col-1">Shares:</div>
+    <div class="col-1 div-user"><span class="badge badge-pill span-questions">@Model.Shares</span></div>
+</div>
+
+
+
+
+
+
+
+
