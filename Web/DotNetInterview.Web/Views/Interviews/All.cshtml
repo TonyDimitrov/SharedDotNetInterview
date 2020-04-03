@@ -29,10 +29,10 @@
         <div class="col-2">@i.Date</div>
         <div class="col-1"><span class="badge badge-pill span-questions">@i.Likes</span></div>
         <div class="col-2">
-            <a class="a-user" asp-controller="Users" asp-action="Details" asp-route-userId="@i.CreatorId">
+            <a class="a-user @i.DisableUserLink" asp-controller="Users" asp-action="Details" asp-route-userId="@i.CreatorId">
                 @i.CreatorName
                 <div class="circular-portrait">
-                    <img src="/uploads/imageFiles/@i.CreatorAvatar" alt="Avatar">
+                    <img src="/uploads/imageFiles/@i.CreatorAvatar">
                 </div>
             </a>
         </div>

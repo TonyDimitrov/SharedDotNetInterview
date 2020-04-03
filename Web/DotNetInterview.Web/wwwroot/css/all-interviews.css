@@ -55,6 +55,11 @@
         color: #fe5c24;
     }
 
+.disable-link {
+    pointer-events: none;
+    cursor: default;
+}
+
 .circular-portrait {
     display: inline-block;
     position: relative;

@@ -16,6 +16,8 @@
 
         public string CreatorId { get; set; }
 
+        public string DisableUserLink { get; set; }
+
         public string CreatorName { get; set; }
 
         public string CreatorAvatar { get; set; }

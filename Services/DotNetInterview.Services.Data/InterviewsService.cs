@@ -72,6 +72,7 @@
                     CreatorFName = i.User.FirstName,
                     CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
                     CreatorAvatar = i.User.Image,
+                    CreatorUsername = i.User.UserName,
                 }).ToList();
             });
 
@@ -87,9 +88,10 @@
                     Date = i.Date,
                     Likes = i.Likes,
                     Questions = i.Questions,
-                    CreatorId = i.CreatorId,
-                    CreatorName = i.CreatorFName.FullUserNameParser(i.CreatorLName),
-                    CreatorAvatar = i.CreatorAvatar != null ? i.CreatorAvatar : GlobalConstants.DefaultAvatar,
+                    CreatorId = i.CreatorUsername != null ? i.CreatorId : string.Empty,
+                    CreatorName = i.CreatorUsername != null ? i.CreatorFName.FullUserNameParser(i.CreatorLName) : GlobalConstants.UserDeleted,
+                    CreatorAvatar = i.CreatorUsername != null ? i.CreatorAvatar != null ? i.CreatorAvatar : GlobalConstants.DefaultAvatar : null,
+                    DisableUserLink = i.CreatorUsername != null ? string.Empty : GlobalConstants.DesableLink,
                 }),
             };
 
@@ -171,6 +173,7 @@
                 {
                     InterviewId = i.Id,
                     UserId = i.UserId,
+                    UserName = i.User.UserName,
                     UserFName = i.User.FirstName,
                     UserLName = i.User.LastName,
                     Seniority = Enum.Parse<PositionSeniorityVM>(i.Seniority.ToString()),
@@ -210,6 +213,7 @@
                                 CreatedOn = c.CreatedOn,
                                 ModifiedOn = c.ModifiedOn,
                                 UserId = c.UserId,
+                                UserName = c.User.UserName,
                                 UserFName = c.User.FirstName,
                                 UserLName = c.User.LastName,
                             })
@@ -227,6 +231,7 @@
                         CreatedOn = c.CreatedOn,
                         ModifiedOn = c.ModifiedOn,
                         UserId = c.UserId,
+                        UserName = c.User.UserName,
                         UserFName = c.User.FirstName,
                         UserLName = c.User.LastName,
                     })
@@ -238,8 +243,9 @@
             var interviewVM = new DetailsInterviewVM
             {
                 InterviewId = interviewDTO.InterviewId,
-                UserId = interviewDTO.UserId,
-                UserFullName = interviewDTO.UserFName.FullUserNameParser(interviewDTO.UserLName),
+                UserId = interviewDTO.UserName != null ? interviewDTO.UserId : null,
+                UserFullName = interviewDTO.UserName != null ? interviewDTO.UserFName.FullUserNameParser(interviewDTO.UserLName) : GlobalConstants.UserDeleted,
+                DisableUserLink = interviewDTO.UserName != null ? string.Empty : GlobalConstants.DesableLink,
                 Seniority = Helper.ParseEnum<PositionSeniorityVM>(interviewDTO.Seniority),
                 PositionTitle = interviewDTO.PositionTitle,
                 PositionDescription = interviewDTO.PositionDescription == null ? GlobalConstants.NoDescription : interviewDTO.PositionDescription,

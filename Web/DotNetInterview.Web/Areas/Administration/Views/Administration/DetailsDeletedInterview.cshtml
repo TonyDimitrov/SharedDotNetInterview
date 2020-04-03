@@ -62,7 +62,8 @@
                 </div>
                 <div class="col-2 div-row">
                     <span class="div-row-header">Shared by: </span>
-                    <a class="a-user-link" href="/Users/Details?UserId=@Model.UserId">@Model.UserFullName</a>
+                    <a class="a-user-link" asp-area="Administration"
+                       asp-controller="Administration" asp-action="DetailsDeletedUser" asp-route-userId="@Model.UserId">@Model.UserFullName</a>
                 </div>
                 <div class="col-2 div-row">
                     <span class="div-row-header">On: </span>@Model.CreatedOn
@@ -104,7 +105,8 @@
                     <div class="col-8 wrap">@comment.Content</div>
                     <div class="col-2 div-small-fond">@comment.CreatedOn</div>
                     <div class="col-2 div-small-fond">
-                        <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
+                        <a asp-area="Administration"
+                           asp-controller="Administration" asp-action="DetailsDeletedUser" asp-route-userId="@Model.UserId" class="a-user-link">
                             @comment.UserFullName
                         </a>
                     </div>
@@ -158,12 +160,13 @@
                             <div class="col-8 wrap">@comment.Content</div>
                             <div class="col-2 div-small-fond">@comment.CreatedOn</div>
                             <div class="col-2 div-small-fond">
-                                <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
+                                <a asp-area="Administration"
+                                   asp-controller="Administration" asp-action="DetailsDeletedUser" asp-route-userId="@Model.UserId" class="a-user-link">
                                     @comment.UserFullName
                                 </a>
                             </div>
                         </div>
-                    }            
+                    }
                 </div>
             </div>
 

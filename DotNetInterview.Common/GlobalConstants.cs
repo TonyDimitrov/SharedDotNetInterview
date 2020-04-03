@@ -24,6 +24,8 @@
 
         public const string NoDescription = "No description";
 
+        public const string UserDeleted = "No user info";
+
         public const string LikedCss = "liked";
 
         public const string Hidden = "hidden";
@@ -31,6 +33,12 @@
         public const string AddAnswer = "Add answer";
 
         public const string DeleteAnswer = "Delete answer";
+
+        public const string DeletedStatus = "Deleted";
+
+        public const string DesableLink = "disable-link";
+
+        public const string ActiveStatus = "Active";
 
         public const string LocationTypeRemote = "Remote";
 

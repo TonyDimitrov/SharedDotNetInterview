@@ -73,12 +73,12 @@
             {
                 var amagePathAndName = Path.Combine(imagePath, imageName);
 
-                return this.PhysicalFile(amagePathAndName, this.BuildFileContenttype(imageName));
+                return this.PhysicalFile(amagePathAndName, this.BuildFileContentType(imageName));
             }
 
-            var amagePathAndDefaultName = Path.Combine(imagePath, GlobalConstants.DefaultAvatar);
+           // var amagePathAndDefaultName = Path.Combine(imagePath, GlobalConstants.DefaultAvatar);
 
-            return this.PhysicalFile(amagePathAndDefaultName, this.BuildFileContenttype(GlobalConstants.DefaultAvatar));
+            return this.PhysicalFile(string.Empty, this.BuildFileContentType(GlobalConstants.DefaultAvatar));
         }
     }
 }

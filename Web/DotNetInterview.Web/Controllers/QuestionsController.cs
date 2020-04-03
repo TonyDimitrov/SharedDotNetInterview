@@ -64,7 +64,7 @@
 
                 var fileExtension = this.FileExtension(fileName);
 
-                return this.PhysicalFile(filePathAndName, this.BuildFileContenttype(fileName), "file." + fileExtension);
+                return this.PhysicalFile(filePathAndName, this.BuildFileContentType(fileName), "file." + fileExtension);
             }
 
             return null;
@@ -81,7 +81,7 @@
 
             var fileExtension = this.FileExtension(imageName);
 
-            return this.PhysicalFile(filePathAndName, this.BuildFileContenttype(imageName));
+            return this.PhysicalFile(filePathAndName, this.BuildFileContentType(imageName));
         }
     }
 }

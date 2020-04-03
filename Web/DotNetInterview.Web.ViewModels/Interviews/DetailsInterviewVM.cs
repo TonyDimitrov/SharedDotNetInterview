@@ -16,6 +16,8 @@
 
         public string UserFullName { get; set; }
 
+        public string DisableUserLink { get; set; }
+
         public string InterviewId { get; set; }
 
         public string Seniority { get; set; }

@@ -131,6 +131,6 @@
         public ManageNationalitiesVM GetNationalities()
         {
             throw new NotImplementedException();
-        }  
+        }
     }
 }

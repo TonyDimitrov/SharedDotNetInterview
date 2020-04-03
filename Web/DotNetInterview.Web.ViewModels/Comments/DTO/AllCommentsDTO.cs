@@ -20,6 +20,8 @@
 
         public string UserId { get; set; }
 
+        public string UserName { get; set; }
+
         public string UserFName { get; set; }
 
         public string UserLName { get; set; }

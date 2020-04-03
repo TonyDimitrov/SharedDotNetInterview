@@ -56,7 +56,8 @@
                 </div>
                 <div class="col-2 div-row">
                     <span class="div-row-header">Shared by: </span>
-                    <a class="a-user-link" href="/Users/Details?UserId=@Model.UserId">@Model.UserFullName</a>
+                    <a class="a-user-link @Model.DisableUserLink" asp-area="" asp-controller="Users"
+                       asp-action="Details" asp-route-userId="@Model.UserId">@Model.UserFullName</a>
                 </div>
                 <div class="col-2 div-row">
                     <span class="div-row-header">On: </span>@Model.ModifiedOn

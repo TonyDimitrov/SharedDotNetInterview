@@ -21,5 +21,7 @@
         public string CreatorLName { get; set; }
 
         public string CreatorAvatar { get; set; }
+
+        public string CreatorUsername { get; set; }
     }
 }

@@ -79,10 +79,15 @@
     text-decoration: none;
 }
 
-    .a-user-link:hover, .a-user:focus, .a-user:active {
-        text-decoration: none;
-        color: #fe5c24;
-    }
+.a-user-link:hover, .a-user:focus, .a-user:active {
+    text-decoration: none;
+    color: #fe5c24;
+}
+
+.disable-link {
+    pointer-events: none;
+    cursor: default;
+}
 
 .div-q-row {
     margin-top: 2%;

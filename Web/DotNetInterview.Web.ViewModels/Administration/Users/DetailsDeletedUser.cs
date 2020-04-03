@@ -27,7 +27,7 @@
 
         public string Image { get; set; }
 
-        public string Status => "Deleted";
+        public string Status { get; set; }
 
         public int Shares { get; set; }
 
@@ -42,6 +42,7 @@
                 .ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
                 .ForMember(u => u.DeletedOn, opt => opt.MapFrom(u => u.DeletedOn != null
                 ? u.DeletedOn.Value.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null))
+                .ForMember(u => u.Status, opt => opt.MapFrom(u => u.IsDeleted ? GlobalConstants.DeletedStatus : GlobalConstants.ActiveStatus ))
                 .ForMember(u => u.Shares, opt => opt.MapFrom(u => u.Interviews.Count));
         }
     }

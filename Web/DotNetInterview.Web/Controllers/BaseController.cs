@@ -28,7 +28,7 @@
             return Path.Combine(hostingEnvironment.WebRootPath, typeFilesDirectory);
         }
 
-        internal string BuildFileContenttype(string fileName)
+        internal string BuildFileContentType(string fileName)
         {
             return Path.Combine(GlobalConstants.ImageContentType, fileName
                 .Split('.', StringSplitOptions.RemoveEmptyEntries)
