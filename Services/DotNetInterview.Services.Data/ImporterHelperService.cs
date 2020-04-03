@@ -1,12 +1,10 @@
 ﻿namespace DotNetInterview.Services.Data
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
+
     using DotNetInterview.Data;
-    using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -17,6 +15,27 @@
         public ImporterHelperService(ApplicationDbContext db)
         {
             this.db = db;
+        }
+
+        public async Task AddNationality(string nationality)
+        {
+            if (string.IsNullOrWhiteSpace(nationality))
+            {
+                return;
+            }
+
+            await this.db.AddAsync(new Nationality { CompanyNationality = nationality });
+
+            await this.db.SaveChangesAsync();
+        }
+
+        public async Task DeleteNationality(string nationality)
+        {
+            var dbnationality = this.db.Nationalities.FirstOrDefault(n => n.CompanyNationality == nationality);
+
+            this.db.Remove(dbnationality);
+
+            await this.db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<SelectListItem>> GetAll()

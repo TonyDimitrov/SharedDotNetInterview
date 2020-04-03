@@ -10,5 +10,9 @@
         Task<IEnumerable<SelectListItem>> GetAll();
 
         Task<IEnumerable<SelectListItem>> GetAllWithSelected(string selectNationality);
+
+        Task AddNationality(string nationality);
+
+        Task DeleteNationality(string nationality);
     }
 }

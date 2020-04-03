@@ -1,4 +1,5 @@
-﻿
+﻿@model DotNetInterview.Web.ViewModels.Administration.Nationalities.ManageNationalitiesVM
+
 @{
     ViewData["Title"] = "Manage nationalities";
 }
@@ -16,3 +17,10 @@
 <partial name="_AdminNavigationPartial" />
 
 <h3>Manage nationalities</h3>
+
+<div class="form-group">
+    <label asp-for="Add" class="control-label required"></label>
+    <select asp-for="Add" class="form-control" data-val="true" aria-describedby="CompanyNationality-error" asp-items="Model.Nationalities">
+    </select>
+    <span asp-validation-for="Add" class="text-danger"></span>
+</div>

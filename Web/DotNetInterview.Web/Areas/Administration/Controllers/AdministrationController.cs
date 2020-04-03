@@ -10,16 +10,21 @@
     using DotNetInterview.Web.ViewModels.Administration.Users;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Administration.Interviews;
+    using DotNetInterview.Web.ViewModels.Administration.Nationalities;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
     public class AdministrationController : BaseController
     {
         private readonly IAdministrationService administratorService;
+        private readonly IImporterHelperService importerHelperService;
 
-        public AdministrationController(IAdministrationService administratorService)
+        public AdministrationController(
+            IAdministrationService administratorService,
+            IImporterHelperService importerHelperService)
         {
             this.administratorService = administratorService;
+            this.importerHelperService = importerHelperService;
         }
 
         [HttpGet]
@@ -76,17 +81,20 @@
         }
 
         [HttpGet]
-        public IActionResult ManageNationalitiesGet()
+        public async Task<IActionResult> ManageNationalitiesGet()
         {
-            return this.View();
+            var selectListItems = await this.importerHelperService.GetAll();
+
+            return this.View(new ManageNationalitiesVM { Nationalities = selectListItems });
         }
 
+        [HttpPost]
         public Task<IActionResult> AddNationality(string nationality)
         {
             return null;
         }
 
-        [HttpGet]
+        [HttpPost]
         public Task<IActionResult> DeleteNationality(string nationality)
         {
             return null;
