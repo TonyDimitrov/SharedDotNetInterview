@@ -31,10 +31,11 @@
         <div class="col-2">
             <a class="a-user @i.DisableUserLink" asp-controller="Users" asp-action="Details" asp-route-userId="@i.CreatorId">
                 @i.CreatorName
-                <div class="circular-portrait">
-                    <img src="/uploads/imageFiles/@i.CreatorAvatar">
-                </div>
+
             </a>
+            <div class="circular-portrait">
+                <img src="/Users/UserAvatar?imageName=@i.CreatorAvatar">
+            </div>
         </div>
         <div class="col-1">
             <a class="btn btn-sm btn-info btn-details" asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@i.InterviewId">Details</a>

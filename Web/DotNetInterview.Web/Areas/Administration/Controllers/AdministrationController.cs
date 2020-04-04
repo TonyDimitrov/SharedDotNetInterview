@@ -2,15 +2,14 @@
 {
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-
     using DotNetInterview.Common;
-    using DotNetInterview.Web.Controllers;
-    using DotNetInterview.Web.ViewModels.Administration.Users;
     using DotNetInterview.Services.Data;
+    using DotNetInterview.Web.Controllers;
     using DotNetInterview.Web.ViewModels.Administration.Interviews;
     using DotNetInterview.Web.ViewModels.Administration.Nationalities;
+    using DotNetInterview.Web.ViewModels.Administration.Users;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
@@ -52,9 +51,9 @@
         [HttpGet]
         public async Task<IActionResult> UndeleteUser(string userId)
         {
-           await this.administratorService.UndeleteUser(userId);
+            await this.administratorService.UndeleteUser(userId);
 
-           return this.RedirectToAction("DeletedUsers");
+            return this.RedirectToAction("DeletedUsers");
         }
 
         public IActionResult DeletedInterviews()
@@ -75,9 +74,9 @@
         [HttpGet]
         public async Task<IActionResult> UndeleteInterview(string interviewId)
         {
-           await this.administratorService.UndeleteInterview(interviewId);
+            await this.administratorService.UndeleteInterview(interviewId);
 
-           return this.RedirectToAction("DeletedInterviews");
+            return this.RedirectToAction("DeletedInterviews");
         }
 
         [HttpGet]
@@ -89,15 +88,39 @@
         }
 
         [HttpPost]
-        public Task<IActionResult> AddNationality(string nationality)
+        public async Task<IActionResult> AddNationality(ManageNationalitiesVM model)
         {
-            return null;
+            if (!this.ModelState.IsValid)
+            {
+                model.Nationalities = await this.importerHelperService.GetAll();
+
+                return this.View(nameof(this.ManageNationalitiesGet), model);
+            }
+
+            var added = await this.importerHelperService.AddNationality(model.Add);
+
+            model.StatusMessage = added.Message;
+            model.Nationalities = await this.importerHelperService.GetAll();
+
+            return this.View(nameof(this.ManageNationalitiesGet), model);
         }
 
         [HttpPost]
-        public Task<IActionResult> DeleteNationality(string nationality)
+        public async Task<IActionResult> DeleteNationality(ManageNationalitiesVM model)
         {
-            return null;
+            if (!this.ModelState.IsValid)
+            {
+                model.Nationalities = await this.importerHelperService.GetAll();
+
+                return this.View(nameof(this.ManageNationalitiesGet), model);
+            }
+
+            var deleted = await this.importerHelperService.DeleteNationality(model.Delete);
+
+            model.StatusMessage = deleted.Message;
+            model.Nationalities = await this.importerHelperService.GetAllWithSelected(model.Delete);
+
+            return this.View(nameof(this.ManageNationalitiesGet), model);
         }
-    }
+}
 }

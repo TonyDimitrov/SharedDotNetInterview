@@ -6,6 +6,7 @@
 
     using DotNetInterview.Data;
     using DotNetInterview.Data.Models;
+    using DotNetInterview.Web.ViewModels.Common;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class ImporterHelperService : IImporterHelperService
@@ -17,25 +18,44 @@
             this.db = db;
         }
 
-        public async Task AddNationality(string nationality)
+        public async Task<DbOperation> AddNationality(string nationality)
         {
             if (string.IsNullOrWhiteSpace(nationality))
             {
-                return;
+                return new DbOperation(false, "Error! Nationality was empty!");
+            }
+
+            if (this.db.Nationalities.Any(n => n.CompanyNationality == nationality))
+            {
+               return new DbOperation(false, $"Error! Nationality [{nationality}] already exists!");
             }
 
             await this.db.AddAsync(new Nationality { CompanyNationality = nationality });
 
             await this.db.SaveChangesAsync();
+
+            return new DbOperation(true, $"Nationality [{nationality}]  successfully added!");
         }
 
-        public async Task DeleteNationality(string nationality)
+        public async Task<DbOperation> DeleteNationality(string nationality)
         {
+            if (string.IsNullOrWhiteSpace(nationality))
+            {
+                return new DbOperation(false, $"Error! Nationality was empty!");
+            }
+
             var dbnationality = this.db.Nationalities.FirstOrDefault(n => n.CompanyNationality == nationality);
+
+            if (dbnationality == null)
+            {
+                return new DbOperation(false, $"Error! Nationality [{nationality}] was not found!");
+            }
 
             this.db.Remove(dbnationality);
 
             await this.db.SaveChangesAsync();
+
+            return new DbOperation(false, $"Nationality [{nationality}] was successfully deleted!");
         }
 
         public async Task<IEnumerable<SelectListItem>> GetAll()
