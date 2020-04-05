@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class DeletedUsersVM
+    using DotNetInterview.Web.ViewModels.Common;
+
+    public class DeletedUsersVM : PaginationVM
     {
         public IEnumerable<DeletedUserVM> DeletedUsers { get; set; }
     }

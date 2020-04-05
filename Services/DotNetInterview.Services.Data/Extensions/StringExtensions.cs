@@ -43,5 +43,17 @@
 
             return sanitizer.Sanitize(text);
         }
+
+        public static string PositionTitleParser(this string positionTitle)
+        {
+            if (positionTitle != null && positionTitle.Length <= 50)
+            {
+                return positionTitle;
+            }
+            else
+            {
+                return positionTitle.Substring(0, 47) + "...";
+            }
+        }
     }
 }

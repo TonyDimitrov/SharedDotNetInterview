@@ -41,8 +41,14 @@
             return this.usersRepository.AllAsNoTrackingWithDeleted()
                 .Where(u => u.IsDeleted)
                 .OrderByDescending(u => u.DeletedOn)
-                .To<T>()
-                .ToList();
+                .To<T>();
+        }
+
+        public DeletedUsersVM GetDeletedUsersByPage(int page, DeletedUsersVM usersVM, IEnumerable<DeletedUserVM> users)
+        {
+            usersVM.DeletedUsers = usersVM.SetPagination<DeletedUserVM>(users, page);
+
+            return usersVM;
         }
 
         public T GetDetailsDeletedUser<T>(string userId)
@@ -62,67 +68,17 @@
             await this.usersRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<T> GetDeletedInterviews<T>(int pageIndex)
+        public IEnumerable<T> GetDeletedInterviews<T>()
         {
-            var skipPages = (pageIndex * GlobalConstants.PagesNumber) - GlobalConstants.PagesNumber;
-
             return this.interviewsRepository.AllAsNoTrackingWithDeleted()
                 .Where(i => i.IsDeleted)
                 .OrderByDescending(i => i.DeletedOn)
-                .To<T>()
-                .Skip(skipPages)
-                .Take(GlobalConstants.PagesNumber)
-                .ToList();
+                .To<T>();
         }
 
-        public DeletedInterviewsVM GetDeletedInterviewsByPage(int pageIndex, IEnumerable<DeletedInterviewVM> interviews)
+        public DeletedInterviewsVM GetDeletedInterviewsByPage(int page, DeletedInterviewsVM interviewsVM, IEnumerable<DeletedInterviewVM> interviews)
         {
-            var paginationSets = (int)Math.Ceiling((double)this.interviewsRepository.AllWithDeleted()
-                .Where(i => i.IsDeleted)
-                .Count() / GlobalConstants.PagesNumber);
-
-            var interviewsVM = new DeletedInterviewsVM();
-            interviewsVM.DeletedInterviews = interviews;
-
-            for (int i = GlobalConstants.PaginationLength; true; i += GlobalConstants.PaginationLength)
-            {
-                if (pageIndex <= i)
-                {
-                    if (paginationSets > i)
-                    {
-                        interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
-                        interviewsVM.PaginationLength = GlobalConstants.PaginationLength;
-                        interviewsVM.NextDisable = string.Empty;
-                    }
-                    else
-                    {
-                        interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
-                        interviewsVM.PaginationLength = paginationSets - interviewsVM.StartrIndex;
-                        interviewsVM.NextDisable = GlobalConstants.DesableLink;
-                    }
-
-                    break;
-                }
-                else if (paginationSets < i)
-                {
-                    interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
-                    interviewsVM.PaginationLength = paginationSets - interviewsVM.StartrIndex;
-                    interviewsVM.NextDisable = GlobalConstants.DesableLink;
-
-                    break;
-                }
-            }
-
-            interviewsVM.CurrentSet = pageIndex;
-
-            if (interviewsVM.StartrIndex == 0)
-            {
-                interviewsVM.PrevtDisable = GlobalConstants.DesableLink;
-            }
-            else
-            {
-                interviewsVM.PrevtDisable = string.Empty;
-            }
+            interviewsVM.DeletedInterviews = interviewsVM.SetPagination<DeletedInterviewVM>(interviews, page);
 
             return interviewsVM;
         }

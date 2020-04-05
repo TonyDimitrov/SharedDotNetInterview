@@ -6,8 +6,6 @@
 
     public class AllInterviewQuestionsVM
     {
-        public AllInterviewQuestionsVM() => this.QnsComments = new List<AllCommentsVM>();
-
         public string QuestionId { get; set; }
 
         public string Content { get; set; }

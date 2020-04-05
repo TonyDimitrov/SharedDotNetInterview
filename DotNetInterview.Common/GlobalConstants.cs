@@ -46,7 +46,7 @@
 
         public const string ImageContentType = "image/";
 
-        public const int PagesNumber = 5;
+        public const int ResultsPerPage = 2;
 
         public const int PaginationLength = 3;
     }

@@ -1,6 +1,8 @@
 ﻿namespace DotNetInterview.Services.Data
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using DotNetInterview.Common;
@@ -41,10 +43,8 @@
             await this.questionRepository.SaveChangesAsync();
         }
 
-        public AllIQuestionsVM All(int rank, string currentUserId, bool isAdmin, int pageIndex)
+        public AllIQuestionsVM All(int rank, string currentUserId, bool isAdmin)
         {
-            var skipPages = (pageIndex * GlobalConstants.PagesNumber) - GlobalConstants.PagesNumber;
-
             bool all = rank > 3 ? true : false;
 
             var questionsDTO = this.questionRepository.All()
@@ -73,27 +73,25 @@
                                 UserFName = c.User.FirstName,
                                 UserLName = c.User.LastName,
                             })
-                            .OrderBy(c => c.CreatedOn)
-                            .ToList(),
-                        })
-                        .Skip(skipPages)
-                        .Take(GlobalConstants.PagesNumber)
-                        .ToList();
+                            .OrderBy(c => c.CreatedOn),
+                        });
 
             var questions = new AllIQuestionsVM
             {
                 Rank = rank,
                 HideAddComment = Utils.HideAddComment(currentUserId),
-                Questions = questionsDTO.Select(q => new AllInterviewQuestionsVM
+                Questions = questionsDTO
+                .Select(q => new AllInterviewQuestionsVM
                 {
                     QuestionId = q.QuestionId,
                     Content = q.Content.SanitizeTextInput(),
                     Answer = q.Answer.SanitizeTextInput(),
                     HideAnswer = q.Answer == null,
-                    CreatedOn = q.CreatedOn.DateTimeViewFormater(),
-                    ModifiedOn = q.ModifiedOn?.DateTimeViewFormater(),
+                    CreatedOn = q.CreatedOn.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture),
+                    ModifiedOn = q.ModifiedOn != null ? q.ModifiedOn.Value.ToLocalTime()
+                    .ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null,
                     HideRanked = q.Ranked == 0,
-                    Ranked = Helper.ParseEnum<QuestionRankTypeVM>(q.Ranked),
+                    Ranked = q.Ranked.ToString(),
                     HideFile = q.File == null,
                     File = q.File,
                     InterviewId = q.InterviewId,
@@ -104,8 +102,9 @@
                             HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
                             HideAdd = Utils.HideAddComment(currentUserId),
                             Content = c.Content,
-                            CreatedOn = c.CreatedOn.DateTimeViewFormater(),
-                            ModifiedOn = c.ModifiedOn?.DateTimeViewFormater(),
+                            CreatedOn = c.CreatedOn.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture),
+                            ModifiedOn = c.ModifiedOn != null ? q.ModifiedOn.Value.ToLocalTime()
+                            .ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null,
                             HasBeenModified = Utils.IsModified(c.CreatedOn, c.ModifiedOn),
                             UserId = c.UserId,
                             UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
@@ -113,7 +112,14 @@
                 }),
             };
 
-            return this.AddPagination(pageIndex, questions);
+            return questions;
+        }
+
+        public AllIQuestionsVM AllByPage(int page, AllIQuestionsVM questionsVM, IEnumerable<AllInterviewQuestionsVM> collection)
+        {
+            questionsVM.Questions = questionsVM.SetPagination<AllInterviewQuestionsVM>(collection, page);
+
+            return questionsVM;
         }
 
         public T AllComments<T>(string id, string currentUserId, bool isAdmin)
@@ -163,53 +169,6 @@
         public Task<bool> Delete(string commentId)
         {
             throw new NotImplementedException();
-        }
-
-        private AllIQuestionsVM AddPagination(int pageIndex, AllIQuestionsVM questions)
-        {
-            var paginationSets = (int)Math.Ceiling((double)this.questionRepository.All().Count() / GlobalConstants.PagesNumber);
-
-            for (int i = GlobalConstants.PaginationLength; true; i += GlobalConstants.PaginationLength)
-            {
-                if (pageIndex <= i)
-                {
-                    if (paginationSets > i)
-                    {
-                        questions.StartrIndex = i - GlobalConstants.PaginationLength;
-                        questions.PaginationLength = GlobalConstants.PaginationLength;
-                        questions.NextDisable = string.Empty;
-                    }
-                    else
-                    {
-                        questions.StartrIndex = i - GlobalConstants.PaginationLength;
-                        questions.PaginationLength = paginationSets - questions.StartrIndex;
-                        questions.NextDisable = GlobalConstants.DesableLink;
-                    }
-
-                    break;
-                }
-                else if (paginationSets < i)
-                {
-                    questions.StartrIndex = i - GlobalConstants.PaginationLength;
-                    questions.PaginationLength = paginationSets - questions.StartrIndex;
-                    questions.NextDisable = GlobalConstants.DesableLink;
-
-                    break;
-                }
-            }
-
-            questions.CurrentSet = pageIndex;
-
-            if (questions.StartrIndex == 0)
-            {
-                questions.PrevtDisable = GlobalConstants.DesableLink;
-            }
-            else
-            {
-                questions.PrevtDisable = string.Empty;
-            }
-
-            return questions;
         }
     }
 }

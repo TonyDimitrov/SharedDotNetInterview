@@ -2,19 +2,11 @@
 {
     using System.Collections.Generic;
 
-    public class AllInterviewsVM
+    using DotNetInterview.Web.ViewModels.Common;
+
+    public class AllInterviewsVM : PaginationVM
     {
         public int Seniority { get; set; }
-
-        public int PaginationLength { get; set; } = 3;
-
-        public int StartrIndex { get; set; }
-
-        public int CurrentSet { get; set; }
-
-        public string PrevtDisable { get; set; }
-
-        public string NextDisable { get; set; }
 
         public IEnumerable<InterviewVM> Interviews { get; set; }
     }

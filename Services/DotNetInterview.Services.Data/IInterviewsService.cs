@@ -1,9 +1,9 @@
 ﻿namespace DotNetInterview.Services.Data
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using DotNetInterview.Web.ViewModels.Comments.DTO;
-    using DotNetInterview.Web.ViewModels.Common.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using DotNetInterview.Web.ViewModels.Likes;
@@ -11,6 +11,8 @@
     public interface IInterviewsService
     {
         Task<AllInterviewsVM> All(int seniority, int pageIndex);
+
+        AllInterviewsVM AllByPage(int page, AllInterviewsVM interviewVM, IEnumerable<InterviewVM> interviews);
 
         CreateInterviewVM CreateGetVM();
 

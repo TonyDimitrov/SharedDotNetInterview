@@ -45,10 +45,13 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery]int seniority, int pageIndex = 1)
+        public async Task<IActionResult> All([FromQuery]int seniority, int page = 1)
         {
-            var interviews = await this.interviewsService.All(seniority, pageIndex);
-            return this.View(interviews);
+            var interviewsVM = await this.interviewsService.All(seniority, page);
+
+            var interviewsByPage = this.interviewsService.AllByPage(page, new AllInterviewsVM(), interviewsVM.Interviews);
+
+            return this.View(interviewsByPage);
         }
 
         [Authorize]

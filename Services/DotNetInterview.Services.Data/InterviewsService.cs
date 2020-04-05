@@ -52,8 +52,6 @@
 
         public async Task<AllInterviewsVM> All(int seniority, int pageIndex)
         {
-            var skipPages = (pageIndex * GlobalConstants.PagesNumber) - GlobalConstants.PagesNumber;
-
             var selectAllSeniorities = seniority == 0;
 
             var interviewsDto = await Task.Run(() =>
@@ -76,10 +74,7 @@
                     CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
                     CreatorAvatar = i.User.Image,
                     CreatorUsername = i.User.UserName,
-                })
-                .Skip(skipPages)
-                .Take(GlobalConstants.PagesNumber)
-                .ToList();
+                });
             });
 
             var interviewsVM = new AllInterviewsVM
@@ -90,8 +85,8 @@
                 new InterviewVM
                 {
                     InterviewId = i.InterviewId,
-                    Seniority = this.SeniorityNameParser(i.SeniorityAsNumber),
-                    PositionTitle = this.PositionTitleParser(i.PositionTitle),
+                    Seniority = i.SeniorityAsNumber.SeniorityNameParser(),
+                    PositionTitle = i.PositionTitle.PositionTitleParser(),
                     Date = i.Date,
                     Likes = i.Likes,
                     Questions = i.Questions,
@@ -102,51 +97,14 @@
                 }),
             };
 
-            var paginationSets = (int)Math.Ceiling((double)this.interviewsRepository.All()
-                .Where(i => (int)(object)i.Seniority == seniority || selectAllSeniorities)
-                .Count() / GlobalConstants.PagesNumber);
-
-            for (int i = GlobalConstants.PaginationLength; true; i += GlobalConstants.PaginationLength)
-            {
-                if (pageIndex <= i)
-                {
-                    if (paginationSets > i)
-                    {
-                        interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
-                        interviewsVM.PaginationLength = GlobalConstants.PaginationLength;
-                        interviewsVM.NextDisable = string.Empty;
-                    }
-                    else
-                    {
-                        interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
-                        interviewsVM.PaginationLength = paginationSets - interviewsVM.StartrIndex;
-                        interviewsVM.NextDisable = GlobalConstants.DesableLink;
-                    }
-
-                    break;
-                }
-                else if (paginationSets < i)
-                {
-                    interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
-                    interviewsVM.PaginationLength = paginationSets - interviewsVM.StartrIndex;
-                    interviewsVM.NextDisable = GlobalConstants.DesableLink;
-
-                    break;
-                }
-            }
-
-            interviewsVM.CurrentSet = pageIndex;
-
-            if (interviewsVM.StartrIndex == 0)
-            {
-                interviewsVM.PrevtDisable = GlobalConstants.DesableLink;
-            }
-            else
-            {
-                interviewsVM.PrevtDisable = string.Empty;
-            }
-
             return interviewsVM;
+        }
+
+        public AllInterviewsVM AllByPage(int page, AllInterviewsVM interviewVM, IEnumerable<InterviewVM> interviews)
+        {
+            interviewVM.Interviews = interviewVM.SetPagination<InterviewVM>(interviews, page);
+
+            return interviewVM;
         }
 
         public CreateInterviewVM CreateGetVM()
@@ -705,31 +663,6 @@
                 Count = count,
                 LikedCss = isLiked ? GlobalConstants.LikedCss : string.Empty,
             };
-        }
-
-        private string SeniorityNameParser(int seniority) =>
-            seniority switch
-            {
-                0 => "Not specified",
-                1 => "Junior developer",
-                2 => "Regular developer",
-                3 => "Senior developer",
-                4 => "Lead developer",
-                5 => "Architect",
-                99 => "Other",
-                _ => throw new ArgumentException($"Seniority type [{seniority}] is invalid!"),
-            };
-
-        private string PositionTitleParser(string positionTitle)
-        {
-            if (positionTitle != null && positionTitle.Length <= 50)
-            {
-                return positionTitle;
-            }
-            else
-            {
-                return positionTitle.Substring(0, 47) + "...";
-            }
         }
     }
 }

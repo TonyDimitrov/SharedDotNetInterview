@@ -72,3 +72,33 @@
     </div>
     @*end undelete*@
 }
+
+<div class="row justify-content-md-center">
+    <div class="col-2">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link @Model.PrevtDisable" asp-area="Administration"
+                       asp-controller="Administration" asp-action="DeletedUsers" asp-route-page="@Model.StartrIndex" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                @for (int setNumber = Model.StartrIndex + 1; setNumber <= Model.StartrIndex + Model.PaginationLength; setNumber++)
+                {
+                    <li class="page-item">
+                        <a class="page-link @(setNumber == Model.CurrentPage ? "mark-box" : string.Empty)" asp-area="Administration"
+                           asp-controller="Administration" asp-action="DeletedUsers" asp-route-page="@setNumber">@setNumber</a>
+                    </li>
+                }
+                <li class="page-item">
+                    <a class="page-link @Model.NextDisable" asp-area="Administration" asp-controller="Administration"
+                       asp-action="DeletedUsers" asp-route-page="@(Model.StartrIndex + Model.PaginationLength + 1)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -8,6 +8,7 @@
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
+    using DotNetInterview.Web.ViewModels.Questions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
@@ -44,13 +45,16 @@
         }
 
         [HttpGet]
-        public IActionResult All([FromQuery]int ranked, int pageIndex = 1)
+        public IActionResult All([FromQuery]int ranked, int page = 1)
         {
             var userId = this.GetLoggedInUserId(this.User);
             var isAdmin = this.IsAdmin();
-            var questions = this.questionsService.All(ranked, userId, isAdmin, pageIndex);
 
-            return this.View(questions);
+            var questions = this.questionsService.All(ranked, userId, isAdmin);
+
+            var questionsByPage = this.questionsService.AllByPage(page, new AllIQuestionsVM(), questions.Questions);
+
+            return this.View(questionsByPage);
         }
 
         [HttpGet]

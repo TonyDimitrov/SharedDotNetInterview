@@ -2,19 +2,11 @@
 {
     using System.Collections.Generic;
 
-    public class DeletedInterviewsVM
+    using DotNetInterview.Web.ViewModels.Common;
+
+    public class DeletedInterviewsVM : PaginationVM
     {
         public int Seniority { get; set; }
-
-        public int PaginationLength { get; set; } = 3;
-
-        public int StartrIndex { get; set; }
-
-        public int CurrentSet { get; set; }
-
-        public string PrevtDisable { get; set; }
-
-        public string NextDisable { get; set; }
 
         public IEnumerable<DeletedInterviewVM> DeletedInterviews { get; set; }
     }

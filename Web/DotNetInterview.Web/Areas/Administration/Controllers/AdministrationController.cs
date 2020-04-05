@@ -33,11 +33,13 @@
         }
 
         [HttpGet]
-        public IActionResult DeletedUsers(int? page)
+        public IActionResult DeletedUsers(int page = 1)
         {
             var allDeleted = this.administratorService.GetAllDeletedUsers<DeletedUserVM>();
 
-            return this.View(new DeletedUsersVM { DeletedUsers = allDeleted });
+            var usersPerPage = this.administratorService.GetDeletedUsersByPage(page, new DeletedUsersVM(), allDeleted);
+
+            return this.View(usersPerPage);
         }
 
         [HttpGet]
@@ -57,13 +59,13 @@
         }
 
         [HttpGet]
-        public IActionResult DeletedInterviews(int pageIndex = 1)
+        public IActionResult DeletedInterviews(int page = 1)
         {
-            var allDeleted = this.administratorService.GetDeletedInterviews<DeletedInterviewVM>(pageIndex);
+            var allDeleted = this.administratorService.GetDeletedInterviews<DeletedInterviewVM>();
 
-            var interviews = this.administratorService.GetDeletedInterviewsByPage(pageIndex, allDeleted);
+            var interviewsPerPage = this.administratorService.GetDeletedInterviewsByPage(page, new DeletedInterviewsVM(), allDeleted);
 
-            return this.View(interviews);
+            return this.View(interviewsPerPage);
         }
 
         [HttpGet]
