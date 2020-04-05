@@ -83,8 +83,6 @@
 
             var filePathAndName = Path.Combine(imagePath, imageName);
 
-            var fileExtension = this.FileExtension(imageName);
-
             return this.PhysicalFile(filePathAndName, this.BuildFileContentType(imageName));
         }
     }

@@ -37,8 +37,8 @@
                     ? c.User.FirstName.Length <= 20
                         ? c.User.FirstName
                         : c.User.FirstName.Substring(0, 17) + "..."
-                     : (c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper()).Length <= 20
-                         ? c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper()
+                     : (c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper() + ".").Length <= 20
+                         ? c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper() + "."
                          : (c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper()).Substring(0, 17) + "..."));
         }
     }

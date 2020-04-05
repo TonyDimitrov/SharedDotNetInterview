@@ -70,8 +70,8 @@
                     ? c.User.FirstName.Length <= 20
                         ? c.User.FirstName
                         : c.User.FirstName.Substring(0, 17) + "..."
-                     : (c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper()).Length <= 20
-                         ? c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper()
+                     : (c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper() + ".").Length <= 20
+                         ? c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper() + "."
                          : (c.User.FirstName + " " + c.User.LastName.Substring(0, 1).ToUpper()).Substring(0, 17) + "..."));
 
             configuration.CreateMap<Question, DetailsDeletedInterviewQuestionsVM>()
@@ -79,7 +79,8 @@
                 .ForMember(q => q.HideAnswer, opt => opt.MapFrom(q => q.GivenAnswer != null ? string.Empty : "hidden"))
                 .ForMember(q => q.Ranked, opt => opt.MapFrom(q => q.RankType.ToString()))
                 .ForMember(q => q.HideRanked, opt => opt.MapFrom(q => q.RankType != QuestionRankType.None ? string.Empty : "hidden"))
-                .ForMember(q => q.CreatedOn, opt => opt.MapFrom(q => q.CreatedOn.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
+                .ForMember(q => q.CreatedOn, opt => opt.MapFrom(q => q.CreatedOn.ToLocalTime()
+                .ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
                 .ForMember(q => q.DeletedOn, opt => opt.MapFrom(q => q.DeletedOn != null
                 ? q.DeletedOn.Value.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null))
                 .ForMember(q => q.File, opt => opt.MapFrom(q => q.UrlTask))
@@ -93,8 +94,8 @@
                     ? i.User.FirstName.Length <= 20
                         ? i.User.FirstName
                         : i.User.FirstName.Substring(0, 17) + "..."
-                     : (i.User.FirstName + " " + i.User.LastName.Substring(0, 1).ToUpper()).Length <= 20
-                         ? i.User.FirstName + " " + i.User.LastName.Substring(0, 1).ToUpper()
+                     : (i.User.FirstName + " " + i.User.LastName.Substring(0, 1).ToUpper() + ".").Length <= 20
+                         ? i.User.FirstName + " " + i.User.LastName.Substring(0, 1).ToUpper() + "."
                          : (i.User.FirstName + " " + i.User.LastName.Substring(0, 1).ToUpper()).Substring(0, 17) + "..."))
                 .ForMember(i => i.Seniority, opt => opt.MapFrom(i => i.Seniority.ToString()))
                 .ForMember(i => i.PositionDescription, opt => opt.MapFrom(i => i.PositionDescription != null ? i.PositionDescription : GlobalConstants.NoDescription))

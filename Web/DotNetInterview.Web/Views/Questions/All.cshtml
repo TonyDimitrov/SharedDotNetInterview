@@ -27,7 +27,9 @@
                             <div class="col-8"><span class="span-text">@counter. </span>@Html.Raw(q.Content)</div>
 
                             <div class="col-1 div-small-fond">@q.ModifiedOn</div>
-                            <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="/Questions/RankImage" alt="Avatar"> @q.Ranked</div>
+                            <div class="col-1 div-small-fond" hidden="@q.HideRanked">
+                            <img class="img-glifi" src="/Questions/RankImage" alt="Avatar">
+                            <span enum-text="@q.Ranked">@q.Ranked</span></div>
                             <div class="col-1 div-small-fond" hidden="@q.HideFile">
                                 <a class="a-user-link" asp-controller="Questions" asp-action="File" asp-route-fileName="@q.File" download>
                                     Download file
