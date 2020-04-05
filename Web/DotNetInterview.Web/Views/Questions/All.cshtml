@@ -76,7 +76,7 @@
                                         </form>
                                     </div>
 
-                                </div>       
+                                </div>
                             </div>
                         }
 
@@ -103,6 +103,37 @@
         }
     }
 </div>
+
+<div class="row justify-content-md-center">
+    <div class="col-2">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link @Model.PrevtDisable" asp-area="" asp-controller="Questions"
+                       asp-action="All" asp-route-ranked="@Model.Rank" asp-route-PageIndex="@Model.StartrIndex" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                @for (int setNumber = Model.StartrIndex + 1; setNumber <= Model.StartrIndex + Model.PaginationLength; setNumber++)
+                {
+                    <li class="page-item">
+                        <a class="page-link @(setNumber == Model.CurrentSet ? "mark-box" : string.Empty)" asp-area=""
+                           asp-controller="Questions" asp-action="All" asp-route-ranked="@Model.Rank" asp-route-PageIndex="@setNumber">@setNumber</a>
+                    </li>
+                }
+                <li class="page-item">
+                    <a class="page-link @Model.NextDisable" asp-area="" asp-controller="Questions"
+                       asp-action="All" asp-route-ranked="@Model.Rank" asp-route-pageIndex="@(Model.StartrIndex + Model.PaginationLength + 1)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
 <environment names="Development">
     @*<script src="~/js/comments-interview.js" asp-append-version="true"></script>*@
     <script src="~/js/comments-question.js" asp-append-version="true"></script>

@@ -56,11 +56,14 @@
             return this.RedirectToAction("DeletedUsers");
         }
 
-        public IActionResult DeletedInterviews()
+        [HttpGet]
+        public IActionResult DeletedInterviews(int pageIndex = 1)
         {
-            var allDeleted = this.administratorService.GetDeletedInterviews<DeletedInterviewVM>();
+            var allDeleted = this.administratorService.GetDeletedInterviews<DeletedInterviewVM>(pageIndex);
 
-            return this.View(allDeleted);
+            var interviews = this.administratorService.GetDeletedInterviewsByPage(pageIndex, allDeleted);
+
+            return this.View(interviews);
         }
 
         [HttpGet]
@@ -122,5 +125,5 @@
 
             return this.View(nameof(this.ManageNationalitiesGet), model);
         }
-}
+    }
 }

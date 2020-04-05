@@ -1,5 +1,5 @@
 ﻿@using DotNetInterview.Web.ViewModels.Administration.Interviews
-@model IEnumerable<DeletedInterviewVM>
+@model DeletedInterviewsVM
 
 @{
     ViewData["Title"] = "All Deleted Interviews";
@@ -31,7 +31,7 @@
     <div class="col-1">Undelete</div>
 </div>
 
-@foreach (var i in Model)
+@foreach (var i in Model.DeletedInterviews)
 {
     <div class="row div-row div-r-bb">
         <div class="col-2">@i.InterviewId</div>
@@ -73,3 +73,32 @@
     </div>
     @*end undelete*@
 }
+<div class="row justify-content-md-center">
+    <div class="col-2">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link @Model.PrevtDisable" asp-area="Administration"
+                       asp-controller="Administration" asp-action="DeletedInterviews"  asp-route-pageIndex="@Model.StartrIndex" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                @for (int setNumber = Model.StartrIndex + 1; setNumber <= Model.StartrIndex + Model.PaginationLength; setNumber++)
+                {
+                    <li class="page-item">
+                        <a class="page-link @(setNumber == Model.CurrentSet ? "mark-box" : string.Empty)" asp-area="Administration"
+                       asp-controller="Administration" asp-action="DeletedInterviews"  asp-route-pageIndex="@setNumber">@setNumber</a>
+                    </li>
+                }
+                <li class="page-item">
+                    <a class="page-link @Model.NextDisable" asp-area="Administration" asp-controller="Administration"
+                       asp-action="DeletedInterviews" asp-route-pageIndex="@(Model.StartrIndex + Model.PaginationLength + 1)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

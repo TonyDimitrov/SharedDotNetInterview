@@ -13,6 +13,7 @@
     using DotNetInterview.Services.Data.Helpers;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
+    using DotNetInterview.Web.ViewModels.Common.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using Microsoft.AspNetCore.Authorization;
@@ -44,9 +45,9 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> All(int seniority = 0)
+        public async Task<IActionResult> All([FromQuery]int seniority, int pageIndex = 1)
         {
-            var interviews = await this.interviewsService.All(seniority);
+            var interviews = await this.interviewsService.All(seniority, pageIndex);
             return this.View(interviews);
         }
 

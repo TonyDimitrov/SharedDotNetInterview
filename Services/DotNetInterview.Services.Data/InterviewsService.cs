@@ -15,6 +15,7 @@
     using DotNetInterview.Services.Data.Helpers;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
+    using DotNetInterview.Web.ViewModels.Common.DTO;
     using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
@@ -49,8 +50,10 @@
             this.importerHelperService = importerHelperService;
         }
 
-        public async Task<AllInterviewsVM> All(int seniority)
+        public async Task<AllInterviewsVM> All(int seniority, int pageIndex)
         {
+            var skipPages = (pageIndex * GlobalConstants.PagesNumber) - GlobalConstants.PagesNumber;
+
             var selectAllSeniorities = seniority == 0;
 
             var interviewsDto = await Task.Run(() =>
@@ -73,11 +76,15 @@
                     CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
                     CreatorAvatar = i.User.Image,
                     CreatorUsername = i.User.UserName,
-                }).ToList();
+                })
+                .Skip(skipPages)
+                .Take(GlobalConstants.PagesNumber)
+                .ToList();
             });
 
             var interviewsVM = new AllInterviewsVM
             {
+                Seniority = seniority,
                 Interviews = interviewsDto
                 .Select(i =>
                 new InterviewVM
@@ -94,6 +101,50 @@
                     DisableUserLink = i.CreatorUsername != null ? string.Empty : GlobalConstants.DesableLink,
                 }),
             };
+
+            var paginationSets = (int)Math.Ceiling((double)this.interviewsRepository.All()
+                .Where(i => (int)(object)i.Seniority == seniority || selectAllSeniorities)
+                .Count() / GlobalConstants.PagesNumber);
+
+            for (int i = GlobalConstants.PaginationLength; true; i += GlobalConstants.PaginationLength)
+            {
+                if (pageIndex <= i)
+                {
+                    if (paginationSets > i)
+                    {
+                        interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
+                        interviewsVM.PaginationLength = GlobalConstants.PaginationLength;
+                        interviewsVM.NextDisable = string.Empty;
+                    }
+                    else
+                    {
+                        interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
+                        interviewsVM.PaginationLength = paginationSets - interviewsVM.StartrIndex;
+                        interviewsVM.NextDisable = GlobalConstants.DesableLink;
+                    }
+
+                    break;
+                }
+                else if (paginationSets < i)
+                {
+                    interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
+                    interviewsVM.PaginationLength = paginationSets - interviewsVM.StartrIndex;
+                    interviewsVM.NextDisable = GlobalConstants.DesableLink;
+
+                    break;
+                }
+            }
+
+            interviewsVM.CurrentSet = pageIndex;
+
+            if (interviewsVM.StartrIndex == 0)
+            {
+                interviewsVM.PrevtDisable = GlobalConstants.DesableLink;
+            }
+            else
+            {
+                interviewsVM.PrevtDisable = string.Empty;
+            }
 
             return interviewsVM;
         }

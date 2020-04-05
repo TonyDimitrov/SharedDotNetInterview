@@ -7,7 +7,7 @@
 
     public interface IQuestionsService
     {
-        AllIQuestionsVM All(int rank, string currentUserId, bool isAdmin);
+        AllIQuestionsVM All(int rank, string currentUserId, bool isAdmin, int pageIndex);
 
         Task<bool> Delete(string commentId);
 

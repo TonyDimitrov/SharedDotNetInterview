@@ -18,3 +18,13 @@
     font-weight: bold;
     font-size: 15px;
 }
+
+.disable-link {
+    pointer-events: none;
+    cursor: default;
+    background-color: lightgrey;
+}
+
+.mark-box {
+    background-color: lightcyan;
+}

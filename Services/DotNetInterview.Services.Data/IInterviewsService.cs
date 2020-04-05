@@ -3,13 +3,14 @@
     using System.Threading.Tasks;
 
     using DotNetInterview.Web.ViewModels.Comments.DTO;
+    using DotNetInterview.Web.ViewModels.Common.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using DotNetInterview.Web.ViewModels.Likes;
 
     public interface IInterviewsService
     {
-        Task<AllInterviewsVM> All(int seniority);
+        Task<AllInterviewsVM> All(int seniority, int pageIndex);
 
         CreateInterviewVM CreateGetVM();
 

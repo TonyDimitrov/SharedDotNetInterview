@@ -44,11 +44,11 @@
         }
 
         [HttpGet]
-        public IActionResult All(int ranked)
+        public IActionResult All([FromQuery]int ranked, int pageIndex = 1)
         {
             var userId = this.GetLoggedInUserId(this.User);
             var isAdmin = this.IsAdmin();
-            var questions = this.questionsService.All(ranked, userId, isAdmin);
+            var questions = this.questionsService.All(ranked, userId, isAdmin, pageIndex);
 
             return this.View(questions);
         }

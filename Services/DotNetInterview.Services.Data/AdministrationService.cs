@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using DotNetInterview.Common;
     using DotNetInterview.Data;
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
@@ -62,13 +62,69 @@
             await this.usersRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<T> GetDeletedInterviews<T>()
+        public IEnumerable<T> GetDeletedInterviews<T>(int pageIndex)
         {
+            var skipPages = (pageIndex * GlobalConstants.PagesNumber) - GlobalConstants.PagesNumber;
+
             return this.interviewsRepository.AllAsNoTrackingWithDeleted()
                 .Where(i => i.IsDeleted)
                 .OrderByDescending(i => i.DeletedOn)
                 .To<T>()
+                .Skip(skipPages)
+                .Take(GlobalConstants.PagesNumber)
                 .ToList();
+        }
+
+        public DeletedInterviewsVM GetDeletedInterviewsByPage(int pageIndex, IEnumerable<DeletedInterviewVM> interviews)
+        {
+            var paginationSets = (int)Math.Ceiling((double)this.interviewsRepository.AllWithDeleted()
+                .Where(i => i.IsDeleted)
+                .Count() / GlobalConstants.PagesNumber);
+
+            var interviewsVM = new DeletedInterviewsVM();
+            interviewsVM.DeletedInterviews = interviews;
+
+            for (int i = GlobalConstants.PaginationLength; true; i += GlobalConstants.PaginationLength)
+            {
+                if (pageIndex <= i)
+                {
+                    if (paginationSets > i)
+                    {
+                        interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
+                        interviewsVM.PaginationLength = GlobalConstants.PaginationLength;
+                        interviewsVM.NextDisable = string.Empty;
+                    }
+                    else
+                    {
+                        interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
+                        interviewsVM.PaginationLength = paginationSets - interviewsVM.StartrIndex;
+                        interviewsVM.NextDisable = GlobalConstants.DesableLink;
+                    }
+
+                    break;
+                }
+                else if (paginationSets < i)
+                {
+                    interviewsVM.StartrIndex = i - GlobalConstants.PaginationLength;
+                    interviewsVM.PaginationLength = paginationSets - interviewsVM.StartrIndex;
+                    interviewsVM.NextDisable = GlobalConstants.DesableLink;
+
+                    break;
+                }
+            }
+
+            interviewsVM.CurrentSet = pageIndex;
+
+            if (interviewsVM.StartrIndex == 0)
+            {
+                interviewsVM.PrevtDisable = GlobalConstants.DesableLink;
+            }
+            else
+            {
+                interviewsVM.PrevtDisable = string.Empty;
+            }
+
+            return interviewsVM;
         }
 
         public T GetDetailsDeletedInterview<T>(string interviewId)

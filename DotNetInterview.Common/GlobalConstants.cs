@@ -45,5 +45,9 @@
         public const string LocationTypeChecked = "checked";
 
         public const string ImageContentType = "image/";
+
+        public const int PagesNumber = 5;
+
+        public const int PaginationLength = 3;
     }
 }

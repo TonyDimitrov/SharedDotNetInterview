@@ -41,8 +41,10 @@
             await this.questionRepository.SaveChangesAsync();
         }
 
-        public AllIQuestionsVM All(int rank, string currentUserId, bool isAdmin)
+        public AllIQuestionsVM All(int rank, string currentUserId, bool isAdmin, int pageIndex)
         {
+            var skipPages = (pageIndex * GlobalConstants.PagesNumber) - GlobalConstants.PagesNumber;
+
             bool all = rank > 3 ? true : false;
 
             var questionsDTO = this.questionRepository.All()
@@ -74,10 +76,13 @@
                             .OrderBy(c => c.CreatedOn)
                             .ToList(),
                         })
+                        .Skip(skipPages)
+                        .Take(GlobalConstants.PagesNumber)
                         .ToList();
 
             var questions = new AllIQuestionsVM
             {
+                Rank = rank,
                 HideAddComment = Utils.HideAddComment(currentUserId),
                 Questions = questionsDTO.Select(q => new AllInterviewQuestionsVM
                 {
@@ -108,7 +113,7 @@
                 }),
             };
 
-            return questions;
+            return this.AddPagination(pageIndex, questions);
         }
 
         public T AllComments<T>(string id, string currentUserId, bool isAdmin)
@@ -158,6 +163,53 @@
         public Task<bool> Delete(string commentId)
         {
             throw new NotImplementedException();
+        }
+
+        private AllIQuestionsVM AddPagination(int pageIndex, AllIQuestionsVM questions)
+        {
+            var paginationSets = (int)Math.Ceiling((double)this.questionRepository.All().Count() / GlobalConstants.PagesNumber);
+
+            for (int i = GlobalConstants.PaginationLength; true; i += GlobalConstants.PaginationLength)
+            {
+                if (pageIndex <= i)
+                {
+                    if (paginationSets > i)
+                    {
+                        questions.StartrIndex = i - GlobalConstants.PaginationLength;
+                        questions.PaginationLength = GlobalConstants.PaginationLength;
+                        questions.NextDisable = string.Empty;
+                    }
+                    else
+                    {
+                        questions.StartrIndex = i - GlobalConstants.PaginationLength;
+                        questions.PaginationLength = paginationSets - questions.StartrIndex;
+                        questions.NextDisable = GlobalConstants.DesableLink;
+                    }
+
+                    break;
+                }
+                else if (paginationSets < i)
+                {
+                    questions.StartrIndex = i - GlobalConstants.PaginationLength;
+                    questions.PaginationLength = paginationSets - questions.StartrIndex;
+                    questions.NextDisable = GlobalConstants.DesableLink;
+
+                    break;
+                }
+            }
+
+            questions.CurrentSet = pageIndex;
+
+            if (questions.StartrIndex == 0)
+            {
+                questions.PrevtDisable = GlobalConstants.DesableLink;
+            }
+            else
+            {
+                questions.PrevtDisable = string.Empty;
+            }
+
+            return questions;
         }
     }
 }
