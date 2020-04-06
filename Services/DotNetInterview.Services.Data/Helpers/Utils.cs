@@ -22,7 +22,7 @@
             return modifiedOn != null && modifiedOn != createdOn ? true : false;
         }
 
-        public static T SetStringValues<T>(T model, string inputField)
+        public static void SetStringValues<T>(T model, string inputField)
         {
             if (string.IsNullOrEmpty(inputField))
             {
@@ -44,8 +44,6 @@
                .GetProperty("GivenAnswerBtnText", BindingFlags.Public | BindingFlags.Instance)
                .SetValue(model, GlobalConstants.DeleteAnswer);
             }
-
-            return model;
         }
 
         public static string ParseEnum<T>(T @enum, string separator = " ")
