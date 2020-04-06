@@ -2,12 +2,11 @@
 {
     using System;
     using System.Reflection;
-
+    using System.Text.RegularExpressions;
     using DotNetInterview.Common;
 
     public static class Utils
     {
-
         public static string HideDelete(string itemUserId, string currentUserId, bool isAdmin)
         {
             return itemUserId == currentUserId || isAdmin ? string.Empty : "hidden";
@@ -47,6 +46,18 @@
             }
 
             return model;
+        }
+
+        public static string ParseEnum<T>(T @enum, string separator = " ")
+        where T : struct
+        {
+            var r = new Regex(
+                @"
+                (?<=[A-Z])(?=[A-Z][a-z]) |
+                 (?<=[^A-Z])(?=[A-Z]) |
+                 (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
+
+            return r.Replace(@enum.ToString(), separator);
         }
     }
 }

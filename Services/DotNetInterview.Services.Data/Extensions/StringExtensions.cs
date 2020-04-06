@@ -52,7 +52,7 @@
             }
             else
             {
-                return positionTitle.Substring(0, 47) + "...";
+                return positionTitle?.Substring(0, 47) + "...";
             }
         }
     }

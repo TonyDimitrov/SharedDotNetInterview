@@ -17,7 +17,7 @@
 
         public const string DefaultRanking = "star.png";
 
-        public const string FormatDate = "dd MMM yyyy hh:mm";
+        public const string FormatDate = "dd MMM yyyy HH:mm";
         public const string FormatDateShort = "dd MM yy hh:mm";
 
         public const string NoInformation = "Not specified";

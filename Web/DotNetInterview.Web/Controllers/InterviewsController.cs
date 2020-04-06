@@ -20,20 +20,17 @@
 
     public class InterviewsController : BaseController
     {
-        private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IInterviewsService interviewsService;
         private readonly IImporterHelperService importerHelperService;
         private readonly IFileService fileService;
 
         public InterviewsController(
-            RoleManager<ApplicationRole> roleManager,
             IWebHostEnvironment hostingEnvironment,
             IInterviewsService interviewsService,
             IImporterHelperService importerHelperService,
             IFileService fileService)
         {
-            this.roleManager = roleManager;
             this.hostingEnvironment = hostingEnvironment;
             this.interviewsService = interviewsService;
             this.importerHelperService = importerHelperService;

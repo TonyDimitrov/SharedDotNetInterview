@@ -19,9 +19,6 @@
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using DotNetInterview.Web.ViewModels.Likes;
-    using DotNetInterview.Web.ViewModels.Questions;
-    using DotNetInterview.Web.ViewModels.Questions.DTO;
-    using Ganss.XSS;
     using Microsoft.EntityFrameworkCore;
 
     public class InterviewsService : IInterviewsService
@@ -254,12 +251,12 @@
                 UserId = interviewDTO.UserName != null ? interviewDTO.UserId : null,
                 UserFullName = interviewDTO.UserName != null ? interviewDTO.UserFName.FullUserNameParser(interviewDTO.UserLName) : GlobalConstants.UserDeleted,
                 DisableUserLink = interviewDTO.UserName != null ? string.Empty : GlobalConstants.DesableLink,
-                Seniority = Helper.ParseEnum<PositionSeniorityVM>(interviewDTO.Seniority),
+                Seniority = Utils.ParseEnum<PositionSeniorityVM>(interviewDTO.Seniority),
                 PositionTitle = interviewDTO.PositionTitle,
                 PositionDescription = interviewDTO.PositionDescription == null ? GlobalConstants.NoDescription : interviewDTO.PositionDescription,
                 CompanyNationality = interviewDTO.CompanyNationality,
-                CompanySize = Helper.ParseEnum<EmployeesSizeVM>(interviewDTO.CompanySize),
-                LocationType = Helper.ParseEnum<LocationTypeVM>(interviewDTO.LocationType),
+                CompanySize = Utils.ParseEnum<EmployeesSizeVM>(interviewDTO.CompanySize),
+                LocationType = Utils.ParseEnum<LocationTypeVM>(interviewDTO.LocationType),
                 ShowLocation = interviewDTO.LocationType == LocationTypeVM.InOffice ? string.Empty : GlobalConstants.Hidden,
                 InterviewLocation = interviewDTO.InterviewLocation,
                 CreatedOn = interviewDTO.CreatedOn.DateTimeViewFormater(),
@@ -280,7 +277,7 @@
                         CreatedOn = q.CreatedOn.DateTimeViewFormater(),
                         ModifiedOn = q.ModifiedOn?.DateTimeViewFormater(),
                         HideRanked = q.Ranked == 0,
-                        Ranked = Helper.ParseEnum<QuestionRankTypeVM>(q.Ranked),
+                        Ranked = Utils.ParseEnum<QuestionRankTypeVM>(q.Ranked),
                         HideFile = q.File == null,
                         File = q.File,
                         InterviewId = q.InterviewId,

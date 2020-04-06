@@ -10,6 +10,7 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Services.Data.CustomExceptions;
+    using DotNetInterview.Services.Data.Helpers;
     using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Users;
     using DotNetInterview.Web.ViewModels.Users.DTO;
@@ -64,7 +65,7 @@
             {
                 Id = userDTO.Id,
                 FullName = $"{userDTO.FirstName} {userDTO.LastName}",
-                Position = Helper.ParseEnum<PersonSeniorityVM>(userDTO.Position),
+                Position = Utils.ParseEnum<PersonSeniorityVM>(userDTO.Position),
                 Nationality = userDTO.Nationality != null ? userDTO.Nationality : GlobalConstants.NoInformation,
                 MemberSince = userDTO.MemberSince.ToString(GlobalConstants.FormatDate),
                 DateOfBirth = userDTO.DateOfBirth != null ? userDTO.DateOfBirth?.ToString(GlobalConstants.FormatDate) : GlobalConstants.NoInformation,
