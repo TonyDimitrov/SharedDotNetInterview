@@ -62,4 +62,6 @@
     <Folder Include="Views\Comments\" />
     <Folder Include="wwwroot\uploads\taskFiles\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties bundleconfig_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>

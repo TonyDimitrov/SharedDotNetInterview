@@ -38,6 +38,7 @@
                 .ForMember(u => u.DateOfBirth, opt => opt.MapFrom(u => u.DateOfBirth != null
                 ? u.DateOfBirth.Value.ToLocalTime()
                 .ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : GlobalConstants.NoInformation))
+                .ForMember(u => u.Description, opt => opt.MapFrom(u => u.Description == null ? GlobalConstants.NoDescription : u.Description))
                 .ForMember(u => u.MemberSince, opt => opt.MapFrom(u => u.CreatedOn.ToLocalTime()
                 .ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
                 .ForMember(u => u.DeletedOn, opt => opt.MapFrom(u => u.DeletedOn != null

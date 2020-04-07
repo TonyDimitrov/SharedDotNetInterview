@@ -17,7 +17,7 @@
 
         public int Questions { get; set; }
 
-        public PositionSeniorityVM Seniority { get; set; }
+        public string Seniority { get; set; }
 
         public string CreatedOn { get; set; }
 
@@ -40,7 +40,7 @@
             opt => opt.MapFrom(x => x.PositionTitle != null && x.PositionTitle.Length <= 50 ? x.PositionTitle : x.PositionTitle.Substring(0, 47) + "..."))
                     .ForMember(
             i => i.Seniority,
-            opt => opt.MapFrom(x => Enum.Parse<PositionSeniorityVM>(x.Seniority.ToString())))
+            opt => opt.MapFrom(x => x.Seniority.ToString()))
                     .ForMember(
             i => i.Questions,
             opt => opt.MapFrom(x => x.Questions.Count));

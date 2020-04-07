@@ -18,19 +18,19 @@
 
         public string InterviewId { get; set; }
 
-        public PositionSeniorityVM Seniority { get; set; }
+        public string Seniority { get; set; }
 
         public string PositionTitle { get; set; }
 
         public string PositionDescription { get; set; }
 
-        public LocationTypeVM LocationType { get; set; }
+        public string LocationType { get; set; }
 
         public string InterviewLocation { get; set; }
 
         public string CompanyNationality { get; set; }
 
-        public EmployeesSizeVM CompanySize { get; set; }
+        public string CompanySize { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

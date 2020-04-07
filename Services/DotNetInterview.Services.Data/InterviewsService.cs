@@ -46,7 +46,7 @@
             this.importerHelperService = importerHelperService;
         }
 
-        public async Task<AllInterviewsVM> All(int seniority, int pageIndex)
+        public async Task<AllInterviewsVM> All(int seniority)
         {
             var selectAllSeniorities = seniority == 0;
 
@@ -54,13 +54,13 @@
             {
                 return this.interviewsRepository.All()
                 .Where(i => (int)(object)i.Seniority == seniority || selectAllSeniorities)
-                .OrderByDescending(i => i.HeldOnDate)
+                .OrderByDescending(i => i.CreatedOn)
                 .Select(i => new AllInterviewDTO
                 {
                     InterviewId = i.Id,
                     PositionTitle = i.PositionTitle,
-                    SeniorityAsNumber = (int)i.Seniority,
-                    Date = i.HeldOnDate.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture),
+                    PositionSeniority = i.Seniority.ToString(),
+                    Date = i.CreatedOn.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture),
                     Likes = i.Likes
                     .Where(l => l.IsLiked)
                     .Count(),
@@ -81,7 +81,7 @@
                 new InterviewVM
                 {
                     InterviewId = i.InterviewId,
-                    Seniority = i.SeniorityAsNumber.SeniorityNameParser(),
+                    Seniority = i.PositionSeniority,
                     PositionTitle = i.PositionTitle.PositionTitleParser(),
                     Date = i.Date,
                     Likes = i.Likes,
@@ -152,7 +152,6 @@
                 Seniority = (PositionSeniority)model.Seniority,
                 PositionTitle = model.PositionTitle,
                 PositionDescription = model.PositionDescription,
-                HeldOnDate = DateTime.UtcNow,
                 CreatedOn = DateTime.UtcNow,
                 CompanyNationality = model.CompanyNationality,
                 Employees = (EmployeesSize)model.Employees,
@@ -181,12 +180,12 @@
                     UserName = i.User.UserName,
                     UserFName = i.User.FirstName,
                     UserLName = i.User.LastName,
-                    Seniority = Enum.Parse<PositionSeniorityVM>(i.Seniority.ToString()),
+                    Seniority = i.Seniority.ToString(),
                     PositionTitle = i.PositionTitle,
                     PositionDescription = i.PositionDescription,
                     CompanyNationality = i.CompanyNationality,
-                    CompanySize = Enum.Parse<EmployeesSizeVM>(i.Employees.ToString()),
-                    LocationType = Enum.Parse<LocationTypeVM>(i.LocationType.ToString()),
+                    CompanySize = i.Employees.ToString(),
+                    LocationType = i.LocationType.ToString(),
                     InterviewLocation = i.HeldOnInterviewLocation,
                     CreatedOn = i.CreatedOn,
                     ModifiedOn = i.ModifiedOn,
@@ -204,7 +203,7 @@
                             Answer = q.GivenAnswer,
                             CreatedOn = q.CreatedOn,
                             ModifiedOn = q.ModifiedOn,
-                            Ranked = Enum.Parse<QuestionRankTypeVM>(q.RankType.ToString()),
+                            Ranked = q.RankType.ToString(),
                             File = q.UrlTask,
                             InterviewId = q.InterviewId,
                             QnsComments = q.Comments
@@ -251,13 +250,13 @@
                 UserId = interviewDTO.UserName != null ? interviewDTO.UserId : null,
                 UserFullName = interviewDTO.UserName != null ? interviewDTO.UserFName.FullUserNameParser(interviewDTO.UserLName) : GlobalConstants.UserDeleted,
                 DisableUserLink = interviewDTO.UserName != null ? string.Empty : GlobalConstants.DesableLink,
-                Seniority = Utils.ParseEnum<PositionSeniorityVM>(interviewDTO.Seniority),
+                Seniority = interviewDTO.Seniority,
                 PositionTitle = interviewDTO.PositionTitle,
                 PositionDescription = interviewDTO.PositionDescription == null ? GlobalConstants.NoDescription : interviewDTO.PositionDescription,
                 CompanyNationality = interviewDTO.CompanyNationality,
-                CompanySize = Utils.ParseEnum<EmployeesSizeVM>(interviewDTO.CompanySize),
-                LocationType = Utils.ParseEnum<LocationTypeVM>(interviewDTO.LocationType),
-                ShowLocation = interviewDTO.LocationType == LocationTypeVM.InOffice ? string.Empty : GlobalConstants.Hidden,
+                CompanySize = interviewDTO.CompanySize,
+                LocationType = interviewDTO.LocationType,
+                ShowLocation = interviewDTO.LocationType == GlobalConstants.LocationTypeInOffice ? string.Empty : GlobalConstants.Hidden,
                 InterviewLocation = interviewDTO.InterviewLocation,
                 CreatedOn = interviewDTO.CreatedOn.DateTimeViewFormater(),
                 ModifiedOn = interviewDTO.ModifiedOn?.DateTimeViewFormater(),
@@ -276,8 +275,8 @@
                         HideAnswer = q.Answer == null,
                         CreatedOn = q.CreatedOn.DateTimeViewFormater(),
                         ModifiedOn = q.ModifiedOn?.DateTimeViewFormater(),
-                        HideRanked = q.Ranked == 0,
-                        Ranked = Utils.ParseEnum<QuestionRankTypeVM>(q.Ranked),
+                        HideRanked = q.Ranked == GlobalConstants.None,
+                        Ranked = q.Ranked,
                         HideFile = q.File == null,
                         File = q.File,
                         InterviewId = q.InterviewId,
@@ -376,7 +375,7 @@
             dbInterview.Seniority = (PositionSeniority)interviewDTO.Seniority;
             dbInterview.PositionTitle = interviewDTO.PositionTitle;
             dbInterview.PositionDescription = interviewDTO.PositionDescription;
-            dbInterview.HeldOnDate = DateTime.UtcNow;
+            dbInterview.CreatedOn = DateTime.UtcNow;
             dbInterview.CompanyNationality = interviewDTO.CompanyNationality;
             dbInterview.Employees = (EmployeesSize)interviewDTO.TotalEmployees;
             dbInterview.LocationType = locationType;

@@ -76,9 +76,9 @@
                 return this.PhysicalFile(amagePathAndName, this.BuildFileContentType(imageName));
             }
 
-           // var amagePathAndDefaultName = Path.Combine(imagePath, GlobalConstants.DefaultAvatar);
+            var amagePathAndDefaultName = Path.Combine(imagePath, GlobalConstants.DefaultAvatar);
 
-            return this.PhysicalFile(string.Empty, this.BuildFileContentType(GlobalConstants.DefaultAvatar));
+            return this.PhysicalFile(amagePathAndDefaultName, this.BuildFileContentType(GlobalConstants.DefaultAvatar));
         }
     }
 }

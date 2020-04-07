@@ -56,7 +56,7 @@
                             Answer = q.GivenAnswer,
                             CreatedOn = q.CreatedOn,
                             ModifiedOn = q.ModifiedOn,
-                            Ranked = Enum.Parse<QuestionRankTypeVM>(q.RankType.ToString()),
+                            Ranked = q.RankType.ToString(),
                             File = q.UrlTask,
                             InterviewId = q.InterviewId,
                             QnsComments = q.Comments
@@ -90,7 +90,7 @@
                     CreatedOn = q.CreatedOn.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture),
                     ModifiedOn = q.ModifiedOn != null ? q.ModifiedOn.Value.ToLocalTime()
                     .ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null,
-                    HideRanked = q.Ranked == 0,
+                    HideRanked = q.Ranked == GlobalConstants.None,
                     Ranked = q.Ranked.ToString(),
                     HideFile = q.File == null,
                     File = q.File,

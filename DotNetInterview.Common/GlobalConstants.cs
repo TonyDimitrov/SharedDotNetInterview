@@ -22,6 +22,8 @@
 
         public const string NoInformation = "Not specified";
 
+        public const string None = "None";
+
         public const string NoDescription = "No description";
 
         public const string UserDeleted = "No user info";
@@ -49,5 +51,7 @@
         public const int ResultsPerPage = 2;
 
         public const int PaginationLength = 3;
+
+        public const string LocationTypeInOffice = "InOffice";
     }
 }

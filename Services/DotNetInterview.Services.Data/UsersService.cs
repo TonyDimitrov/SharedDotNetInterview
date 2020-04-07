@@ -1,7 +1,6 @@
 ﻿namespace DotNetInterview.Services.Data
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,8 +9,6 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Services.Data.CustomExceptions;
-    using DotNetInterview.Services.Data.Helpers;
-    using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Users;
     using DotNetInterview.Web.ViewModels.Users.DTO;
 
@@ -35,7 +32,7 @@
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     Nationality = u.Nationality,
-                    Position = Enum.Parse<PersonSeniorityVM>(u.Position.ToString()),
+                    Position = u.Position.ToString(),
                     Description = u.Description,
                     MemberSince = u.CreatedOn,
                     DateOfBirth = u.DateOfBirth,
@@ -45,7 +42,7 @@
                         {
                             InterviewId = i.Id,
                             Title = i.PositionTitle,
-                            Seniority = Enum.Parse<PersonSeniorityVM>(i.Seniority.ToString()),
+                            Seniority = i.Seniority.ToString(),
                             Date = i.CreatedOn.ToString(GlobalConstants.FormatDate),
                             Likes = i.Likes
                             .Where(l => l.IsLiked)
@@ -65,7 +62,7 @@
             {
                 Id = userDTO.Id,
                 FullName = $"{userDTO.FirstName} {userDTO.LastName}",
-                Position = Utils.ParseEnum<PersonSeniorityVM>(userDTO.Position),
+                Position = userDTO.Position,
                 Nationality = userDTO.Nationality != null ? userDTO.Nationality : GlobalConstants.NoInformation,
                 MemberSince = userDTO.MemberSince.ToString(GlobalConstants.FormatDate),
                 DateOfBirth = userDTO.DateOfBirth != null ? userDTO.DateOfBirth?.ToString(GlobalConstants.FormatDate) : GlobalConstants.NoInformation,
@@ -75,16 +72,6 @@
                 ShowDelete = isLoggedInUser || isAdmin ? string.Empty : GlobalConstants.Hidden,
                 Interviews = userDTO.Interviews,
             };
-        }
-
-        public IEnumerable<T> GetAll<T>(int? count = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T GetById<T>(string id)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task Updade(ApplicationUser user, UpdateUserDTO formModel, IFileService fileService, string fileDirectory)

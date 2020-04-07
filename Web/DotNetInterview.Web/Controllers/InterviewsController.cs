@@ -40,7 +40,7 @@
         [HttpGet]
         public async Task<IActionResult> All([FromQuery]int seniority, int page = 1)
         {
-            var interviewsVM = await this.interviewsService.All(seniority, page);
+            var interviewsVM = await this.interviewsService.All(seniority);
 
             var interviewsByPage = this.interviewsService.AllByPage(page, new AllInterviewsVM(), interviewsVM.Interviews);
 

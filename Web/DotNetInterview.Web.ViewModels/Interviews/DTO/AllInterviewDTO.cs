@@ -1,4 +1,6 @@
-﻿namespace DotNetInterview.Web.ViewModels.Interviews.DTO
+﻿using DotNetInterview.Web.ViewModels.Enums;
+
+namespace DotNetInterview.Web.ViewModels.Interviews.DTO
 {
     public class AllInterviewDTO
     {
@@ -10,7 +12,7 @@
 
         public string Date { get; set; }
 
-        public int SeniorityAsNumber { get; set; }
+        public string PositionSeniority { get; set; }
 
         public int Likes { get; set; }
 

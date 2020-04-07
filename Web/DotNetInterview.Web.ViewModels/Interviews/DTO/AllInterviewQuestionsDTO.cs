@@ -14,7 +14,7 @@
 
         public string Answer { get; set; }
 
-        public QuestionRankTypeVM Ranked { get; set; }
+        public string Ranked { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

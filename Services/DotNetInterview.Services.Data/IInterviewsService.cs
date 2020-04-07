@@ -10,7 +10,7 @@
 
     public interface IInterviewsService
     {
-        Task<AllInterviewsVM> All(int seniority, int pageIndex);
+        Task<AllInterviewsVM> All(int seniority);
 
         AllInterviewsVM AllByPage(int page, AllInterviewsVM interviewVM, IEnumerable<InterviewVM> interviews);
 

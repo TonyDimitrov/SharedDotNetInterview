@@ -17,7 +17,7 @@
             </h1>
             <div class="row justify-content-center">
                 <div class="col-2 div-row-header">Seniority:</div>
-                <div class="col-6 div-row">@Model.Seniority</div>
+                <div class="col-6 div-row" enum-text="@Model.Seniority">@Model.Seniority</div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-2 div-row-header">Title:</div>
@@ -29,7 +29,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-2 div-row-header">Position based: </div>
-                <div class="col-6 div-row">@Model.LocationType</div>
+                <div class="col-6 div-row" enum-text="@Model.LocationType">@Model.LocationType</div>
             </div>
             <div class="row justify-content-center" @Model.ShowLocation>
                 <div class="col-2 div-row-header">Location: </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-2 div-row-header">Employees: </div>
-                <div class="col-6 div-row">@Model.CompanySize</div>
+                <div class="col-6 div-row" enum-text="@Model.CompanySize" >@Model.CompanySize</div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-2 div-row-header">
@@ -150,7 +150,7 @@
                         <div class="col-8"><span class="span-text">@counter. </span>@Html.Raw(q.Content)</div>
 
                         <div class="col-1 div-small-fond">@q.ModifiedOn</div>
-                        <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @q.Ranked</div>
+                        <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /><span enum-text="@q.Ranked">@q.Ranked</span></div>
                         <div class="col-1 div-small-fond" hidden="@q.HideFile">
                             <a class="a-user-link" asp-controller="Questions" asp-action="File" asp-route-fileName="@q.File" download>
                                 Download file

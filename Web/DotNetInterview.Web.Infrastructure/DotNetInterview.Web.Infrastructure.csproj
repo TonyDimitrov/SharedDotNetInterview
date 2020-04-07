@@ -22,4 +22,8 @@
     <PackageReference Include="System.Text.Json" Version="4.7.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\DotNetInterview.Common\DotNetInterview.Common.csproj" />
+  </ItemGroup>
+
 </Project>
