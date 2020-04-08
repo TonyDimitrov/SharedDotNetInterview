@@ -1,5 +1,6 @@
 ﻿namespace DotNetInterview.Web.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.Json;
@@ -168,13 +169,21 @@
             }
 
             var userId = this.GetLoggedInUserId(this.User);
-
-            await this.interviewsService.AddComment(model, userId);
-
             var isAdmin = this.IsAdmin();
-            var comments = this.interviewsService.AllComments<IEnumerable<AllCommentsVM>>(model.Id, userId, isAdmin);
-            var toJson = JsonSerializer.Serialize(comments.ToList()[0], new JsonSerializerOptions { WriteIndented = true });
-            return this.Json(comments);
+
+            try
+            {
+                await this.interviewsService.AddComment(model, userId);
+
+                var comments = this.interviewsService.AllComments<IEnumerable<AllCommentsVM>>(model.Id, userId, isAdmin);
+                var toJson = JsonSerializer.Serialize(comments.ToList()[0], new JsonSerializerOptions { WriteIndented = true });
+
+                return this.Json(comments);
+            }
+            catch (Exception)
+            {
+                return this.View(GlobalConstants.ErrorView, "An error accure while adding comment!");
+            }
         }
 
         [Authorize]

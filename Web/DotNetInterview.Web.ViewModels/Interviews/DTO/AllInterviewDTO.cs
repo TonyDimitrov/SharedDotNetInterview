@@ -1,7 +1,7 @@
-﻿using DotNetInterview.Web.ViewModels.Enums;
-
-namespace DotNetInterview.Web.ViewModels.Interviews.DTO
+﻿namespace DotNetInterview.Web.ViewModels.Interviews.DTO
 {
+    using System;
+
     public class AllInterviewDTO
     {
         public string InterviewId { get; set; }
@@ -10,7 +10,7 @@ namespace DotNetInterview.Web.ViewModels.Interviews.DTO
 
         public int Questions { get; set; }
 
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
 
         public string PositionSeniority { get; set; }
 

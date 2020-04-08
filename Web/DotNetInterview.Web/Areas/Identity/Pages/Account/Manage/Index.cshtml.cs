@@ -80,7 +80,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
 
             [DataType(DataType.Text)]
             [Display(Name = "Nationality")]
-         //   [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            //   [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             public string Nationality { get; set; }
 
             [DataType(DataType.Text)]
@@ -107,6 +107,11 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
             var appUser = await this.userManager.GetUserAsync(this.User);
             this.Username = userName;
 
+            if (!Enum.TryParse(appUser.Position.ToString(), true, out PersonSeniorityVM seniotity))
+            {
+                seniotity = PersonSeniorityVM.Other;
+            }
+
             this.Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
@@ -130,7 +135,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
                         return n;
                     }
                 }),
-                Position = Enum.Parse<PersonSeniorityVM>(appUser?.Position.ToString()),
+                Position = seniotity,
                 Image = appUser.Image != null ? appUser.Image : GlobalConstants.DefaultAvatar,
             };
         }
@@ -148,7 +153,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
         }
 
         [ValidateAntiForgeryToken]
-        [Authorize]        
+        [Authorize]
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await this.userManager.GetUserAsync(this.User);

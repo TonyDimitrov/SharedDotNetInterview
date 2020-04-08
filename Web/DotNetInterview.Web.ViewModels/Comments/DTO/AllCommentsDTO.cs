@@ -6,10 +6,6 @@
     {
         public string CommentId { get; set; }
 
-        public string HideDelete { get; set; }
-
-        public string HideAdd { get; set; }
-
         public string ParentId { get; set; }
 
         public string Content { get; set; }

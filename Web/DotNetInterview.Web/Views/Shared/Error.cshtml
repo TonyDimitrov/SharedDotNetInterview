@@ -1,10 +1,10 @@
-﻿@model ErrorViewModel
+﻿@model ErrorVM
 @{
     this.ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h1 class="text-danger">Something unexpected happened!</h1>
+<h2 class="text-danger">We are very sorry for that situation.</h2>
 
 @if (this.Model.ShowRequestId)
 {
@@ -12,6 +12,8 @@
         <strong>Request ID:</strong> <code>@this.Model.RequestId</code>
     </p>
 }
+
+<p>@Model.Message</p>
 
 <h3>Development Mode</h3>
 <p>

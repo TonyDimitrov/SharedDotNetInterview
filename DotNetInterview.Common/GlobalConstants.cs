@@ -38,7 +38,7 @@
 
         public const string DeletedStatus = "Deleted";
 
-        public const string DesableLink = "disable-link";
+        public const string DisableLink = "disable-link";
 
         public const string ActiveStatus = "Active";
 
@@ -48,10 +48,12 @@
 
         public const string ImageContentType = "image/";
 
-        public const int ResultsPerPage = 2;
+        public const int ResultsPerPage = 10;
 
         public const int PaginationLength = 3;
 
         public const string LocationTypeInOffice = "InOffice";
+
+        public const string ErrorView = "Error";
     }
 }

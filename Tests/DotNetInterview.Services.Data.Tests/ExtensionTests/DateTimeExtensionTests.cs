@@ -11,17 +11,14 @@
         public void Format_DateTime_ShouldFormatAndReturnToLocalTime()
         {
             // Arrange
-            var hour = 12;
-            var date = new DateTime(2015, 05, 15, hour, 16, 26, DateTimeKind.Utc);
-            var localDifferentHoursFromUtc = DateTime.Now.Hour - DateTime.UtcNow.Hour;
-
-            var formattedHour = hour + localDifferentHoursFromUtc;
+            var date = new DateTime(2015, 05, 15, 12, 16, 26, DateTimeKind.Utc);
+            var hourToLocal = date.ToLocalTime().Hour;
 
             // Act
             var formattedDate = date.DateTimeViewFormater();
 
             // Assert
-            Assert.Equal($"15 May 2015 {formattedHour:00}:16", formattedDate);
+            Assert.Equal($"15 May 2015 {hourToLocal:00}:16", formattedDate);
         }
     }
 }

@@ -10,7 +10,7 @@
     {
         public int PaginationLength { get; set; }
 
-        public int StartrIndex { get; set; }
+        public int PreviousPage { get; set; }
 
         public int CurrentPage { get; set; }
 
@@ -28,24 +28,24 @@
                 {
                     if (paginationSets > i)
                     {
-                        this.StartrIndex = i - GlobalConstants.PaginationLength;
+                        this.PreviousPage = i - GlobalConstants.PaginationLength;
                         this.PaginationLength = GlobalConstants.PaginationLength;
                         this.NextDisable = string.Empty;
                     }
                     else
                     {
-                        this.StartrIndex = i - GlobalConstants.PaginationLength;
-                        this.PaginationLength = paginationSets - this.StartrIndex;
-                        this.NextDisable = GlobalConstants.DesableLink;
+                        this.PreviousPage = i - GlobalConstants.PaginationLength;
+                        this.PaginationLength = paginationSets - this.PreviousPage;
+                        this.NextDisable = GlobalConstants.DisableLink;
                     }
 
                     break;
                 }
                 else if (paginationSets < i)
                 {
-                    this.StartrIndex = i - GlobalConstants.PaginationLength;
-                    this.PaginationLength = paginationSets - this.StartrIndex;
-                    this.NextDisable = GlobalConstants.DesableLink;
+                    this.PreviousPage = i - GlobalConstants.PaginationLength;
+                    this.PaginationLength = paginationSets - this.PreviousPage;
+                    this.NextDisable = GlobalConstants.DisableLink;
 
                     break;
                 }
@@ -53,9 +53,9 @@
 
             this.CurrentPage = page;
 
-            if (this.StartrIndex == 0)
+            if (this.PreviousPage == 0)
             {
-                this.PrevtDisable = GlobalConstants.DesableLink;
+                this.PrevtDisable = GlobalConstants.DisableLink;
             }
             else
             {

@@ -60,7 +60,7 @@
                     InterviewId = i.Id,
                     PositionTitle = i.PositionTitle,
                     PositionSeniority = i.Seniority.ToString(),
-                    Date = i.CreatedOn.ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture),
+                    Date = i.CreatedOn,
                     Likes = i.Likes
                     .Where(l => l.IsLiked)
                     .Count(),
@@ -83,13 +83,13 @@
                     InterviewId = i.InterviewId,
                     Seniority = i.PositionSeniority,
                     PositionTitle = i.PositionTitle.PositionTitleParser(),
-                    Date = i.Date,
+                    Date = i.Date.DateTimeViewFormater(),
                     Likes = i.Likes,
                     Questions = i.Questions,
                     CreatorId = i.CreatorUsername != null ? i.CreatorId : string.Empty,
                     CreatorName = i.CreatorUsername != null ? i.CreatorFName.FullUserNameParser(i.CreatorLName) : GlobalConstants.UserDeleted,
                     CreatorAvatar = i.CreatorUsername != null ? i.CreatorAvatar != null ? i.CreatorAvatar : GlobalConstants.DefaultAvatar : null,
-                    DisableUserLink = i.CreatorUsername != null ? string.Empty : GlobalConstants.DesableLink,
+                    DisableUserLink = i.CreatorUsername != null ? string.Empty : GlobalConstants.DisableLink,
                 }),
             };
 
@@ -211,8 +211,6 @@
                             .Select(c => new AllCommentsDTO
                             {
                                 CommentId = c.Id,
-                                HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
-                                HideAdd = Utils.HideAddComment(currentUserId),
                                 Content = c.Content,
                                 CreatedOn = c.CreatedOn,
                                 ModifiedOn = c.ModifiedOn,
@@ -229,8 +227,6 @@
                     .Select(c => new AllCommentsDTO
                     {
                         CommentId = c.Id,
-                        HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
-                        HideAdd = Utils.HideAddComment(currentUserId),
                         Content = c.Content,
                         CreatedOn = c.CreatedOn,
                         ModifiedOn = c.ModifiedOn,
@@ -249,7 +245,7 @@
                 InterviewId = interviewDTO.InterviewId,
                 UserId = interviewDTO.UserName != null ? interviewDTO.UserId : null,
                 UserFullName = interviewDTO.UserName != null ? interviewDTO.UserFName.FullUserNameParser(interviewDTO.UserLName) : GlobalConstants.UserDeleted,
-                DisableUserLink = interviewDTO.UserName != null ? string.Empty : GlobalConstants.DesableLink,
+                DisableUserLink = interviewDTO.UserName != null ? string.Empty : GlobalConstants.DisableLink,
                 Seniority = interviewDTO.Seniority,
                 PositionTitle = interviewDTO.PositionTitle,
                 PositionDescription = interviewDTO.PositionDescription == null ? GlobalConstants.NoDescription : interviewDTO.PositionDescription,
@@ -548,7 +544,8 @@
 
         public async Task AddComment(AddCommentDTO postComment, string userId)
         {
-            var interview = await this.interviewsRepository.GetByIdWithDeletedAsync(postComment.Id);
+            var interview = this.interviewsRepository.All()
+                .FirstOrDefault(i => i.Id == postComment.Id);
 
             var comment = new Comment
             {
@@ -566,16 +563,10 @@
         {
             var commentsDTO = this.interviewsRepository.All()
                .Where(i => i.Id == interviewId)
-               .Include(i => i.Comments)
-               .ThenInclude(c => c.User)
-               .FirstOrDefault()
-               .Comments
-               .Where(c => !c.IsDeleted)
+               .Select(i => i.Comments
                .Select(c => new AllCommentsDTO
                {
                    CommentId = c.Id,
-                   HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
-                   HideAdd = Utils.HideAddComment(currentUserId),
                    ParentId = interviewId,
                    Content = c.Content,
                    CreatedOn = c.CreatedOn,
@@ -583,9 +574,9 @@
                    UserId = c.UserId,
                    UserFName = c.User.FirstName,
                    UserLName = c.User.LastName,
-               })
-               .OrderBy(c => c.CreatedOn)
-               .ToList();
+               }).OrderBy(c => c.CreatedOn)
+               .ToList())
+               .FirstOrDefault();
 
             var commentsVM = commentsDTO
               .Select(c => new AllCommentsVM

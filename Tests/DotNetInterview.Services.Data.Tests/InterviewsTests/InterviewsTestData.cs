@@ -1,14 +1,17 @@
-﻿using DotNetInterview.Data.Models;
-using DotNetInterview.Data.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace DotNetInterview.Services.Data.Tests.InterviewsTests
+﻿namespace DotNetInterview.Services.Data.Tests.InterviewsTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using DotNetInterview.Data.Models;
+    using DotNetInterview.Data.Models.Enums;
+    using DotNetInterview.Web.ViewModels.Interviews;
+
     public class InterviewsTestData
     {
-        public IQueryable<Interview> GetInterviewsTestData()
+        public static IQueryable<Interview> GetInterviewsTestData()
         {
             var data = new List<Interview>
             {
@@ -28,7 +31,9 @@ namespace DotNetInterview.Services.Data.Tests.InterviewsTests
                     {
                         Id = "1",
                         Email = "toni@toni.com",
+                        UserName = "toni@toni.com",
                         FirstName = "Toni",
+                        LastName = "Dimitrov",
                         IsDeleted = false,
                         Image = "avatar",
                     },
@@ -126,8 +131,8 @@ namespace DotNetInterview.Services.Data.Tests.InterviewsTests
                 {
                     Id = "2",
                     Seniority = PositionSeniority.RegularDeveloper,
-                    PositionTitle = "Junior with some experience",
-                    PositionDescription = "Junior with some experience on .net core",
+                    PositionTitle = "Regular developer",
+                    PositionDescription = "Regular with some experience",
                     LocationType = LocationType.InOffice,
                     HeldOnInterviewLocation = "London",
                     CreatedOn = new DateTime(2015, 06, 15, 10, 10, 10, DateTimeKind.Utc),
@@ -235,6 +240,33 @@ namespace DotNetInterview.Services.Data.Tests.InterviewsTests
             };
 
             return data.AsQueryable<Interview>();
+        }
+
+        public static IEnumerable<InterviewVM> GetCountInterviewsTestData(int count)
+        {
+            var interviewsVM = new List<InterviewVM>();
+
+            for (int i = 0; i < count; i++)
+            {
+                interviewsVM.Add(new InterviewVM
+                {
+                    InterviewId = i.ToString(),
+                });
+            }
+
+            return interviewsVM;
+        }
+
+        public static async Task<Interview> GetInterviewById()
+        {
+           return await Task.Run(() =>
+            {
+                var interviews = GetInterviewsTestData();
+
+                var interview = interviews.First();
+
+                return interview;
+            });
         }
     }
 }

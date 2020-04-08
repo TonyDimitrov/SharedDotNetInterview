@@ -64,8 +64,6 @@
                             .Select(c => new AllCommentsDTO
                             {
                                 CommentId = c.Id,
-                                HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
-                                HideAdd = Utils.HideAddComment(currentUserId),
                                 Content = c.Content,
                                 CreatedOn = c.CreatedOn,
                                 ModifiedOn = c.ModifiedOn,
@@ -134,8 +132,6 @@
                .Select(c => new AllCommentsDTO
                {
                    CommentId = c.Id,
-                   HideDelete = Utils.HideDelete(c.UserId, currentUserId, isAdmin),
-                   HideAdd = Utils.HideAddComment(currentUserId),
                    ParentId = id,
                    Content = c.Content,
                    CreatedOn = c.CreatedOn,
