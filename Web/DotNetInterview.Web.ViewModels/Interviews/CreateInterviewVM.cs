@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using DotNetInterview.Web.Infrastructure.CustomValidationAttributes;
     using DotNetInterview.Web.ViewModels.Enums;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -50,6 +50,7 @@
         [Display(Name = "Company size of employees")]
         public EmployeesSizeVM Employees { get; set; }
 
+        [CollectionMinLengthAttribute(1)]
         public List<CreateInterviewQuestionVM> Questions { get; set; }
 
         public IEnumerable<SelectListItem> CompanyListNationalities { get; set; }
