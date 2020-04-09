@@ -156,7 +156,7 @@
                 CompanyNationality = model.CompanyNationality,
                 Employees = (EmployeesSize)model.Employees,
                 LocationType = locationType,
-                HeldOnInterviewLocation = locationType == LocationType.InOffice ? model.BasedPositionlocation : null,
+                BasedPositionLocation = locationType == LocationType.InOffice ? model.BasedPositionlocation : null,
                 UserId = userId,
             };
 
@@ -186,7 +186,7 @@
                     CompanyNationality = i.CompanyNationality,
                     CompanySize = i.Employees.ToString(),
                     LocationType = i.LocationType.ToString(),
-                    InterviewLocation = i.HeldOnInterviewLocation,
+                    InterviewLocation = i.BasedPositionLocation,
                     CreatedOn = i.CreatedOn,
                     ModifiedOn = i.ModifiedOn,
                     Likes = i.Likes
@@ -326,7 +326,7 @@
                     InOfficeChecked = i.LocationType == LocationType.InOffice ? GlobalConstants.LocationTypeChecked : string.Empty,
                     RemoteChecked = i.LocationType == LocationType.Remote ? GlobalConstants.LocationTypeChecked : string.Empty,
                     ShowLocation = i.LocationType == LocationType.Remote ? GlobalConstants.Hidden : string.Empty,
-                    BasedPositionlocation = i.HeldOnInterviewLocation,
+                    BasedPositionlocation = i.BasedPositionLocation,
                     CompanyNationality = i.CompanyNationality,
                     Questions = i.Questions
                         .Where(q => !q.IsDeleted)
@@ -375,7 +375,7 @@
             dbInterview.CompanyNationality = interviewDTO.CompanyNationality;
             dbInterview.Employees = (EmployeesSize)interviewDTO.TotalEmployees;
             dbInterview.LocationType = locationType;
-            dbInterview.HeldOnInterviewLocation = (locationType == LocationType.InOffice) ? interviewDTO.BasedPositionlocation : null;
+            dbInterview.BasedPositionLocation = (locationType == LocationType.InOffice) ? interviewDTO.BasedPositionlocation : null;
 
             var allChangedQnsIds = interviewDTO.Questions.Where(q => q.QuestionId != null);
 

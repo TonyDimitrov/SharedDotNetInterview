@@ -104,7 +104,7 @@
                 .ForMember(i => i.ShowLocation, opt => opt.MapFrom(i =>
                 i.LocationType == Data.Models.Enums.LocationType.InOffice
                 ? string.Empty : "hidden"))
-                .ForMember(i => i.InterviewLocation, opt => opt.MapFrom(i => i.HeldOnInterviewLocation))
+                .ForMember(i => i.InterviewLocation, opt => opt.MapFrom(i => i.BasedPositionLocation))
                 .ForMember(i => i.CompanySize, opt => opt.MapFrom(i => i.Employees.ToString()))
                 .ForMember(i => i.CreatedOn, opt => opt.MapFrom(i => i.CreatedOn.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture)))
                 .ForMember(i => i.DeletedOn, opt => opt.MapFrom(i => i.DeletedOn != null ? i.DeletedOn.Value.ToLocalTime().ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null))

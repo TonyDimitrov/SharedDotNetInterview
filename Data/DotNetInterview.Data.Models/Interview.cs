@@ -34,7 +34,7 @@
 
         [MinLength(LocationlMinLength)]
         [MaxLength(LocationlMaxLength)]
-        public string HeldOnInterviewLocation { get; set; }
+        public string BasedPositionLocation { get; set; }
 
         public DateTime HeldOnDate { get; set; }
 
