@@ -2,11 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
+    using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Interviews;
 
     public class InterviewsTestData
@@ -259,14 +261,105 @@
 
         public static async Task<Interview> GetInterviewById()
         {
-           return await Task.Run(() =>
+            return await Task.Run(() =>
+             {
+                 var interviews = GetInterviewsTestData();
+
+                 var interview = interviews.First();
+
+                 return interview;
+             });
+        }
+
+        public static IQueryable<Interview> GetInterviewWithCommentsTestData()
+        {
+            return new List<Interview>
             {
-                var interviews = GetInterviewsTestData();
+                new Interview
+                {
+                    Id = "1",
+                    Seniority = PositionSeniority.JuniorDeveloper,
+                    PositionTitle = "Junior with some experience",
+                    PositionDescription = "Junior with some experience on .net core",
+                    LocationType = LocationType.InOffice,
+                    HeldOnInterviewLocation = "Sofia",
+                    CreatedOn = new DateTime(2016, 05, 15, 10, 10, 10, DateTimeKind.Utc),
+                    CompanyNationality = "Bulgarian",
+                    IsDeleted = false,
+                    UserId = "1",
+                    Comments = new List<Comment>
+                    {
+                        new Comment
+                        {
+                            Id = "1",
+                            InterviewId = "1",
+                            Content = "Very short interview",
+                            CreatedOn = new DateTime(2015, 05, 15, 10, 10, 10, DateTimeKind.Utc),
+                            UserId = "1",
+                            IsDeleted = false,
+                            User = new ApplicationUser
+                            {
+                                Id = "1",
+                                FirstName = "Toni",
+                                LastName = "Dimitrov",
+                            },
+                        },
+                        new Comment
+                        {
+                            Id = "2",
+                            InterviewId = "1",
+                            Content = "not enough",
+                            CreatedOn = new DateTime(2016, 05, 15, 10, 10, 10, DateTimeKind.Utc),
+                            UserId = "2",
+                            IsDeleted = false,
+                            User = new ApplicationUser
+                            {
+                                Id = "2",
+                                FirstName = "Ivan",
+                            },
+                        },
+                    },
+                    User = new ApplicationUser
+                    {
+                        Id = "1",
+                        Email = "toni@toni.com",
+                        UserName = "toni@toni.com",
+                        FirstName = "Toni",
+                        LastName = "Dimitrov",
+                        IsDeleted = false,
+                        Image = "avatar",
+                    },
+                },
+            }.AsQueryable();
+        }
 
-                var interview = interviews.First();
-
-                return interview;
-            });
+        public static CreateInterviewVM CreateInterviewTestData()
+        {
+            return new CreateInterviewVM
+            {
+                Seniority = PositionSeniorityVM.JuniorDeveloper,
+                PositionTitle = "Junior with some experience",
+                PositionDescription = "Junior with some experience on .net core",
+                LocationType = LocationType.InOffice.ToString(),
+                BasedPositionlocation = "Sofia",
+                CompanyNationality = "Bulgarian",
+                Employees = EmployeesSizeVM.Between100And1000,
+                Questions = new List<CreateInterviewQuestionVM>
+                {
+                    new CreateInterviewQuestionVM
+                    {
+                        Content = "Encapsulation",
+                        GivenAnswer = "Data hiding",
+                        Unexpected = (int)QuestionRankTypeVM.MostUnexpected,
+                    },
+                    new CreateInterviewQuestionVM
+                    {
+                        Content = "Polymorphism",
+                        GivenAnswer = "Overriding",
+                        Unexpected = (int)QuestionRankTypeVM.None,
+                    },
+                },
+            };
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace DotNetInterview.Services.Data.Tests.InterviewsTests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,12 +9,12 @@
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
-    using DotNetInterview.Web.ViewModels.Comments.DTO;
+    using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Interviews;
     using Moq;
     using Xunit;
 
-    public class InterviewServiceAllTests
+    public class InterviewsServiceAllTests
     {
         [Fact]
         public async Task All_AllSeniorities_ReturnCorrectData()
@@ -115,51 +116,89 @@
             Assert.Equal(nextButton, interviewsVM.NextDisable);
         }
 
-        [Fact]
-        public void AllComments_AllWhenNotOwnerNorAdmin_ShouldReturnWithOptionToDelete()
+        [Theory]
+        [InlineData("1", "1", false)]
+        public void AllComments_AllWhenOwnerNorAdmin_ShouldReturnWithOptionToDelete(string interviewId, string currentUserId, bool isAdmin)
         {
             // Arrange
-            var mockedData = InterviewsTestData.GetInterviewsTestData();
+            var mockedData = InterviewsTestData.GetInterviewWithCommentsTestData();
             var interviewRepo = new Mock<IDeletableEntityRepository<Interview>>();
             interviewRepo.Setup(r => r.All())
                 .Returns(mockedData);
             var service = new InterviewsService(null, interviewRepo.Object, null, null, null, null);
-        }
-
-        [Fact]
-        public async Task AddComment_AddComment_ReturnCorrectCommentsCount()
-        {
-            // Arrange
-            var mockedData = InterviewsTestData.GetInterviewsTestData();
-            var interviewRepo = new Mock<IDeletableEntityRepository<Interview>>();
-            interviewRepo.Setup(r => r.All())
-                .Returns(mockedData);
-            var service = new InterviewsService(null, interviewRepo.Object, null, null, null, null);
-            var commentDTO = new AddCommentDTO
-            {
-                Id = "1",
-                Content = "add 3",
-            };
-            var interviewCommnets = mockedData.FirstOrDefault(i => i.Id == commentDTO.Id).Comments.Count;
 
             // Act
-            await service.AddComment(commentDTO, "1");
+            var comments = service.AllComments<IEnumerable<AllCommentsVM>>(interviewId, currentUserId, isAdmin)
+                .OrderBy(c => c.CommentId);
 
+            var firstComment = comments.First();
+            var secondComment = comments.Last();
+
+            // Assert
+            Assert.Equal(2, comments.Count());
+
+            Assert.Equal(string.Empty, firstComment.HideAdd);
+            Assert.Equal(string.Empty, firstComment.HideDelete);
+
+            Assert.Equal(string.Empty, secondComment.HideAdd);
+            Assert.Equal(GlobalConstants.Hidden, secondComment.HideDelete);
+        }
+
+        [Theory]
+        [InlineData("1", "1", true)]
+        [InlineData("1", "5", true)]
+        public void AllComments_AllWhenAdmin_ShouldReturnWithOptionToDelete(string interviewId, string currentUserId, bool isAdmin)
+        {
             // Arrange
-            var interviewWithAddedComment = mockedData.FirstOrDefault(i => i.Id == commentDTO.Id);
-            Assert.Equal(interviewCommnets + 1, interviewWithAddedComment.Comments.Count);
-            Assert.Contains(interviewWithAddedComment.Comments, c => c.Content == "add 3");
+            var mockedData = InterviewsTestData.GetInterviewWithCommentsTestData();
+            var interviewRepo = new Mock<IDeletableEntityRepository<Interview>>();
+            interviewRepo.Setup(r => r.All())
+                .Returns(mockedData);
+            var service = new InterviewsService(null, interviewRepo.Object, null, null, null, null);
+
+            // Act
+            var comments = service.AllComments<IEnumerable<AllCommentsVM>>(interviewId, currentUserId, isAdmin)
+                .OrderBy(c => c.CommentId);
+
+            var firstComment = comments.First();
+            var secondComment = comments.Last();
+
+            // Assert
+            Assert.Equal(2, comments.Count());
+
+            Assert.Equal(string.Empty, firstComment.HideAdd);
+            Assert.Equal(string.Empty, firstComment.HideDelete);
+
+            Assert.Equal(string.Empty, secondComment.HideAdd);
+            Assert.Equal(string.Empty, secondComment.HideDelete);
+        }
+
+        [Theory]
+        [InlineData("1", null, false)]
+        public void AllComments_AllWhenNotLoggedIn_ShouldReturnWithWithoutOptionToDeleteAndAdd(string interviewId, string currentUserId, bool isAdmin)
+        {
+            // Arrange
+            var mockedData = InterviewsTestData.GetInterviewWithCommentsTestData();
+            var interviewRepo = new Mock<IDeletableEntityRepository<Interview>>();
+            interviewRepo.Setup(r => r.All())
+                .Returns(mockedData);
+            var service = new InterviewsService(null, interviewRepo.Object, null, null, null, null);
+
+            // Act
+            var comments = service.AllComments<IEnumerable<AllCommentsVM>>(interviewId, currentUserId, isAdmin)
+                .OrderBy(c => c.CommentId);
+
+            var firstComment = comments.First();
+            var secondComment = comments.Last();
+
+            // Assert
+            Assert.Equal(2, comments.Count());
+
+            Assert.Equal(GlobalConstants.Hidden, firstComment.HideAdd);
+            Assert.Equal(GlobalConstants.Hidden, firstComment.HideDelete);
+
+            Assert.Equal(GlobalConstants.Hidden, secondComment.HideAdd);
+            Assert.Equal(GlobalConstants.Hidden, secondComment.HideDelete);
         }
     }
 }
-
-//var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-//.UseInMemoryDatabase(databaseName: "allInterviewsDatabase") // Give a Unique name to the DB
-//.Options;
-
-//var dbContext = new Mock<ApplicationDbContext>(options);
-
-//var questionsRepo = new Mock<IDeletableEntityRepository<Question>>();
-//var commentsRepo = new Mock<IDeletableEntityRepository<Comment>>();
-//var likeRepo = new Mock<IDeletableEntityRepository<Like>>();
-//var importerRepo = new Mock<IImporterHelperService>();

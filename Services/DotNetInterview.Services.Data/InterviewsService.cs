@@ -165,8 +165,8 @@
                 interview.Questions.Add(q);
             }
 
-            this.db.Interviews.Add(interview);
-            this.db.SaveChanges();
+            await this.interviewsRepository.AddAsync(interview);
+            await this.interviewsRepository.SaveChangesAsync();
         }
 
         public T Details<T>(string interviewId, string currentUserId, bool isAdmin)
