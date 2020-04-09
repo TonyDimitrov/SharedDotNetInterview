@@ -89,7 +89,7 @@
             var userId = this.GetLoggedInUserId(this.User);
             var isAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
 
-            var interview = this.interviewsService.Details<DetailsInterviewVM>(interviewId, userId, isAdmin);
+            var interview = this.interviewsService.Details(interviewId, userId, isAdmin);
 
             return this.View(interview);
         }

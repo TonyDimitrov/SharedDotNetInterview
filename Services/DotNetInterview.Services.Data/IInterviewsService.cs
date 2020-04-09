@@ -18,7 +18,7 @@
 
         Task Create(CreateInterviewVM model, string userId, string filePath, IFileService fileService);
 
-        T Details<T>(string interviewId, string currentUserId, bool isAdmin);
+        DetailsInterviewVM Details(string interviewId, string currentUserId, bool isAdmin);
 
         Task<EditInterviewDTO> EditGet(string interviewId);
 

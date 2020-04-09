@@ -169,7 +169,7 @@
             await this.interviewsRepository.SaveChangesAsync();
         }
 
-        public T Details<T>(string interviewId, string currentUserId, bool isAdmin)
+        public DetailsInterviewVM Details(string interviewId, string currentUserId, bool isAdmin)
         {
             var interviewDTO = this.interviewsRepository.All()
                 .Where(i => i.Id == interviewId)
@@ -195,7 +195,6 @@
                     IsLiked = i.Likes
                     .FirstOrDefault(l => l.UserId == currentUserId && l.IsLiked) != null ? true : false,
                     InterviewQns = i.Questions
-                        .Where(q => !q.IsDeleted)
                         .Select(q => new AllInterviewQuestionsDTO
                         {
                             QuestionId = q.Id,
@@ -207,7 +206,6 @@
                             File = q.UrlTask,
                             InterviewId = q.InterviewId,
                             QnsComments = q.Comments
-                            .Where(q => !q.IsDeleted)
                             .Select(c => new AllCommentsDTO
                             {
                                 CommentId = c.Id,
@@ -253,7 +251,7 @@
                 CompanySize = interviewDTO.CompanySize,
                 LocationType = interviewDTO.LocationType,
                 ShowLocation = interviewDTO.LocationType == GlobalConstants.LocationTypeInOffice ? string.Empty : GlobalConstants.Hidden,
-                InterviewLocation = interviewDTO.InterviewLocation,
+                BasedPositionLocation = interviewDTO.InterviewLocation,
                 CreatedOn = interviewDTO.CreatedOn.DateTimeViewFormater(),
                 ModifiedOn = interviewDTO.ModifiedOn?.DateTimeViewFormater(),
                 HideAddCommentForm = Utils.HideAddComment(currentUserId),
@@ -306,7 +304,7 @@
                     .ToList(),
             };
 
-            return (T)(object)interviewVM;
+            return interviewVM;
         }
 
         public async Task<EditInterviewDTO> EditGet(string interviewId)

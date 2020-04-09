@@ -30,7 +30,7 @@
 
         public string ShowLocation { get; set; }
 
-        public string InterviewLocation { get; set; }
+        public string BasedPositionLocation { get; set; }
 
         public string CompanyNationality { get; set; }
 

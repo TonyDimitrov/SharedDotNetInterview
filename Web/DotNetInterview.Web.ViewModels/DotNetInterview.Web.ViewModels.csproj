@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\Data\DotNetInterview.Data.Models\DotNetInterview.Data.Models.csproj" />
     <ProjectReference Include="..\..\DotNetInterview.Common\DotNetInterview.Common.csproj" />
     <ProjectReference Include="..\..\Services\DotNetInterview.Services.Mapping\DotNetInterview.Services.Mapping.csproj" />
+    <ProjectReference Include="..\DotNetInterview.Web.Infrastructure\DotNetInterview.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
