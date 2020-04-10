@@ -228,6 +228,11 @@ function deleteQuestion(event) {
 
             questions = questionElement.getElementsByClassName('question');
             questions[questions.length - 1].remove();
+
+            let activeEditors = tinyMCE.editors.length;
+            tinyMCE.editors[activeEditors - 1].remove();
+            tinyMCE.editors[activeEditors - 2].remove();
+
             break;
         }
         questionElement = questionElement.parentElement;
