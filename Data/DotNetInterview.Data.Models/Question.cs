@@ -36,11 +36,6 @@
         [MaxLength(GivenAnswerMaxLength)]
         public string GivenAnswer { get; set; }
 
-        [Obsolete]
-        [MinLength(CorrectAnswerMinLength)]
-        [MaxLength(CorrectAnswerMaxLength)]
-        public string CorrectAnswer { get; set; }
-
         public QuestionRankType RankType { get; set; }
 
         public int Likes { get; set; }

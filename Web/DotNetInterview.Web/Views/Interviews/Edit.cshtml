@@ -64,9 +64,9 @@
             </div>
 
             <div class="form-group" id="div-location" @Model.ShowLocation>
-                <label asp-for="BasedPositionlocation" class="control-label required"></label>
-                <input asp-for="BasedPositionlocation" class="form-control" />
-                <span asp-validation-for="BasedPositionlocation" class="text-danger"></span>
+                <label asp-for="BasedPositionLocation" class="control-label required"></label>
+                <input asp-for="BasedPositionLocation" class="form-control" />
+                <span asp-validation-for="BasedPositionLocation" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -77,10 +77,10 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="TotalEmployees" class="control-label required"></label>
-                <select asp-for="TotalEmployees" class="form-control" asp-items="Html.GetEnumSelectList<EmployeesSizeVM>()">
+                <label asp-for="Employees" class="control-label required"></label>
+                <select asp-for="Employees" class="form-control" asp-items="Html.GetEnumSelectList<EmployeesSizeVM>()">
                 </select>
-                <span asp-validation-for="TotalEmployees" class="text-danger"></span>
+                <span asp-validation-for="Employees" class="text-danger"></span>
             </div>
 
             <div class="inner-form">

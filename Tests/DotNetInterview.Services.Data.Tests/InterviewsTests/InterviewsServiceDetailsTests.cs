@@ -41,7 +41,7 @@
 
             Assert.Equal("Waht is Encapsulation?", interviewVM.InterviewQns.ToArray()[0].Content);
             Assert.Equal("Data hiding", interviewVM.InterviewQns.ToArray()[0].Answer);
-            Assert.Equal(QuestionRankType.MostInteresting.ToString(), interviewVM.InterviewQns.ToArray()[1].Ranked);
+            Assert.Equal(QuestionRankType.MostUnexpected.ToString(), interviewVM.InterviewQns.ToArray()[0].Ranked);
             Assert.NotNull(interviewVM.InterviewQns.ToArray()[0].File);
             Assert.False(interviewVM.InterviewQns.ToArray()[0].HideAnswer);
             Assert.False(interviewVM.InterviewQns.ToArray()[0].HideRanked);
@@ -93,7 +93,7 @@
 
             Assert.Equal("Waht is Encapsulation?", interviewVM.InterviewQns.ToArray()[0].Content);
             Assert.Equal("Data hiding", interviewVM.InterviewQns.ToArray()[0].Answer);
-            Assert.Equal(QuestionRankType.MostInteresting.ToString(), interviewVM.InterviewQns.ToArray()[1].Ranked);
+            Assert.Equal(QuestionRankType.MostUnexpected.ToString(), interviewVM.InterviewQns.ToArray()[0].Ranked);
             Assert.NotNull(interviewVM.InterviewQns.ToArray()[0].File);
             Assert.False(interviewVM.InterviewQns.ToArray()[0].HideAnswer);
             Assert.False(interviewVM.InterviewQns.ToArray()[0].HideRanked);
@@ -145,7 +145,7 @@
 
             Assert.Equal("Waht is Encapsulation?", interviewVM.InterviewQns.ToArray()[0].Content);
             Assert.Equal("Data hiding", interviewVM.InterviewQns.ToArray()[0].Answer);
-            Assert.Equal(QuestionRankType.MostInteresting.ToString(), interviewVM.InterviewQns.ToArray()[1].Ranked);
+            Assert.Equal(QuestionRankType.MostUnexpected.ToString(), interviewVM.InterviewQns.ToArray()[0].Ranked);
             Assert.NotNull(interviewVM.InterviewQns.ToArray()[0].File);
             Assert.False(interviewVM.InterviewQns.ToArray()[0].HideAnswer);
             Assert.False(interviewVM.InterviewQns.ToArray()[0].HideRanked);

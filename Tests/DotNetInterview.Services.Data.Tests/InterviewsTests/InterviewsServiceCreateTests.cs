@@ -59,7 +59,7 @@
             Assert.Equal(newInterview.Employees.ToString(), createdInterview.Employees.ToString());
             Assert.Equal(newInterview.LocationType.ToString(), createdInterview.LocationType.ToString());
             Assert.Equal(newInterview.PositionDescription, createdInterview.PositionDescription);
-            Assert.Equal(newInterview.BasedPositionlocation, createdInterview.BasedPositionLocation);
+            Assert.Equal(newInterview.BasedPositionLocation, createdInterview.BasedPositionLocation);
 
             Assert.Equal(newInterview.Questions[0].Content, createdInterview.Questions.ToArray()[0].Content);
             Assert.Equal(newInterview.Questions[0].GivenAnswer, createdInterview.Questions.ToArray()[0].GivenAnswer);

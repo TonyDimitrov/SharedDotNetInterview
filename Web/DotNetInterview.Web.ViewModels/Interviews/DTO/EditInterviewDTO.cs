@@ -46,7 +46,7 @@
         [MinLength(LocationTypeMinLength, ErrorMessage = "Position location should be minimum 2 characters!")]
         [MaxLength(LocationTypeMaxLength, ErrorMessage = "Position location should be maximum 2 characters!")]
         [Display(Name = "Specify where position is based")]
-        public string BasedPositionlocation { get; set; }
+        public string BasedPositionLocation { get; set; }
 
         //[Required]
         //[MinLength(LocationTypeMinLength, ErrorMessage = "Company nationality should be minimum 2 characters!")]
@@ -61,6 +61,6 @@
         public PositionSeniorityVM SenioritiesCollection { get; set; }
 
         [Display(Name = "Total employees")]
-        public EmployeesSizeVM TotalEmployees { get; set; }
+        public EmployeesSizeVM Employees { get; set; }
     }
 }

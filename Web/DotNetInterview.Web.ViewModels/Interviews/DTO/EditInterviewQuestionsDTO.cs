@@ -32,8 +32,6 @@
 
         public string QuestionId { get; set; }
 
-        public string Answer { get; set; }
-
         public QuestionRankTypeVM Ranked { get; set; }
 
         public string File { get; set; }
