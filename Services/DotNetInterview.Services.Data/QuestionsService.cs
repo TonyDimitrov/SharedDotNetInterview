@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
+
     using DotNetInterview.Common;
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
@@ -12,7 +13,6 @@
     using DotNetInterview.Services.Data.Helpers;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
-    using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using DotNetInterview.Web.ViewModels.Questions;
@@ -49,6 +49,7 @@
 
             var questionsDTO = this.questionRepository.All()
                 .Where(q => (int)(object)q.RankType == rank || all)
+                        .OrderByDescending(q => q.CreatedOn)
                         .Select(q => new AllInterviewQuestionsDTO
                         {
                             QuestionId = q.Id,

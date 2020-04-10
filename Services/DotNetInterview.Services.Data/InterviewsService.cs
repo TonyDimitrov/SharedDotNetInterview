@@ -128,8 +128,6 @@
 
                 var rankValue = Math.Max(q.Interesting, Math.Max(q.Unexpected, q.Difficult));
 
-                questions.Reverse();
-
                 questions.Add(new Question
                 {
                     Content = q.Content,
@@ -286,7 +284,7 @@
                             HasBeenModified = Utils.IsModified(c.CreatedOn, c.ModifiedOn),
                             UserId = c.UserId,
                             UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
-                        }),
+                        })
                     }),
                 InterviewComments = interviewDTO.InterviewComments
                     .Select(c => new AllCommentsVM

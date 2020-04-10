@@ -16,16 +16,6 @@
             this.commentsRepository = commentsRepository;
         }
 
-        public async Task<T> AddComment<T>(AddCommentDTO interviewComment, string userId)
-        {
-            return (T)(object)await this.commentsRepository.GetByIdWithDeletedAsync(interviewComment.Id);
-        }
-
-        public T AllComments<T>(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> Delete(string commentId, string currentUserId, bool isAdmin)
         {
             var comment = await this.commentsRepository.GetByIdWithDeletedAsync(commentId);
