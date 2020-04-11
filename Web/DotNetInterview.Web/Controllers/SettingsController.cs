@@ -64,7 +64,19 @@
 
         public async Task<IActionResult> CreateUser()
         {
-            var signIn = await this.signInManager.PasswordSignInAsync("toni@toni", "toni123", true, false);
+            var user = new ApplicationUser
+            {
+                Email = "tosho@tosh.com",
+                UserName = "tosho@tosh.com",
+                FirstName = "Tosho",
+                LastName = "Toshev",
+                IsDeleted = false,
+                Image = "avatar",
+            };
+
+            var create = await this.userManager.CreateAsync(user, "123456");
+
+            var signIn = await this.signInManager.PasswordSignInAsync(user, "123456", true, false);
             if (signIn.Succeeded)
             {
                 return this.RedirectToAction(nameof(this.Index));

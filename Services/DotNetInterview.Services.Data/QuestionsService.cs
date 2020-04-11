@@ -162,10 +162,5 @@
 
             return (T)(object)commentsVM;
         }
-
-        public Task<bool> Delete(string commentId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
