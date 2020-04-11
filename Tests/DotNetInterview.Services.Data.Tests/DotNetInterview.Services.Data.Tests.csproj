@@ -35,7 +35,6 @@
     <Folder Include="CommentsTests\" />
     <Folder Include="InterviewsTests\UnitTests\" />
     <Folder Include="LikesTests\" />
-    <Folder Include="QuestionsTests\" />
   </ItemGroup>
 
 </Project>

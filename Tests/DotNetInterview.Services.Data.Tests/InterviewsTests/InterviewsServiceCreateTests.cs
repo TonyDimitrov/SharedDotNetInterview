@@ -36,7 +36,6 @@
                 .UseInMemoryDatabase("add_interview");
             var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
 
-            var mockedData = InterviewsTestData.GetInterviewsTestData();
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
