@@ -1,11 +1,9 @@
 ﻿namespace DotNetInterview.Services.Data
 {
-    using System;
     using System.Threading.Tasks;
 
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
-    using DotNetInterview.Web.ViewModels.Comments.DTO;
 
     public class CommentsService : ICommentsService
     {
