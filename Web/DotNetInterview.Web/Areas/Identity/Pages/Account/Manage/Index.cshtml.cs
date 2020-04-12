@@ -182,6 +182,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
 
             var updateUserDTO = new UpdateUserDTO
             {
+                FirstName = this.Input.FirstName,
                 LastName = this.Input.LastName,
                 Nationality = this.Input.Nationality,
                 Position = this.Input.Position,
@@ -190,7 +191,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
                 Image = this.Input.FormFile,
             };
 
-            await this.usersService.Updade(
+            await this.usersService.Update(
                                         user,
                                         updateUserDTO,
                                         this.fileService,

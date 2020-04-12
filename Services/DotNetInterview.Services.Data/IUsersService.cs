@@ -8,7 +8,7 @@
 
     public interface IUsersService
     {
-        Task Updade(ApplicationUser user, UpdateUserDTO formModel, IFileService fileService, string fileDirectory);
+        Task Update(ApplicationUser user, UpdateUserDTO formModel, IFileService fileService, string fileDirectory);
 
         T Details<T>(string userId, bool isLoggedInUser, bool isAdmin);
 

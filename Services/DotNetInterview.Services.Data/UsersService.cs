@@ -29,6 +29,7 @@
                 .Select(u => new DetailsUserDTO
                 {
                     Id = u.Id,
+                    UserName = u.UserName,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     Nationality = u.Nationality,
@@ -61,6 +62,7 @@
             return (T)(object)new DetailsUserVM
             {
                 Id = userDTO.Id,
+                UserName = userDTO.UserName,
                 FullName = $"{userDTO.FirstName} {userDTO.LastName}",
                 Position = userDTO.Position,
                 Nationality = userDTO.Nationality != null ? userDTO.Nationality : GlobalConstants.NoInformation,
@@ -74,8 +76,9 @@
             };
         }
 
-        public async Task Updade(ApplicationUser user, UpdateUserDTO formModel, IFileService fileService, string fileDirectory)
+        public async Task Update(ApplicationUser user, UpdateUserDTO formModel, IFileService fileService, string fileDirectory)
         {
+            user.FirstName = formModel.FirstName;
             user.LastName = formModel.LastName;
             user.Nationality = formModel.Nationality;
             user.Position = Enum.Parse<WorkPosition>(formModel.Position.ToString());
