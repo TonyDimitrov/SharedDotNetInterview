@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using DotNetInterview.Common;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Questions;
 
@@ -21,7 +22,7 @@
                 },
             };
 
-            return new AllIQuestionsVM
+            return new AllIQuestionsVM(4, GlobalConstants.Hidden)
             {
                 Questions = questions,
             };

@@ -1,9 +1,5 @@
 ﻿namespace DotNetInterview.Services.Data.Tests.UsersTests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     using DotNetInterview.Data.Models;
 
     public class UserTestData

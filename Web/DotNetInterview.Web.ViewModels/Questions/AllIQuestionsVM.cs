@@ -7,11 +7,15 @@
 
     public class AllIQuestionsVM : PaginationVM
     {
-        public int Rank { get; set; }
+        public AllIQuestionsVM(int rank, string hideAddComment)
+        {
+            this.Rank = rank;
+            this.HideAddComment = hideAddComment;
+        }
 
-        public string HideAddComment { get; set; }
+        public int Rank { get; private set; }
 
-        public int Seniority { get; set; }
+        public string HideAddComment { get; private set; }
 
         public IEnumerable<AllInterviewQuestionsVM> Questions { get; set; }
     }

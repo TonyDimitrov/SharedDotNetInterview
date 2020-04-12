@@ -52,7 +52,10 @@
 
             var questions = this.questionsService.All(ranked, userId, isAdmin);
 
-            var questionsByPage = this.questionsService.AllByPage(page, new AllIQuestionsVM(), questions.Questions);
+            var questionsByPage = this.questionsService.AllByPage(
+                page,
+                new AllIQuestionsVM(questions.Rank, questions.HideAddComment),
+                questions.Questions);
 
             return this.View(questionsByPage);
         }

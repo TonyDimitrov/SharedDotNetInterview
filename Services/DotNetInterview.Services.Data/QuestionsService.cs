@@ -16,7 +16,6 @@
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using DotNetInterview.Web.ViewModels.Questions;
-    using Microsoft.EntityFrameworkCore;
 
     public class QuestionsService : IQuestionsService
     {
@@ -75,10 +74,8 @@
                             .OrderBy(c => c.CreatedOn),
                         });
 
-            var questions = new AllIQuestionsVM
+            var questions = new AllIQuestionsVM(rank, Utils.HideAddComment(currentUserId))
             {
-                Rank = rank,
-                HideAddComment = Utils.HideAddComment(currentUserId),
                 Questions = questionsDTO
                 .Select(q => new AllInterviewQuestionsVM
                 {
@@ -108,7 +105,8 @@
                             UserId = c.UserId,
                             UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
                         }),
-                }),
+                })
+                .ToList(),
             };
 
             return questions;
@@ -125,11 +123,7 @@
         {
             var commentsDTO = this.questionRepository.All()
                .Where(i => i.Id == id)
-               .Include(i => i.Comments)
-               .ThenInclude(c => c.User)
-               .FirstOrDefault()
-               .Comments
-               .Where(c => !c.IsDeleted)
+               .Select(i => i.Comments
                .Select(c => new AllCommentsDTO
                {
                    CommentId = c.Id,
@@ -142,7 +136,8 @@
                    UserLName = c.User.LastName,
                })
                .OrderBy(c => c.ModifiedOn)
-               .ToList();
+               .ToList())
+               .FirstOrDefault();
 
             var commentsVM = commentsDTO
               .Select(c => new AllCommentsVM

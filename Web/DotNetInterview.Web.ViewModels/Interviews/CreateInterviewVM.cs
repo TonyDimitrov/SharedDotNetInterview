@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using DotNetInterview.Web.Infrastructure.CustomValidationAttributes;
     using DotNetInterview.Web.ViewModels.Enums;
     using Microsoft.AspNetCore.Mvc.Rendering;
