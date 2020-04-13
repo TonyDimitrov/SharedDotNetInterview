@@ -7,7 +7,6 @@
     using System.Threading.Tasks;
 
     using DotNetInterview.Common;
-    using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Services.Data.Helpers;
     using DotNetInterview.Web.ViewModels.Comments;
@@ -16,7 +15,6 @@
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class InterviewsController : BaseController
