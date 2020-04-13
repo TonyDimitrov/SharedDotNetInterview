@@ -284,7 +284,7 @@
                             HasBeenModified = Utils.IsModified(c.CreatedOn, c.ModifiedOn),
                             UserId = c.UserId,
                             UserFullName = c.UserFName.FullUserNameParser(c.UserLName),
-                        })
+                        }),
                     }),
                 InterviewComments = interviewDTO.InterviewComments
                     .Select(c => new AllCommentsVM

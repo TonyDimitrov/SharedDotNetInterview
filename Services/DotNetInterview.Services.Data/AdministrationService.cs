@@ -139,10 +139,5 @@
                 await this.interviewsRepository.SaveChangesAsync();
             }
         }
-
-        public ManageNationalitiesVM GetNationalities()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -24,7 +24,5 @@
         T GetDetailsDeletedInterview<T>(string interviewId);
 
         Task UndeleteInterview(string interviewId);
-
-        ManageNationalitiesVM GetNationalities();
     }
 }

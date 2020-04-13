@@ -6,8 +6,6 @@
 
     public class DeletedInterviewsVM : PaginationVM
     {
-        public int Seniority { get; set; }
-
         public IEnumerable<DeletedInterviewVM> DeletedInterviews { get; set; }
     }
 }
