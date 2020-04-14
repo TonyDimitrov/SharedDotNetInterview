@@ -25,11 +25,13 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("all_deleted_users");
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
             var service = new AdministrationService(
                 interviewRepository,
@@ -73,11 +75,13 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("all_deleted_user_by_page");
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
             var service = new AdministrationService(
                 interviewRepository,
@@ -129,11 +133,13 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("all_deleted_user_details");
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
             var service = new AdministrationService(
                 interviewRepository,
@@ -167,11 +173,13 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("undelete_user");
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
             var service = new AdministrationService(
                 interviewRepository,

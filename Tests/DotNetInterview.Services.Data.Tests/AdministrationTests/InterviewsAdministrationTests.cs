@@ -1,6 +1,7 @@
 ﻿namespace DotNetInterview.Services.Data.Tests.AdministrationTests
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -17,7 +18,9 @@
     using DotNetInterview.Services.Mapping;
     using DotNetInterview.Web.ViewModels;
     using DotNetInterview.Web.ViewModels.Administration.Interviews;
+    using DotNetInterview.Web.ViewModels.Comments.DTO;
     using Microsoft.AspNetCore.Http.Internal;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using Moq;
     using Xunit;
@@ -31,11 +34,13 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("deleted_interviews");
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
             var administratorService = new AdministrationService(
                 interviewRepository,
@@ -80,11 +85,13 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("deleted_interviews_by_page");
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
             var administratorService = new AdministrationService(
                 interviewRepository,
@@ -131,18 +138,21 @@
             Assert.Equal(GlobalConstants.DisableLink, deletedInterviewsByPage.PrevtDisable);
         }
 
-        [Fact(Skip = "Cannot execute linq query")]
+        [Fact(Skip = "System.InvalidCastException: 'Unable to cast object of type" +
+            " 'System.Linq.Expressions.NewExpression' to type 'System.Linq.Expressions.MethodCallExpression'.'")]
         public void GetDetailsDeletedInterview_GetOnlyDeletedInterviewsDetails_ReturnDetails()
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("deleted_interviews_details");
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
             var administratorService = new AdministrationService(
                 interviewRepository,
@@ -153,12 +163,16 @@
 
             var interviewsRepo = new Mock<IDeletableEntityRepository<Interview>>();
             var interviews = InterviewsTestData.GetInterviewsTestData();
-            interviewsRepo.Setup(r => r.All()).Returns(interviews);
+            var interviewId = "1";
+            interviews.First().Id = interviewId;
+            interviews.First().IsDeleted = true;
+            interviews.First().DeletedOn = DateTime.UtcNow;
+            interviewsRepo.Setup(r => r.AllWithDeleted()).Returns(interviews);
 
             AutoMapperConfig.RegisterMappings(typeof(ErrorVM).GetTypeInfo().Assembly);
 
             // Act
-            var interviewVM = administratorService.GetDetailsDeletedInterview<DetailsDeletedInterviewVM>("1");
+            var interviewVM = administratorService.GetDetailsDeletedInterview<DetailsDeletedInterviewVM>(interviewId);
 
             // Assert
             Assert.Equal("Junior with some experience", interviewVM.PositionTitle);
@@ -198,10 +212,71 @@
             Assert.Equal(2, interviewVM.Likes);
         }
 
-        [Fact(Skip = "Not implemented")]
-        public void UndeleteInterview_UndeleteInterviewAndItsChildEntities_Undelete()
+        [Fact(Skip = "System.InvalidOperationException: " +
+            "'The instance of entity type 'Question' cannot be tracked because another instance with the same key value" +
+            " for {'Id'} is already being tracked. When attaching existing entities," +
+            " ensure that only one entity instance with a given key value is attached. ")]
+        public async Task UndeleteInterview_UndeleteInterviewAndItsChildEntities_Undelete()
         {
-          // TODO
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase("undelete_interview1");
+
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
+
+            var fileService = new Mock<IFileService>();
+            var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
+            fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
+                .ReturnsAsync("fileForInterviewQuestion");
+
+            var importerService = new Mock<IImporterHelperService>();
+            importerService.Setup(s => s.GetAll())
+                .ReturnsAsync(new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "Bulgaria", Text = "Bulgaria" },
+                    new SelectListItem { Value = "US", Text = "US" },
+                });
+
+            var interviewsService = new InterviewsService(
+                null,
+                interviewRepository,
+                questionRepository,
+                commentRepository,
+                likeRepository,
+                importerService.Object);
+            var newInterview = InterviewsTestData.CreateInterviewTestData();
+            newInterview.Questions[1].FormFile = fileMock;
+
+            await interviewsService.Create(newInterview, "1", "fileDirectory", fileService.Object);
+            var dbInterview = interviewRepository.All().First();
+            var interviewId = dbInterview.Id;
+
+            await interviewsService.AddComment(new AddCommentDTO { Id = interviewId, Content = "cool" }, "1");
+            await interviewsService.Liked(interviewId, "1");
+
+            var administratorService = new AdministrationService(
+             interviewRepository,
+             questionRepository,
+             commentRepository,
+             likeRepository,
+             userRepository);
+
+            // Act
+            await interviewsService.Delete(interviewId, "1", false);
+            await administratorService.UndeleteInterview(interviewId);
+            var undeletedInterview = interviewsService.Details(interviewId, "1", true);
+
+            // Assert
+            Assert.NotNull(undeletedInterview);
+            Assert.Equal(2, undeletedInterview.InterviewQns.Count());
+            Assert.Single(undeletedInterview.InterviewComments);
+            Assert.Equal(1, undeletedInterview.Likes);
         }
     }
 }

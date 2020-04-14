@@ -24,10 +24,13 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("edit_interview1");
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
+
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
@@ -64,7 +67,9 @@
 
             // Act
             await service.Delete(dbInterview.Id, "1", false);
-            var interviewsWithdeleted = interviewRepository.AllWithDeleted().ToArray();
+            var interviewsWithdeleted = interviewRepository.AllWithDeleted()
+                .Where(i => i.IsDeleted)
+                .ToArray();
 
             // Assert
             // Before deletion interview has one comment
@@ -87,10 +92,13 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("edit_interview2");
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
+
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
@@ -149,10 +157,13 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("edit_interview3");
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
+
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
@@ -211,8 +222,11 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("edit_interview4");
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
+
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
 
             var importerService = new Mock<IImporterHelperService>();
             importerService.Setup(s => s.GetAll())
@@ -255,8 +269,11 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("edit_interview5");
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var likeRepository = new EfDeletableEntityRepository<Like>(new ApplicationDbContext(options.Options));
+
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
 
             var importerService = new Mock<IImporterHelperService>();
             importerService.Setup(s => s.GetAll())

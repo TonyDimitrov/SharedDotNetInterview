@@ -25,9 +25,11 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("delete_comments1");
 
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
             fileService
@@ -78,9 +80,11 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("delete_comments2");
 
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
             fileService
@@ -131,9 +135,11 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("delete_comments3");
 
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var commentRepository = new EfDeletableEntityRepository<Comment>(new ApplicationDbContext(options.Options));
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var commentRepository = new EfDeletableEntityRepository<Comment>(dbContext);
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
             fileService

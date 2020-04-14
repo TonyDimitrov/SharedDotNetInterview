@@ -31,8 +31,4 @@
     <ProjectReference Include="..\..\Services\DotNetInterview.Services.Data\DotNetInterview.Services.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="InterviewsTests\UnitTests\" />
-  </ItemGroup>
-
 </Project>

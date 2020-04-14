@@ -85,7 +85,7 @@
 
         public T GetDetailsDeletedInterview<T>(string interviewId)
         {
-            return this.interviewsRepository.AllAsNoTrackingWithDeleted()
+            return this.interviewsRepository.AllWithDeleted()
                 .Where(i => i.IsDeleted && i.Id == interviewId)
                 .OrderByDescending(i => i.DeletedOn)
                 .To<T>()

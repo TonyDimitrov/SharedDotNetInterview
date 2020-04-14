@@ -17,7 +17,7 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
            .UseInMemoryDatabase("add_nationalities");
 
-            var dbNationalities = new ApplicationDbContext(options.Options);
+            using var dbNationalities = new ApplicationDbContext(options.Options);
 
             var service = new ImporterHelperService(dbNationalities);
 
@@ -37,7 +37,7 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
            .UseInMemoryDatabase("delete_nationalities");
 
-            var dbNationalities = new ApplicationDbContext(options.Options);
+            using var dbNationalities = new ApplicationDbContext(options.Options);
 
             var service = new ImporterHelperService(dbNationalities);
             await service.AddNationality("Bulgaria");
@@ -57,7 +57,7 @@
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
            .UseInMemoryDatabase("getAll_nationalities");
 
-            var dbNationalities = new ApplicationDbContext(options.Options);
+            using var dbNationalities = new ApplicationDbContext(options.Options);
 
             var service = new ImporterHelperService(dbNationalities);
 

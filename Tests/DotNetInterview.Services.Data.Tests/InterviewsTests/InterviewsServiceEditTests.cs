@@ -68,7 +68,10 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("edit_interview");
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
+
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
@@ -143,7 +146,10 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("edit_interview");
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
+
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
