@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-    using System.Reflection;
     using System.Threading.Tasks;
 
     using DotNetInterview.Common;
@@ -10,12 +9,11 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Repositories;
     using DotNetInterview.Services.Data.Tests.UsersTests;
-    using DotNetInterview.Services.Mapping;
-    using DotNetInterview.Web.ViewModels;
     using DotNetInterview.Web.ViewModels.Administration.Users;
     using Microsoft.EntityFrameworkCore;
     using Xunit;
 
+    [Collection("Mappings collection")]
     public class UsersAdministrationTests
     {
         [Fact]
@@ -58,8 +56,6 @@
             await userRepository.AddAsync(dummyUser2);
             await userRepository.AddAsync(dummyUser3);
             await userRepository.SaveChangesAsync();
-
-            AutoMapperConfig.RegisterMappings(typeof(ErrorVM).GetTypeInfo().Assembly);
 
             // Act
             var deletedUsers = service.GetAllDeletedUsers<DeletedUserVM>();
@@ -111,8 +107,6 @@
             await userRepository.AddAsync(dummyUser3);
             await userRepository.SaveChangesAsync();
 
-            AutoMapperConfig.RegisterMappings(typeof(ErrorVM).GetTypeInfo().Assembly);
-
             // Act
             var deletedUsers = service.GetAllDeletedUsers<DeletedUserVM>();
             var deletedUsersByPage = service.GetDeletedUsersByPage(1, new DeletedUsersVM(), deletedUsers);
@@ -155,8 +149,6 @@
             await userRepository.AddAsync(dummyUser);
             await userRepository.SaveChangesAsync();
 
-            AutoMapperConfig.RegisterMappings(typeof(ErrorVM).GetTypeInfo().Assembly);
-
             // Act
             var deletedUser = service.GetAllDeletedUsers<DeletedUserVM>().FirstOrDefault();
 
@@ -195,7 +187,6 @@
             await userRepository.AddAsync(dummyUser);
             await userRepository.SaveChangesAsync();
 
-            AutoMapperConfig.RegisterMappings(typeof(ErrorVM).GetTypeInfo().Assembly);
             var deletedUser = userRepository.AllWithDeleted().FirstOrDefault();
             Assert.True(deletedUser.IsDeleted);
 

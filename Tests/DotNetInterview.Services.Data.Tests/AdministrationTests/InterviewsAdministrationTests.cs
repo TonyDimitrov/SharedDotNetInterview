@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -15,8 +14,6 @@
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Data.Repositories;
     using DotNetInterview.Services.Data.Tests.InterviewsTests;
-    using DotNetInterview.Services.Mapping;
-    using DotNetInterview.Web.ViewModels;
     using DotNetInterview.Web.ViewModels.Administration.Interviews;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using Microsoft.AspNetCore.Http.Internal;
@@ -25,6 +22,7 @@
     using Moq;
     using Xunit;
 
+    [Collection("Mappings collection")]
     public class InterviewsAdministrationTests
     {
         [Fact]
@@ -68,8 +66,6 @@
             createdInterviews.FirstOrDefault().DeletedOn = DateTime.UtcNow;
             interviewRepository.Update(createdInterviews.FirstOrDefault());
             await interviewRepository.SaveChangesAsync();
-
-            AutoMapperConfig.RegisterMappings(typeof(ErrorVM).GetTypeInfo().Assembly);
 
             // Act
             var deletedInterviews = administratorService.GetDeletedInterviews<DeletedInterviewVM>();
@@ -120,8 +116,6 @@
             interviewRepository.Update(createdInterviews.FirstOrDefault());
             await interviewRepository.SaveChangesAsync();
 
-            AutoMapperConfig.RegisterMappings(typeof(ErrorVM).GetTypeInfo().Assembly);
-
             // Act
             var deletedInterviews = administratorService.GetDeletedInterviews<DeletedInterviewVM>();
             var deletedInterviewsByPage = administratorService.GetDeletedInterviewsByPage(
@@ -168,8 +162,6 @@
             interviews.First().IsDeleted = true;
             interviews.First().DeletedOn = DateTime.UtcNow;
             interviewsRepo.Setup(r => r.AllWithDeleted()).Returns(interviews);
-
-            AutoMapperConfig.RegisterMappings(typeof(ErrorVM).GetTypeInfo().Assembly);
 
             // Act
             var interviewVM = administratorService.GetDetailsDeletedInterview<DetailsDeletedInterviewVM>(interviewId);
