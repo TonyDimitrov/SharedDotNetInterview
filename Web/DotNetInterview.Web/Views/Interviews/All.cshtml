@@ -22,12 +22,12 @@
 
 @foreach (var i in Model.Interviews)
 {
-    <div class="row div-row div-r-bb">
+    <div class="row div-row div-question-border-bottom">
         <div class="col-3">@i.PositionTitle</div>
         <div class="col-2" enum-text="@i.Seniority">@i.Seniority</div>
-        <div class="col-1"><span class="badge badge-pill span-questions">@i.Questions</span></div>
+        <div class="col-1"><span class="badge badge-pill span-items-count">@i.Questions</span></div>
         <div class="col-2">@i.Date</div>
-        <div class="col-1"><span class="badge badge-pill span-questions">@i.Likes</span></div>
+        <div class="col-1"><span class="badge badge-pill span-items-count">@i.Likes</span></div>
         <div class="col-2">
             <a class="a-user @i.DisableUserLink" asp-controller="Users" asp-action="Details" asp-route-userId="@i.CreatorId">
                 @i.CreatorName

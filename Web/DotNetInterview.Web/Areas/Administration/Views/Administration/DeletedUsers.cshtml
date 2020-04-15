@@ -32,11 +32,11 @@
 
 @foreach (var u in Model.DeletedUsers)
 {
-    <div class="row div-row div-r-bb">
+    <div class="row div-row div-question-border-bottom">
         <div class="col-3">@u.Id</div>
         <div class="col-2">@u.FullName</div>
         <div class="col-2">@u.Senioriry</div>
-        <div class="col-1"><span class="badge badge-pill span-questions">@u.Shared</span></div>
+        <div class="col-1"><span class="badge badge-pill span-items-count">@u.Shared</span></div>
         <div class="col-1">@u.MemberSince</div>
         <div class="col-1">@u.DeletedOn</div>
         <div class="col-1">

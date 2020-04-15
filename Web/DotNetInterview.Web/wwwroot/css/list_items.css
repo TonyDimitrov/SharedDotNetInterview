@@ -1,0 +1,10 @@
+﻿.div-question-border-bottom {
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: #e3e8fa;
+    margin-bottom: 1%;
+}
+
+.div-small-fond {
+    font-size: 11px;
+}

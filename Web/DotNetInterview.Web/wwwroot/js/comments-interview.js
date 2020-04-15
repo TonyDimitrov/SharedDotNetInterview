@@ -136,7 +136,7 @@ function addInterviewComment() {
 
         for (var i = 0; i < commnets.length; i++) {
             let createComment = document.createElement('div');
-            createComment.className = "row justify-content-center div-row div-r-bb div-comment div-i-comment";
+            createComment.className = "row justify-content-center div-row div-question-border-bottom div-comment div-i-comment";
 
             let innerContent = `
                     <div class="col-8 wrap">${commnets[i].content}</div>

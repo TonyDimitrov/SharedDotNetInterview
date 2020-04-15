@@ -95,7 +95,7 @@ function addQuestionComment() {
 
         for (var i = 0; i < comments.length; i++) {
             let createComment = document.createElement('div');
-            createComment.className = "row div-row div-r-bb div-comment2 div-q-comment";
+            createComment.className = "row div-row div-question-border-bottom div-comment2 div-q-comment";
 
             let innerContent = `
                     <div class="col-8">${comments[i].content}</div>

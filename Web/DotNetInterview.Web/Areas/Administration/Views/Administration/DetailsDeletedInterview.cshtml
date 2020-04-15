@@ -6,7 +6,7 @@
 
 @section Styles {
     <link href="@Url.Content("~/css/interview-details.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/css/questions-details.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/question.css")" rel="stylesheet" type="text/css" />
 }
 
 <div class="container div-r-border">
@@ -54,11 +54,11 @@
             <div class="row justify-content-center">
                 <div class="col-2 div-row-header">
                     Likes:
-                    <span id="likes-count" class="badge badge-pill span-questions">@Model.Likes</span>
+                    <span id="likes-count" class="badge badge-pill span-items-count">@Model.Likes</span>
                 </div>
                 <div class="col-2 div-row-header">
                     Qns:
-                    <span class="badge badge-pill span-questions">@Model.Questions.Count()</span>
+                    <span class="badge badge-pill span-items-count">@Model.Questions.Count()</span>
                 </div>
                 <div class="col-2 div-row">
                     <span class="div-row-header">Shared by: </span>
@@ -101,7 +101,7 @@
 
             @foreach (var comment in Model.Comments)
             {
-                <div class="row justify-content-center div-row div-r-bb div-comment div-i-comment" hidden>
+                <div class="row justify-content-center div-row div-question-border-bottom div-comment div-i-comment" hidden>
                     <div class="col-8 wrap">@comment.Content</div>
                     <div class="col-2 div-small-fond">@comment.CreatedOn</div>
                     <div class="col-2 div-small-fond">
@@ -129,7 +129,7 @@
             <div class="row">
                 <div class="col-12">
 
-                    <div class="row div-row div-r-bb">
+                    <div class="row div-row div-question-border-bottom">
 
                         <div class="col-8"><span class="span-text">@counter. </span>@Html.Raw(q.Content)</div>
 
@@ -141,7 +141,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="row justify-content-center div-row div-r-bb" @q.HideAnswer>
+                    <div class="row justify-content-center div-row div-question-border-bottom" @q.HideAnswer>
                         <div class="col-12"><span class="span-text">Answer:</span> @Html.Raw(@q.Answer)</div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
 
                     @foreach (var comment in q.Comments)
                     {
-                        <div class="row justify-content-center div-row div-r-bb div-comment2 div-q-comment" hidden>
+                        <div class="row justify-content-center div-row div-question-border-bottom div-comment2 div-q-comment" hidden>
                             <div class="col-8 wrap">@comment.Content</div>
                             <div class="col-2 div-small-fond">@comment.CreatedOn</div>
                             <div class="col-2 div-small-fond">

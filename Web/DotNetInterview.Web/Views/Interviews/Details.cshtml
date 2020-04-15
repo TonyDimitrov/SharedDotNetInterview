@@ -6,7 +6,7 @@
 
 @section Styles {
     <link href="@Url.Content("~/css/interview-details.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/css/questions-details.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/question.css")" rel="stylesheet" type="text/css" />
 }
 
 <div class="container div-r-border">
@@ -46,13 +46,13 @@
             <div class="row justify-content-center">
                 <div class="col-2 div-row-header">
                     Likes:
-                    <span id="likes-count" class="badge badge-pill span-questions">@Model.Likes</span>
+                    <span id="likes-count" class="badge badge-pill span-items-count">@Model.Likes</span>
                     <a id="a-likes-glifi" asp-controller="Interviews" asp-action="Like" asp-route-InterviewId="@Model.InterviewId">
                     <img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" /></a>
                 </div>
                 <div class="col-2 div-row-header">
                     Qns:
-                    <span class="badge badge-pill span-questions">@Model.InterviewQns.Count()</span>
+                    <span class="badge badge-pill span-items-count">@Model.InterviewQns.Count()</span>
                 </div>
                 <div class="col-2 div-row">
                     <span class="div-row-header">Shared by: </span>
@@ -95,7 +95,7 @@
 
             @foreach (var comment in Model.InterviewComments)
             {
-                <div class="row justify-content-center div-row div-r-bb div-comment div-i-comment" hidden>
+                <div class="row justify-content-center div-row div-question-border-bottom div-comment div-i-comment" hidden>
                     <div class="col-8 wrap">@comment.Content</div>
                     <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
                     <div class="col-2 div-small-fond">
@@ -113,7 +113,7 @@
                     </div>
                 </div>
             }
-            <div class="row justify-content-start div-row div-r-bb div-comment div-i-button" hidden>
+            <div class="row justify-content-start div-row div-question-border-bottom div-comment div-i-button" hidden>
                 <div class="col-md-10" @Model.HideAddCommentForm>
                     <form asp-controller="Interviews" asp-action="addComment" method="post" class="form" id="form-i-comments">
                         <div class="form-group mb-2">
@@ -145,7 +145,7 @@
             <div class="row">
                 <div class="col-12">
 
-                    <div class="row div-row div-r-bb">
+                    <div class="row div-row div-question-border-bottom">
 
                         <div class="col-8"><span class="span-text">@counter. </span>@Html.Raw(q.Content)</div>
 
@@ -157,7 +157,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="row justify-content-center div-row div-r-bb" hidden="@q.HideAnswer">
+                    <div class="row justify-content-center div-row div-question-border-bottom" hidden="@q.HideAnswer">
                         <div class="col-12"><span class="span-text">Answer:</span> @Html.Raw(@q.Answer)</div>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
 
                     @foreach (var comment in q.QnsComments)
                     {
-                        <div class="row justify-content-center div-row div-r-bb div-comment2 div-q-comment" hidden>
+                        <div class="row justify-content-center div-row div-question-border-bottom div-comment2 div-q-comment" hidden>
                             <div class="col-8 wrap">@comment.Content</div>
                             <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
                             <div class="col-2 div-small-fond">
@@ -193,7 +193,7 @@
                         </div>
                     }
 
-                    <div class="row justify-content-start div-row div-r-bb div-comment2 div-q-button" hidden>
+                    <div class="row justify-content-start div-row div-question-border-bottom div-comment2 div-q-button" hidden>
                         <div class="col-md-10">
                             <form asp-controller="Questions" asp-action="AddComment" method="post" class="form form-q-comments">
                                 <div class="form-group mb-2">
