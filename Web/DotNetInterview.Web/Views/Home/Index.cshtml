@@ -8,15 +8,18 @@
 }
 
 <div class="background">
-    <div class="fond-color-navy text-center py-5 px-4">
+    <div class="fond-color-navy text-center padding-yx">
         <div>
-            <h1 class="card-title h1-responsive pt-3 mb-5 font-bold">
+            <div class="container">
+            <img class="img-resize-head" src="~/img/img5.png" alt="logo">
+            <h1 class="padding-yx main-head centered">
                 <strong>Shared <span class="fond-color-oggange">.</span><span>NET</span> interview</strong>
             </h1>
-            <h3>Simple way to share you recent interview</h3>
-            <div class="row justify-content-center mt">
-                <div class="col-6 text-formatting">
-                    <p class="mx-5 mb-5">
+            </div>
+            <h3 class="sub-head padding-yx">Simple way to share you recent interview</h3>
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-formatting non-padding">
+                    <p class="m-lr">
                         Share knowledge share experience and help comunity. When studing many times the question among students was what woud they ask me at .net job interview?
                         Are the questions different for junior, reqular or senior developer? May be there ara some trendy questions as latest version of C# is out...
                         'm I ready for a job interview or should I apply for this cool senior dev. posotion with so many benefits hmm...
@@ -24,9 +27,14 @@
                         The idea is not learn by rote a company specific questions but to generally understand what expertise and skill set you have and what you may be missing.
                     </p>
                 </div>
-                <div class="col-6 text-formatting">
-                    <p class="mx-5 mb-5">
-                        Shared .Net interview platform targets interview questions regarding .net technology stack although many interviewers could ask very general questions not applaing to .net.
+
+                <div class="col-6 btn-for-xs justify-content-center m-tb">
+                    <a class="btn fond-color-navy btn-md d-inline-block home-button a-link" asp-controller="Interviews" asp-action="All">Interviews</a>
+                </div>
+
+                <div class="col-md-6 text-formatting non-padding">
+                    <p class="m-lr">
+                        Shared .Net interview platform targets interview questions regarding .net technology stack although many interviewers could ask very general questions not applaing only to .net.
                         Developers from aroun the world could share their experience. They can check if the tech level requirements vary regarding different regions around the globe.
                         Whith sharing your interview you also give a tip about the company its nationality, size and job base lacation but not specific company name as this is not the point.
                         You also can describe yourself, well it is up to you. Apploading file to specific question is also possible as you maight be given a particular problem to solve. Take part help improve.
@@ -34,12 +42,16 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 justify-content-center">
-                        <a class="btn fond-color-navy btn-md d-inline-block home-button a-link" asp-controller="Interviews" asp-action="All">View Interviews</a>
+                <div class="col-md-6 btn-over-xs justify-content-center">
+                    <a class="btn fond-color-navy btn-md d-inline-block home-button a-link" asp-controller="Interviews" asp-action="All">View interviews</a>
+
                 </div>
-                <div class="col-6">
-                        <a class="btn fond-color-navy btn-md d-inline-block home-button a-link" asp-controller="Interviews" asp-action="Create">Share yours</a>
-                </div>               
+                <div class="col-md-6 justify-content-center">
+                    <a class="btn fond-color-navy btn-md d-inline-block home-button a-link" asp-controller="Interviews" asp-action="Create">Share yours</a>
+                </div>
+            </div>
+            <div class="col-md-12 justify-content-center">
+                <img class="img-resize" src="~/img/dotnet1.png" alt="logo">
             </div>
         </div>
     </div>

@@ -1,12 +1,15 @@
-﻿
-.background {
-    background: url(/../img/blue.svg) no-repeat center center fixed;
+﻿.background {
+    background: url(/../img/bg4.png) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
 
+.padding-yx {
+    padding-top: 25px;
+    padding-bottom: 30px;
+}
 .text-formatting {
     text-align: justify
 }
@@ -28,6 +31,18 @@
 .mt {
     margin-top: 5%;
 }
+
+.m-tb{
+margin-top: 2%;
+margin-bottom: 4%;
+}
+
+.m-lr {
+    margin-left: 6%;
+    margin-right: 6%;
+}
+
+}
 /*#0c3e72*/
 .block {
     display: block;
@@ -43,4 +58,87 @@
 .a-link:hover, .a-user:focus, .a-user:active {
     text-decoration: none;
     color: #fe5c24;
+}
+
+.non-padding{
+    padding: 0px;
+}
+
+.container {
+    position: relative;
+    text-align: center;
+}
+
+.centered {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.img-resize-head {
+    max-width: 125px;
+    height: auto;
+}
+.img-resize {
+    max-width: 200px;
+    height: auto;
+}
+@media screen and (max-width: 992px) {
+    .padding-yx {
+        padding-top: 20px;
+        padding-bottom: 25px;
+    }
+
+    .fond-color-navy {
+        font-size: 16px;
+    }
+
+    .main-head {
+        font-size: 26px;
+    }
+
+    .sub-head {
+        font-size: 20px;
+    }
+
+    .mt {
+        margin-top: 8%;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .padding-yx {
+        padding-top: 20px;
+        padding-bottom: 25px;
+    }
+
+    .fond-color-navy {
+        font-size: 14px;
+    }
+
+    .main-head {
+        font-size: 24px;
+    }
+
+    .sub-head {
+        font-size: 18px;
+    }
+
+    .mt {
+        margin-top: 8%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .btn-for-xs {
+        visibility: hidden;
+        display: none;
+    }
+}
+@media screen and (max-width: 768px) {
+    .btn-over-xs {
+        visibility: hidden;
+        display: none;
+    }
 }
