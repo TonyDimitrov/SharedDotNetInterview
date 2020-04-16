@@ -1,5 +1,6 @@
 ﻿.div-user {
     color: #0c3e72;
+    font-weight: normal;
 }
 
 .h-title {
@@ -10,4 +11,46 @@
 .deleted {
     color: red;
     font-weight: bold;
+}
+
+.div-container-center {
+    width: 200px; /*can be in percentage also.*/
+    height: auto;
+    margin: 0 auto;
+    position: relative;
+}
+
+.circular-portrait {
+    display: inline-block;
+    position: relative;
+    width: 45px;
+    height: 45px;
+    overflow: hidden;
+    border-radius: 45%;
+    margin-left: 38%;
+}
+
+    .circular-portrait img {
+        width: 100%;
+        height: 100%;
+    }
+
+@media screen and (max-width: 576px) {
+
+    .description-font {
+        font-size: 12px;
+        padding: 1%;
+    }
+
+    .show-over {
+        visibility: hidden;
+        display: none;
+    }
+}
+@media screen and (min-width: 576px) {
+
+    .show-under {
+        visibility: hidden;
+        display: none;
+    }
 }

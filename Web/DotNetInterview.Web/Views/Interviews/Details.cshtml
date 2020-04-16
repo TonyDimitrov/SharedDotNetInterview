@@ -9,58 +9,65 @@
     <link href="@Url.Content("~/css/question.css")" rel="stylesheet" type="text/css" />
 }
 
-<div class="container div-r-border">
-    <div class="row">
-        <div class="col-10">
+@*<div class="container div-r-border">*@
+    @*<div class="row">
+        <div class="col-10">*@
             <h1 class="text-center h-title">
                 Interview Details
             </h1>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Seniority:</div>
-                <div class="col-6 div-row" enum-text="@Model.Seniority">@Model.Seniority</div>
+
+            @*<div class="row justify-content-center div-row-header">
+                <div class="col-5 col-sm-3">Name:</div>
+                <div class="col-7 col-sm-8 div-user description-font">@Model.FullName</div>
+            </div>*@
+
+            <div class="row justify-content-center div-row-header">
+                <div class="col-5 col-sm-3 heating-font">Seniority:</div>
+                <div class="col-7 col-sm-8 div-row" enum-text="@Model.Seniority">@Model.Seniority</div>
+            </div>
+            <div class="row justify-content-center div-row-header">
+                <div class="col-5 col-sm-3 heating-font">Title:</div>
+                <div class="col-7 col-sm-8 div-row">@Model.PositionTitle</div>
+            </div>
+            <div class="row justify-content-center div-row-header">
+                <div class="col-5 col-sm-3 heating-font">Position based: </div>
+                <div class="col-7 col-sm-8 div-row" enum-text="@Model.LocationType">@Model.LocationType</div>
+            </div>
+            <div class="row justify-content-center div-row-header" @Model.ShowLocation>
+                <div class="col-5 col-sm-3 heating-font">Location: </div>
+                <div class="col-7 col-sm-8 div-row">@Model.BasedPositionLocation</div>
+            </div>
+            <div class="row justify-content-center div-row-header">
+                <div class="col-5 col-sm-3 heating-font">Company nationality: </div>
+                <div class="col-7 col-sm-8 div-row">@Model.CompanyNationality</div>
+            </div>
+            <div class="row justify-content-center div-row-header">
+                <div class="col-5 col-sm-3 heating-font">Employees: </div>
+                <div class="col-7 col-sm-8 div-row" enum-text="@Model.CompanySize">@Model.CompanySize</div>
+            </div>
+            <div class="row justify-content-center div-row-header">
+                <div class="col-5 col-sm-3 heating-font">Description:</div>
+                <div class="col-7 col-sm-8 div-row">@Model.PositionDescription</div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Title:</div>
-                <div class="col-6 div-row">@Model.PositionTitle</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Description:</div>
-                <div class="col-6 div-row">@Model.PositionDescription</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Position based: </div>
-                <div class="col-6 div-row" enum-text="@Model.LocationType">@Model.LocationType</div>
-            </div>
-            <div class="row justify-content-center" @Model.ShowLocation>
-                <div class="col-2 div-row-header">Location: </div>
-                <div class="col-6 div-row">@Model.BasedPositionLocation</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Company nationality: </div>
-                <div class="col-6 div-row">@Model.CompanyNationality</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Employees: </div>
-                <div class="col-6 div-row" enum-text="@Model.CompanySize" >@Model.CompanySize</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">
+                <div class="col-2 heating-font">
                     Likes:
                     <span id="likes-count" class="badge badge-pill span-items-count">@Model.Likes</span>
                     <a id="a-likes-glifi" asp-controller="Interviews" asp-action="Like" asp-route-InterviewId="@Model.InterviewId">
-                    <img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" /></a>
+                        <img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" />
+                    </a>
                 </div>
-                <div class="col-2 div-row-header">
+                <div class="col-2 heating-font">
                     Qns:
                     <span class="badge badge-pill span-items-count">@Model.InterviewQns.Count()</span>
                 </div>
                 <div class="col-2 div-row">
-                    <span class="div-row-header">Shared by: </span>
+                    <span class="heating-font">Shared by: </span>
                     <a class="a-user-link @Model.DisableUserLink" asp-area="" asp-controller="Users"
                        asp-action="Details" asp-route-userId="@Model.UserId">@Model.UserFullName</a>
                 </div>
-                <div class="col-2 div-row">
-                    <span class="div-row-header">On: </span>@Model.ModifiedOn
+                <div class="col-2 div-row heating-font">
+                    <span>On: </span>@Model.ModifiedOn
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -84,8 +91,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        @*</div>
+    </div>*@
     <div class="row justify-content-center">
         <div class="col-8 div-r-border div-m">
             <div class="row justify-content-center div-row">
@@ -130,7 +137,7 @@
             </div>
         </div>
     </div>
-</div>
+@*</div>*@
 @*Questions HTML*@
 
 <div class="col-10 justify-content-center">

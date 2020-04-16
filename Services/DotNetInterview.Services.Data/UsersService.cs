@@ -69,7 +69,7 @@
                 Position = userDTO.Position,
                 Nationality = userDTO.Nationality != null ? userDTO.Nationality : GlobalConstants.NoInformation,
                 MemberSince = userDTO.MemberSince.ToString(GlobalConstants.FormatDate),
-                DateOfBirth = userDTO.DateOfBirth != null ? userDTO.DateOfBirth?.ToString(GlobalConstants.FormatDate) : GlobalConstants.NoInformation,
+                DateOfBirth = userDTO.DateOfBirth != null ? userDTO.DateOfBirth?.ToString(GlobalConstants.FormatDateShort) : GlobalConstants.NoInformation,
                 Description = userDTO.Description != null ? userDTO.Description : GlobalConstants.NoInformation,
                 Image = userDTO.Image,
                 ShowEdit = isLoggedInUser ? string.Empty : GlobalConstants.Hidden,
