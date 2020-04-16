@@ -93,17 +93,17 @@
     
     .dropdown-item:hover {
         background-color: #f0f5f5;
-        color: #0c3e72;
     }
     
     .dropdown .dropdown-menu {
         transform: scale(1, 0);
         display: none;
     }
-    
+
     .dropdown:hover .dropdown-menu {
         transform: scale(1);
         display: block;
+        color: #0c3e72 !important;
     }
     
     .main_menu .main-menu-item {
@@ -122,4 +122,3 @@
         padding: 0px !important;
     }
 }
-

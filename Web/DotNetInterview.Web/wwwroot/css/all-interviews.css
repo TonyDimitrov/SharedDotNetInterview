@@ -78,3 +78,34 @@
         width: 100%;
         height: 100%;
     }
+
+@media screen and (max-width: 768px) {
+
+    .btn-detail {
+        margin-top: 3%;
+        margin-bottom: 3%;
+    }
+
+    .h-title {
+        font-size: 22px;
+    }
+
+    .div-row-header {
+        font-size: 14px;
+    }
+
+    .div-row {
+        font-size: 12px;
+    }
+
+    .btn-details {
+        font-size: 12px !important;
+    }
+}
+
+.pagination-container {
+    width: 120px; /*can be in percentage also.*/
+    height: auto;
+    margin: 0 auto;
+    position: relative;
+}
