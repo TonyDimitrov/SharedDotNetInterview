@@ -1,7 +1,14 @@
-﻿@{
+﻿@using DotNetInterview.Web.ViewModels.Home
+@model PolicyVM
+
+@section Styles {
+    <link href="@Url.Content("~/css/privacy.css")" rel="stylesheet" type="text/css" />
+}
+
+@{
     this.ViewData["Title"] = "Privacy Policy";
 }
 
 <div class="col-md-12 justify-content-center">
-   <a asp-area="" asp-controller="Home" asp-action="PrivacyFile">Read our policy</a>
+    @Html.Raw(Model.Content);
 </div>

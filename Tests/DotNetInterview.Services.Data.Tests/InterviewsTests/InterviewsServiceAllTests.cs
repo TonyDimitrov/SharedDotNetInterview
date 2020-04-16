@@ -106,7 +106,7 @@
             var service = new InterviewsService(null, null, null, null, null, null);
 
             // Act
-            var interviewsVM = service.AllByPage(page, new AllInterviewsVM(), mockedData);
+            var interviewsVM = service.AllByPage(page, new AllInterviewsVM(0), mockedData);
 
             // Assert
             Assert.Equal(resultPerPage, interviewsVM.Interviews.Count());

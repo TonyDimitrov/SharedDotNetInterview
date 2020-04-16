@@ -6,6 +6,11 @@
 
     public class AllInterviewsVM : PaginationVM
     {
+        public AllInterviewsVM(int seniority)
+        {
+            this.Seniority = seniority;
+        }
+
         public int Seniority { get; set; }
 
         public IEnumerable<InterviewVM> Interviews { get; set; }

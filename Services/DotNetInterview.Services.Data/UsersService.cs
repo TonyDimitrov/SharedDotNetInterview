@@ -9,6 +9,7 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Services.Data.CustomExceptions;
+    using DotNetInterview.Services.Data.Extensions;
     using DotNetInterview.Web.ViewModels.Users;
     using DotNetInterview.Web.ViewModels.Users.DTO;
 
@@ -39,10 +40,11 @@
                     DateOfBirth = u.DateOfBirth,
                     Image = u.Image,
                     Interviews = u.Interviews
+                        .OrderByDescending(i => i.CreatedOn)
                         .Select(i => new DetailsUserInterviewsVM
                         {
                             InterviewId = i.Id,
-                            Title = i.PositionTitle,
+                            Title = i.PositionTitle.PositionTitleParser(),
                             Seniority = i.Seniority.ToString(),
                             Date = i.CreatedOn.ToString(GlobalConstants.FormatDate),
                             Likes = i.Likes

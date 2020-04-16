@@ -73,9 +73,8 @@
                 });
             });
 
-            var interviewsVM = new AllInterviewsVM
+            var interviewsVM = new AllInterviewsVM(seniority)
             {
-                Seniority = seniority,
                 Interviews = interviewsDto
                 .Select(i =>
                 new InterviewVM
