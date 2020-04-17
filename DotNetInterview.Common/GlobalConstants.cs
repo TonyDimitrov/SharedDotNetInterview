@@ -2,7 +2,7 @@
 {
     public static class GlobalConstants
     {
-        public const string SystemName = "DotNetInterview";
+        public const string SystemName = ".Net Interview";
 
         public const string SystemEmail = "01tonydimitrov@gmail.com";
 
@@ -18,7 +18,7 @@
         public const string DefaultRanking = "star.png";
 
         public const string FormatDate = "dd MMM yyyy HH:mm";
-        public const string FormatDateShort = "dd MM yy hh:mm";
+        public const string FormatDateShort = "dd MM yyyy";
 
         public const string NoInformation = "Not specified";
 
@@ -55,5 +55,7 @@
         public const string LocationTypeInOffice = "InOffice";
 
         public const string ErrorView = "Error";
+
+        public const string PolicyFileName = "policy.txt";
     }
 }

@@ -3,7 +3,6 @@
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     padding: 10px;
-    /*margin-bottom: 10px;*/
 
 }
 
@@ -22,7 +21,7 @@
     margin-bottom: 10px;
 }
 
-.button-question{
+.button-question {
     margin-top: 10px;
 }
 

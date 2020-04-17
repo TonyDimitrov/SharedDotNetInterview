@@ -2,3 +2,34 @@
     content: " *";
     color: red;
 }
+
+.main-font-style {
+    font-family: "Open Sans", sans-serif;
+    color: #0c3e72;
+}
+
+.heading-font {
+    font-size: 24px;
+    margin: 3%;
+}
+
+.sub-heading-font {
+    font-size: 18px;
+}
+
+select {
+    -webkit-appearance: menulist-button !important;
+    color: #0c3e72 !important;
+}
+
+@media screen and (max-width: 768px) {
+
+    .mr-2 {
+        margin: 2%;
+    }
+
+    .file-upload {
+        margin: 2%;
+    }
+}
+
