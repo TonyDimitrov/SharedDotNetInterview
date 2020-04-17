@@ -24,26 +24,26 @@
 
                         <div class="row div-row div-question-border-bottom">
 
-                            <div class="col-8"><span class="span-text">@counter. </span>@Html.Raw(q.Content)</div>
+                            <div class="col-8"><span class="span-text">Q. </span>@Html.Raw(q.Content)</div>
 
-                            <div class="col-1 div-small-fond">@q.ModifiedOn</div>
+                            <div class="d-none d-sm-block col-sm-1 div-small-fond">@q.ModifiedOn</div>
                             <div class="col-1 div-small-fond" hidden="@q.HideRanked">
                             <img class="img-glifi" src="/Questions/RankImage" alt="Avatar">
                             <span enum-text="@q.Ranked">@q.Ranked</span></div>
-                            <div class="col-1 div-small-fond" hidden="@q.HideFile">
+                            <div class="col-2 div-small-fond" hidden="@q.HideFile">
                                 <a class="a-user-link" asp-controller="Questions" asp-action="File" asp-route-fileName="@q.File" download>
-                                    Download file
+                                    File
                                 </a>
                             </div>
                             <div class="col-1 div-small-fond">
                                 <a asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@q.InterviewId" class="a-user-link">
-                                    Check it
+                                    Check
                                 </a>
                             </div>
                         </div>
 
                         <div class="row justify-content-center div-row div-question-border-bottom" hidden="@q.HideAnswer">
-                            <div class="col-12"><span class="span-text">Answer: </span>@Html.Raw(q.Answer)</div>
+                            <div class="col-12"><span class="span-text">A. </span>@Html.Raw(q.Answer)</div>
                         </div>
 
                         <div class="row justify-content-center div-row">
@@ -53,7 +53,7 @@
                 </div>
                 @*Comments HTML*@
                 <div class="row justify-content-center">
-                    <div class="col-8 div-r-border div-m2">
+                    <div class="col-12 col-sm-10 div-r-border div-m2">
                         <div class="row justify-content-center div-row">
                             <div class="col-3 comment-count2">Comments (@q.QnsComments.Count())</div>
                             <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments2">Show</button></div>
@@ -62,9 +62,9 @@
                         @foreach (var comment in q.QnsComments)
                         {
                             <div class="row justify-content-center div-row div-question-border-bottom div-comment2 div-q-comment" hidden>
-                                <div class="col-8">@comment.Content</div>
-                                <div class="col-2 div-small-fond">@comment.ModifiedOn</div>
-                                <div class="col-1 div-small-fond">
+                                <div class="col-9 col-sm-8">@comment.Content</div>
+                                <div class="col-2 show-over div-small-fond">@comment.ModifiedOn</div>
+                                <div class="col-3 col-sm-2 div-small-fond">
                                     <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
                                         @comment.UserFullName
                                     </a>
@@ -106,8 +106,8 @@
     }
 </div>
 
-<div class="row justify-content-md-center mt-2">
-    <div class="col-2">
+<div class="justify-content-center mt-2">
+    <div class="pagination-container">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">

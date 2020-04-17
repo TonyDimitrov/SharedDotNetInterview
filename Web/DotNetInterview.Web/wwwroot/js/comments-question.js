@@ -98,9 +98,9 @@ function addQuestionComment() {
             createComment.className = "row div-row div-question-border-bottom div-comment2 div-q-comment";
 
             let innerContent = `
-                    <div class="col-8">${comments[i].content}</div>
-                    <div class="col-2 div-small-fond">${comments[i].modifiedOn}</div>
-                    <div class="col-2 div-small-fond">
+                    <div class="col-9 col-sm-8">${comments[i].content}</div>
+                    <div class="col-2 show-over div-small-fond">${comments[i].modifiedOn}</div>
+                    <div class="col-3 col-sm-2 div-small-fond">
                            <a href="/Users/Details?UserId=${comments[i].userId}" class="a-user-link">
                             ${comments[i].userFullName}
                         </a>

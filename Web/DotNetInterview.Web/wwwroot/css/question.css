@@ -1,7 +1,10 @@
 ﻿.div-m2 {
     margin: 1%;
 }
-
+.h-title {
+    margin-top: 3%!important;
+    margin-bottom: 3%!important;
+}
 .btn-comments2 {
     color: #0c3e72;
     font-size: 15px;
@@ -34,4 +37,41 @@
     border-width: 1px;
     border-color: #e3e8fa;
     margin: 1%;
+}
+
+.b-q-delete {
+    color: #660000;
+}
+
+.b-i-delete {
+    color: #660000;
+}
+
+.pagination-container {
+    width: 120px; /*can be in percentage also.*/
+    height: auto;
+    margin: 0 auto;
+    position: relative;
+}
+
+@media screen and (max-width: 576px) {
+    .div-question-border-bottom {
+        margin: 0%;
+    }
+
+    .borderless-under {
+        border: none !important;
+    }
+
+    .container {
+        padding: 0px;
+    }
+
+    .div-textarea {
+        width: 95%;
+        margin-left: 2%;
+    }
+    .div-r-border{
+    border-top: none;
+    }
 }

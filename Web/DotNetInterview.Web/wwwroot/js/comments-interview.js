@@ -139,9 +139,9 @@ function addInterviewComment() {
             createComment.className = "row justify-content-center div-row div-question-border-bottom div-comment div-i-comment";
 
             let innerContent = `
-                    <div class="col-8 wrap">${commnets[i].content}</div>
-                    <div class="col-2 div-small-fond">${commnets[i].modifiedOn}</div>
-                    <div class="col-2 div-small-fond">
+                    <div class="col-9 col-sm-8 wrap">${commnets[i].content}</div>
+                    <div class="col-2 div-small-fond show-over">${commnets[i].modifiedOn}</div>
+                    <div class="col-3 col-sm-2 div-small-fond">
                            <a href="/Users/Details?UserId=${commnets[i].userId}" class="a-user-link">
                             ${commnets[i].userFullName}
                         </a>

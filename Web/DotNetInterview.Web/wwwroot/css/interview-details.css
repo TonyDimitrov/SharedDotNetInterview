@@ -16,7 +16,7 @@
     padding-bottom: 2%;
 }
 
-.heating-font {
+.heading-font {
     color: #fe5c24;
     font-size: 16px;
     font-weight: bold;
@@ -107,4 +107,69 @@
 
 .wrap {
     overflow-wrap: break-word;
+}
+
+@media screen and (max-width: 768px) {
+
+    .heading-font {
+        font-size: 14px;
+    }
+
+    .btn-detail {
+        margin-top: 3%;
+        margin-bottom: 3%;
+    }
+
+    .h-title {
+        font-size: 20px;
+    }
+
+    .div-row-header {
+        font-size: 14px;
+    }
+
+    .div-row {
+        font-size: 12px;
+    }
+
+    .btn-details {
+        font-size: 12px !important;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .div-question-border-bottom {
+        margin: 0px;
+    }
+    .h-title {
+        font-size: 16px;
+    }
+
+    .div-r-border {
+    border-radius: 0px;
+    border-left: none;
+    border-right: none;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .description-font {
+        font-size: 12px;
+        padding: 1%;
+    }
+
+    .show-over {
+        visibility: hidden;
+        display: none;
+    }
+}
+
+@media screen and (min-width: 576px) {
+
+    .show-under {
+        visibility: hidden;
+        display: none;
+    }
 }
