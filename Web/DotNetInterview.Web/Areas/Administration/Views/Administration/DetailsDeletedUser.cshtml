@@ -10,44 +10,50 @@
     <link href="@Url.Content("~/css/user-details.css")" rel="stylesheet" type="text/css" />
 }
 
-<h1 class="text-center h-title">
-    User Details
-    <div class=" circular-portrait">
+<div class="div-container-center">
+    <h1 class="text-center h-title">
+        User Details
+    </h1>
+    <div class="circular-portrait">
         <img src="/Users/UserAvatar?imageName=@Model.Image" alt="Avatar">
     </div>
-</h1>
+</div>
 
 <div class="row justify-content-center div-row-header">
-    <div class="col-3">Id:</div>
-    <div class="col-3 div-user">@Model.Id</div>
+    <div class="col-4 col-sm-3">Id:</div>
+    <div class="col-8 col-sm-8 div-user description-font">@Model.Id</div>
 </div>
 <div class="row justify-content-center div-row-header">
-    <div class="col-3">Name:</div>
-    <div class="col-3 div-user">@Model.FullName</div>
+    <div class="col-5 col-sm-3">Name:</div>
+    <div class="col-7 col-sm-8 div-user description-font">@Model.FullName</div>
 </div>
 <div class="row justify-content-center div-row-header">
-    <div class="col-3">Staus:</div>
-    <div class="col-3 div-user deleted">@Model.Status</div>
+    <div class="col-5 col-sm-3">Staus:</div>
+    <div class="col-7 col-sm-8 div-user description-font deleted">@Model.Status</div>
 </div>
 <div class="row justify-content-center div-row-header">
-    <div class="col-3">Seniority:</div>
-    <div class="col-3 div-user">@Model.Position</div>
+    <div class="col-5 col-sm-3">Seniority:</div>
+    <div class="col-7 col-sm-8 div-user description-font">@Model.Position</div>
 </div>
 <div class="row justify-content-center div-row-header">
-    <div class="col-3">Nationality:</div>
-    <div class="col-3 div-user">@Model.Nationality</div>
+    <div class="col-5 col-sm-3">Nationality:</div>
+    <div class="col-7 col-sm-8 div-user description-font">@Model.Nationality</div>
+</div>
+<div class="row justify-content-center div-row-header show-over">
+    <div class="col-5 col-sm-3">Description:</div>
+    <div class="col-7 col-sm-8 div-user description-font">@Model.Description</div>
+</div>
+<div class="justify-content-center div-row-header show-under">
+    <div class="text-center">Description</div>
+    <div class="text-center div-user description-font">@Model.Description</div>
 </div>
 <div class="row justify-content-center div-row-header">
-    <div class="col-3">Description:</div>
-    <div class="col-3 div-user">@Model.Description</div>
-</div>
-<div class="row justify-content-center div-row-header">
-    <div class="col-1">DOB:</div>
-    <div class="col-2 div-user">@Model.DateOfBirth</div>
-    <div class="col-2">Member since:</div>
-    <div class="col-2 div-user">@Model.MemberSince</div>
-    <div class="col-1">Shares:</div>
-    <div class="col-1 div-user"><span class="badge badge-pill span-items-count">@Model.Shares</span></div>
+    <div class="col-1 show-over">DOB:</div>
+    <div class="col-2 div-user description-font show-over">@Model.DateOfBirth</div>
+    <div class="col-3 col-sm-2">Member since:</div>
+    <div class="col-4 div-user">@Model.MemberSince</div>
+    <div class="col-3 col-sm-2 div-user description-font">Shares:</div>
+    <div class="col-1 col-sm-1 div-user description-font"><span class="badge badge-pill span-items-count">@Model.Shares</span></div>
 </div>
 
 

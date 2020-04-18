@@ -8,121 +8,145 @@
     <link href="@Url.Content("~/css/interview-details.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/question.css")" rel="stylesheet" type="text/css" />
 }
+<h1 class="text-center h-title">
+    Deleted interview details
+</h1>
+<div class="row justify-content-center div-row-header">
+    <div class="col-5 col-sm-3 heading-font">Id:</div>
+    <div class="col-7 col-sm-8 div-row">@Model.InterviewId</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-5 col-sm-3 heading-font">Status:</div>
+    <div class="col-7 col-sm-8 div-row">@Model.Deleted</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-5 col-sm-3 heading-font">Seniority:</div>
+    <div class="col-7 col-sm-8 div-row">@Model.Seniority</div>
+</div>
+<div class="row justify-content-center div-row-header show-over">
+    <div class="col-5 col-sm-3 heading-font">Title:</div>
+    <div class="col-7 col-sm-8 div-row">@Model.PositionTitle</div>
+</div>
 
-<div class="container div-r-border">
-    <div class="row">
-        <div class="col-10">
-            <h1 class="text-center h-title">
-                Interview Details
-            </h1>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Id:</div>
-                <div class="col-6 div-row">@Model.InterviewId</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Status:</div>
-                <div class="col-6 div-row deleted">@Model.Deleted</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Seniority:</div>
-                <div class="col-6 div-row">@Model.Seniority</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Title:</div>
-                <div class="col-6 div-row">@Model.PositionTitle</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Description:</div>
-                <div class="col-6 div-row">@Model.PositionDescription</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Position based: </div>
-                <div enum-text="@Model.LocationType" class="col-6 div-row">@Model.LocationType</div>
-            </div>
-            <div class="row justify-content-center" @Model.ShowLocation>
-                <div class="col-2 div-row-header">Location: </div>
-                <div class="col-6 div-row">@Model.BasedPositionLocation</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Company nationality: </div>
-                <div class="col-6 div-row">@Model.CompanyNationality</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">Employees: </div>
-                <div enum-text="@Model.CompanySize" class="col-6 div-row">@Model.CompanySize</div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-2 div-row-header">
-                    Likes:
-                    <span id="likes-count" class="badge badge-pill span-items-count">@Model.Likes</span>
-                </div>
-                <div class="col-2 div-row-header">
-                    Qns:
-                    <span class="badge badge-pill span-items-count">@Model.Questions.Count()</span>
-                </div>
-                <div class="col-2 div-row">
-                    <span class="div-row-header">Shared by: </span>
-                    <a class="a-user-link" asp-area="Administration"
-                       asp-controller="Administration" asp-action="DetailsDeletedUser" asp-route-userId="@Model.UserId">@Model.UserFullName</a>
-                </div>
-                <div class="col-2 div-row">
-                    <span class="div-row-header">On: </span>@Model.CreatedOn
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-1" @Model.CanEdit>
-                    <div id="btn-question" class="btn-group" role="group">
-                        <a class="btn btn-sm btn-primary"
-                           asp-controller="Interviews" asp-action="Edit" asp-route-interviewId="@Model.InterviewId" role="button">Edit</a>
-                    </div>
-                </div>
-                <div class="col-1" @Model.CanDelete>
-                    <div id="btn-question div-row-plain-text" class="btn-group" role="group">
-                        <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
-                           asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId">Delete</a>
-                    </div>
-                </div>
+<div class="justify-content-center div-row-header show-under">
+    <div class="text-center heading-font">Title</div>
+    <div class="text-center div-row">@Model.PositionTitle</div>
+</div>
 
-                <div class="col-2" @Model.CanHardDelete>
-                    <div id="btn-question" class="btn-group" role="group">
-                        <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hardDelete"
-                           asp-controller="Interviews" asp-action="HardDelete" asp-route-interviewId="@Model.InterviewId">Hard Delete</a>
-                    </div>
-                </div>
-            </div>
+<div class="row justify-content-center div-row-header show-over">
+    <div class="col-5 col-sm-3 heading-font">Description:</div>
+    <div class="col-7 col-sm-8 div-row">@Model.PositionDescription</div>
+</div>
+
+<div class="justify-content-center div-row-header show-under">
+    <div class="text-center heading-font">Description</div>
+    <div class="text-center div-row">@Model.PositionDescription</div>
+</div>
+
+<div class="row justify-content-center  div-row-header">
+    <div class="col-5 col-sm-3 heading-font">Position based: </div>
+    <div class="col-7 col-sm-8 div-row" enum-text="@Model.LocationType">@Model.LocationType</div>
+</div>
+<div class="row justify-content-center  div-row-header" @Model.ShowLocation>
+    <div class="col-5 col-sm-3 heading-font">Location: </div>
+    <div class="col-7 col-sm-8 div-row">@Model.BasedPositionLocation</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-5 col-sm-3 heading-font">Company nationality: </div>
+    <div class="col-7 col-sm-8 div-row">@Model.CompanyNationality</div>
+</div>
+<div class="row justify-content-center div-row-header">
+    <div class="col-5 col-sm-3 heading-font">Employees: </div>
+    <div class="col-7 col-sm-8 div-row" enum-text="@Model.CompanySize">@Model.CompanySize</div>
+</div>
+<div class="row justify-content-center div-row-header show-over">
+    <div class="col-2 heading-font">
+        Likes:
+        <span id="likes-count" class="badge badge-pill span-items-count">@Model.Likes</span>
+    </div>
+    <div class="col-2 heading-font">
+        Qns:
+        <span class="badge badge-pill span-items-count">@Model.Questions.Count()</span>
+    </div>
+    <div class="col-2 div-row">
+        <span class="heading-font">Shared by: </span>
+        <a class="a-user-link" asp-area="Administration"
+           asp-controller="Administration" asp-action="DetailsDeletedUser" asp-route-userId="@Model.UserId">@Model.UserFullName</a>
+    </div>
+    <div class="col-2 heading-font">
+        <span class="div-row">Deleted: </span>@Model.DeletedOn
+    </div>
+</div>
+<div class="row justify-content-center div-row-header show-under">
+    <div class="col-5 heading-font">
+        Likes:
+        <span id="likes-count" class="badge badge-pill span-items-count">@Model.Likes</span>
+    </div>
+    <div class="col-5 heading-font">
+        Qns:
+        <span class="badge badge-pill span-items-count">@Model.Questions.Count()</span>
+    </div>
+</div>
+<div class="row justify-content-center div-row-header show-under">
+    <div class="col-5 div-row">
+        <span class="heading-font">Shared by: </span>
+        <a class="a-user-link" asp-area="Administration"
+           asp-controller="Administration" asp-action="DetailsDeletedUser" asp-route-userId="@Model.UserId">@Model.UserFullName</a>
+    </div>
+    <div class="col-5 heading-font">
+        Deleted: <span class="div-row"> @Model.DeletedOn</span>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-1" @Model.CanEdit>
+        <div id="btn-question" class="btn-group" role="group">
+            <a class="btn btn-sm btn-primary"
+               asp-controller="Interviews" asp-action="Edit" asp-route-interviewId="@Model.InterviewId" role="button">Edit</a>
         </div>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-8 div-r-border div-m">
-            <div class="row justify-content-center div-row">
-                <div id="comment-count" class="col-3">Comments (@Model.Comments.Count())</div>
-                <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments">Show</button></div>
-            </div>
-
-            @foreach (var comment in Model.Comments)
-            {
-                <div class="row justify-content-center div-row div-question-border-bottom div-comment div-i-comment" hidden>
-                    <div class="col-8 wrap">@comment.Content</div>
-                    <div class="col-2 div-small-fond">@comment.CreatedOn</div>
-                    <div class="col-2 div-small-fond">
-                        <a asp-area="Administration"
-                           asp-controller="Administration" asp-action="DetailsDeletedUser" asp-route-userId="@Model.UserId" class="a-user-link">
-                            @comment.UserFullName
-                        </a>
-                    </div>
-                </div>
-            }
+    <div class="col-1" @Model.CanDelete>
+        <div id="btn-question div-row-plain-text" class="btn-group" role="group">
+            <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
+               asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId">Delete</a>
         </div>
+    </div>
+
+    <div class="col-2" @Model.CanHardDelete>
+        <div id="btn-question" class="btn-group" role="group">
+            <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hardDelete"
+               asp-controller="Interviews" asp-action="HardDelete" asp-route-interviewId="@Model.InterviewId">Hard Delete</a>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-8 div-r-border div-m">
+        <div class="row justify-content-center div-row">
+            <div id="comment-count" class="col-3">Comments (@Model.Comments.Count())</div>
+            <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments">Show</button></div>
+        </div>
+
+        @foreach (var comment in Model.Comments)
+        {
+            <div class="row justify-content-center div-row div-question-border-bottom div-comment div-i-comment" hidden>
+                <div class="col-9 col-sm-8 wrap">@comment.Content</div>
+                <div class="col-2 div-small-fond show-over">@comment.CreatedOn</div>
+                <div class="col-3 col-sm-2 div-small-fond">
+                    <a asp-area="Administration"
+                       asp-controller="Administration" asp-action="DetailsDeletedUser" asp-route-userId="@Model.UserId" class="a-user-link">
+                        @comment.UserFullName
+                    </a>
+                </div>
+            </div>
+        }
     </div>
 </div>
 @*Questions HTML*@
 
-<div class="col-10 justify-content-center">
+<div class="col-12 justify-content-center">
     <h1 class="text-center h-title">Questions</h1>
 </div>
 
 @{
-    int counter = 1;
     foreach (var q in Model.Questions)
     {
         <div class="container div-r-border div-q-row">
@@ -131,7 +155,7 @@
 
                     <div class="row div-row div-question-border-bottom">
 
-                        <div class="col-8"><span class="span-text">@counter. </span>@Html.Raw(q.Content)</div>
+                        <div class="col-8"><span class="span-text">Q. </span>@Html.Raw(q.Content)</div>
 
                         <div class="col-1 div-small-fond">@q.CreatedOn</div>
                         <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @q.Ranked</div>
@@ -142,13 +166,13 @@
                         </div>
                     </div>
                     <div class="row justify-content-center div-row div-question-border-bottom" @q.HideAnswer>
-                        <div class="col-12"><span class="span-text">Answer:</span> @Html.Raw(@q.Answer)</div>
+                        <div class="col-12"><span class="span-text">A.</span> @Html.Raw(@q.Answer)</div>
                     </div>
                 </div>
             </div>
             @*Comments HTML*@
             <div class="row justify-content-center">
-                <div class="col-8 div-r-border div-m2">
+                <div class="col-12 col-sm-10 div-r-border borderless-under  div-m2">
                     <div class="row justify-content-center div-row">
                         <div class="col-3 comment-count2">Comments (@q.Comments.Count())</div>
                         <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments2">Show</button></div>
@@ -157,9 +181,9 @@
                     @foreach (var comment in q.Comments)
                     {
                         <div class="row justify-content-center div-row div-question-border-bottom div-comment2 div-q-comment" hidden>
-                            <div class="col-8 wrap">@comment.Content</div>
-                            <div class="col-2 div-small-fond">@comment.CreatedOn</div>
-                            <div class="col-2 div-small-fond">
+                            <div class="col-9 col-sm-8 wrap">@comment.Content</div>
+                            <div class="col-2 div-small-fond show-over">@comment.CreatedOn</div>
+                            <div class="col-3 col-sm-2 div-small-fond">
                                 <a asp-area="Administration"
                                    asp-controller="Administration" asp-action="DetailsDeletedUser" asp-route-userId="@Model.UserId" class="a-user-link">
                                     @comment.UserFullName
@@ -171,7 +195,6 @@
             </div>
 
         </div>
-        counter++;
     }
 }
 
