@@ -6,21 +6,14 @@
 
 @section Styles {
     <link href="@Url.Content("~/css/admin-navbar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/all-interviews.css")" rel="stylesheet" type="text/css" />
 }
 
-<div class="row justify-content-center">
-    <div class="col-3">
-        <h3 class="admin-title">Admin Panel</h3>
-    </div>
-</div>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <partial name="_AdminNavigationPartial" />
 
-<div class="row justify-content-center">
-    <div class="col-4">
-        <h3 class="text-center">Manage nationalities</h3>
-    </div>
-</div>
+<h1 class="text-center h-title">Manage nationalities</h1>
+
 <div class="row justify-content-center">
 
     <div class="col-md-4">

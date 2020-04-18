@@ -10,40 +10,34 @@
     <link href="@Url.Content("~/css/all-interviews.css")" rel="stylesheet" type="text/css" />
 }
 
-<div class="row justify-content-center">
-    <div class="col-3">
-        <h3 class="admin-title">Admin Panel</h3>
-    </div>
-</div>
-
 <partial name="_AdminNavigationPartial" />
 
-<h1 class="text-center h-title">Interviews</h1>
+<h1 class="text-center h-title">Deleted interviews</h1>
 
 <div class="row div-row-header">
-    <div class="col-2">Id</div>
-    <div class="col-3">Position title</div>
-    <div class="col-2">Seniority</div>
-    <div class="col-1">Qns</div>
-    <div class="col-1">Created On</div>
-    <div class="col-1">Deleted On</div>
-    <div class="col-1">Check it</div>
-    <div class="col-1">Undelete</div>
+    <div class="col-3 col-sm-2">Id</div>
+    <div class="d-none d-sm-block col-sm-3">Position title</div>
+    <div class="d-none d-sm-block col-sm-2">Seniority</div>
+    <div class="d-none d-sm-block col-sm-1">Qns</div>
+    <div class="d-none d-sm-block col-sm-1">Created On</div>
+    <div class="col-2 col-sm-1">Deleted On</div>
+    <div class="col-3 col-sm-1">Check it</div>
+    <div class="col-3 col-sm-1">Undelete</div>
 </div>
 
 @foreach (var i in Model.DeletedInterviews)
 {
     <div class="row div-row div-question-border-bottom">
-        <div class="col-2">@i.InterviewId</div>
-        <div class="col-3">@i.PositionTitle</div>
-        <div class="col-2" enum-text="@i.Seniority">@i.Seniority</div>
-        <div class="col-1"><span class="badge badge-pill span-items-count">@i.Questions</span></div>
-        <div class="col-1">@i.CreatedOn</div>
-        <div class="col-1">@i.DeletedOn</div>
-        <div class="col-1">
+        <div class="col-3 col-sm-2">@i.InterviewId</div>
+        <div class="d-none d-sm-block col-sm-3">@i.PositionTitle</div>
+        <div class="d-none d-sm-block col-sm-2" enum-text="@i.Seniority">@i.Seniority</div>
+        <div class="d-none d-sm-block col-sm-1"><span class="badge badge-pill span-items-count">@i.Questions</span></div>
+        <div class="d-none d-sm-block col-sm-1">@i.CreatedOn</div>
+        <div class="col-2 col-sm-1">@i.DeletedOn</div>
+        <div class="col-3 col-sm-1">
             <a class="btn btn-sm btn-info btn-details" asp-area="Administration" asp-controller="Administration" asp-action="DetailsDeletedInterview" asp-route-interviewId="@i.InterviewId">Details</a>
         </div>
-        <div class="col-1">
+        <div class="col-3 col-sm-1">
             <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#undelete" asp-area="Administration"
                asp-controller="Administration" asp-action="UndeleteInterview" asp-route-interviewId="@i.InterviewId">Undelete</a>
         </div>
@@ -74,7 +68,7 @@
     @*end undelete*@
 }
 <div class="row justify-content-md-center">
-    <div class="col-2">
+    <div class="pagination-container">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">

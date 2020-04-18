@@ -37,3 +37,11 @@
     margin-right: auto;
     width: 50%;
 }
+form {
+    -webkit-appearance: menulist-button !important;
+    color: #0c3e72 !important;
+}
+select {
+    -webkit-appearance: menulist-button !important;
+    color: #0c3e72 !important;
+}
