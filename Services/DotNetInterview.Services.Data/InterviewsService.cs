@@ -235,6 +235,11 @@
                 })
                 .FirstOrDefault();
 
+            if (interviewDTO == null)
+            {
+                return null;
+            }
+
             var interviewVM = new DetailsInterviewVM
             {
                 InterviewId = interviewDTO.InterviewId,

@@ -1,7 +1,20 @@
-﻿.admin-nav-link {
+﻿.background {
+    background: url(/img/bg4.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.admin-nav-link {
     color: #0c3e72;
     font-size: 16px;
     font-family: "Open Sans", sans-serif;
+}
+
+.admin-nav{
+    padding-top: 2%;
+    margin-bottom: 5%;
 }
 
 .a-admin-nav-link:hover {
@@ -12,4 +25,15 @@
 .admin-title {
     color: #0c3e72;
     font-family: "Open Sans", sans-serif;
+}
+
+.img-admin-home {
+    display: inline-block;    
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
