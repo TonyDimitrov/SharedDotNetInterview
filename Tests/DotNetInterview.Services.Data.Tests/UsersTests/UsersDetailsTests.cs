@@ -53,7 +53,7 @@
             var usersService = new UsersService(userRepository);
 
             // Act
-            var userDetails = usersService.Details<DetailsUserVM>(dbUserId, true, false);
+            var userDetails = usersService.Details(dbUserId, true, false);
 
             // Assert
             Assert.Equal("toni@toni.com", userDetails.UserName);
@@ -99,7 +99,7 @@
             var usersService = new UsersService(userRepository);
 
             // Act
-            var userDetails = usersService.Details<DetailsUserVM>(dbUserId, false, false);
+            var userDetails = usersService.Details(dbUserId, false, false);
 
             // Assert
             Assert.Equal("toni@toni.com", userDetails.UserName);
@@ -145,7 +145,7 @@
             var usersService = new UsersService(userRepository);
 
             // Act
-            var userDetails = usersService.Details<DetailsUserVM>(dbUserId, false, true);
+            var userDetails = usersService.Details(dbUserId, false, true);
 
             // Assert
             Assert.Equal("toni@toni.com", userDetails.UserName);

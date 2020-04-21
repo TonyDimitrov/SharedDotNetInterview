@@ -59,7 +59,7 @@
 
             // Act
             await usersService.Update(user, updateUser, fileService.Object, "fileDirectory");
-            var userDetails = usersService.Details<DetailsUserVM>(dbUserId, true, false);
+            var userDetails = usersService.Details(dbUserId, true, false);
 
             // Assert
             Assert.Equal("toni@toni.com", userDetails.UserName);

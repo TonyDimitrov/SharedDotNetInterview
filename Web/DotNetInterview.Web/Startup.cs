@@ -108,6 +108,7 @@
             }
             else
             {
+                app.UseStatusCodePagesWithRedirects("/NotFound/{0}");
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }

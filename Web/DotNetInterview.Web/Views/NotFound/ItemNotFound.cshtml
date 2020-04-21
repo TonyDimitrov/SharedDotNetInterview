@@ -1,0 +1,32 @@
+﻿@model ItemNotFoundErrorVM
+@{
+    ViewData["Title"] = "Item not found";
+}
+@section Styles {
+    <link href="@Url.Content("~/css/error.css")" rel="stylesheet" type="text/css" />
+}
+<div class="justify-content-center main-font-style">
+
+    <div class="warning-border">
+        <h1 class="heading-font heading-color-warning">Item not found</h1>
+
+        <h2 class="sub-heading-font">@Model.Message</h2>
+
+        @if (Model.RequestUrl != null)
+        {
+            <p>Url: @Model.RequestUrl</p>
+        }
+
+        @if (Model.ItemId != null)
+        {
+            <p>Id: @Model.ItemId</p>
+        }
+
+        @if (this.Model.ShowRequestId)
+        {
+            <p>
+               Request Id: <code>@this.Model.RequestId</code>
+            </p>
+        }
+    </div>
+</div>

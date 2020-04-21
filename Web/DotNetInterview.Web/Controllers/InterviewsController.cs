@@ -9,12 +9,14 @@
     using DotNetInterview.Common;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Services.Data.Helpers;
+    using DotNetInterview.Web.ViewModels;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http.Extensions;
     using Microsoft.AspNetCore.Mvc;
 
     public class InterviewsController : BaseController
@@ -89,6 +91,18 @@
 
             var interview = this.interviewsService.Details(interviewId, userId, isAdmin);
 
+            if (interview == null)
+            {
+                var errorVM = new ItemNotFoundErrorVM
+                {
+                    ItemId = interviewId,
+                    Message = string.Format(ErrorMessages.ItemNotFound, "Interview", interviewId),
+                    RequestUrl = this.HttpContext.Request.GetDisplayUrl(),
+                };
+
+                return this.RedirectToAction("ItemNotFound", "NotFound", errorVM);
+            }
+
             return this.View(interview);
         }
 
@@ -98,12 +112,22 @@
         {
             var interview = await this.interviewsService.EditGet(interviewId);
 
+            if (interview == null)
+            {
+                var errorVM = new ItemNotFoundErrorVM
+                {
+                    ItemId = interviewId,
+                    Message = string.Format(ErrorMessages.ItemNotFound, "Interview", interviewId),
+                    RequestUrl = this.HttpContext.Request.GetDisplayUrl(),
+                };
+
+                return this.RedirectToAction("ItemNotFound", "NotFound", errorVM);
+            }
+
             foreach (var q in interview.Questions)
             {
                 Utils.SetStringValues<EditInterviewQuestionsDTO>(q, q.GivenAnswer);
             }
-
-            interview.CompanyListNationalities = await this.importerHelperService.GetAllWithSelected(interview.CompanyNationality);
 
             return this.View(interview);
         }
@@ -126,11 +150,6 @@
         [HttpGet]
         public async Task<IActionResult> Delete(string interviewId)
         {
-            if (string.IsNullOrWhiteSpace(interviewId))
-            {
-                return this.RedirectToAction("Error", "Home", "Invalid Interview ID!");
-            }
-
             var userId = this.GetLoggedInUserId(this.User);
             var isAdmin = this.IsAdmin();
 
@@ -143,11 +162,6 @@
         [HttpGet]
         public async Task<IActionResult> HardDelete(string interviewId)
         {
-            if (string.IsNullOrWhiteSpace(interviewId))
-            {
-                return this.RedirectToAction("Error", "Home", "Invalid Interview ID!");
-            }
-
             var userId = this.GetLoggedInUserId(this.User);
             var isAdmin = this.IsAdmin();
 

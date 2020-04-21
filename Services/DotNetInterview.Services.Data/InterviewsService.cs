@@ -342,7 +342,12 @@
                 })
                 .FirstOrDefault();
 
-                interviewDTO.CompanyListNationalities = await this.importerHelperService.GetAll();
+                if (interviewDTO == null)
+                {
+                    return null;
+                }
+
+                interviewDTO.CompanyListNationalities = await this.importerHelperService.GetAllWithSelected(interviewDTO.CompanyNationality);
 
                 return interviewDTO;
             });
@@ -457,6 +462,11 @@
                  .ThenInclude(q => q.Comments)
                  .FirstOrDefault(i => i.Id == interviewId);
 
+            if (dbInterview == null)
+            {
+                return;
+            }
+
             if (dbInterview != null && (dbInterview.UserId == currentUserId || isAdmin))
             {
                 foreach (var q in dbInterview.Questions)
@@ -504,6 +514,11 @@
            .Include(i => i.Questions)
            .ThenInclude(q => q.Comments)
            .FirstOrDefault(i => i.Id == interviewId);
+
+            if (dbInterview == null)
+            {
+                return;
+            }
 
             if (dbInterview != null && isAdmin)
             {

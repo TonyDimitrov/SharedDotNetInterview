@@ -5,10 +5,12 @@
     using DotNetInterview.Common;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.Controllers;
+    using DotNetInterview.Web.ViewModels;
     using DotNetInterview.Web.ViewModels.Administration.Interviews;
     using DotNetInterview.Web.ViewModels.Administration.Nationalities;
     using DotNetInterview.Web.ViewModels.Administration.Users;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http.Extensions;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
@@ -47,6 +49,11 @@
         {
             var deletedUser = this.administratorService.GetDetailsDeletedUser<DetailsDeletedUser>(userId);
 
+            if (deletedUser == null)
+            {
+                return this.RedirectToAction("ItemNotFound", "NotFound", new { area = string.Empty });
+            }
+
             return this.View(deletedUser);
         }
 
@@ -72,6 +79,11 @@
         public IActionResult DetailsDeletedInterview(string interviewId)
         {
             var interview = this.administratorService.GetDetailsDeletedInterview<DetailsDeletedInterviewVM>(interviewId);
+
+            if (interview == null)
+            {
+                return this.RedirectToAction("ItemNotFound", "NotFound", new { area = string.Empty });
+            }
 
             return this.View(interview);
         }

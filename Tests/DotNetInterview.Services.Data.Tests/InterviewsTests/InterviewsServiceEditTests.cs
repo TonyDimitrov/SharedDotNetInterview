@@ -31,10 +31,10 @@
             interviewRepo.Setup(r => r.All()).Returns(interviews);
 
             var importerService = new Mock<IImporterHelperService>();
-            importerService.Setup(s => s.GetAll())
+            importerService.Setup(s => s.GetAllWithSelected("Bulgarian"))
                 .ReturnsAsync(new List<SelectListItem>
                 {
-                    new SelectListItem { Value = "Bulgaria", Text = "Bulgaria" },
+                    new SelectListItem { Value = "Bulgarian", Text = "Bulgarian", Selected = true },
                     new SelectListItem { Value = "US", Text = "US" },
                 });
 
@@ -47,6 +47,7 @@
             Assert.Equal("Junior with some experience", interviewVM.PositionTitle);
             Assert.Equal(PositionSeniority.JuniorDeveloper.ToString(), interviewVM.Seniority.ToString());
             Assert.Equal("Bulgarian", interviewVM.CompanyNationality);
+            Assert.Equal("Bulgarian", interviewVM.CompanyListNationalities.FirstOrDefault(n => n.Selected).Value);
             Assert.Equal(EmployeesSize.Between100And1000.ToString(), interviewVM.Employees.ToString());
             Assert.Equal(LocationType.InOffice.ToString(), interviewVM.LocationType.ToString());
             Assert.Equal("Junior with some experience on .net core", interviewVM.PositionDescription);

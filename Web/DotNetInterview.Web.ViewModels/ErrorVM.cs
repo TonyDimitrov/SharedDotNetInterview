@@ -7,5 +7,7 @@
         public bool ShowRequestId => !string.IsNullOrEmpty(this.RequestId);
 
         public string Message { get; set; }
+
+        public int StatusCode { get; set; }
     }
 }

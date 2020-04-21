@@ -5,9 +5,11 @@
     using DotNetInterview.Common;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data;
+    using DotNetInterview.Web.ViewModels;
     using DotNetInterview.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http.Extensions;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -29,14 +31,21 @@
 
         public IActionResult Details(string userId)
         {
-            if (string.IsNullOrWhiteSpace(userId))
-            {
-                return this.Redirect("/Interviews/All");
-            }
-
             var isLoggedInUser = userId == this.GetLoggedInUserId(this.User);
 
-            var userDetails = this.usersService.Details<DetailsUserVM>(userId, isLoggedInUser, this.IsAdmin());
+            var userDetails = this.usersService.Details(userId, isLoggedInUser, this.IsAdmin());
+
+            if (userDetails == null)
+            {
+                var errorVM = new ItemNotFoundErrorVM
+                {
+                    ItemId = userId,
+                    Message = string.Format(ErrorMessages.ItemNotFound, "User", userId),
+                    RequestUrl = this.HttpContext.Request.GetDisplayUrl(),
+                };
+
+                return this.RedirectToAction("ItemNotFound", "NotFound", errorVM);
+            }
 
             return this.View(userDetails);
         }

@@ -6,6 +6,9 @@
     using Microsoft.AspNetCore.Mvc;
 
     using DotNetInterview.Services.Data;
+    using DotNetInterview.Web.ViewModels;
+    using DotNetInterview.Common;
+    using Microsoft.AspNetCore.Http.Extensions;
 
     [Authorize]
     public class CommentsController : BaseController
@@ -26,12 +29,19 @@
 
             var deleted = await this.commentsService.Delete(id, currentUserId, isAdmin);
 
-            if (deleted)
+            if (!deleted)
             {
-                return this.Json("Deleted");
+                var errorVM = new ItemNotFoundErrorVM
+                {
+                    ItemId = id,
+                    Message = string.Format(ErrorMessages.ItemNotFound, "Interview", id),
+                    RequestUrl = this.HttpContext.Request.GetDisplayUrl(),
+                };
+
+                return this.RedirectToAction("ItemNotFound", "NotFound", errorVM);
             }
 
-            return this.NotFound();
+            return this.Json("Deleted");
         }
     }
 }

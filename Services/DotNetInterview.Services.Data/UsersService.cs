@@ -22,7 +22,7 @@
             this.userRepository = userRepository;
         }
 
-        public T Details<T>(string userId, bool isLoggedInUser, bool isAdmin)
+        public DetailsUserVM Details(string userId, bool isLoggedInUser, bool isAdmin)
         {
             var userDTO = this.userRepository
                 .All()
@@ -58,10 +58,10 @@
 
             if (userDTO == null)
             {
-                throw new UserNotFoundException($"User with id: [{userId}] was not found, user does not exist or may have been deleted!");
+                return null;
             }
 
-            return (T)(object)new DetailsUserVM
+            return new DetailsUserVM
             {
                 Id = userDTO.Id,
                 UserName = userDTO.UserName,
@@ -103,6 +103,11 @@
         public async Task Delete(string userId)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            if (user == null)
+            {
+                return;
+            }
 
             this.userRepository.Delete(user);
 
