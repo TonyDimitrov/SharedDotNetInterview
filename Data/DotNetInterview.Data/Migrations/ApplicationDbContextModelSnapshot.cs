@@ -342,10 +342,6 @@ namespace DotNetInterview.Data.Migrations
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
 
-                    b.Property<string>("CorrectAnswer")
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(5000);
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -360,9 +356,6 @@ namespace DotNetInterview.Data.Migrations
                         .HasMaxLength(5000);
 
                     b.Property<string>("InterviewId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("InterviewId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
@@ -388,8 +381,6 @@ namespace DotNetInterview.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("InterviewId");
-
-                    b.HasIndex("InterviewId1");
 
                     b.HasIndex("IsDeleted");
 
@@ -536,13 +527,11 @@ namespace DotNetInterview.Data.Migrations
                 {
                     b.HasOne("DotNetInterview.Data.Models.Interview", "Interview")
                         .WithMany("Comments")
-                        .HasForeignKey("InterviewId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("InterviewId");
 
                     b.HasOne("DotNetInterview.Data.Models.Question", "Question")
                         .WithMany("Comments")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("QuestionId");
 
                     b.HasOne("DotNetInterview.Data.Models.ApplicationUser", "User")
                         .WithMany("Comments")
@@ -560,8 +549,7 @@ namespace DotNetInterview.Data.Migrations
                 {
                     b.HasOne("DotNetInterview.Data.Models.Interview", "Interview")
                         .WithMany("Likes")
-                        .HasForeignKey("InterviewId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("InterviewId");
 
                     b.HasOne("DotNetInterview.Data.Models.ApplicationUser", "User")
                         .WithMany()
@@ -570,14 +558,9 @@ namespace DotNetInterview.Data.Migrations
 
             modelBuilder.Entity("DotNetInterview.Data.Models.Question", b =>
                 {
-                    b.HasOne("DotNetInterview.Data.Models.Interview", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("InterviewId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("DotNetInterview.Data.Models.Interview", "Interview")
-                        .WithMany()
-                        .HasForeignKey("InterviewId1");
+                        .WithMany("Questions")
+                        .HasForeignKey("InterviewId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

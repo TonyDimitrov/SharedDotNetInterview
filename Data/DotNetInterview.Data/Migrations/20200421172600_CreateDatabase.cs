@@ -1,10 +1,9 @@
-﻿namespace DotNetInterview.Data.Migrations
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace DotNetInterview.Data.Migrations
 {
-    using System;
-
-    using Microsoft.EntityFrameworkCore.Migrations;
-
-    public partial class DbColumns : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +18,7 @@
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    DeletedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,13 +47,14 @@
                     FirstName = table.Column<string>(maxLength: 20, nullable: false),
                     LastName = table.Column<string>(maxLength: 20, nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: true),
-                    Country = table.Column<int>(nullable: false),
+                    Nationality = table.Column<string>(nullable: true),
                     Position = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
+                    Image = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -67,7 +67,7 @@
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CompanyNationality = table.Column<string>(maxLength: 100, nullable: false),
+                    CompanyNationality = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,7 +85,7 @@
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    Value = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -100,7 +100,7 @@
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -121,7 +121,7 @@
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -141,7 +141,7 @@
                     LoginProvider = table.Column<string>(nullable: false),
                     ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -159,7 +159,7 @@
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -185,37 +185,13 @@
                     UserId = table.Column<string>(nullable: false),
                     LoginProvider = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Image",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    ImageUrl = table.Column<string>(nullable: true),
-                    Private = table.Column<bool>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Image", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Image_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -235,19 +211,49 @@
                     PositionTitle = table.Column<string>(maxLength: 200, nullable: false),
                     PositionDescription = table.Column<string>(maxLength: 5000, nullable: true),
                     LocationType = table.Column<int>(nullable: false),
-                    HeldOnInterviewLocation = table.Column<string>(maxLength: 100, nullable: true),
+                    BasedPositionLocation = table.Column<string>(maxLength: 100, nullable: true),
                     HeldOnDate = table.Column<DateTime>(nullable: false),
                     Employees = table.Column<int>(nullable: false),
                     CompanyNationality = table.Column<string>(maxLength: 100, nullable: true),
                     Tags = table.Column<string>(maxLength: 200, nullable: true),
-                    Likes = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Interviews", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Interviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Count = table.Column<int>(nullable: false),
+                    IsLiked = table.Column<bool>(nullable: false),
+                    InterviewId = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Likes_Interviews_InterviewId",
+                        column: x => x.InterviewId,
+                        principalTable: "Interviews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -268,10 +274,9 @@
                     UrlTask = table.Column<string>(maxLength: 300, nullable: true),
                     UrlGitRepo = table.Column<string>(maxLength: 300, nullable: true),
                     GivenAnswer = table.Column<string>(maxLength: 5000, nullable: true),
-                    CorrectAnswer = table.Column<string>(maxLength: 5000, nullable: true),
                     RankType = table.Column<int>(nullable: false),
                     Likes = table.Column<int>(nullable: false),
-                    InterviewId = table.Column<string>(nullable: true),
+                    InterviewId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -298,7 +303,7 @@
                     Dislikes = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     InterviewId = table.Column<string>(nullable: true),
-                    QuestionId = table.Column<string>(nullable: true),
+                    QuestionId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -393,16 +398,6 @@
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_IsDeleted",
-                table: "Image",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Image_UserId",
-                table: "Image",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Interviews_IsDeleted",
                 table: "Interviews",
                 column: "IsDeleted");
@@ -410,6 +405,21 @@
             migrationBuilder.CreateIndex(
                 name: "IX_Interviews_UserId",
                 table: "Interviews",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_InterviewId",
+                table: "Likes",
+                column: "InterviewId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_IsDeleted",
+                table: "Likes",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_UserId",
+                table: "Likes",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -449,7 +459,7 @@
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Image");
+                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "Nationalities");

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetInterview.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200318124223_LikeTable")]
-    partial class LikeTable
+    [Migration("20200421172600_CreateDatabase")]
+    partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -220,6 +220,10 @@ namespace DotNetInterview.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("BasedPositionLocation")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
                     b.Property<string>("CompanyNationality")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
@@ -235,10 +239,6 @@ namespace DotNetInterview.Data.Migrations
 
                     b.Property<DateTime>("HeldOnDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("HeldOnInterviewLocation")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -297,6 +297,9 @@ namespace DotNetInterview.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsLiked")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -340,10 +343,6 @@ namespace DotNetInterview.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
-
-                    b.Property<string>("CorrectAnswer")
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(5000);
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
