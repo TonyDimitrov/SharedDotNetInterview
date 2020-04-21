@@ -1,8 +1,6 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Users.DTO
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     using DotNetInterview.Web.ViewModels.Enums;
     using Microsoft.AspNetCore.Http;
@@ -24,6 +22,5 @@
         public DateTime? DeletedOn { get; set; }
 
         public IFormFile Image { get; set; }
-
     }
 }

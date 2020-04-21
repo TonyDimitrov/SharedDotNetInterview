@@ -8,7 +8,6 @@
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
-    using DotNetInterview.Services.Data.CustomExceptions;
     using DotNetInterview.Services.Data.Extensions;
     using DotNetInterview.Web.ViewModels.Users;
     using DotNetInterview.Web.ViewModels.Users.DTO;

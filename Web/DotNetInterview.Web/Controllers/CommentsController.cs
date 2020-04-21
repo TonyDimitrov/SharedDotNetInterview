@@ -2,13 +2,12 @@
 {
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-
+    using DotNetInterview.Common;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels;
-    using DotNetInterview.Common;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http.Extensions;
+    using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
     public class CommentsController : BaseController
