@@ -1,16 +1,13 @@
 ﻿namespace DotNetInterview.Services.Data
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using DotNetInterview.Common;
-    using DotNetInterview.Data;
+
     using DotNetInterview.Data.Common.Repositories;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Mapping;
     using DotNetInterview.Web.ViewModels.Administration.Interviews;
-    using DotNetInterview.Web.ViewModels.Administration.Nationalities;
     using DotNetInterview.Web.ViewModels.Administration.Users;
     using Microsoft.EntityFrameworkCore;
 

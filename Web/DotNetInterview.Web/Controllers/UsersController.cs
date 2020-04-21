@@ -2,11 +2,11 @@
 {
     using System.IO;
     using System.Threading.Tasks;
+
     using DotNetInterview.Common;
     using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels;
-    using DotNetInterview.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http.Extensions;

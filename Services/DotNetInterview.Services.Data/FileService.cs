@@ -15,7 +15,7 @@
         {
             string fileName = null;
 
-            if (file != null && file?.FileName != null)
+            if (file != null && file.FileName != null)
             {
                 fileName = this.UniqueFileNameGenerator(file);
 
