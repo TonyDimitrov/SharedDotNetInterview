@@ -5,8 +5,7 @@
         public static string ResetPasswordHtml(string ressetPasswordLink, string username = null)
         {
             return $"<div style=\"color: #0c3e72; font-family: Open Sans, sans-serif;\">" +
-                    $"  <h1>FORGOT</h1>" +
-                    $"  <h3> YOU PASSWORD!</h3>" +
+                    $"  <h1>Forgot your password!</h1>" +
                     $"  <br>" +
                     $"  <p>Not to worry, we got you! Let’s get you a new password.</p>" +
                     $"  <br>" +

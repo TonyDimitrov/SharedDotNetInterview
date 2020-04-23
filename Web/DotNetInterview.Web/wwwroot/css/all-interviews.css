@@ -107,6 +107,7 @@
 .pagination-container {
     width: 120px; /*can be in percentage also.*/
     height: auto;
+    padding-top: 5%;
     margin: 0 auto;
     position: relative;
 }
