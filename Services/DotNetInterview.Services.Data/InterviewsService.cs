@@ -25,24 +25,24 @@
     {
         private readonly ApplicationDbContext db;
         private readonly IDeletableEntityRepository<Interview> interviewsRepository;
-        private readonly IDeletableEntityRepository<Question> questionsEntityRepository;
-        private readonly IDeletableEntityRepository<Comment> commentsEntityRepository;
-        private readonly IDeletableEntityRepository<Like> likesEntityRepository;
+        private readonly IDeletableEntityRepository<Question> questionsRepository;
+        private readonly IDeletableEntityRepository<Comment> commentsRepository;
+        private readonly IDeletableEntityRepository<Like> likesRepository;
         private readonly IImporterHelperService importerHelperService;
 
         public InterviewsService(
             ApplicationDbContext db,
             IDeletableEntityRepository<Interview> categoriesRepository,
-            IDeletableEntityRepository<Question> questionsEntityRepository,
-            IDeletableEntityRepository<Comment> commentsEntityRepository,
-            IDeletableEntityRepository<Like> likesEntityRepository,
+            IDeletableEntityRepository<Question> questionsRepository,
+            IDeletableEntityRepository<Comment> commentsRepository,
+            IDeletableEntityRepository<Like> likesRepository,
             IImporterHelperService importerHelperService)
         {
             this.db = db;
             this.interviewsRepository = categoriesRepository;
-            this.questionsEntityRepository = questionsEntityRepository;
-            this.commentsEntityRepository = commentsEntityRepository;
-            this.likesEntityRepository = likesEntityRepository;
+            this.questionsRepository = questionsRepository;
+            this.commentsRepository = commentsRepository;
+            this.likesRepository = likesRepository;
             this.importerHelperService = importerHelperService;
         }
 
@@ -127,14 +127,19 @@
 
                 var rankValue = Math.Max(q.Interesting, Math.Max(q.Unexpected, q.Difficult));
 
-                questions.Add(new Question
+                var question = new Question
                 {
                     Content = q.Content,
                     GivenAnswer = q.GivenAnswer,
                     CreatedOn = DateTime.UtcNow,
                     RankType = (QuestionRankType)rankValue,
                     UrlTask = fileName,
-                });
+                };
+
+                await this.questionsRepository.AddAsync(question);
+                await this.questionsRepository.SaveChangesAsync();
+
+                questions.Add(question);
             }
 
             LocationType locationType;
@@ -217,6 +222,7 @@
                             .OrderBy(c => c.CreatedOn)
                             .ToList(),
                         })
+                        .OrderBy(q => q.CreatedOn)
                         .ToList(),
                     InterviewComments = i.Comments
                     .Select(c => new AllCommentsDTO
@@ -473,32 +479,32 @@
                 {
                     foreach (var c in q.Comments)
                     {
-                        this.commentsEntityRepository.Delete(c);
+                        this.commentsRepository.Delete(c);
                     }
                 }
 
-                await this.commentsEntityRepository.SaveChangesAsync();
+                await this.commentsRepository.SaveChangesAsync();
 
                 foreach (var q in dbInterview.Questions)
                 {
-                    this.questionsEntityRepository.Delete(q);
+                    this.questionsRepository.Delete(q);
                 }
 
-                await this.questionsEntityRepository.SaveChangesAsync();
+                await this.questionsRepository.SaveChangesAsync();
 
                 foreach (var c in dbInterview.Comments)
                 {
-                    this.commentsEntityRepository.Delete(c);
+                    this.commentsRepository.Delete(c);
                 }
 
-                await this.commentsEntityRepository.SaveChangesAsync();
+                await this.commentsRepository.SaveChangesAsync();
 
                 foreach (var l in dbInterview.Likes)
                 {
-                    this.likesEntityRepository.Delete(l);
+                    this.likesRepository.Delete(l);
                 }
 
-                await this.likesEntityRepository.SaveChangesAsync();
+                await this.likesRepository.SaveChangesAsync();
 
                 this.interviewsRepository.Delete(dbInterview);
 
@@ -526,32 +532,32 @@
                 {
                     foreach (var c in q.Comments)
                     {
-                        this.commentsEntityRepository.HardDelete(c);
+                        this.commentsRepository.HardDelete(c);
                     }
                 }
 
-                await this.commentsEntityRepository.SaveChangesAsync();
+                await this.commentsRepository.SaveChangesAsync();
 
                 foreach (var q in dbInterview.Questions)
                 {
-                    this.questionsEntityRepository.HardDelete(q);
+                    this.questionsRepository.HardDelete(q);
                 }
 
-                await this.questionsEntityRepository.SaveChangesAsync();
+                await this.questionsRepository.SaveChangesAsync();
 
                 foreach (var c in dbInterview.Comments)
                 {
-                    this.commentsEntityRepository.HardDelete(c);
+                    this.commentsRepository.HardDelete(c);
                 }
 
-                await this.commentsEntityRepository.SaveChangesAsync();
+                await this.commentsRepository.SaveChangesAsync();
 
                 foreach (var l in dbInterview.Likes)
                 {
-                    this.likesEntityRepository.HardDelete(l);
+                    this.likesRepository.HardDelete(l);
                 }
 
-                await this.likesEntityRepository.SaveChangesAsync();
+                await this.likesRepository.SaveChangesAsync();
 
                 this.interviewsRepository.HardDelete(dbInterview);
 

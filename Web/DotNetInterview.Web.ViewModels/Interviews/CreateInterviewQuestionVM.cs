@@ -10,13 +10,13 @@
     {
         [Required(ErrorMessage = "Question content is required!")]
         [MinLength(QuestionContentMinLength, ErrorMessage = "Question content should have minimum 2 characters!")]
-        [MaxLength(QuestionContentMaxLength, ErrorMessage = "Question content should have maximum 1000 characters!")]
+        [MaxLength(QuestionContentMaxLength, ErrorMessage = "Question content should have maximum 4000 characters!")]
         public string Content { get; set; }
 
         public IFormFile FormFile { get; set; }
 
         [MinLength(GivenAnswerMinLength, ErrorMessage = "Answer content should have minimum 2 characters!")]
-        [MaxLength(GivenAnswerMaxLength, ErrorMessage = "Answer content should have maximum 5000 characters!")]
+        [MaxLength(GivenAnswerMaxLength, ErrorMessage = "Answer content should have maximum 6000 characters!")]
         public string GivenAnswer { get; set; }
 
         public string GivenAnswerCss { get; set; }

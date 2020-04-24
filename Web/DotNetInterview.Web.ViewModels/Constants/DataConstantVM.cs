@@ -10,7 +10,7 @@
         public const int UserDescriptionMinLength = 2;
         public const int UserDescriptionMaxLength = 1000;
         public const int EmailMinLength = 5;
-        public const int EmailMaxLength = 60;
+        public const int EmailMaxLength = 100;
 
         // Interview constants
         public const int LocationlMinLength = 2;
@@ -27,11 +27,11 @@
 
         // Question constants
         public const int QuestionContentMinLength = 2;
-        public const int QuestionContentMaxLength = 1000;
+        public const int QuestionContentMaxLength = 4000;
         public const int GivenAnswerMinLength = 2;
-        public const int GivenAnswerMaxLength = 5000;
+        public const int GivenAnswerMaxLength = 6000;
         public const int CorrectAnswerMinLength = 2;
-        public const int CorrectAnswerMaxLength = 5000;
+        public const int CorrectAnswerMaxLength = 6000;
 
         // Comment constants
         public const int CommentContentMinLength = 2;

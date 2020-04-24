@@ -27,8 +27,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Web\DotNetInterview.Web\DotNetInterview.Web.csproj" />
-  </ItemGroup>
-
 </Project>
