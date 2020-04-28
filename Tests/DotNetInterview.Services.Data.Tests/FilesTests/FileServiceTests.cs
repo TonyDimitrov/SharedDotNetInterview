@@ -28,8 +28,12 @@
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("save_file");
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var interviewService = new InterviewsService(null, interviewRepository, null, null, null, null);
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
 
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;

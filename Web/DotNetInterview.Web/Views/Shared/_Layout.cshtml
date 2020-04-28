@@ -71,13 +71,9 @@
                                             <a class="dropdown-item" asp-area="" asp-controller="Questions" asp-action="All" asp-route-ranked="3">Most diffucult</a>
                                         </div>
                                     </li>
-
-                                    @if (this.User.Identity.IsAuthenticated)
-                                    {
-                                        <li class="nav-item">
-                                            <a href="/Interviews/Create" class="nav-link btn_nav_1 d-md-block">Share</a>
-                                        </li>
-                                    }
+                                    <li class="nav-item">
+                                        <a href="/Interviews/Create" class="nav-link btn_nav_1 d-md-block">Share</a>
+                                    </li>
                                 </ul>
                                 <partial name="_LoginPartial" />
                             </div>
@@ -98,7 +94,7 @@
     <footer class="border-top footer justify-content-center">
         <div class="footer-container">
 
-            &copy; @GlobalConstants.SystemName - 
+            &copy; @GlobalConstants.SystemName -
             <a class="ml-1" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
             <a class="ml-1" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
         </div>

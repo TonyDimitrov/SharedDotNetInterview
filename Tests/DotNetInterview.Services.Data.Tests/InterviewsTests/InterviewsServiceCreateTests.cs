@@ -38,13 +38,14 @@
             using var dbContext = new ApplicationDbContext(options.Options);
 
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var service = new InterviewsService(null, interviewRepository, null, null, null, null);
+            var service = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
 
@@ -84,8 +85,10 @@
             using var dbContext = new ApplicationDbContext(options.Options);
 
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
-            var service = new InterviewsService(null, interviewRepository, null, null, null, null);
+
+            var service = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
 
             var fileService = new Mock<IFileService>();

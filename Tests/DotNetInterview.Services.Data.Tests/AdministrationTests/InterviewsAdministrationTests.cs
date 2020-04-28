@@ -52,7 +52,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewsService = new InterviewsService(null, interviewRepository, null, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
 
@@ -101,7 +101,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewsService = new InterviewsService(null, interviewRepository, null, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
 

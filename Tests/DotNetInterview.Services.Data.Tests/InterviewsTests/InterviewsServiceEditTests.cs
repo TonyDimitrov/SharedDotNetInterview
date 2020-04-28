@@ -73,6 +73,7 @@
             using var dbContext = new ApplicationDbContext(options.Options);
 
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
@@ -87,7 +88,7 @@
                     new SelectListItem { Value = "US", Text = "US" },
                 });
 
-            var service = new InterviewsService(null, interviewRepository, null, null, null, importerService.Object);
+            var service = new InterviewsService(null, interviewRepository, questionRepository, null, null, importerService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[1].FormFile = fileMock;
 
@@ -146,11 +147,12 @@
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase("edit_interview");
+            .UseInMemoryDatabase("edit_interview2");
 
             using var dbContext = new ApplicationDbContext(options.Options);
 
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
@@ -165,7 +167,7 @@
                     new SelectListItem { Value = "US", Text = "US" },
                 });
 
-            var service = new InterviewsService(null, interviewRepository, null, null, null, importerService.Object);
+            var service = new InterviewsService(null, interviewRepository, questionRepository, null, null, importerService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[1].FormFile = fileMock;
 

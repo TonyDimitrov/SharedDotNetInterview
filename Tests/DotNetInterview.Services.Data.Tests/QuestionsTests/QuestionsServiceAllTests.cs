@@ -27,16 +27,17 @@
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
            .UseInMemoryDatabase("all_questions1");
+            using var dbContext = new ApplicationDbContext(options.Options);
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewService = new InterviewsService(null, interviewRepository, null, null, null, null);
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
@@ -59,16 +60,17 @@
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
            .UseInMemoryDatabase("all_questions2");
+            using var dbContext = new ApplicationDbContext(options.Options);
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewService = new InterviewsService(null, interviewRepository, null, null, null, null);
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
@@ -88,10 +90,11 @@
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
            .UseInMemoryDatabase("all_questions3");
+            using var dbContext = new ApplicationDbContext(options.Options);
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
             var dummyUser = UserTestData.GetUserTestData();
             await userRepository.AddAsync(dummyUser);
@@ -103,7 +106,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewService = new InterviewsService(null, interviewRepository, null, null, null, null);
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
@@ -139,8 +142,9 @@
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
            .UseInMemoryDatabase("all_questions4");
+            using var dbContext = new ApplicationDbContext(options.Options);
 
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
             var dummyUser = UserTestData.GetUserTestData();
 
             await userRepository.AddAsync(dummyUser);
@@ -148,15 +152,15 @@
 
             var user = userRepository.All().ToArray().First();
 
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
-            var questionRepository = new EfDeletableEntityRepository<Question>(new ApplicationDbContext(options.Options));
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewService = new InterviewsService(null, interviewRepository, null, null, null, null);
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);

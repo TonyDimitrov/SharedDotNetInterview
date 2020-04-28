@@ -151,7 +151,7 @@
             Assert.Single(interviewsAfterInvalidDeletion.First().Likes);
         }
 
-        [Fact(Skip = "Issue with EF core in-memory db when delete sub entities")]
+        [Fact]
         public async Task HardDelete_DeleteInterviewItsQuestionsAndComments_AllDataIsHardDeleted()
         {
             // Arrange
@@ -198,18 +198,18 @@
             await service.Liked(interviewId, "1");
             var dbInterviewWithComment = interviewRepository.All().ToArray();
 
+            // Before deletion interview has one comment
+            Assert.Single(dbInterviewWithComment);
+            Assert.Equal(2, dbInterviewWithComment.Select(i => i.Questions.Count()).FirstOrDefault());
+            Assert.Single(dbInterviewWithComment.First().Comments);
+            Assert.Single(dbInterviewWithComment.First().Likes);
+
+            // After deletion
             // Act
             await service.HardDelete(dbInterview.Id, true);
             var interviewsWithdeleted = interviewRepository.AllWithDeleted().ToArray();
 
             // Assert
-            // Before deletion interview has one comment
-            Assert.Single(dbInterviewWithComment);
-            Assert.Equal(2, dbInterviewWithComment.First().Questions.Count);
-            Assert.Single(dbInterviewWithComment.First().Comments);
-            Assert.Single(dbInterviewWithComment.First().Likes);
-
-            // After deletion
             Assert.Empty(interviewsWithdeleted);
             Assert.Empty(questionRepository.AllWithDeleted());
             Assert.Empty(commentRepository.AllWithDeleted());
@@ -226,6 +226,7 @@
             using var dbContext = new ApplicationDbContext(options.Options);
 
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
             var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
 
             var importerService = new Mock<IImporterHelperService>();
@@ -244,7 +245,7 @@
             var service = new InterviewsService(
                 null,
                 interviewRepository,
-                null,
+                questionRepository,
                 null,
                 likeRepository,
                 importerService.Object);
@@ -273,6 +274,7 @@
             using var dbContext = new ApplicationDbContext(options.Options);
 
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
             var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
 
             var importerService = new Mock<IImporterHelperService>();
@@ -291,7 +293,7 @@
             var service = new InterviewsService(
                 null,
                 interviewRepository,
-                null,
+                questionRepository,
                 null,
                 likeRepository,
                 importerService.Object);

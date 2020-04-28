@@ -11,7 +11,6 @@
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Data.Repositories;
     using DotNetInterview.Services.Data.Tests.InterviewsTests;
-    using DotNetInterview.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Http.Internal;
     using Microsoft.EntityFrameworkCore;
     using Moq;
@@ -25,9 +24,12 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("details_user");
+            using var dbContext = new ApplicationDbContext(options.Options);
 
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
             fileService
@@ -43,7 +45,7 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, null, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
@@ -71,9 +73,12 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("details_user2");
+            using var dbContext = new ApplicationDbContext(options.Options);
 
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
             fileService
@@ -89,7 +94,7 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, null, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
@@ -117,9 +122,12 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("details_user3");
+            using var dbContext = new ApplicationDbContext(options.Options);
 
-            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
-            var interviewRepository = new EfDeletableEntityRepository<Interview>(new ApplicationDbContext(options.Options));
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
             fileService
@@ -135,7 +143,7 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, null, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
