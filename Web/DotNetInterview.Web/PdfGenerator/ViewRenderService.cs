@@ -34,7 +34,6 @@
 
         public async Task<string> RenderToStringAsync(string viewName, object model)
         {
-         //   var httpContext = new DefaultHttpContext { RequestServices = this.serviceProvider };
             var actionContext = new ActionContext(this.contextAccessor.HttpContext, this.contextAccessor.HttpContext.GetRouteData(), new ActionDescriptor());
 
             using (var sw = new StringWriter())

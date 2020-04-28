@@ -87,7 +87,6 @@
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
-
             var service = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
 
