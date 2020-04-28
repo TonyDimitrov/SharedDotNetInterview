@@ -42,9 +42,6 @@
         [Display(Name = "Specify where position is based")]
         public string BasedPositionLocation { get; set; }
 
-        //[Required]
-        //[MinLength(LocationTypeMinLength, ErrorMessage = "Company nationality should be minimum 2 characters!")]
-        //[MaxLength(LocationTypeMaxLength, ErrorMessage = "Company nationality should be maximum 2 characters!")]
         [Display(Name = "Company nationality")]
         public string CompanyNationality { get; set; }
 

@@ -11,6 +11,7 @@
     using DotNetInterview.Services.Data;
     using DotNetInterview.Services.Mapping;
     using DotNetInterview.Services.Messaging;
+    using DotNetInterview.Web.PdfGenerator;
     using DotNetInterview.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -81,6 +82,8 @@
             services.AddTransient<IImporterHelperService, ImporterHelperService>();
             services.AddTransient<IAdministrationService, AdministrationService>();
             services.AddTransient<IFileService, FileService>();
+            services.AddScoped<IViewRenderService, ViewRenderService>();
+            services.AddScoped<IHtmlToPdfConverter, HtmlToPdfConverter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

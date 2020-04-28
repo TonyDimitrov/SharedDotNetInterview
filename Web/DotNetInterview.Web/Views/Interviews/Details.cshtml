@@ -51,13 +51,19 @@
     <div class="text-center div-row">@Model.PositionDescription</div>
 </div>
 <div class="row justify-content-center div-row-header">
-    <div class="col-3" @Model.CanEdit>
+    <div class="col-2" @Model.CanEdit>
         <div id="btn-question" class="btn-group" role="group">
             <a class="btn btn-sm btn-primary"
                asp-controller="Interviews" asp-action="Edit" asp-route-interviewId="@Model.InterviewId" role="button">Edit</a>
         </div>
     </div>
-    <div class="col-3" @Model.CanDelete>
+    <div class="col-2">
+        <div id="btn-question" class="btn-group" role="group">
+            <a class="btn btn-sm btn-primary"
+               asp-controller="Pdf" asp-action="GetPdf" asp-route-interviewId="@Model.InterviewId" download>PDF</a>
+        </div>
+    </div>
+    <div class="col-2" @Model.CanDelete>
         <div id="btn-question div-row-plain-text" class="btn-group" role="group">
             <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
                asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId">Delete</a>
