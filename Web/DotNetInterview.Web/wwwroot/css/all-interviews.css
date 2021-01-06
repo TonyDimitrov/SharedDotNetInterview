@@ -1,18 +1,15 @@
 ﻿.h-title {
-    color: #0c3e72;
-    font-size: 24px;
-    font-family: "Open Sans", sans-serif;
+    color: #1E1E1E;
+    font-size: 1.8em;  
     margin: 1%;
 }
 
 .div-row-header {
-    color: #fe5c24;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: "Open Sans", sans-serif;
+    color: #1E1E1E;
+    font-size: 15px;
     border-bottom-style: solid;
     border-width: 1px;
-    border-color: #e3e8fa;
+    border-color: #1E1E1E;
     padding: 1%;
     padding-top: 2%;
     padding-bottom: 2%;
@@ -23,11 +20,14 @@
 }
 
 .div-row {
-    color: #0c3e72;
-    font-size: 15px;
-    font-family: "Open Sans", sans-serif;
+    color: #1E1E1E;
+    font-size: 15px; 
     padding: 1%;
-    padding-top: 2%;
+}
+
+.div-row.div-question-border-bottom {
+    display: flex;
+    align-items: center;
 }
 
 .btn-details {
@@ -37,18 +37,21 @@
 }
 
     .btn-details:hover, .btn-details:focus, .btn-details:active {
-        background-color: #fe5c24;
+        background-color: #0065b3;
     }
 
 .a-user {
+    font: inherit;
     display: inline-block;
-    color: #0c3e72;
     text-decoration: none;
+    border-bottom: solid #1E1E1E 1px;
 }
 
     .a-user:hover, .a-user:focus, .a-user:active {
         text-decoration: none;
-        color: #fe5c24;
+        color: #0065b3;
+        border-bottom: solid #0065b3 2px;
+        font-weight: 600;
     }
 
 .disable-link {

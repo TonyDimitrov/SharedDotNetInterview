@@ -11,20 +11,22 @@
 <h1 class="text-center h-title">Interviews</h1>
 
 <div class="row div-row-header">
-    <div class="col-10 col-sm-3">Position title</div>
+    <div class="col-10 col-sm-3">Position</div>
     <div class="d-none d-sm-block col-sm-2">Seniority</div>
     <div class="col-1 col-sm-1">Qns</div>
     <div class="d-none d-sm-block col-sm-2">Date</div>
     <div class="d-none d-sm-block col-sm-1">Likes</div>
     <div class="d-none d-sm-block col-sm-2">Shared by</div>
-    <div class="d-none d-sm-block col-sm-1">Check it</div>
+    <div class="d-none d-sm-block col-sm-1">Check</div>
 </div>
 
 @foreach (var i in Model.Interviews)
 {
     <div class="row div-row div-question-border-bottom">
         <div class="col-10 col-sm-3">@i.PositionTitle</div>
-        <div class="d-none d-sm-block col-sm-2" enum-text="@i.Seniority">@i.Seniority</div>
+        <div class="d-none d-sm-block col-sm-2">
+            <img class="seniority" src="/img/j-dev-curcle.png">
+        </div>
         <div class="col-1 col-sm-1"><span class="badge badge-pill span-items-count">@i.Questions</span></div>
         <div class="d-none d-sm-block col-sm-2">@i.Date</div>
         <div class="d-none d-sm-block col-sm-1"><span class="badge badge-pill span-items-count">@i.Likes</span></div>
@@ -32,9 +34,6 @@
             <a class="a-user @i.DisableUserLink" asp-controller="Users" asp-action="Details" asp-route-userId="@i.CreatorId">
                 @i.CreatorName
             </a>
-            <div class="circular-portrait">
-                <img src="/Users/UserAvatar?imageName=@i.CreatorAvatar">
-            </div>
         </div>
         <div class="col-12 col-sm-1 btn-detail">
             <a class="btn btn-sm btn-info btn-details" asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@i.InterviewId">Details</a>
@@ -43,7 +42,7 @@
 }
 
 <div class="justify-content-center">
-    <div class="pagination-container" >
+    <div class="pagination-container">
         <nav">
             <ul class="pagination">
                 <li class="page-item">
@@ -68,7 +67,7 @@
                     </a>
                 </li>
             </ul>
-        </nav>
+            </nav>
     </div>
 </div>
 

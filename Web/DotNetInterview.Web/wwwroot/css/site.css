@@ -1,20 +1,19 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-body {
+/*body {
     font-family: "Open Sans", sans-serif;
-}
+}*/
 
 .span-items-count {
-    color: #fe5c24;
+    color: #0065b3;
     border: solid 1px;
-    border-color: #0c3e72;
+    border-color: #1E1E1E;
 }
 
 .div-question-border-bottom {
     border-bottom-style: solid;
     border-width: 1px;
-    border-color: #e3e8fa;
-    margin-bottom: 1%;
+    border-color: #1E1E1E;
 }
 
 .div-small-fond {
@@ -24,5 +23,5 @@ body {
 .border-bottom {
     border-bottom-style: solid;
     border-width: 1px;
-    border-color: #e3e8fa;
+    border-color: #1E1E1E;
 }

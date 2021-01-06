@@ -4,12 +4,22 @@
     word-break: break-all;
 }
 
-@import url("https://fonts.googleapis.com/css?family=Barlow:400,700|Open+Sans:300,400,600&display=swap");
-/* line 8, /Applications/MAMP/htdocs/palash/cl/july 2019/193 Travel/193 travel html/sass/_extends.scss */
-
+#brand {
+    max-width: 180px;
+    height: auto;
+}
 /**************menu part start*****************/
 .main_menu .navbar-brand {
     padding-top: 0rem;
+}
+
+li .nav-link {
+    font: 15px/1.5 'Ubuntu', sans-serif;
+    color: #1E1E1E;
+}
+
+li .nav-link:hover {
+    color: #0065b3;
 }
 
 @media screen and (max-width: 575px) {
@@ -30,16 +40,13 @@
 }
 
 .main_menu .main-menu-item ul li .nav-link {
-    color: #0c3e72;
-    font-size: 16px;
     padding: 38px 22px;
-    font-family: "Open Sans", sans-serif;
     text-transform: capitalize;
 }
 
-    .main_menu .main-menu-item ul li .nav-link:hover {
-        color: #fe5c24;
-    }
+.seniority {
+    max-width: 2.4em;
+}
 
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
     .main_menu .main-menu-item ul li .nav-link {
@@ -87,14 +94,6 @@
         text-align: center !important;
     }
     
-    .dropdown-item {
-        color: #0c3e72;
-    }
-    
-    .dropdown-item:hover {
-        background-color: #f0f5f5;
-    }
-    
     .dropdown .dropdown-menu {
         transform: scale(1, 0);
         display: none;
@@ -103,7 +102,6 @@
     .dropdown:hover .dropdown-menu {
         transform: scale(1);
         display: block;
-        color: #0c3e72 !important;
     }
     
     .main_menu .main-menu-item {
