@@ -1,12 +1,14 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
 html {
-    font: 15px/1.5 'Ubuntu', sans-serif;
+    font: 15px/1.6 'Ubuntu', sans-serif;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: #1E1E1E;
     color: #1E1E1E;
 }
 
 body {
+    font: 15px/1.6 'Ubuntu', sans-serif;
+    color: #1E1E1E;
     margin: 0;
     background-color: #fff;
 }
@@ -14,3 +16,4 @@ body {
 a {
     color: #1E1E1E;
 }
+
