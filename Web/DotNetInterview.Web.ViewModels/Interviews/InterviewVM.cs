@@ -1,5 +1,7 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
+    using DotNetInterview.Web.ViewModels.Enums;
+
     public class InterviewVM
     {
         public string InterviewId { get; set; }

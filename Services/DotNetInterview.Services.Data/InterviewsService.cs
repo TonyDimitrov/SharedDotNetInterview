@@ -13,6 +13,7 @@
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Services.Data.Extensions;
     using DotNetInterview.Services.Data.Helpers;
+    using DotNetInterview.Web.Infrastructure.Extensions;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
     using DotNetInterview.Web.ViewModels.Enums;
@@ -59,7 +60,7 @@
                 {
                     InterviewId = i.Id,
                     PositionTitle = i.PositionTitle,
-                    PositionSeniority = i.Seniority.ToString(),
+                    PositionSeniority = (PositionSeniorityImgVM)(int)i.Seniority,
                     Date = i.CreatedOn,
                     Likes = i.Likes
                     .Where(l => l.IsLiked)
@@ -80,7 +81,7 @@
                 new InterviewVM
                 {
                     InterviewId = i.InterviewId,
-                    Seniority = i.PositionSeniority,
+                    Seniority = i.PositionSeniority.DisplayName(),
                     PositionTitle = i.PositionTitle.PositionTitleParser(),
                     Date = i.Date.DateTimeViewFormater(),
                     Likes = i.Likes,

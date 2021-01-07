@@ -2,6 +2,8 @@
 {
     using System;
 
+    using DotNetInterview.Web.ViewModels.Enums;
+
     public class AllInterviewDTO
     {
         public string InterviewId { get; set; }
@@ -12,7 +14,7 @@
 
         public DateTime Date { get; set; }
 
-        public string PositionSeniority { get; set; }
+        public PositionSeniorityImgVM PositionSeniority { get; set; }
 
         public int Likes { get; set; }
 
