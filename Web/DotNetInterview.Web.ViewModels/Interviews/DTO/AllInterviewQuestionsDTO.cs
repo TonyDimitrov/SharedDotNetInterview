@@ -16,6 +16,8 @@
 
         public string Ranked { get; set; }
 
+        public QuestionRankImgType RankImgType { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }

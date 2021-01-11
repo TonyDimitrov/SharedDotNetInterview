@@ -3,6 +3,7 @@
     using System.Collections.Generic;
 
     using DotNetInterview.Web.ViewModels.Comments;
+    using DotNetInterview.Web.ViewModels.Enums;
 
     public class AllInterviewQuestionsVM
     {
@@ -17,6 +18,8 @@
         public bool HideRanked { get; set; }
 
         public string Ranked { get; set; }
+
+        public string RankImgName { get; set; }
 
         public string CreatedOn { get; set; }
 

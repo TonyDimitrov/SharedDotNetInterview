@@ -22,6 +22,8 @@
 
         public string Seniority { get; set; }
 
+        public string SeniorityImg { get; set; }
+
         public string PositionTitle { get; set; }
 
         public string PositionDescription { get; set; }

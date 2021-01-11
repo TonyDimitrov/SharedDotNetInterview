@@ -36,9 +36,9 @@
     border: none;
 }
 
-    .btn-details:hover, .btn-details:focus, .btn-details:active {
-        background-color: #0065b3;
-    }
+.btn-details:hover, .btn-details:focus, .btn-details:active {
+    background-color: #0065b3;
+}
 
 .a-user {
     font: inherit;
@@ -47,21 +47,29 @@
     border-bottom: solid #1E1E1E 1px;
 }
 
-    .a-user:hover, .a-user:focus, .a-user:active {
-        text-decoration: none;
-        color: #0065b3;
-        border-bottom: solid #0065b3 2px;
-        font-weight: 600;
-    }
+.a-user:hover, .a-user:focus, .a-user:active {
+    text-decoration: none;
+    color: #0065b3;
+    border-bottom: solid #0065b3 2px;
+    font-weight: 600;
+}
 
 .disable-link {
     pointer-events: none;
     cursor: default;
-    background-color: lightgrey;
+    color: #1E1E1E;
+}
+
+.page-link {
+    color: #1E1E1E;
 }
 
 .mark-box {
-    background-color: lightcyan;
+    background-color: #1c8ce2;
+}
+
+.pagination {
+    justify-content: center;
 }
 
 .circular-portrait {

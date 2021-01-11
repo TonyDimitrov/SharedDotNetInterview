@@ -20,6 +20,8 @@
 
         public string Seniority { get; set; }
 
+        public PositionSeniorityImgVM SeniorityImg { get; set; }
+
         public string PositionTitle { get; set; }
 
         public string PositionDescription { get; set; }

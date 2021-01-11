@@ -5,128 +5,120 @@
 }
 
 @section Styles {
+
     <link href="@Url.Content("~/css/interview-details.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/question.css")" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 }
 
 <h1 class="text-center h-title">
     Interview Details
 </h1>
-<div class="row justify-content-center div-row-header">
-    <div class="col-5 col-sm-3 heading-font">Seniority:</div>
-    <div class="col-7 col-sm-8 div-row" enum-text="@Model.Seniority">@Model.Seniority</div>
-</div>
-<div class="row justify-content-center div-row-header">
-    <div class="col-5 col-sm-3 heading-font">Position based: </div>
-    <div class="col-7 col-sm-8 div-row" enum-text="@Model.LocationType">@Model.LocationType</div>
-</div>
-<div class="row justify-content-center div-row-header" @Model.ShowLocation>
-    <div class="col-5 col-sm-3 heading-font">Location: </div>
-    <div class="col-7 col-sm-8 div-row">@Model.BasedPositionLocation</div>
-</div>
-<div class="row justify-content-center div-row-header">
-    <div class="col-5 col-sm-3 heading-font">Company nationality: </div>
-    <div class="col-7 col-sm-8 div-row">@Model.CompanyNationality</div>
-</div>
-<div class="row justify-content-center div-row-header">
-    <div class="col-5 col-sm-3 heading-font">Employees: </div>
-    <div class="col-7 col-sm-8 div-row" enum-text="@Model.CompanySize">@Model.CompanySize</div>
-</div>
-<div class="row justify-content-center div-row-header show-over">
-    <div class="col-5 col-sm-3 heading-font">Title:</div>
-    <div class="col-7 col-sm-8 div-row">@Model.PositionTitle</div>
-</div>
 
-<div class="justify-content-center div-row-header show-under">
-    <div class="text-center heading-font">Title</div>
-    <div class="text-center div-row">@Model.PositionTitle</div>
-</div>
-<div class="row justify-content-center div-row-header show-over">
-    <div class="col-5 col-sm-3 heading-font">Description:</div>
-    <div class="col-7 col-sm-8 div-row">@Model.PositionDescription</div>
-</div>
+<div class="main-container">
+    <main class="main">
+        <p class="content-header">
+            Position
+            <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+        </p>
+        <p class="content-description">@Model.PositionTitle</p>
+        <hr class="hr-style" />
+        <p class="content-header">
+            Description
+            <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+        </p>
+        <p class="content-description">@Model.PositionDescription</p>
+        <hr class="hr-style" />
+        <div class="short-content">
+            <div>
+                Likes
+                <span id="likes-count" class="badge badge-pill span-items-count">@Model.Likes</span>
+                <a id="a-likes-glifi" class="d-inline-block" asp-controller="Interviews" asp-action="Like" asp-route-InterviewId="@Model.InterviewId">
+                    <img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" />
+                </a>
+            </div>
+            <div>
+                Qns
+                <span class="badge badge-pill span-items-count">@Model.InterviewQns.Count()</span>
+            </div>
+            <div class="">
+                <span>Shared by </span>
+                <a class="a-user-link @Model.DisableUserLink" asp-area="" asp-controller="Users"
+                   asp-action="Details" asp-route-userId="@Model.UserId">@Model.UserFullName</a>
+            </div>
+        </div>
+        <hr class="hr-style" />
+        <div class="short-content">
+            <div @Model.CanEdit>
+                <div id="btn-question" class="btn-group" role="group">
+                    <a class="btn btn-sm btn-primary"
+                       asp-controller="Interviews" asp-action="Edit" asp-route-interviewId="@Model.InterviewId" role="button">Edit</a>
+                </div>
+            </div>
+            @*<div class="col-2">
+                    <div id="btn-question" class="btn-group" role="group">
+                        <a class="btn btn-sm btn-primary"
+                           asp-controller="Pdf" asp-action="GetPdf" asp-route-interviewId="@Model.InterviewId" download>PDF</a>
+                    </div>
+                </div>*@
+            <div @Model.CanDelete>
+                <div id="btn-question div-row-plain-text" class="btn-group" role="group">
+                    <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
+                       asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId">Delete</a>
+                </div>
+            </div>
 
-<div class="justify-content-center div-row-header show-under">
-    <div class="text-center heading-font">Description</div>
-    <div class="text-center div-row">@Model.PositionDescription</div>
-</div>
-<div class="row justify-content-center div-row-header">
-    <div class="col-3" @Model.CanEdit>
-        <div id="btn-question" class="btn-group" role="group">
-            <a class="btn btn-sm btn-primary"
-               asp-controller="Interviews" asp-action="Edit" asp-route-interviewId="@Model.InterviewId" role="button">Edit</a>
+            <div @Model.CanHardDelete>
+                <div id="btn-question" class="btn-group" role="group">
+                    <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hardDelete"
+                       asp-controller="Interviews" asp-action="HardDelete" asp-route-interviewId="@Model.InterviewId">Hard Delete</a>
+                </div>
+            </div>
         </div>
-    </div>
-    @*<div class="col-2">
-        <div id="btn-question" class="btn-group" role="group">
-            <a class="btn btn-sm btn-primary"
-               asp-controller="Pdf" asp-action="GetPdf" asp-route-interviewId="@Model.InterviewId" download>PDF</a>
+    </main>
+    <aside class="aside">
+        <div>
+            <div>
+                Seniority
+                <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+            </div>
+            <div class="d-sm-block">
+                <img class="seniority" src="/img/@Model.SeniorityImg">
+            </div>
+            <div enum-text="@Model.Seniority">@Model.Seniority</div>
+            <hr class="hr-style show-under" />
+            <br />
+            <div>
+                Position based
+                <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+            </div>
+            <div enum-text="@Model.LocationType">@Model.LocationType</div>
+            <hr class="hr-style show-under" />
+            <br />
+            <div @Model.ShowLocation>
+                <div>
+                    Location
+                    <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                </div>
+                <div>@Model.BasedPositionLocation</div>
+                <hr class="hr-style show-under" />
+                <br />
+            </div>
+            <div>
+                Company nationality
+                <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+            </div>
+            <div>@Model.CompanyNationality</div>
+            <hr class="hr-style show-under" />
         </div>
-    </div>*@
-    <div class="col-3" @Model.CanDelete>
-        <div id="btn-question div-row-plain-text" class="btn-group" role="group">
-            <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
-               asp-controller="Interviews" asp-action="Delete" asp-route-interviewId="@Model.InterviewId">Delete</a>
-        </div>
-    </div>
-
-    <div class="col-3" @Model.CanHardDelete>
-        <div id="btn-question" class="btn-group" role="group">
-            <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hardDelete"
-               asp-controller="Interviews" asp-action="HardDelete" asp-route-interviewId="@Model.InterviewId">Hard Delete</a>
-        </div>
-    </div>
+    </aside>
 </div>
-<div class="row justify-content-center div-row-header show-over">
-    <div class="col-2 heading-font">
-        Likes:
-        <span id="likes-count" class="badge badge-pill span-items-count">@Model.Likes</span>
-        <a id="a-likes-glifi" asp-controller="Interviews" asp-action="Like" asp-route-InterviewId="@Model.InterviewId">
-            <img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" />
-        </a>
-    </div>
-    <div class="col-2 heading-font">
-        Qns:
-        <span class="badge badge-pill span-items-count">@Model.InterviewQns.Count()</span>
-    </div>
-    <div class="col-2 div-row">
-        <span class="heading-font">Shared by: </span>
-        <a class="a-user-link @Model.DisableUserLink" asp-area="" asp-controller="Users"
-           asp-action="Details" asp-route-userId="@Model.UserId">@Model.UserFullName</a>
-    </div>
-    <div class="col-2 heading-font">
-        Created:<span class="div-row"> @Model.ModifiedOn</span>
-    </div>
-</div>
-
-<div class="row justify-content-center div-row-header show-under">
-    <div class="col-5 heading-font">
-        Likes:
-        <span id="likes-count" class="badge badge-pill span-items-count">@Model.Likes</span>
-        <a id="a-likes-glifi" asp-controller="Interviews" asp-action="Like" asp-route-InterviewId="@Model.InterviewId">
-            <img id="img-like" class="img-glifi vote-up @Model.AddLike" src="~/uploads/imageFiles/up.png" />
-        </a>
-    </div>
-    <div class="col-5 heading-font">
-        Qns:
-        <span class="badge badge-pill span-items-count">@Model.InterviewQns.Count()</span>
-    </div>
-</div>
-<div class="row justify-content-center div-row-header show-under">
-    <div class="col-5 div-row">
-        <span class="heading-font">Shared by: </span>
-        <a class="a-user-link @Model.DisableUserLink" asp-area="" asp-controller="Users"
-           asp-action="Details" asp-route-userId="@Model.UserId">@Model.UserFullName</a>
-    </div>
-    <div class="col-5 heading-font">
-        On:<span class="div-row"> @Model.ModifiedOn</span>
-    </div>
-</div>
+<br />
 
 <div class="row justify-content-center">
     <div class="col-12 col-sm-10 div-r-border div-m">
         <div class="row justify-content-center div-row">
-            <div id="comment-count" class="col-3">Comments (@Model.InterviewComments.Count())</div>
+            <div id="comment-count" class="col-3 comment-count">Comments @Model.InterviewComments.Count()</div>
             <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments">Show</button></div>
         </div>
 
@@ -182,11 +174,12 @@
 
                     <div class="row div-row div-question-border-bottom">
 
-                        <div class="col-9 col-sm-8"><span class="span-text">Q. </span>@Html.Raw(q.Content)</div>
+                        <div class="col-9 col-sm-8"><img src="/img/patch-question.svg" alt="Alternate Text" /> @Html.Raw(q.Content)</div>
 
                         <div class="d-none d-sm-block col-sm-1 div-small-fond">@q.ModifiedOn</div>
-                        <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" />
-                        <span enum-text="@q.Ranked">@q.Ranked</span></div>
+                        <div class="col-1 div-small-fond" hidden="@q.HideRanked">
+                            <img class="img-glifi" src="~/img/@q.RankImgName" />
+                        </div>
                         <div class="col-1 div-small-fond" hidden="@q.HideFile">
                             <a class="a-user-link" asp-controller="Questions" asp-action="File" asp-route-fileName="@q.File" download>
                                 File
@@ -202,7 +195,7 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-sm-10 div-r-border borderless-under div-m2">
                     <div class="row justify-content-center div-row">
-                        <div class="col-3 comment-count2">Comments (@q.QnsComments.Count())</div>
+                        <div class="col-3 comment-count2">Comments @q.QnsComments.Count()</div>
                         <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments2">Show</button></div>
                     </div>
 

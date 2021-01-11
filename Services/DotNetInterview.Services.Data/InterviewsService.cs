@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -184,6 +183,7 @@
                     UserFName = i.User.FirstName,
                     UserLName = i.User.LastName,
                     Seniority = i.Seniority.ToString(),
+                    SeniorityImg = (PositionSeniorityImgVM)(int)i.Seniority,
                     PositionTitle = i.PositionTitle,
                     PositionDescription = i.PositionDescription,
                     CompanyNationality = i.CompanyNationality,
@@ -206,6 +206,7 @@
                             CreatedOn = q.CreatedOn,
                             ModifiedOn = q.ModifiedOn,
                             Ranked = q.RankType.ToString(),
+                            RankImgType = (QuestionRankImgType)(int)q.RankType,
                             File = q.UrlTask,
                             InterviewId = q.InterviewId,
                             QnsComments = q.Comments
@@ -254,6 +255,7 @@
                 UserFullName = interviewDTO.UserName != null ? interviewDTO.UserFName.FullUserNameParser(interviewDTO.UserLName) : GlobalConstants.UserDeleted,
                 DisableUserLink = interviewDTO.UserName != null ? string.Empty : GlobalConstants.DisableLink,
                 Seniority = interviewDTO.Seniority,
+                SeniorityImg = interviewDTO.SeniorityImg.DisplayName(),
                 PositionTitle = interviewDTO.PositionTitle,
                 PositionDescription = interviewDTO.PositionDescription == null ? GlobalConstants.NoDescription : interviewDTO.PositionDescription,
                 CompanyNationality = interviewDTO.CompanyNationality,
@@ -280,6 +282,7 @@
                         ModifiedOn = q.ModifiedOn?.DateTimeViewFormater(),
                         HideRanked = q.Ranked == GlobalConstants.None,
                         Ranked = q.Ranked,
+                        RankImgName = q.RankImgType.DisplayName(),
                         HideFile = q.File == null,
                         File = q.File,
                         InterviewId = q.InterviewId,
