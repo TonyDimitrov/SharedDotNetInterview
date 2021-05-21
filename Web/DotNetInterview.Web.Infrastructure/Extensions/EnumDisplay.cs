@@ -15,5 +15,15 @@
                 .Cast<ViewDisplayAttribute>()
                 .FirstOrDefault()?.DisplayName;
         }
+
+        public static string DisplayTooltipClass<TEnum>(this TEnum enumValue)
+        where TEnum : struct
+            {
+                return enumValue.GetType()
+                    .GetMember(enumValue.ToString())[0]
+                    .GetCustomAttributes(typeof(ViewTooltipAttribute), false)
+                    .Cast<ViewTooltipAttribute>()
+                    .FirstOrDefault()?.TooltipClass;
+            }
     }
 }

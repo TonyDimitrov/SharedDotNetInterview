@@ -79,36 +79,51 @@
     <aside class="aside">
         <div>
             <div>
-                Seniority
-                <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                <p class="content-header">Seniority
+                    <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                </p>                
             </div>
             <div class="d-sm-block">
                 <img class="seniority" src="/img/@Model.SeniorityImg">
             </div>
-            <div enum-text="@Model.Seniority">@Model.Seniority</div>
+            <div>
+            <p class="content-description" enum-text="@Model.Seniority">@Model.Seniority</p>
+            </div>
             <hr class="hr-style show-under" />
             <br />
             <div>
-                Position based
+                <p class="content-header">
+                 Position based
                 <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                </p>
             </div>
-            <div enum-text="@Model.LocationType">@Model.LocationType</div>
+            <div>
+            <p class="content-description" enum-text="@Model.LocationType">@Model.LocationType</p>
+            </div>
             <hr class="hr-style show-under" />
             <br />
             <div @Model.ShowLocation>
                 <div>
+                    <p class="content-header">
                     Location
                     <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                    </p>
                 </div>
-                <div>@Model.BasedPositionLocation</div>
+                <div>
+                    <p class="content-description">@Model.BasedPositionLocation</p>
+                </div>
                 <hr class="hr-style show-under" />
                 <br />
             </div>
             <div>
+                <p class="content-header">
                 Company nationality
                 <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                </p>
             </div>
-            <div>@Model.CompanyNationality</div>
+            <div>
+                <p class="content-description">@Model.CompanyNationality</p>
+            </div>
             <hr class="hr-style show-under" />
         </div>
     </aside>

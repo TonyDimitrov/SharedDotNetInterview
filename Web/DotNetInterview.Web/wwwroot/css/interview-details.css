@@ -115,7 +115,7 @@ hr.hr-style {
 }
 
 .info-direction {
-    max-width: 0.9em;
+    max-width: 0.7em;
 }
 
 .vote-up {
@@ -125,6 +125,15 @@ hr.hr-style {
 
 .liked {
     background-color: #663b54;
+}
+
+.content-description {
+    font-size: 0.9em;
+}
+
+.seniority {
+    display: inline-block;
+    margin-bottom: 0.5em;
 }
 
 .wrap {

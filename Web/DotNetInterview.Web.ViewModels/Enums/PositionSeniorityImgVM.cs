@@ -4,19 +4,26 @@
 
     public enum PositionSeniorityImgVM
     {
-        [ViewDisplayAttribute(displayName: "other.png")]
+        [ViewDisplayAttribute(displayName: "other-p.png")]
+        [ViewTooltipAttribute(tooltipClass: "Other")]
         None = 0,
-        [ViewDisplayAttribute(displayName: "other.png")]
+        [ViewDisplayAttribute(displayName: "other-p.png")]
+        [ViewTooltipAttribute(tooltipClass: "Other")]
         Other = 99,
-        [ViewDisplayAttribute(displayName: "j.png")]
+        [ViewDisplayAttribute(displayName: "jun-dev.png")]
+        [ViewTooltipAttribute(tooltipClass: "Junior dev")]
         JuniorDeveloper = 1,
-        [ViewDisplayAttribute(displayName: "r.png")]
+        [ViewDisplayAttribute(displayName: "mid-dev.png")]
+        [ViewTooltipAttribute(tooltipClass: "Regular dev")]
         RegularDeveloper = 2,
-        [ViewDisplayAttribute(displayName: "s.png")]
+        [ViewDisplayAttribute(displayName: "sen-dev.png")]
+        [ViewTooltipAttribute(tooltipClass: "Senior dev")]
         SeniorDeveloper = 3,
-        [ViewDisplayAttribute(displayName: "t.png")]
+        [ViewDisplayAttribute(displayName: "tl.png")]
+        [ViewTooltipAttribute(tooltipClass: "Team lead")]
         LeadDeveloper = 4,
-        [ViewDisplayAttribute(displayName: "a.png")]
+        [ViewDisplayAttribute(displayName: "arch.png")]
+        [ViewTooltipAttribute(tooltipClass: "Architect")]
         TechnicalArchitect = 5,
     }
 }

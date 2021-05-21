@@ -14,6 +14,8 @@
 
         public string Seniority { get; set; }
 
+        public string SeniorityTooltip { get; set; }
+
         public int Likes { get; set; }
 
         public string CreatorId { get; set; }

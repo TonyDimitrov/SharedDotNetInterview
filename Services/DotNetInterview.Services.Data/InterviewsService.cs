@@ -81,6 +81,7 @@
                 {
                     InterviewId = i.InterviewId,
                     Seniority = i.PositionSeniority.DisplayName(),
+                    SeniorityTooltip = i.PositionSeniority.DisplayTooltipClass(),
                     PositionTitle = i.PositionTitle.PositionTitleParser(),
                     Date = i.Date.DateTimeViewFormater(),
                     Likes = i.Likes,
