@@ -55,6 +55,7 @@
             var getCreateInterviewVM = this.interviewsService.CreateGetVM();
 
             getCreateInterviewVM.CompanyListNationalities = await this.importerHelperService.GetAll();
+            getCreateInterviewVM.HodlOnDate = DateTime.Now;
 
             return this.View(getCreateInterviewVM);
         }

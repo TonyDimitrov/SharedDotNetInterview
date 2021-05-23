@@ -1,6 +1,7 @@
 ﻿namespace DotNetInterview.Services.Data.Helpers
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
     using System.Text.RegularExpressions;
 
@@ -57,6 +58,16 @@
                  (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
 
             return r.Replace(@enum.ToString(), separator);
+        }
+
+        public static Dictionary<string, string> AllQuestionRanks()
+        {
+            return new Dictionary<string, string>
+            {
+                 { "most-interesting.png", "Most interesting" },
+                 { "most-unexpected.png", "Most unexpected" },
+                 { "most-difficult.png", "Most difficult" },
+            };
         }
     }
 }

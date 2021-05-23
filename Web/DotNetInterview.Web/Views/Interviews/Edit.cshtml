@@ -51,6 +51,12 @@
                 <span asp-validation-for="PositionDescription" class="text-danger"></span>
             </div>
 
+            <div class="form-group">
+                <label asp-for="HodlOnDate" class="control-label"></label>
+                <input asp-for="HodlOnDate" class="form-control" />
+                <span asp-validation-for="HodlOnDate" class="text-danger"></span>
+            </div>
+
             <div class="form-group inner-form">
                 <p>Position location</p>
                 <div class="form-check form-check-inline">
@@ -95,7 +101,7 @@
                             <div class="form-group question-group mb-0" data-index="0" data-number="1">
 
                                 <div hidden>
-                                    <input asp-for="Questions[q].QuestionId" value="@Model.Questions[q].QuestionId"/>
+                                    <input asp-for="Questions[q].QuestionId" value="@Model.Questions[q].QuestionId" />
                                 </div>
 
                                 <div class="div-textarea">

@@ -54,6 +54,8 @@
 
         public string CanHardDelete { get; set; }
 
+        public Dictionary<string, string> QuestionRanks { get; set; }
+
         public IEnumerable<AllInterviewQuestionsVM> InterviewQns { get; set; }
 
         public IEnumerable<AllCommentsVM> InterviewComments { get; set; }

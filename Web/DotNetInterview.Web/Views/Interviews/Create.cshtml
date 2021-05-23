@@ -49,6 +49,12 @@
                 <span asp-validation-for="PositionDescription" class="text-danger"></span>
             </div>
 
+            <div class="form-group">
+                <label asp-for="HodlOnDate" class="control-label"></label>
+                <input asp-for="HodlOnDate" class="form-control" />
+                <span asp-validation-for="HodlOnDate" class="text-danger"></span>
+            </div>
+
             <div class="form-group inner-form">
                 <p>Position location</p>
                 <div class="form-check form-check-inline">
@@ -125,7 +131,8 @@
                             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                 <div class="btn-group mr-2 btn-answer" role="group" aria-label="First group">
                                     <button type="button" data-add="@InitialState" class="btn btn-sm btn-secondary">
-                                    @Model.Questions[q].GivenAnswerBtnText</button>
+                                        @Model.Questions[q].GivenAnswerBtnText
+                                    </button>
                                 </div>
 
                                 <div class="btn-group file-upload">

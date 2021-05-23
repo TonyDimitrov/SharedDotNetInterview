@@ -1,5 +1,6 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -23,13 +24,18 @@
         [Required(ErrorMessage = "Position title required!")]
         [MinLength(PositionTitleMinLength, ErrorMessage = "Position title should be minimum 2 characters!")]
         [MaxLength(PositionTitleMaxLength, ErrorMessage = "Position title should be maximum 200 characters!")]
-        [Display(Name = "Applying position title")]
+        [Display(Name = "Position title")]
         public string PositionTitle { get; set; }
 
         [MinLength(PositionDescriptionMinLength, ErrorMessage = "Position description should be minimum 2 characters!")]
         [MaxLength(PositionDescriptionMaxLength, ErrorMessage = "Position description should be maximum 5000 characters!")]
-        [Display(Name = "Applying position description")]
+        [Display(Name = "Position description")]
         public string PositionDescription { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Date of interview")]
+        public DateTime HodlOnDate { get; set; }
 
         [Required]
         [MinLength(LocationTypeMinLength)]

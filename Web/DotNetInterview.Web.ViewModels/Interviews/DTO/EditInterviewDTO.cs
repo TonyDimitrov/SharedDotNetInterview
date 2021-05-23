@@ -1,5 +1,6 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Interviews.DTO
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -40,6 +41,11 @@
         public string InOfficeChecked { get; set; }
 
         public string RemoteChecked { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Date of interview")]
+        public DateTime HodlOnDate { get; set; }
 
         public string ShowLocation { get; set; }
 

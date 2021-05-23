@@ -155,6 +155,7 @@
                 Seniority = (PositionSeniority)model.Seniority,
                 PositionTitle = model.PositionTitle,
                 PositionDescription = model.PositionDescription,
+                HeldOnDate = model.HodlOnDate,
                 CreatedOn = DateTime.UtcNow,
                 CompanyNationality = model.CompanyNationality,
                 Employees = (EmployeesSize)model.Employees,
@@ -272,6 +273,7 @@
                 CanEdit = interviewDTO.UserId == currentUserId ? string.Empty : GlobalConstants.Hidden,
                 CanDelete = (interviewDTO.UserId == currentUserId || isAdmin) ? string.Empty : GlobalConstants.Hidden,
                 CanHardDelete = isAdmin ? string.Empty : GlobalConstants.Hidden,
+                QuestionRanks = Utils.AllQuestionRanks(),
                 InterviewQns = interviewDTO.InterviewQns
                     .Select(q => new AllInterviewQuestionsVM
                     {
@@ -336,6 +338,7 @@
                     LocationType = Enum.Parse<LocationTypeVM>(i.LocationType.ToString()),
                     InOfficeChecked = i.LocationType == LocationType.InOffice ? GlobalConstants.LocationTypeChecked : string.Empty,
                     RemoteChecked = i.LocationType == LocationType.Remote ? GlobalConstants.LocationTypeChecked : string.Empty,
+                    HodlOnDate = i.HeldOnDate,
                     ShowLocation = i.LocationType == LocationType.Remote ? GlobalConstants.Hidden : string.Empty,
                     BasedPositionLocation = i.BasedPositionLocation,
                     CompanyNationality = i.CompanyNationality,
@@ -387,7 +390,8 @@
             dbInterview.Seniority = (PositionSeniority)interviewDTO.Seniority;
             dbInterview.PositionTitle = interviewDTO.PositionTitle;
             dbInterview.PositionDescription = interviewDTO.PositionDescription;
-            dbInterview.CreatedOn = DateTime.UtcNow;
+            dbInterview.ModifiedOn = DateTime.UtcNow;
+            dbInterview.HeldOnDate = interviewDTO.HodlOnDate;
             dbInterview.CompanyNationality = interviewDTO.CompanyNationality;
             dbInterview.Employees = (EmployeesSize)interviewDTO.Employees;
             dbInterview.LocationType = locationType;
