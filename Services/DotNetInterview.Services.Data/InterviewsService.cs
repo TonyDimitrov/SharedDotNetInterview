@@ -192,6 +192,7 @@
                     CompanySize = i.Employees.ToString(),
                     LocationType = i.LocationType.ToString(),
                     InterviewLocation = i.BasedPositionLocation,
+                    HeldOn = i.HeldOnDate,
                     CreatedOn = i.CreatedOn,
                     ModifiedOn = i.ModifiedOn,
                     Likes = i.Likes
@@ -265,6 +266,7 @@
                 LocationType = interviewDTO.LocationType,
                 ShowLocation = interviewDTO.LocationType == GlobalConstants.LocationTypeInOffice ? string.Empty : GlobalConstants.Hidden,
                 BasedPositionLocation = interviewDTO.InterviewLocation,
+                HeldOn = interviewDTO.HeldOn.DateTimeViewFormater(),
                 CreatedOn = interviewDTO.CreatedOn.DateTimeViewFormater(),
                 ModifiedOn = interviewDTO.ModifiedOn?.DateTimeViewFormater(),
                 HideAddCommentForm = Utils.HideAddComment(currentUserId),

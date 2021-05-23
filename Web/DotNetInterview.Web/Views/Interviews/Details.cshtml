@@ -79,34 +79,33 @@
     <aside class="aside">
         <div>
             <div>
-                <p class="content-header">Expected seniority
+                <p class="content-header">
+                    Expected seniority
                     <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
-                </p>                
+                </p>
             </div>
             @*<div class="d-sm-block">
-                <img class="seniority" src="/img/@Model.SeniorityImg">
-            </div>*@
+            <img class="seniority" src="/img/@Model.SeniorityImg">
+        </div>*@
             <div>
-            <p class="content-description" enum-text="@Model.Seniority">@Model.Seniority</p>
+                <p class="content-description" enum-text="@Model.Seniority">@Model.Seniority</p>
             </div>
             <hr class="hr-style show-under" />
-            <br />
             <div>
                 <p class="content-header">
-                 Position based
-                <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                    Position based
+                    <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
                 </p>
             </div>
             <div>
-            <p class="content-description" enum-text="@Model.LocationType">@Model.LocationType</p>
+                <p class="content-description" enum-text="@Model.LocationType">@Model.LocationType</p>
             </div>
             <hr class="hr-style show-under" />
-            <br />
             <div @Model.ShowLocation>
                 <div>
                     <p class="content-header">
-                    Location
-                    <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                        Location
+                        <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
                     </p>
                 </div>
                 <div>
@@ -117,12 +116,32 @@
             </div>
             <div>
                 <p class="content-header">
-                Company nationality
-                <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                    Company nationality
+                    <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
                 </p>
             </div>
             <div>
                 <p class="content-description">@Model.CompanyNationality </p>
+            </div>
+            <hr class="hr-style show-under" />
+            <div>
+                <p class="content-header">
+                    Date of interview
+                    <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                </p>
+            </div>
+            <div>
+                <p class="content-description">@Model.HeldOn </p>
+            </div>
+            <hr class="hr-style show-under" />
+            <div>
+                <p class="content-header">
+                    Date created
+                    <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
+                </p>
+            </div>
+            <div>
+                <p class="content-description">@Model.CreatedOn </p>
             </div>
             <hr class="hr-style show-under" />
         </div>
@@ -180,12 +199,13 @@
     <h1 class="text-center h-title">Questions</h1>
 </div>
 
-<div>
-    @*Questions legend*@
+<div class="legend-wrapper">
+@*Questions legend*@
+
     @{
         foreach (var rank in Model.QuestionRanks)
         {
-            <span><img class="img-glifi" src="/img/@rank.Key" /></span> <span>@rank.Value</span>
+            <span><img class="img-glifi" src="/img/@rank.Key" /><span class="legend-text">@rank.Value</span></span>
         }
     }
 </div>
@@ -201,7 +221,6 @@
 
                         <div class="col-9 col-sm-8"><img src="/img/patch-question.svg" alt="Alternate Text" /> @Html.Raw(q.Content)</div>
 
-                        <div class="d-none d-sm-block col-sm-1 div-small-fond">@q.ModifiedOn</div>
                         <div class="col-1 div-small-fond" hidden="@q.HideRanked">
                             <img class="img-glifi" src="~/img/@q.RankImgName" />
                         </div>

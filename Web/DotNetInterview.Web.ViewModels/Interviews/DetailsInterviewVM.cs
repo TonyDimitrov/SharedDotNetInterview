@@ -38,6 +38,8 @@
 
         public string CompanySize { get; set; }
 
+        public string HeldOn { get; set; }
+
         public string CreatedOn { get; set; }
 
         public string ModifiedOn { get; set; }

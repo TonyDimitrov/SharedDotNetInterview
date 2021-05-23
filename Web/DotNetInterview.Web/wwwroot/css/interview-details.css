@@ -12,6 +12,7 @@
 .aside {
     width: 25%;
     text-align: center;
+    background-color: #FDFDFD;
 }
 
 hr.hr-style {
@@ -124,11 +125,13 @@ hr.hr-style {
 }
 
 .liked {
-    background-color: #663b54;
+    background-color: #FFD900;
 }
 
 .content-description {
     font-size: 0.9em;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .seniority {
@@ -140,9 +143,21 @@ hr.hr-style {
     overflow-wrap: break-word;
 }
 
-@media screen and (max-width: 576px) {
+.legend-wrapper {
+    font-size: 0.85em;
+}
 
-    hr.hr-style {
+.legend-text {
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+img.img-glifi {
+    vertical-align: sub;
+} 
+
+@media screen and (max-width: 576px) {
+    hr .hr-style {
         width: 100%;
     }
 
@@ -158,6 +173,7 @@ hr.hr-style {
     .aside {
         margin-top: 1em;
         width: 100%;
+        background-color: #FFFFFF;
     }
 }
 
@@ -176,6 +192,14 @@ hr.hr-style {
         border-radius: 0px;
         border-left: none;
         border-right: none;
+    }
+
+    .legend-wrapper {
+        font-size: 0.80em;
+    }
+
+    .img-glifi {
+        max-width: 15px;
     }
 }
 

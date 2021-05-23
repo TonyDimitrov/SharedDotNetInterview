@@ -34,6 +34,8 @@
 
         public string CompanySize { get; set; }
 
+        public DateTime HeldOn { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
