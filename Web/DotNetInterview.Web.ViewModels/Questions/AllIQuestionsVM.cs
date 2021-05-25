@@ -17,6 +17,8 @@
 
         public string HideAddComment { get; private set; }
 
+        public Dictionary<string, string> QuestionRanks { get; set; }
+
         public IEnumerable<AllInterviewQuestionsVM> Questions { get; set; }
     }
 }

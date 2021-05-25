@@ -42,7 +42,7 @@
             Assert.Equal("Junior with some experience", interviewsVM.Interviews.ToArray()[0].PositionTitle);
 
             // Seniority is parsed in view with tag helper to => Junior developer
-            Assert.Equal("JuniorDeveloper", interviewsVM.Interviews.ToArray()[0].Seniority);
+            Assert.Equal("jun-dev.png", interviewsVM.Interviews.ToArray()[0].Seniority);
             Assert.Equal($"15 May 2020 {hourToLocal:00}:10", interviewsVM.Interviews.ToArray()[0].Date);
 
             Assert.Equal(2, interviewsVM.Interviews.ToArray()[0].Questions);

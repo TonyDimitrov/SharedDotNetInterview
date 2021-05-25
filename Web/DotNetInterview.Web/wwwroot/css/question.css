@@ -14,7 +14,11 @@
 }
 
 .span-text {
-    font-weight: bold;
+    font-size: 0.85em;
+    border-block-color: black;
+    border: 1px solid #1E1E1E;
+    border-radius: 50%;
+    padding: 1px;
 }
 
 .fond-bold {
@@ -29,7 +33,7 @@
 }
 
 .mark-box {
-    background-color: lightcyan;
+    background-color: #1c8ce2;
 }
 
 .div-question-border-bottom {
@@ -39,12 +43,18 @@
     margin: 1%;
 }
 
+.page-link {
+    color: #1E1E1E;
+}
+
 .b-q-delete {
-    color: #660000;
+    color: #cc0000;
+    border-radius: 0px;
 }
 
 .b-i-delete {
-    color: #660000;
+    color: #cc0000;
+    border-radius: 0px;
 }
 
 .pagination-container {

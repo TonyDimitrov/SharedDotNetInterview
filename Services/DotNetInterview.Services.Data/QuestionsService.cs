@@ -11,8 +11,10 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Services.Data.Extensions;
     using DotNetInterview.Services.Data.Helpers;
+    using DotNetInterview.Web.Infrastructure.Extensions;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
+    using DotNetInterview.Web.ViewModels.Enums;
     using DotNetInterview.Web.ViewModels.Interviews;
     using DotNetInterview.Web.ViewModels.Interviews.DTO;
     using DotNetInterview.Web.ViewModels.Questions;
@@ -57,6 +59,7 @@
                             CreatedOn = q.CreatedOn,
                             ModifiedOn = q.ModifiedOn,
                             Ranked = q.RankType.ToString(),
+                            RankImgType = (QuestionRankImgType)(int)q.RankType,
                             File = q.UrlTask,
                             InterviewId = q.InterviewId,
                             QnsComments = q.Comments
@@ -87,7 +90,7 @@
                     ModifiedOn = q.ModifiedOn != null ? q.ModifiedOn.Value.ToLocalTime()
                     .ToString(GlobalConstants.FormatDate, CultureInfo.InvariantCulture) : null,
                     HideRanked = q.Ranked == GlobalConstants.None,
-                    Ranked = q.Ranked.ToString(),
+                    RankImgName = q.RankImgType.DisplayName(),
                     HideFile = q.File == null,
                     File = q.File,
                     InterviewId = q.InterviewId,
@@ -115,6 +118,7 @@
         public AllIQuestionsVM AllByPage(int page, AllIQuestionsVM questionsVM, IEnumerable<AllInterviewQuestionsVM> collection)
         {
             questionsVM.Questions = questionsVM.SetPagination<AllInterviewQuestionsVM>(collection, page);
+            questionsVM.QuestionRanks = Utils.AllQuestionRanks();
 
             return questionsVM;
         }

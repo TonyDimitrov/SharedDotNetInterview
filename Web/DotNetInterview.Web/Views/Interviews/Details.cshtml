@@ -84,9 +84,6 @@
                     <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
                 </p>
             </div>
-            @*<div class="d-sm-block">
-            <img class="seniority" src="/img/@Model.SeniorityImg">
-        </div>*@
             <div>
                 <p class="content-description" enum-text="@Model.Seniority">@Model.Seniority</p>
             </div>
@@ -231,7 +228,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-center div-row div-question-border-bottom" hidden="@q.HideAnswer">
-                        <div class="col-12"><span class="span-text">A.</span> @Html.Raw(@q.Answer)</div>
+                        <div class="col-12"><span class="span-text">Ans</span> @Html.Raw(@q.Answer)</div>
                     </div>
                 </div>
             </div>

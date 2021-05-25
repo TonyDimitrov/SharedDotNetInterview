@@ -14,6 +14,17 @@
     @*Questions HTML*@
     <h1 class="text-center h-title">Questions</h1>
 
+    <div class="legend-wrapper">
+        @*Questions legend*@
+
+        @{
+            foreach (var rank in Model.QuestionRanks)
+            {
+                <span><img class="img-glifi" src="/img/@rank.Key" /><span class="legend-text">@rank.Value</span></span>
+            }
+        }
+    </div>
+
     @{
         int counter = 1;
         foreach (var q in Model.Questions)
@@ -22,28 +33,29 @@
                 <div class="row">
                     <div class="col-12">
 
-                        <div class="row div-row div-question-border-bottom">
+                            <div class="row div-row div-question-border-bottom">
 
-                            <div class="col-8"><span class="span-text">Q. </span>@Html.Raw(q.Content)</div>
+                                <div class="col-8"><span><img src="/img/patch-question.svg" alt="Alternate Text" /></span>@Html.Raw(q.Content)</div>
 
-                            <div class="d-none d-sm-block col-sm-1 div-small-fond">@q.ModifiedOn</div>
-                            <div class="col-1 div-small-fond" hidden="@q.HideRanked">
-                            <img class="img-glifi" src="/Questions/RankImage" alt="Avatar">
-                            <span enum-text="@q.Ranked">@q.Ranked</span></div>
-                            <div class="col-2 div-small-fond" hidden="@q.HideFile">
-                                <a class="a-user-link" asp-controller="Questions" asp-action="File" asp-route-fileName="@q.File" download>
-                                    File
-                                </a>
+                                <div class="d-none d-sm-block col-sm-1 div-small-fond">@q.ModifiedOn</div>
+
+                                <div class="col-2 div-small-fond" hidden="@q.HideFile">
+                                    <a class="a-user-link" asp-controller="Questions" asp-action="File" asp-route-fileName="@q.File" download>
+                                        File
+                                    </a>
+                                </div>
+                                <div class="col-1 div-small-fond">
+                                    <a asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@q.InterviewId" class="a-user-link">
+                                        Check
+                                    </a>
+                                </div>
+                                <div class="col-1 div-small-fond" hidden="@q.HideRanked">
+                                    <img class="img-glifi" src="~/img/@q.RankImgName" />
+                                </div>
                             </div>
-                            <div class="col-1 div-small-fond">
-                                <a asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@q.InterviewId" class="a-user-link">
-                                    Check
-                                </a>
-                            </div>
-                        </div>
 
                         <div class="row justify-content-center div-row div-question-border-bottom" hidden="@q.HideAnswer">
-                            <div class="col-12"><span class="span-text">A. </span>@Html.Raw(q.Answer)</div>
+                            <div class="col-12"><span class="span-text">Ans</span>@Html.Raw(q.Answer)</div>
                         </div>
 
                         <div class="row justify-content-center div-row">

@@ -155,7 +155,7 @@
 
                     <div class="row div-row div-question-border-bottom">
 
-                        <div class="col-8"><span class="span-text">Q. </span>@Html.Raw(q.Content)</div>
+                        <div class="col-8"><span class="span-text"><img src="/img/patch-question.svg" alt="Alternate Text" /> </span>@Html.Raw(q.Content)</div>
 
                         <div class="col-1 div-small-fond">@q.CreatedOn</div>
                         <div class="col-1 div-small-fond" hidden="@q.HideRanked"><img class="img-glifi" src="~/uploads/imageFiles/star.png" /> @q.Ranked</div>
@@ -166,7 +166,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-center div-row div-question-border-bottom" @q.HideAnswer>
-                        <div class="col-12"><span class="span-text">A.</span> @Html.Raw(@q.Answer)</div>
+                        <div class="col-12"><span class="span-text">Ans</span> @Html.Raw(@q.Answer)</div>
                     </div>
                 </div>
             </div>
