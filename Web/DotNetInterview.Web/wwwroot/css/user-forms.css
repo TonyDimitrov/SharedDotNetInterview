@@ -13,11 +13,10 @@
     }
 
 .heading-font {
-    color: #0c3e72;
-    font-size: 26px;
+/*    color: #0c3e72;
+*/    font-size: 26px;
 }
 .sub-heading-font {
-    color: #0c3e72;
     font-size: 18px;
 }
 .font-style {
@@ -26,12 +25,10 @@
 
 @media screen and (max-width: 768px) {
     .heading-font {
-        color: #0c3e72;
         font-size: 22px;
     }
 
     .sub-heading-font {
-        color: #0c3e72;
         font-size: 17px;
     }
 }

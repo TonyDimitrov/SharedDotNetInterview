@@ -4,8 +4,8 @@
 }
 
 .main-font-style {
-    font-family: "Open Sans", sans-serif;
-    color: #0c3e72;
+    font: 15px/1.6 'Ubuntu', sans-serif;
+    color: #1E1E1E;
 }
 
 .heading-font {
@@ -19,7 +19,11 @@
 
 select {
     -webkit-appearance: menulist-button !important;
-    color: #0c3e72 !important;
+/*    color: #1E1E1E !important;*/
+}
+
+.form-control {
+    color: #1E1E1E !important;
 }
 
 @media screen and (max-width: 768px) {
