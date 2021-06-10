@@ -359,3 +359,4 @@ appsettings.Production.json
 *.min.js
 /Web/DotNetInterview.Web/appsettings.Development.json
 /Web/DotNetInterview.Web/appsettings.json
+/Web/DotNetInterview.Web/wwwroot/uploads/imageFiles
