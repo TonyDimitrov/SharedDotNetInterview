@@ -13,9 +13,12 @@
     <h1 class="text-center h-title">
         User Details
     </h1>
-        <div class="circular-portrait">
-            <img src="/Users/UserAvatar?imageName=@Model.Image" alt="Avatar">
-        </div>
+    <h1 class="text-center h-title">
+        Vladi
+    </h1>
+    <div class="circular-portrait">
+        <img src="/Users/UserAvatar?imageName=@Model.Image" alt="Avatar">
+    </div>
 </div>
 
 <div class="center-user-info">
@@ -49,7 +52,7 @@
         <div class="btn-group" role="group">
             <a class="btn btn-sm btn-primary"
                asp-area="Identity" asp-controller="Account" asp-action="Manage" role="button">Edit</a>
-        </div>
+        </div>user
     </div>
     <div class="col-3 div-user" @Model.ShowDelete>
         <div class="btn-group" role="group">
@@ -65,8 +68,8 @@
     <div class="col-3 col-sm-2 div-user description-font">@Model.MemberSince</div>
     <div class="col-3 col-sm-1">Shares:</div>
     <div class="col-3 col-sm-1 div-user description-font"><span class="badge badge-pill span-items-count">@Model.Interviews.Count()</span></div>
-</div>   
-             
+</div>
+
 <h1 class="text-center h-title">Shared Interviews</h1>
 
 <div class="row div-row-header">
