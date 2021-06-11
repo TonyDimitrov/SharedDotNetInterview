@@ -18,53 +18,55 @@
     </div>
 </div>
 
-<div class="center-user-info">
+<div class="center-user-info user-div-margin">
     @*<div class="col-5 col-sm-3">Name:</div>*@
     <div class="div-user description-font">@Model.FullName</div>
 </div>
-<div class="row justify-content-center div-row-header">
-    <div class="col-5 col-sm-3">
-        Position
-        <img class="info-direction" src="~/uploads/imageFiles/info-direction4.png" />
-    </div>
-    <div class="col-7 col-sm-8 div-user description-font" enum-text="@Model.Position">@Model.Position</div>
-</div>
-<div class="row justify-content-center div-row-header">
-    <div class="col-5 col-sm-3">Nationality:</div>
-    <div class="col-7 col-sm-8 div-user description-font">@Model.Nationality</div>
+
+<div class="center-user-info user-div-margin">
+    Position:
+    <div class="div-user description-font center-user-info" enum-text="@Model.Position">@Model.Position</div>
 </div>
 
-<div class="row justify-content-center div-row-header show-over">
-    <div class="col-5 col-sm-3">Description:</div>
-    <div class="col-7 col-sm-8 div-user description-font">@Model.Description</div>
+<div class="center-user-info user-div-margin">
+    Member since:
+    <div class="div-user description-font">@Model.MemberSince</div>
 </div>
 
-<div class="justify-content-center div-row-header show-under">
-    <div class="text-center">Description</div>
-    <div class="text-center div-user description-font">@Model.Description</div>
+<div class="center-user-info user-div-margin">
+    Nationality:
+    <div class="div-user description-font center-user-info">@Model.Nationality</div>
 </div>
 
-<div class="row justify-content-center div-row-header" @(Model.ShowEdit == Model.ShowDelete ? Model.ShowEdit : string.Empty )>
+<div class="center-user-info user-div-margin">
+    Description:
+    <div class="div-user description-font center-user-info">@Model.Description</div>
+</div>
+
+<div class="center-user-info user-div-margin">
+    Shares:
+    <div class="div-user description-font"><span class="badge badge-pill span-items-count">@Model.Interviews.Count()</span></div>
+</div>
+
+<div class="center-user-info user-div-margin">
+    DOB:
+    <div class="div-user description-font show-over">@Model.DateOfBirth</div>
+</div>
+
+
+<div class="row justify-content-center div-row-header center-user-info" @(Model.ShowEdit == Model.ShowDelete ? Model.ShowEdit : string.Empty )>
     <div class="col-3" @Model.ShowEdit>
         <div class="btn-group" role="group">
             <a class="btn btn-sm btn-primary"
-               asp-area="Identity" asp-controller="Account" asp-action="Manage" role="button">Edit</a>
-        </div>user
+               asp-area="Identity" asp-controller="Account" asp-action="Manage" role="button">Edit user</a>
+        </div>
     </div>
     <div class="col-3 div-user" @Model.ShowDelete>
         <div class="btn-group" role="group">
             <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
-               asp-area="" asp-controller="Users" asp-action="Delete" asp-route-userId="@Model.Id">Delete</a>
+               asp-area="" asp-controller="Users" asp-action="Delete" asp-route-userId="@Model.Id">Delete user</a>
         </div>
     </div>
-</div>
-<div class="row justify-content-center div-row-header">
-    <div class="col-1 show-over">DOB:</div>
-    <div class="col-2 div-user description-font show-over">@Model.DateOfBirth</div>
-    <div class="col-3 col-sm-2">Member since:</div>
-    <div class="col-3 col-sm-2 div-user description-font">@Model.MemberSince</div>
-    <div class="col-3 col-sm-1">Shares:</div>
-    <div class="col-3 col-sm-1 div-user description-font"><span class="badge badge-pill span-items-count">@Model.Interviews.Count()</span></div>
 </div>
 
 <h1 class="text-center h-title">Shared Interviews</h1>
