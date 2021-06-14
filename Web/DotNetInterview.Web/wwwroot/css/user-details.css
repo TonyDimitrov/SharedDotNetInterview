@@ -28,20 +28,24 @@
     height: 45px;
     overflow: hidden;
     border-radius: 45%;
-    margin-left: 38%;
+    margin: 25% 0 15% 38%;
 }
 
-.circular-portrait img {
-    width: 100%;
-    height: 100%;
-}
+    .circular-portrait img {
+        width: 100%;
+        height: 100%;
+    }
 
 .info-direction {
     max-width: 0.7em;
 }
 
 .center-user-info {
-text-align: center;
+    text-align: center;
+}
+
+.user-div-margin {
+    margin: 25px;
 }
 
 @media screen and (max-width: 576px) {
@@ -55,6 +59,7 @@ text-align: center;
         display: none;
     }
 }
+
 @media screen and (min-width: 576px) {
 
     .show-under {
