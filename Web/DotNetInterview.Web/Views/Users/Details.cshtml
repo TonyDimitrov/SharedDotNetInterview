@@ -10,7 +10,7 @@
     <link href="@Url.Content("~/css/user-details.css")" rel="stylesheet" type="text/css" />
 }
 <div class="div-container-center">
-    <h1 class="text-center h-title">
+    <h1 class="text-center h-title user-div-margin">
         User Details
     </h1>
     <div class="circular-portrait">
@@ -48,10 +48,10 @@
     <div class="div-user description-font"><span class="badge badge-pill span-items-count">@Model.Interviews.Count()</span></div>
 </div>
 
-<div class="center-user-info user-div-margin">
+@*<div class="center-user-info user-div-margin">
     DOB:
     <div class="div-user description-font show-over">@Model.DateOfBirth</div>
-</div>
+</div>*@
 
 
 <div class="row justify-content-center div-row-header center-user-info" @(Model.ShowEdit == Model.ShowDelete ? Model.ShowEdit : string.Empty )>
