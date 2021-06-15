@@ -10,6 +10,48 @@
 
 <h1 class="text-center h-title">Interviews</h1>
 
+<div class="filter-wrapper">
+    <span class="filter-title">Filter</span>
+
+    <div class="form-group">
+        <label class="control-label required" for="CompanyNationality">Company nationality</label>
+        <select class="form-control">
+            <option value="Åland Island">Åland Island</option>
+            <option value="Albanian">Albanian</option>
+            <option value="Algerian">Algerian</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label required" for="Seniority">Position seniority</label>
+        <select class="form-control valid">
+            <option value="1">Junior developer</option>
+            <option value="2">Regular developer</option>
+            <option value="3">Senior developer</option>
+            <option value="4">Lead developer</option>
+            <option value="5">Technical architect</option>
+            <option value="99">Other</option>
+        </select>
+    </div>
+
+    <p class="control-label" for="HodlOnDate">Interview held on</p>
+
+    <div class="form-group">
+        <label class="control-label" for="HodlOnDate">Start date</label>
+        <input id="start-date" class="form-control valid" type="date">
+
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="HodlOnDate">End date</label>
+        <input id="end-date" class="form-control valid" type="date">
+
+    </div>
+
+    <div class="col-12 col-sm-1 btn-detail">
+        <a class="btn btn-sm btn-primary" href="/Interviews/All?seniority=0">Find</a>
+    </div>
+</div>
+
 <div class="row div-row-header">
     <div class="col-10 col-sm-3">Position</div>
     <div class="d-none d-sm-block col-sm-2">Expected seniority</div>

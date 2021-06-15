@@ -1,9 +1,6 @@
 ﻿namespace DotNetInterview.Data.Models
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
-
-    using DotNetInterview.Data.Common.Models;
 
     using static DotNetInterview.Data.Common.Constants.DataConstant;
 

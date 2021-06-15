@@ -51,6 +51,10 @@
 
         public ApplicationUser User { get; set; }
 
+        public int? NationalityId { get; set; }
+
+        public Nationality Nationality { get; set; }
+
         public virtual ICollection<Question> Questions { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
