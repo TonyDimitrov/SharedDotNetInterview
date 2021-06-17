@@ -5,50 +5,60 @@
 }
 
 @section Styles {
+
     <link href="@Url.Content("~/css/all-interviews.css")" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 }
 
 <h1 class="text-center h-title">Interviews</h1>
 
-<div class="filter-wrapper">
-    <span class="filter-title">Filter</span>
+<span class="filter-title">
+    Filter
+    <i id="arrow-icon" class="fa fa-arrow-down"></i>
+</span>
+<div class="wrapper-hidden">
+    <div id="filter-body" class="hide">
+        <div class="company-position-div">
+            <div class="form-group nationality-company">
+                <label class="control-label required" for="CompanyNationality">Company nationality</label>
+                <select class="form-control">
+                    <option value="Åland Island">Åland Island</option>
+                    <option value="Albanian">Albanian</option>
+                    <option value="Algerian">Algerian</option>
+                </select>
+            </div>
 
-    <div class="form-group">
-        <label class="control-label required" for="CompanyNationality">Company nationality</label>
-        <select class="form-control">
-            <option value="Åland Island">Åland Island</option>
-            <option value="Albanian">Albanian</option>
-            <option value="Algerian">Algerian</option>
-        </select>
-    </div>
+            <div class="form-group seniority-position">
+                <label class="control-label required" for="Seniority">Position seniority</label>
+                <select class="form-control valid">
+                    <option value="1">Junior developer</option>
+                    <option value="2">Regular developer</option>
+                    <option value="3">Senior developer</option>
+                    <option value="4">Lead developer</option>
+                    <option value="5">Technical architect</option>
+                    <option value="99">Other</option>
+                </select>
+            </div>
+        </div>
 
-    <div class="form-group">
-        <label class="control-label required" for="Seniority">Position seniority</label>
-        <select class="form-control valid">
-            <option value="1">Junior developer</option>
-            <option value="2">Regular developer</option>
-            <option value="3">Senior developer</option>
-            <option value="4">Lead developer</option>
-            <option value="5">Technical architect</option>
-            <option value="99">Other</option>
-        </select>
-    </div>
+        <p class="control-label interview-label" for="HodlOnDate">Interview held on</p>
 
-    <p class="control-label" for="HodlOnDate">Interview held on</p>
+        <div class="start-end-date">
+            <div class="form-group start-date">
+                <label class="control-label" for="HodlOnDate">Start date</label>
+                <input id="start-date" class="form-control valid" type="date">
 
-    <div class="form-group">
-        <label class="control-label" for="HodlOnDate">Start date</label>
-        <input id="start-date" class="form-control valid" type="date">
+            </div>
+            <div class="form-group end-date">
+                <label class="control-label" for="HodlOnDate">End date</label>
+                <input id="end-date" class="form-control valid" type="date">
 
-    </div>
-    <div class="form-group">
-        <label class="control-label" for="HodlOnDate">End date</label>
-        <input id="end-date" class="form-control valid" type="date">
+            </div>
+        </div>
 
-    </div>
-
-    <div class="col-12 col-sm-1 btn-detail">
-        <a class="btn btn-sm btn-primary" href="/Interviews/All?seniority=0">Find</a>
+        <div class="col-12 btn-detail find-btn-div">
+            <button class="btn btn-sm btn-primary find-button" href="/Interviews/All?seniority=0">Find</button>
+        </div>
     </div>
 </div>
 
@@ -110,3 +120,4 @@
     </ul>
 </div>
 
+<script src="~/js/interviews-filter.js"></script>

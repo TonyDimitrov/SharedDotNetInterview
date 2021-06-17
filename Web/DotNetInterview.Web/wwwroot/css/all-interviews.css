@@ -1,6 +1,6 @@
 ﻿.h-title {
     color: #1E1E1E;
-    font-size: 1.8em;  
+    font-size: 1.8em;
     margin: 1%;
 }
 
@@ -21,8 +21,11 @@
     background-color: #f9f9f9;
 }
 
-.filter-title{
-    margin: 5%, 0% 5% 0%;
+.filter-title {
+    margin: 2% 0% 2% 0%;
+    display: inline-block;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .filter-wrapper input {
@@ -36,14 +39,14 @@
 
 .div-row {
     color: #1E1E1E;
-    font-size: 15px; 
+    font-size: 15px;
     padding: 1%;
 }
 
-.div-row.div-question-border-bottom {
-    display: flex;
-    align-items: center;
-}
+    .div-row.div-question-border-bottom {
+        display: flex;
+        align-items: center;
+    }
 
 .btn-details {
     font-size: 15px;
@@ -51,9 +54,9 @@
     border: none;
 }
 
-.btn-details:hover, .btn-details:focus, .btn-details:active {
-    background-color: #0065b3;
-}
+    .btn-details:hover, .btn-details:focus, .btn-details:active {
+        background-color: #0065b3;
+    }
 
 .a-user {
     font: inherit;
@@ -62,12 +65,12 @@
     border-bottom: solid #1E1E1E 1px;
 }
 
-.a-user:hover, .a-user:focus, .a-user:active {
-    text-decoration: none;
-    color: #0065b3;
-    border-bottom: solid #0065b3 2px;
-    font-weight: 600;
-}
+    .a-user:hover, .a-user:focus, .a-user:active {
+        text-decoration: none;
+        color: #0065b3;
+        border-bottom: solid #0065b3 2px;
+        font-weight: 600;
+    }
 
 .disable-link {
     pointer-events: none;
@@ -101,6 +104,56 @@
         height: 100%;
     }
 
+.pagination-container {
+    width: 120px; /*can be in percentage also.*/
+    height: auto;
+    padding-top: 5%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.fa-arrow-down {
+    transform: rotate(0deg);
+    transition: transform 1s linear;
+}
+
+    .fa-arrow-down.open {
+        transform: rotate(180deg);
+        transition: transform 1s linear;
+    }
+
+.wrapper-hidden {
+    overflow: hidden;
+    background-color: #f9f9f9;
+    max-width: 45%;
+}
+
+#filter-body {
+    max-height: 1000px;
+    transition: 1s linear;
+}
+
+.hide {
+    max-height: 0 !important;
+    transition: 2s linear;
+}
+
+.company-position-div, .start-end-date {
+    display: flex;
+}
+
+.nationality-company, .start-date, .seniority-position, .end-date {
+    flex: 0.5;
+    margin: 5px;
+    max-width: 48%
+}
+
+.interview-label, .find-btn-div {
+    text-align: left;
+    margin: 4% 0 2% 0;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 768px) {
 
     .btn-detail {
@@ -123,17 +176,28 @@
     .btn-details {
         font-size: 12px !important;
     }
+
+    .interview-label, .find-btn-div {
+        margin: 4% 0 2% 0;
+        font-weight: bold;
+    }
+
+    .nationality-company, .start-date, .seniority-position, .end-date {
+        flex: 0.5;
+        margin: 5px;
+        max-width: 44%
+    }
+
+    .wrapper-hidden {
+        overflow: hidden;
+        background-color: #f9f9f9;
+        max-width: 100%;
+    }
 }
+
 @media screen and (max-width: 576px) {
 
     .h-title {
         font-size: 16px;
     }
-}
-.pagination-container {
-    width: 120px; /*can be in percentage also.*/
-    height: auto;
-    padding-top: 5%;
-    margin: 0 auto;
-    position: relative;
 }
