@@ -22,10 +22,15 @@
 }
 
 .filter-title {
+    color: #0c3e72;
     margin: 2% 0% 2% 0%;
     display: inline-block;
     font-weight: bold;
     cursor: pointer;
+}
+
+.filter-title:hover {
+    color: #007bff;
 }
 
 .filter-wrapper input {
@@ -125,7 +130,9 @@
 .wrapper-hidden {
     overflow: hidden;
     background-color: #f9f9f9;
+    border-radius: 4px;
     max-width: 45%;
+    padding: 0 1% 0 1px;
 }
 
 #filter-body {
@@ -148,9 +155,16 @@
     max-width: 48%
 }
 
-.interview-label, .find-btn-div {
+.interview-label {
     text-align: left;
-    margin: 4% 0 2% 0;
+    margin: 3% 0 0% 1%;
+    font-weight: bold;
+}
+
+.find-btn-div {
+    text-align: left;
+    padding-left: 1.5% !important;
+    margin: 1.5% 0 3% 0;
     font-weight: bold;
 }
 
@@ -177,7 +191,12 @@
         font-size: 12px !important;
     }
 
-    .interview-label, .find-btn-div {
+    .interview-label {
+        margin: 3% 0 0% 1%;
+        font-weight: bold;
+    }
+
+    .find-btn-div {
         margin: 4% 0 2% 0;
         font-weight: bold;
     }
