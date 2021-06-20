@@ -119,7 +119,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
                 LastName = appUser.LastName,
                 DateOfBirth = appUser.DateOfBirth,
                 Description = appUser.Description,
-                Nationality = appUser?.Nationality ?? NoDefineNationality,
+                Nationality = appUser?.UserNationality ?? NoDefineNationality,
                 Nationalities = this.importerHelperService.GetAll()
                 .GetAwaiter()
                 .GetResult()

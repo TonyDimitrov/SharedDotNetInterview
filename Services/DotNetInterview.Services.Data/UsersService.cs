@@ -32,7 +32,7 @@
                     UserName = u.UserName,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    Nationality = u.Nationality,
+                    Nationality = u.UserNationality,
                     Position = u.Position.ToString(),
                     Description = u.Description,
                     MemberSince = u.CreatedOn,
@@ -81,7 +81,7 @@
         {
             user.FirstName = formModel.FirstName;
             user.LastName = formModel.LastName;
-            user.Nationality = formModel.Nationality;
+            user.UserNationality = formModel.Nationality;
             user.Position = Enum.Parse<WorkPosition>(formModel.Position.ToString());
             user.DateOfBirth = formModel.DateOfBirth;
             user.Description = formModel.Description;

@@ -37,7 +37,7 @@
                 .ReturnsAsync("fileName");
 
             var user = UserTestData.GetUserTestData();
-            user.Nationality = "Bulgarian";
+            user.UserNationality = "Bulgarian";
             user.Position = WorkPosition.SeniorDeveloper;
             user.Description = "Experienced";
 
@@ -86,7 +86,7 @@
                 .ReturnsAsync("fileName");
 
             var user = UserTestData.GetUserTestData();
-            user.Nationality = "Bulgarian";
+            user.UserNationality = "Bulgarian";
             user.Position = WorkPosition.SeniorDeveloper;
             user.Description = "Experienced";
 
@@ -135,7 +135,7 @@
                 .ReturnsAsync("fileName");
 
             var user = UserTestData.GetUserTestData();
-            user.Nationality = "Bulgarian";
+            user.UserNationality = "Bulgarian";
             user.Position = WorkPosition.SeniorDeveloper;
             user.Description = "Experienced";
 

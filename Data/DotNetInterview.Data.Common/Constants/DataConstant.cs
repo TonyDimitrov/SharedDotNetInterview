@@ -38,5 +38,10 @@
         // URL constants
         public const int UrlMinLength = 10;
         public const int UrlMaxLength = 300;
+
+        // Nationality constants
+        public const int NationalityMinLength = 2;
+        public const int NationalityMaxLength = 100;
+
     }
 }

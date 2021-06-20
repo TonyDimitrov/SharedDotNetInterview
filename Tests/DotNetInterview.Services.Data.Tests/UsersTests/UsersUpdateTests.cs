@@ -37,7 +37,7 @@
                 .ReturnsAsync("fileNameChanged");
 
             var user = UserTestData.GetUserTestData();
-            user.Nationality = "Bulgarian";
+            user.UserNationality = "Bulgarian";
             user.Position = WorkPosition.SeniorDeveloper;
             user.Description = "Experienced";
 
