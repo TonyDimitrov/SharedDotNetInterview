@@ -57,6 +57,8 @@
         [Display(Name = "Company nationality")]
         public string CompanyNationality { get; set; }
 
+        public int? CompanyNationalityId { get; set; }
+
         public IEnumerable<SelectListItem> CompanyListNationalities { get; set; }
 
         public List<EditInterviewQuestionsDTO> Questions { get; set; }

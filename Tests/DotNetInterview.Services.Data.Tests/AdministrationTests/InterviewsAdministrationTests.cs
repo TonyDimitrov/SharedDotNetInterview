@@ -89,6 +89,9 @@
             var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityRepository = new NationalitiesService(dbNationalities);
+
             var administratorService = new AdministrationService(
                 interviewRepository,
                 questionRepository,
@@ -101,7 +104,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalityRepository);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
 

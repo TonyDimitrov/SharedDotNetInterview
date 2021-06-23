@@ -94,7 +94,7 @@
             await this.administratorService.UndeleteInterview(interviewId);
 
             return this.RedirectToAction("DeletedInterviews");
-        }
+        } 
 
         [HttpGet]
         public async Task<IActionResult> ManageNationalitiesGet()
@@ -135,7 +135,7 @@
             var deleted = await this.nationalitiesService.DeleteNationality(model.Delete);
 
             model.StatusMessage = deleted.Message;
-            model.Nationalities = await this.nationalitiesService.GetAllWithSelected(model.Delete);
+            model.Nationalities = await this.nationalitiesService.GetAllWithSelected(model.Id);
 
             return this.View(nameof(this.ManageNationalitiesGet), model);
         }

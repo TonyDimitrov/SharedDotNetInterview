@@ -18,6 +18,47 @@
             this.db = db;
         }
 
+        public async Task<Nationality> GetById(int id)
+        {
+            return await Task.Run(() =>
+            {
+                return this.db.Nationalities.FirstOrDefault(n => n.Id == id);
+            });
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetAll()
+        {
+            return await Task.Run(() =>
+            {
+                return this.db.Nationalities
+                       .Select(n => new SelectListItem { Text = n.CompanyNationality, Value = n.Id.ToString() })
+                       .ToList()
+                       .OrderBy(n => n.Value);
+            });
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetAllWithSelected(int? selectedNationalityId)
+        {
+            return await Task.Run(() =>
+            {
+                return this.db.Nationalities
+                    .AsEnumerable()
+                    .Select(n =>
+                    {
+                        if (n.Id == selectedNationalityId.Value)
+                        {
+                            return new SelectListItem { Text = n.CompanyNationality, Value = n.Id.ToString(), Selected = true };
+                        }
+                        else
+                        {
+                            return new SelectListItem { Text = n.CompanyNationality, Value = n.Id.ToString() };
+                        }
+                    })
+                    .ToList()
+                    .OrderBy(n => n.Text);
+            });
+        }
+
         public async Task<DbOperation> AddNationality(string nationality)
         {
             if (string.IsNullOrWhiteSpace(nationality))
@@ -27,7 +68,7 @@
 
             if (this.db.Nationalities.Any(n => n.CompanyNationality == nationality))
             {
-               return new DbOperation(false, $"Error! Nationality [{nationality}] already exists!");
+                return new DbOperation(false, $"Error! Nationality [{nationality}] already exists!");
             }
 
             await this.db.AddAsync(new Nationality { CompanyNationality = nationality });
@@ -58,37 +99,5 @@
             return new DbOperation(false, $"Nationality [{nationality}] was successfully deleted!");
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetAll()
-        {
-            return await Task.Run(() =>
-            {
-                return this.db.Nationalities
-                       .Select(n => new SelectListItem { Text = n.CompanyNationality, Value = n.CompanyNationality })
-                       .ToList()
-                       .OrderBy(n => n.Text);
-            });
-        }
-
-        public async Task<IEnumerable<SelectListItem>> GetAllWithSelected(string selectNationality)
-        {
-            return await Task.Run(() =>
-            {
-                return this.db.Nationalities
-                    .AsEnumerable()
-                    .Select(n =>
-                    {
-                        if (selectNationality == n.CompanyNationality)
-                        {
-                            return new SelectListItem { Text = n.CompanyNationality, Value = n.CompanyNationality, Selected = true };
-                        }
-                        else
-                        {
-                            return new SelectListItem { Text = n.CompanyNationality, Value = n.CompanyNationality };
-                        }
-                    })
-                    .ToList()
-                    .OrderBy(n => n.Text);
-            });
-        }
     }
 }

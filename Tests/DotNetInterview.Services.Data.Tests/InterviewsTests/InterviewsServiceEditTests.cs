@@ -31,7 +31,7 @@
             interviewRepo.Setup(r => r.All()).Returns(interviews);
 
             var importerService = new Mock<INationalitiesService>();
-            importerService.Setup(s => s.GetAllWithSelected("Bulgarian"))
+            importerService.Setup(s => s.GetAllWithSelected(1))
                 .ReturnsAsync(new List<SelectListItem>
                 {
                     new SelectListItem { Value = "Bulgarian", Text = "Bulgarian", Selected = true },

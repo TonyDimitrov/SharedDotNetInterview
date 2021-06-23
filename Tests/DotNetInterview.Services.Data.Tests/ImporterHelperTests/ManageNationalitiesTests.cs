@@ -68,7 +68,7 @@
             await service.AddNationality("English");
 
             // Act
-            var storedNationality = await service.GetAllWithSelected(selectedNationality);
+            var storedNationality = await service.GetAllWithSelected(1);
 
             // Assert
             Assert.Equal(3, storedNationality.Count());

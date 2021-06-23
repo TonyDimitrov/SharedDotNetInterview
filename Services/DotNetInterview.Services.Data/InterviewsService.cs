@@ -150,6 +150,13 @@
                 throw new ArgumentException($"Location type value: '{model.LocationType}' is invalid!");
             }
 
+            if (!int.TryParse(model.CompanyNationality, out var nationalityId))
+            {
+                throw new ArgumentException($"Company nationality Id : '{model.CompanyNationality}' is invalid!");
+            }
+
+            var nationality = await this.nationalitiesService.GetById(nationalityId);
+
             var interview = new Interview
             {
                 Seniority = (PositionSeniority)model.Seniority,
@@ -157,7 +164,8 @@
                 PositionDescription = model.PositionDescription,
                 HeldOnDate = model.HodlOnDate,
                 CreatedOn = DateTime.UtcNow,
-                CompanyNationality = model.CompanyNationality,
+                Nationality = nationality,
+                CompanyNationality = nationality?.CompanyNationality,
                 Employees = (EmployeesSize)model.Employees,
                 LocationType = locationType,
                 BasedPositionLocation = locationType == LocationType.InOffice ? model.BasedPositionLocation : null,
@@ -343,6 +351,7 @@
                     HodlOnDate = i.HeldOnDate,
                     ShowLocation = i.LocationType == LocationType.Remote ? GlobalConstants.Hidden : string.Empty,
                     BasedPositionLocation = i.BasedPositionLocation,
+                    CompanyNationalityId = i.Nationality.Id,
                     CompanyNationality = i.CompanyNationality,
                     Questions = i.Questions
                         .Where(q => !q.IsDeleted)
@@ -363,7 +372,7 @@
                     return null;
                 }
 
-                interviewDTO.CompanyListNationalities = await this.nationalitiesService.GetAllWithSelected(interviewDTO.CompanyNationality);
+                interviewDTO.CompanyListNationalities = await this.nationalitiesService.GetAllWithSelected(interviewDTO.CompanyNationalityId);
 
                 return interviewDTO;
             });
@@ -389,12 +398,20 @@
                 throw new ArgumentException($"Location type value: '{interviewDTO.LocationType}' is invalid!");
             }
 
+            if (!int.TryParse(interviewDTO.CompanyNationality, out var nationalityId))
+            {
+                throw new ArgumentException($"Company nationality Id : '{interviewDTO.CompanyNationality}' is invalid!");
+            }
+
+            var nationality = await this.nationalitiesService.GetById(nationalityId);
+
             dbInterview.Seniority = (PositionSeniority)interviewDTO.Seniority;
             dbInterview.PositionTitle = interviewDTO.PositionTitle;
             dbInterview.PositionDescription = interviewDTO.PositionDescription;
             dbInterview.ModifiedOn = DateTime.UtcNow;
             dbInterview.HeldOnDate = interviewDTO.HodlOnDate;
-            dbInterview.CompanyNationality = interviewDTO.CompanyNationality;
+            dbInterview.CompanyNationality = nationality.CompanyNationality;
+            dbInterview.Nationality = nationality;
             dbInterview.Employees = (EmployeesSize)interviewDTO.Employees;
             dbInterview.LocationType = locationType;
             dbInterview.BasedPositionLocation = (locationType == LocationType.InOffice) ? interviewDTO.BasedPositionLocation : null;

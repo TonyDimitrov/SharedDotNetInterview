@@ -15,10 +15,14 @@
     public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
+        private readonly INationalitiesService nationalitiesService;
 
-        public UsersService(IDeletableEntityRepository<ApplicationUser> userRepository)
+        public UsersService(
+            IDeletableEntityRepository<ApplicationUser> userRepository,
+            INationalitiesService nationalitiesService)
         {
             this.userRepository = userRepository;
+            this.nationalitiesService = nationalitiesService;
         }
 
         public DetailsUserVM Details(string userId, bool isLoggedInUser, bool isAdmin)
@@ -79,9 +83,17 @@
 
         public async Task Update(ApplicationUser user, UpdateUserDTO formModel, IFileService fileService, string fileDirectory)
         {
+            if (!int.TryParse(formModel.Nationality, out var nationalityId))
+            {
+                throw new ArgumentException($"Company nationality Id : '{formModel.Nationality}' is invalid!");
+            }
+
+            var nationality = await this.nationalitiesService.GetById(nationalityId);
+
             user.FirstName = formModel.FirstName;
             user.LastName = formModel.LastName;
-            user.UserNationality = formModel.Nationality;
+            user.UserNationality = nationality.CompanyNationality;
+            user.Nationality = nationality;
             user.Position = Enum.Parse<WorkPosition>(formModel.Position.ToString());
             user.DateOfBirth = formModel.DateOfBirth;
             user.Description = formModel.Description;
