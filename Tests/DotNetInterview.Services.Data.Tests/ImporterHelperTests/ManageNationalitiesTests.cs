@@ -19,7 +19,7 @@
 
             using var dbNationalities = new ApplicationDbContext(options.Options);
 
-            var service = new ImporterHelperService(dbNationalities);
+            var service = new NationalitiesService(dbNationalities);
 
             // Act
             await service.AddNationality("Bulgaria");
@@ -39,7 +39,7 @@
 
             using var dbNationalities = new ApplicationDbContext(options.Options);
 
-            var service = new ImporterHelperService(dbNationalities);
+            var service = new NationalitiesService(dbNationalities);
             await service.AddNationality("Bulgaria");
 
             // Act
@@ -59,7 +59,7 @@
 
             using var dbNationalities = new ApplicationDbContext(options.Options);
 
-            var service = new ImporterHelperService(dbNationalities);
+            var service = new NationalitiesService(dbNationalities);
 
             var selectedNationality = "Bulgaria";
 

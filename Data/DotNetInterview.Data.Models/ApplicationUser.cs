@@ -5,6 +5,7 @@ namespace DotNetInterview.Data.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
     using DotNetInterview.Data.Common.Models;
     using DotNetInterview.Data.Models.Enums;
     using Microsoft.AspNetCore.Identity;

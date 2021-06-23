@@ -30,7 +30,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IUsersService usersService;
         private readonly IFileService fileService;
-        private readonly IImporterHelperService importerHelperService;
+        private readonly INationalitiesService nationalitiesService;
         private readonly IWebHostEnvironment webHostEnvironment;
 
         public IndexModel(
@@ -38,7 +38,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
             SignInManager<ApplicationUser> signInManager,
             IUsersService usersService,
             IFileService fileService,
-            IImporterHelperService importerHelperService,
+            INationalitiesService nationalitiesService,
             IWebHostEnvironment webHostEnvironment
             )
         {
@@ -46,7 +46,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
             this.signInManager = signInManager;
             this.usersService = usersService;
             this.fileService = fileService;
-            this.importerHelperService = importerHelperService;
+            this.nationalitiesService = nationalitiesService;
             this.webHostEnvironment = webHostEnvironment;
         }
 
@@ -120,7 +120,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
                 DateOfBirth = appUser.DateOfBirth,
                 Description = appUser.Description,
                 Nationality = appUser?.UserNationality ?? NoDefineNationality,
-                Nationalities = this.importerHelperService.GetAll()
+                Nationalities = this.nationalitiesService.GetAll()
                 .GetAwaiter()
                 .GetResult()
                 .Select(n =>

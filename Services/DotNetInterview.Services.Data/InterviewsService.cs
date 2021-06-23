@@ -28,7 +28,7 @@
         private readonly IDeletableEntityRepository<Question> questionsRepository;
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
         private readonly IDeletableEntityRepository<Like> likesRepository;
-        private readonly IImporterHelperService importerHelperService;
+        private readonly INationalitiesService nationalitiesService;
 
         public InterviewsService(
             ApplicationDbContext db,
@@ -36,14 +36,14 @@
             IDeletableEntityRepository<Question> questionsRepository,
             IDeletableEntityRepository<Comment> commentsRepository,
             IDeletableEntityRepository<Like> likesRepository,
-            IImporterHelperService importerHelperService)
+            INationalitiesService nationalitiesService)
         {
             this.db = db;
             this.interviewsRepository = categoriesRepository;
             this.questionsRepository = questionsRepository;
             this.commentsRepository = commentsRepository;
             this.likesRepository = likesRepository;
-            this.importerHelperService = importerHelperService;
+            this.nationalitiesService = nationalitiesService;
         }
 
         public async Task<AllInterviewsVM> All(int seniority)
@@ -363,7 +363,7 @@
                     return null;
                 }
 
-                interviewDTO.CompanyListNationalities = await this.importerHelperService.GetAllWithSelected(interviewDTO.CompanyNationality);
+                interviewDTO.CompanyListNationalities = await this.nationalitiesService.GetAllWithSelected(interviewDTO.CompanyNationality);
 
                 return interviewDTO;
             });

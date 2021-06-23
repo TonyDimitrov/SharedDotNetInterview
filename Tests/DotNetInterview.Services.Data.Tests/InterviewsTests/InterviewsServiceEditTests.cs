@@ -30,7 +30,7 @@
             var interviews = InterviewsTestData.GetInterviewsTestData();
             interviewRepo.Setup(r => r.All()).Returns(interviews);
 
-            var importerService = new Mock<IImporterHelperService>();
+            var importerService = new Mock<INationalitiesService>();
             importerService.Setup(s => s.GetAllWithSelected("Bulgarian"))
                 .ReturnsAsync(new List<SelectListItem>
                 {
@@ -80,7 +80,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var importerService = new Mock<IImporterHelperService>();
+            var importerService = new Mock<INationalitiesService>();
             importerService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {
@@ -159,7 +159,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var importerService = new Mock<IImporterHelperService>();
+            var importerService = new Mock<INationalitiesService>();
             importerService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {

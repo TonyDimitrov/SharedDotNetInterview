@@ -18,14 +18,14 @@
     public class AdministrationController : BaseController
     {
         private readonly IAdministrationService administratorService;
-        private readonly IImporterHelperService importerHelperService;
+        private readonly INationalitiesService nationalitiesService;
 
         public AdministrationController(
             IAdministrationService administratorService,
-            IImporterHelperService importerHelperService)
+            INationalitiesService nationalitiesService)
         {
             this.administratorService = administratorService;
-            this.importerHelperService = importerHelperService;
+            this.nationalitiesService = nationalitiesService;
         }
 
         [HttpGet]
@@ -99,7 +99,7 @@
         [HttpGet]
         public async Task<IActionResult> ManageNationalitiesGet()
         {
-            var selectListItems = await this.importerHelperService.GetAll();
+            var selectListItems = await this.nationalitiesService.GetAll();
 
             return this.View(new ManageNationalitiesVM { Nationalities = selectListItems });
         }
@@ -109,15 +109,15 @@
         {
             if (!this.ModelState.IsValid)
             {
-                model.Nationalities = await this.importerHelperService.GetAll();
+                model.Nationalities = await this.nationalitiesService.GetAll();
 
                 return this.View(nameof(this.ManageNationalitiesGet), model);
             }
 
-            var added = await this.importerHelperService.AddNationality(model.Add);
+            var added = await this.nationalitiesService.AddNationality(model.Add);
 
             model.StatusMessage = added.Message;
-            model.Nationalities = await this.importerHelperService.GetAll();
+            model.Nationalities = await this.nationalitiesService.GetAll();
 
             return this.View(nameof(this.ManageNationalitiesGet), model);
         }
@@ -127,15 +127,15 @@
         {
             if (!this.ModelState.IsValid)
             {
-                model.Nationalities = await this.importerHelperService.GetAll();
+                model.Nationalities = await this.nationalitiesService.GetAll();
 
                 return this.View(nameof(this.ManageNationalitiesGet), model);
             }
 
-            var deleted = await this.importerHelperService.DeleteNationality(model.Delete);
+            var deleted = await this.nationalitiesService.DeleteNationality(model.Delete);
 
             model.StatusMessage = deleted.Message;
-            model.Nationalities = await this.importerHelperService.GetAllWithSelected(model.Delete);
+            model.Nationalities = await this.nationalitiesService.GetAllWithSelected(model.Delete);
 
             return this.View(nameof(this.ManageNationalitiesGet), model);
         }

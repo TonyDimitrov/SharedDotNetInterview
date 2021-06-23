@@ -6,7 +6,7 @@
     using DotNetInterview.Web.ViewModels.Common;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    public interface IImporterHelperService
+    public interface INationalitiesService
     {
         Task<IEnumerable<SelectListItem>> GetAll();
 

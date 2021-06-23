@@ -79,7 +79,7 @@
             services.AddTransient<IInterviewsService, InterviewsService>();
             services.AddTransient<IQuestionsService, QuestionsService>();
             services.AddTransient<ICommentsService, CommentsService>();
-            services.AddTransient<IImporterHelperService, ImporterHelperService>();
+            services.AddTransient<INationalitiesService, NationalitiesService>();
             services.AddTransient<IAdministrationService, AdministrationService>();
             services.AddTransient<IFileService, FileService>();
             services.AddScoped<IViewRenderService, ViewRenderService>();
@@ -98,7 +98,10 @@
 
                 dbContext.Database.Migrate();
 
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+                new ApplicationDbContextSeeder()
+                    .SeedAsync(dbContext, serviceScope.ServiceProvider)
+                    .GetAwaiter()
+                    .GetResult();
             }
 
             if (env.IsDevelopment())

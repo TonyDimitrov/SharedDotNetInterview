@@ -227,7 +227,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var importerService = new Mock<IImporterHelperService>();
+            var importerService = new Mock<INationalitiesService>();
             importerService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {

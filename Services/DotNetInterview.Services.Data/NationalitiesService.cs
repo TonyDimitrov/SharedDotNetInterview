@@ -9,11 +9,11 @@
     using DotNetInterview.Web.ViewModels.Common;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    public class ImporterHelperService : IImporterHelperService
+    public class NationalitiesService : INationalitiesService
     {
         private readonly ApplicationDbContext db;
 
-        public ImporterHelperService(ApplicationDbContext db)
+        public NationalitiesService(ApplicationDbContext db)
         {
             this.db = db;
         }
