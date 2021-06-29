@@ -247,13 +247,30 @@
         max-width: 100%;
     }
 
+    .wrapper-hidden-legend, .legend-title {
+        display: none;
+    }
+
     #legend-filter-body {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-column-gap: 10px;
         grid-row-gap: 10px;
         max-height: 130px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .h-title {
+        font-size: 16px;
+    }
+
+    #legend-filter-body {
         font-size: 12px;
+    }
+
+    .seniority {
+        max-width: 2em;
     }
 }
  
@@ -270,3 +287,4 @@
             max-width: 2em;
         }
     }
+}
