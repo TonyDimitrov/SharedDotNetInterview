@@ -134,7 +134,8 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
                     {
                         return n;
                     }
-                }),
+                })
+                .OrderBy(n => n.Text),
                 Position = seniotity,
                 Image = appUser.Image != null ? appUser.Image : GlobalConstants.DefaultAvatar,
             };

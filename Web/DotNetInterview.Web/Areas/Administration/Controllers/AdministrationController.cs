@@ -132,7 +132,7 @@
                 return this.View(nameof(this.ManageNationalitiesGet), model);
             }
 
-            var deleted = await this.nationalitiesService.DeleteNationality(model.Delete);
+            var deleted = await this.nationalitiesService.DeleteNationality(model.NationalityId);
 
             model.StatusMessage = deleted.Message;
             model.Nationalities = await this.nationalitiesService.GetAllWithSelected(model.Id);

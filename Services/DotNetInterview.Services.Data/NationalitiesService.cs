@@ -1,5 +1,6 @@
 ﻿namespace DotNetInterview.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -33,7 +34,7 @@
                 return this.db.Nationalities
                        .Select(n => new SelectListItem { Text = n.CompanyNationality, Value = n.Id.ToString() })
                        .ToList()
-                       .OrderBy(n => n.Value);
+                       .OrderBy(n => n.Text);
             });
         }
 
@@ -78,25 +79,33 @@
             return new DbOperation(true, $"Nationality [{nationality}]  successfully added!");
         }
 
-        public async Task<DbOperation> DeleteNationality(string nationality)
+        public async Task<DbOperation> DeleteNationality(int nationalityId)
         {
-            if (string.IsNullOrWhiteSpace(nationality))
+            if (nationalityId <= 0)
             {
-                return new DbOperation(false, $"Error! Nationality was empty!");
+                return new DbOperation(false, $"Error! Nationality was incorrect!");
             }
 
-            var dbnationality = this.db.Nationalities.FirstOrDefault(n => n.CompanyNationality == nationality);
+            var dbnationality = this.db.Nationalities.FirstOrDefault(n => n.Id == nationalityId);
 
             if (dbnationality == null)
             {
-                return new DbOperation(false, $"Error! Nationality [{nationality}] was not found!");
+                return new DbOperation(false, $"Error! Nationality with id [{nationalityId}] was not found!");
             }
 
-            this.db.Remove(dbnationality);
+            try
+            {
+                this.db.Remove(dbnationality);
 
-            await this.db.SaveChangesAsync();
+                await this.db.SaveChangesAsync();
 
-            return new DbOperation(false, $"Nationality [{nationality}] was successfully deleted!");
+                return new DbOperation(true, $"Nationality [{dbnationality.CompanyNationality}] was successfully deleted!");
+            }
+            catch (Exception ex)
+            {
+                return new DbOperation(false, $"Error! Nationality [{dbnationality.CompanyNationality}] was not deleted! It may be already related to user or interview.");
+            }
+
         }
 
     }

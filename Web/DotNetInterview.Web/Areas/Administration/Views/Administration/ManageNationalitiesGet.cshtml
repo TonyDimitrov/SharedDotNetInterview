@@ -33,7 +33,7 @@
         <form asp-area="Administration" asp-controller="Administration" asp-action="DeleteNationality" method="post">
             <div class="form-group">
                 <label asp-for="Delete" class="control-label"></label>
-                <select asp-for="Delete" class="form-control" data-val="true" aria-describedby="CompanyNationality-error" asp-items="Model.Nationalities">
+                <select asp-for="NationalityId" class="form-control" data-val="true" aria-describedby="CompanyNationality-error" asp-items="Model.Nationalities">
                 </select>
                 <span asp-validation-for="Delete" class="text-danger"></span>
             </div>

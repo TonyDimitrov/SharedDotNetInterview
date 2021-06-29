@@ -17,6 +17,6 @@
 
         Task<DbOperation> AddNationality(string nationality);
 
-        Task<DbOperation> DeleteNationality(string nationality);
+        Task<DbOperation> DeleteNationality(int nationalityId);
     }
 }
