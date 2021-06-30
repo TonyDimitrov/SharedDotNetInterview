@@ -43,7 +43,7 @@
             await service.AddNationality("Bulgaria");
 
             // Act
-            await service.DeleteNationality("Bulgaria");
+            await service.DeleteNationality(1);
             var storedNationality = await service.GetAll();
 
             // Assert
@@ -72,7 +72,7 @@
 
             // Assert
             Assert.Equal(3, storedNationality.Count());
-            Assert.True(storedNationality.First(n => n.Text == selectedNationality && n.Value == selectedNationality).Selected);
+            Assert.True(storedNationality.First(n => n.Text == selectedNationality && n.Value == "1").Selected);
         }
     }
 }

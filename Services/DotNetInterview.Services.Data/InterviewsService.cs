@@ -150,9 +150,9 @@
                 throw new ArgumentException($"Location type value: '{model.LocationType}' is invalid!");
             }
 
-            if (!int.TryParse(model.CompanyNationality, out var nationalityId))
+            if (!int.TryParse(model.CompanyNationalityId, out var nationalityId))
             {
-                throw new ArgumentException($"Company nationality Id : '{model.CompanyNationality}' is invalid!");
+                throw new ArgumentException($"Company nationality Id : '{model.CompanyNationalityId}' is invalid!");
             }
 
             var nationality = await this.nationalitiesService.GetById(nationalityId);
@@ -398,12 +398,12 @@
                 throw new ArgumentException($"Location type value: '{interviewDTO.LocationType}' is invalid!");
             }
 
-            if (!int.TryParse(interviewDTO.CompanyNationality, out var nationalityId))
+            if (!interviewDTO.CompanyNationalityId.HasValue || interviewDTO.CompanyNationalityId <= 0)
             {
-                throw new ArgumentException($"Company nationality Id : '{interviewDTO.CompanyNationality}' is invalid!");
+                throw new ArgumentException($"Company nationality Id : '{interviewDTO.CompanyNationalityId}' is invalid!");
             }
 
-            var nationality = await this.nationalitiesService.GetById(nationalityId);
+            var nationality = await this.nationalitiesService.GetById(interviewDTO.CompanyNationalityId.Value);
 
             dbInterview.Seniority = (PositionSeniority)interviewDTO.Seniority;
             dbInterview.PositionTitle = interviewDTO.PositionTitle;

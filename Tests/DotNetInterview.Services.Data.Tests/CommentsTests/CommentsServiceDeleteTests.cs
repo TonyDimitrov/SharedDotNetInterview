@@ -36,13 +36,15 @@
             fileService
                 .Setup(f => f.SaveFile(mockedFile, "fileDirectory"))
                 .ReturnsAsync("fileName");
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityService = new NationalitiesService(dbNationalities);
 
             var user = UserTestData.GetUserTestData();
             await userRepository.AddAsync(user);
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, commentRepository, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, commentRepository, null, nationalityService);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
@@ -92,13 +94,15 @@
             fileService
                 .Setup(f => f.SaveFile(mockedFile, "fileDirectory"))
                 .ReturnsAsync("fileName");
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityService = new NationalitiesService(dbNationalities);
 
             var user = UserTestData.GetUserTestData();
             await userRepository.AddAsync(user);
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, commentRepository, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, commentRepository, null, nationalityService);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
@@ -148,13 +152,15 @@
             fileService
                 .Setup(f => f.SaveFile(mockedFile, "fileDirectory"))
                 .ReturnsAsync("fileName");
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityService = new NationalitiesService(dbNationalities);
 
             var user = UserTestData.GetUserTestData();
             await userRepository.AddAsync(user);
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, commentRepository, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, commentRepository, null, nationalityService);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 

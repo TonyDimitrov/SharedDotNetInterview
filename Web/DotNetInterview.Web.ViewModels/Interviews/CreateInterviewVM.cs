@@ -49,7 +49,7 @@
         public string BasedPositionLocation { get; set; }
 
         [Display(Name = "Company nationality")]
-        public string CompanyNationality { get; set; }
+        public string CompanyNationalityId { get; set; }
 
         [Display(Name = "Company size of employees")]
         public EmployeesSizeVM Employees { get; set; }

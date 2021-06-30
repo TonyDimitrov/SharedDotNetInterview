@@ -22,19 +22,22 @@
         public async Task SaveFile_SaveFileFromFormAndReturnName_ReturnName()
         {
             // Arrange
-            var fileService = new Mock<IFileService>();
-            var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
-            fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
-                .ReturnsAsync("fileName");
-
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("save_file");
+
             using var dbContext = new ApplicationDbContext(options.Options);
 
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
-            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var fileService = new Mock<IFileService>();
+            var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
+            fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
+                .ReturnsAsync("fileName");
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityService = new NationalitiesService(dbNationalities);
+
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalityService);
 
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;

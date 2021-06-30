@@ -417,7 +417,7 @@
                 PositionDescription = "Junior with some experience on .net core",
                 LocationType = LocationType.InOffice.ToString(),
                 BasedPositionLocation = "Sofia",
-                CompanyNationality = "35",
+                CompanyNationalityId = "1",
                 Employees = EmployeesSizeVM.Between100And1000,
                 Questions = new List<CreateInterviewQuestionVM>
                 {
