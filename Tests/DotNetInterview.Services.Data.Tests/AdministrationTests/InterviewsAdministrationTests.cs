@@ -52,7 +52,10 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityService = new NationalitiesService(dbNationalities);
+
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalityService);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
 
@@ -89,6 +92,9 @@
             var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityService = new NationalitiesService(dbNationalities);
+
             var administratorService = new AdministrationService(
                 interviewRepository,
                 questionRepository,
@@ -101,7 +107,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalityService);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
 
@@ -227,7 +233,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var importerService = new Mock<IImporterHelperService>();
+            var importerService = new Mock<INationalitiesService>();
             importerService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {

@@ -4,14 +4,16 @@ using DotNetInterview.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DotNetInterview.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210620144926_renameColumnNationality")]
+    partial class renameColumnNationality
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,8 +117,10 @@ namespace DotNetInterview.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("NationalityId")
-                        .HasColumnType("int");
+                    b.Property<string>("Nationality")
+                        .HasColumnName("UserNationality")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -148,16 +152,9 @@ namespace DotNetInterview.Data.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<string>("UserNationality")
-                        .HasColumnName("UserNationality")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("NationalityId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -533,13 +530,6 @@ namespace DotNetInterview.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("DotNetInterview.Data.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("DotNetInterview.Data.Models.Nationality", "Nationality")
-                        .WithMany()
-                        .HasForeignKey("NationalityId");
                 });
 
             modelBuilder.Entity("DotNetInterview.Data.Models.Comment", b =>

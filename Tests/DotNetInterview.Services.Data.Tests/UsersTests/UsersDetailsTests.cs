@@ -26,9 +26,16 @@
                 .UseInMemoryDatabase("details_user");
             using var dbContext = new ApplicationDbContext(options.Options);
 
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityRepository = new NationalitiesService(dbNationalities);
+
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
 
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
@@ -37,7 +44,7 @@
                 .ReturnsAsync("fileName");
 
             var user = UserTestData.GetUserTestData();
-            user.Nationality = "Bulgarian";
+            user.UserNationality = "Bulgarian";
             user.Position = WorkPosition.SeniorDeveloper;
             user.Description = "Experienced";
 
@@ -45,14 +52,14 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
             await interviewsService.Create(interview, dbUserId, "fileDirectory", fileService.Object);
             await interviewsService.Create(interview, dbUserId, "fileDirectory", fileService.Object);
 
-            var usersService = new UsersService(userRepository);
+            var usersService = new UsersService(userRepository, nationalityRepository);
 
             // Act
             var userDetails = usersService.Details(dbUserId, true, false);
@@ -79,6 +86,13 @@
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
+
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityRepository = new NationalitiesService(dbNationalities);
+
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
             fileService
@@ -86,7 +100,7 @@
                 .ReturnsAsync("fileName");
 
             var user = UserTestData.GetUserTestData();
-            user.Nationality = "Bulgarian";
+            user.UserNationality = "Bulgarian";
             user.Position = WorkPosition.SeniorDeveloper;
             user.Description = "Experienced";
 
@@ -94,14 +108,14 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
             await interviewsService.Create(interview, dbUserId, "fileDirectory", fileService.Object);
             await interviewsService.Create(interview, dbUserId, "fileDirectory", fileService.Object);
 
-            var usersService = new UsersService(userRepository);
+            var usersService = new UsersService(userRepository, nationalityRepository);
 
             // Act
             var userDetails = usersService.Details(dbUserId, false, false);
@@ -128,6 +142,13 @@
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
+
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityRepository = new NationalitiesService(dbNationalities);
+
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
             fileService
@@ -135,7 +156,7 @@
                 .ReturnsAsync("fileName");
 
             var user = UserTestData.GetUserTestData();
-            user.Nationality = "Bulgarian";
+            user.UserNationality = "Bulgarian";
             user.Position = WorkPosition.SeniorDeveloper;
             user.Description = "Experienced";
 
@@ -143,14 +164,14 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
             await interviewsService.Create(interview, dbUserId, "fileDirectory", fileService.Object);
             await interviewsService.Create(interview, dbUserId, "fileDirectory", fileService.Object);
 
-            var usersService = new UsersService(userRepository);
+            var usersService = new UsersService(userRepository, nationalityRepository);
 
             // Act
             var userDetails = usersService.Details(dbUserId, false, true);

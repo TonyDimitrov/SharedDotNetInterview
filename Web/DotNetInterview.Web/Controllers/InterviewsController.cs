@@ -23,18 +23,18 @@
     {
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IInterviewsService interviewsService;
-        private readonly IImporterHelperService importerHelperService;
+        private readonly INationalitiesService nationalitiesService;
         private readonly IFileService fileService;
 
         public InterviewsController(
             IWebHostEnvironment hostingEnvironment,
             IInterviewsService interviewsService,
-            IImporterHelperService importerHelperService,
+            INationalitiesService nationalitiesService,
             IFileService fileService)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.interviewsService = interviewsService;
-            this.importerHelperService = importerHelperService;
+            this.nationalitiesService = nationalitiesService;
             this.fileService = fileService;
         }
 
@@ -54,7 +54,7 @@
         {
             var getCreateInterviewVM = this.interviewsService.CreateGetVM();
 
-            getCreateInterviewVM.CompanyListNationalities = await this.importerHelperService.GetAll();
+            getCreateInterviewVM.CompanyListNationalities = await this.nationalitiesService.GetAll();
             getCreateInterviewVM.HodlOnDate = DateTime.Now;
 
             return this.View(getCreateInterviewVM);
@@ -72,7 +72,7 @@
                     Utils.SetStringValues<CreateInterviewQuestionVM>(q, q.GivenAnswer);
                 }
 
-                model.CompanyListNationalities = await this.importerHelperService.GetAll();
+                model.CompanyListNationalities = await this.nationalitiesService.GetAll();
 
                 return this.View(model);
             }

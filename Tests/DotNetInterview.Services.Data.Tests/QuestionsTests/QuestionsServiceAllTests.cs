@@ -33,12 +33,16 @@
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
+
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
@@ -66,12 +70,16 @@
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
+
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
@@ -97,6 +105,10 @@
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
+
             var dummyUser = UserTestData.GetUserTestData();
             await userRepository.AddAsync(dummyUser);
             await userRepository.SaveChangesAsync();
@@ -107,7 +119,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
@@ -148,6 +160,10 @@
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
             var dummyUser = UserTestData.GetUserTestData();
 
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
+
             await userRepository.AddAsync(dummyUser);
             await userRepository.SaveChangesAsync();
 
@@ -161,7 +177,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);

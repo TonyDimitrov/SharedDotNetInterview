@@ -19,7 +19,7 @@
 
             using var dbNationalities = new ApplicationDbContext(options.Options);
 
-            var service = new ImporterHelperService(dbNationalities);
+            var service = new NationalitiesService(dbNationalities);
 
             // Act
             await service.AddNationality("Bulgaria");
@@ -39,11 +39,11 @@
 
             using var dbNationalities = new ApplicationDbContext(options.Options);
 
-            var service = new ImporterHelperService(dbNationalities);
+            var service = new NationalitiesService(dbNationalities);
             await service.AddNationality("Bulgaria");
 
             // Act
-            await service.DeleteNationality("Bulgaria");
+            await service.DeleteNationality(1);
             var storedNationality = await service.GetAll();
 
             // Assert
@@ -59,7 +59,7 @@
 
             using var dbNationalities = new ApplicationDbContext(options.Options);
 
-            var service = new ImporterHelperService(dbNationalities);
+            var service = new NationalitiesService(dbNationalities);
 
             var selectedNationality = "Bulgaria";
 
@@ -68,11 +68,11 @@
             await service.AddNationality("English");
 
             // Act
-            var storedNationality = await service.GetAllWithSelected(selectedNationality);
+            var storedNationality = await service.GetAllWithSelected(1);
 
             // Assert
             Assert.Equal(3, storedNationality.Count());
-            Assert.True(storedNationality.First(n => n.Text == selectedNationality && n.Value == selectedNationality).Selected);
+            Assert.True(storedNationality.First(n => n.Text == selectedNationality && n.Value == "1").Selected);
         }
     }
 }

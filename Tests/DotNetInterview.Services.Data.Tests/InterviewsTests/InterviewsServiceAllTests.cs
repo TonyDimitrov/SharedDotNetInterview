@@ -57,7 +57,7 @@
             Assert.Equal("Regular developer", interviewsVM.Interviews.ToArray()[1].PositionTitle);
 
             // Seniority is parsed in view with tag helper to => Regular developer
-            Assert.Equal("RegularDeveloper", interviewsVM.Interviews.ToArray()[1].Seniority);
+            Assert.Equal("mid-dev.png", interviewsVM.Interviews.ToArray()[1].Seniority);
             Assert.Equal($"15 Jun 2015 {hourToLocal:00}:10", interviewsVM.Interviews.ToArray()[1].Date);
 
             Assert.Equal(2, interviewsVM.Interviews.ToArray()[1].Questions);
@@ -89,7 +89,7 @@
 
             // Assert
             Assert.Single(interviewsVM.Interviews);
-            Assert.Equal("RegularDeveloper", interviewsVM.Interviews.ToArray()[0].Seniority);
+            Assert.Equal("mid-dev.png", interviewsVM.Interviews.ToArray()[0].Seniority);
         }
 
         [Theory]

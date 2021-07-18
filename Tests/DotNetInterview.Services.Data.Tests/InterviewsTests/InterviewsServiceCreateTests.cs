@@ -44,13 +44,18 @@
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
+            using var dbNationalities = new ApplicationDbContext(options.Options);
 
-            var service = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var nationalityService = new Mock<INationalitiesService>();
+            nationalityService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { CompanyNationality = "Bulgarian", Id = 1 });
+
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalityService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[0].FormFile = fileMock;
 
             // Act
-            await service.Create(newInterview, "1", "fileDirectory", fileService.Object);
+            await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
             var interviews = interviewRepository.All().ToList();
             var createdInterview = interviews.First();
 
@@ -58,7 +63,7 @@
             Assert.Single(interviews);
             Assert.Equal(newInterview.PositionTitle, createdInterview.PositionTitle);
             Assert.Equal(newInterview.Seniority.ToString(), createdInterview.Seniority.ToString());
-            Assert.Equal(newInterview.CompanyNationality, createdInterview.CompanyNationality);
+            Assert.Equal(newInterview.CompanyNationalityId, createdInterview.NationalityId?.ToString());
             Assert.Equal(newInterview.Employees.ToString(), createdInterview.Employees.ToString());
             Assert.Equal(newInterview.LocationType.ToString(), createdInterview.LocationType.ToString());
             Assert.Equal(newInterview.PositionDescription, createdInterview.PositionDescription);
@@ -87,7 +92,10 @@
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
-            var service = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityService = new NationalitiesService(dbNationalities);
+
+            var service = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalityService);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
 
             var fileService = new Mock<IFileService>();

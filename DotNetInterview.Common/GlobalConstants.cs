@@ -57,5 +57,7 @@
         public const string ErrorView = "Error";
 
         public const string PolicyFileName = "policy.txt";
+
+        public const string NationalitiesFileName = "nationalities.txt";
     }
 }

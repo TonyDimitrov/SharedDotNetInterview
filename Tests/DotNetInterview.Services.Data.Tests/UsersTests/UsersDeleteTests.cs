@@ -24,6 +24,9 @@
 
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
 
+            using var dbNationalities = new ApplicationDbContext(options.Options);
+            var nationalityRepository = new NationalitiesService(dbNationalities);
+
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
             fileService
@@ -36,7 +39,7 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var usersService = new UsersService(userRepository);
+            var usersService = new UsersService(userRepository, nationalityRepository);
 
             // Act
             await usersService.Delete(dbUserId);

@@ -28,7 +28,7 @@
         private readonly IDeletableEntityRepository<Question> questionsRepository;
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
         private readonly IDeletableEntityRepository<Like> likesRepository;
-        private readonly IImporterHelperService importerHelperService;
+        private readonly INationalitiesService nationalitiesService;
 
         public InterviewsService(
             ApplicationDbContext db,
@@ -36,14 +36,14 @@
             IDeletableEntityRepository<Question> questionsRepository,
             IDeletableEntityRepository<Comment> commentsRepository,
             IDeletableEntityRepository<Like> likesRepository,
-            IImporterHelperService importerHelperService)
+            INationalitiesService nationalitiesService)
         {
             this.db = db;
             this.interviewsRepository = categoriesRepository;
             this.questionsRepository = questionsRepository;
             this.commentsRepository = commentsRepository;
             this.likesRepository = likesRepository;
-            this.importerHelperService = importerHelperService;
+            this.nationalitiesService = nationalitiesService;
         }
 
         public async Task<AllInterviewsVM> All(int seniority)
@@ -150,6 +150,13 @@
                 throw new ArgumentException($"Location type value: '{model.LocationType}' is invalid!");
             }
 
+            if (!int.TryParse(model.CompanyNationalityId, out var nationalityId))
+            {
+                throw new ArgumentException($"Company nationality Id : '{model.CompanyNationalityId}' is invalid!");
+            }
+
+            var nationality = await this.nationalitiesService.GetById(nationalityId);
+
             var interview = new Interview
             {
                 Seniority = (PositionSeniority)model.Seniority,
@@ -157,7 +164,8 @@
                 PositionDescription = model.PositionDescription,
                 HeldOnDate = model.HodlOnDate,
                 CreatedOn = DateTime.UtcNow,
-                CompanyNationality = model.CompanyNationality,
+                Nationality = nationality,
+                CompanyNationality = nationality?.CompanyNationality,
                 Employees = (EmployeesSize)model.Employees,
                 LocationType = locationType,
                 BasedPositionLocation = locationType == LocationType.InOffice ? model.BasedPositionLocation : null,
@@ -343,6 +351,7 @@
                     HodlOnDate = i.HeldOnDate,
                     ShowLocation = i.LocationType == LocationType.Remote ? GlobalConstants.Hidden : string.Empty,
                     BasedPositionLocation = i.BasedPositionLocation,
+                    CompanyNationalityId = i.Nationality != null ? i.Nationality.Id : null,
                     CompanyNationality = i.CompanyNationality,
                     Questions = i.Questions
                         .Where(q => !q.IsDeleted)
@@ -363,7 +372,7 @@
                     return null;
                 }
 
-                interviewDTO.CompanyListNationalities = await this.importerHelperService.GetAllWithSelected(interviewDTO.CompanyNationality);
+                interviewDTO.CompanyListNationalities = await this.nationalitiesService.GetAllWithSelected(interviewDTO.CompanyNationalityId);
 
                 return interviewDTO;
             });
@@ -389,12 +398,21 @@
                 throw new ArgumentException($"Location type value: '{interviewDTO.LocationType}' is invalid!");
             }
 
+            if (!interviewDTO.CompanyNationalityId.HasValue || interviewDTO.CompanyNationalityId <= 0)
+            {
+                throw new ArgumentException($"Company nationality Id : '{interviewDTO.CompanyNationalityId}' is invalid!");
+            }
+
+            var nationality = await this.nationalitiesService.GetById(interviewDTO.CompanyNationalityId.Value);
+
             dbInterview.Seniority = (PositionSeniority)interviewDTO.Seniority;
             dbInterview.PositionTitle = interviewDTO.PositionTitle;
             dbInterview.PositionDescription = interviewDTO.PositionDescription;
             dbInterview.ModifiedOn = DateTime.UtcNow;
             dbInterview.HeldOnDate = interviewDTO.HodlOnDate;
-            dbInterview.CompanyNationality = interviewDTO.CompanyNationality;
+            dbInterview.CompanyNationality = nationality?.CompanyNationality;
+            dbInterview.NationalityId = nationality.Id;
+            dbInterview.Nationality = nationality;
             dbInterview.Employees = (EmployeesSize)interviewDTO.Employees;
             dbInterview.LocationType = locationType;
             dbInterview.BasedPositionLocation = (locationType == LocationType.InOffice) ? interviewDTO.BasedPositionLocation : null;

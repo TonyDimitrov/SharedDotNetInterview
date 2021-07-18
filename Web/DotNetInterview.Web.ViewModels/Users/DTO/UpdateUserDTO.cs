@@ -11,7 +11,7 @@
 
         public string LastName { get; set; }
 
-        public string Nationality { get; set; }
+        public string NationalityId { get; set; }
 
         public PersonSeniorityVM Position { get; set; }
 

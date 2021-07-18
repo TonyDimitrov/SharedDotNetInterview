@@ -40,8 +40,8 @@
 
         public EmployeesSize Employees { get; set; }
 
-        [MinLength(LocationlMinLength)]
-        [MaxLength(LocationlMaxLength)]
+        [MinLength(NationalityMinLength)]
+        [MaxLength(NationalityMaxLength)]
         public string CompanyNationality { get; set; }
 
         [MaxLength(TagsMaxLength)]

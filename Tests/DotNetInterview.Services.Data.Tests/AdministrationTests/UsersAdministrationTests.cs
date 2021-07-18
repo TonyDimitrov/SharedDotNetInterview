@@ -31,7 +31,7 @@
             var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(dbContext);
 
-            var service = new AdministrationService(
+            var administrationService = new AdministrationService(
                 interviewRepository,
                 questionRepository,
                 commentRepository,
@@ -45,12 +45,18 @@
             var dummyUser2 = UserTestData.GetUserTestData();
             dummyUser2.UserName = "dummy@dummy.com";
             dummyUser2.Email = "dummy@dummy.com";
+            dummyUser2.NationalityId = 2;
+            dummyUser2.Nationality = new Nationality { Id = 2, CompanyNationality = "German" };
             dummyUser2.IsDeleted = true;
             dummyUser2.DeletedOn = DateTime.UtcNow;
 
             var dummyUser3 = UserTestData.GetUserTestData();
             dummyUser3.UserName = "notDeleted@dummy.com";
             dummyUser3.Email = "notdeleted@dummy.com";
+            dummyUser2.NationalityId = 3;
+            dummyUser3.Nationality = new Nationality { Id = 3, CompanyNationality = "English" };
+            dummyUser3.IsDeleted = true;
+            dummyUser3.IsDeleted = false;
 
             await userRepository.AddAsync(dummyUser);
             await userRepository.AddAsync(dummyUser2);
@@ -58,7 +64,7 @@
             await userRepository.SaveChangesAsync();
 
             // Act
-            var deletedUsers = service.GetAllDeletedUsers<DeletedUserVM>();
+            var deletedUsers = administrationService.GetAllDeletedUsers<DeletedUserVM>();
 
             // Assert
             Assert.Equal(2, deletedUsers.Count());
@@ -93,12 +99,16 @@
             var dummyUser2 = UserTestData.GetUserTestData();
             dummyUser2.UserName = "dummy@dummy.com";
             dummyUser2.Email = "dummy@dummy.com";
+            dummyUser2.NationalityId = 2;
+            dummyUser2.Nationality = new Nationality { Id = 2, CompanyNationality = "German" };
             dummyUser2.IsDeleted = true;
             dummyUser2.DeletedOn = DateTime.UtcNow;
 
             var dummyUser3 = UserTestData.GetUserTestData();
             dummyUser3.UserName = "notDeleted@dummy.com";
             dummyUser3.Email = "notdeleted@dummy.com";
+            dummyUser2.NationalityId = 3;
+            dummyUser3.Nationality = new Nationality { Id = 3, CompanyNationality = "English" };
             dummyUser3.IsDeleted = true;
             dummyUser3.DeletedOn = DateTime.UtcNow;
 

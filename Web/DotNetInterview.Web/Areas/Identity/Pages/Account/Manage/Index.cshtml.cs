@@ -30,7 +30,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IUsersService usersService;
         private readonly IFileService fileService;
-        private readonly IImporterHelperService importerHelperService;
+        private readonly INationalitiesService nationalitiesService;
         private readonly IWebHostEnvironment webHostEnvironment;
 
         public IndexModel(
@@ -38,7 +38,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
             SignInManager<ApplicationUser> signInManager,
             IUsersService usersService,
             IFileService fileService,
-            IImporterHelperService importerHelperService,
+            INationalitiesService nationalitiesService,
             IWebHostEnvironment webHostEnvironment
             )
         {
@@ -46,7 +46,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
             this.signInManager = signInManager;
             this.usersService = usersService;
             this.fileService = fileService;
-            this.importerHelperService = importerHelperService;
+            this.nationalitiesService = nationalitiesService;
             this.webHostEnvironment = webHostEnvironment;
         }
 
@@ -119,8 +119,8 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
                 LastName = appUser.LastName,
                 DateOfBirth = appUser.DateOfBirth,
                 Description = appUser.Description,
-                Nationality = appUser?.Nationality ?? NoDefineNationality,
-                Nationalities = this.importerHelperService.GetAll()
+                Nationality = appUser?.UserNationality ?? NoDefineNationality,
+                Nationalities = this.nationalitiesService.GetAll()
                 .GetAwaiter()
                 .GetResult()
                 .Select(n =>
@@ -134,7 +134,8 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
                     {
                         return n;
                     }
-                }),
+                })
+                .OrderBy(n => n.Text),
                 Position = seniotity,
                 Image = appUser.Image != null ? appUser.Image : GlobalConstants.DefaultAvatar,
             };
@@ -184,7 +185,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
             {
                 FirstName = this.Input.FirstName,
                 LastName = this.Input.LastName,
-                Nationality = this.Input.Nationality,
+                NationalityId = this.Input.Nationality,
                 Position = this.Input.Position,
                 Description = this.Input.Description,
                 DateOfBirth = this.Input.DateOfBirth,

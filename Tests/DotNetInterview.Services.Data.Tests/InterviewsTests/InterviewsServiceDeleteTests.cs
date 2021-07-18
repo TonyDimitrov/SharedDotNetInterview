@@ -37,7 +37,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var importerService = new Mock<IImporterHelperService>();
+            var importerService = new Mock<INationalitiesService>();
             importerService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {
@@ -105,7 +105,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var importerService = new Mock<IImporterHelperService>();
+            var importerService = new Mock<INationalitiesService>();
             importerService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {
@@ -170,7 +170,7 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var importerService = new Mock<IImporterHelperService>();
+            var importerService = new Mock<INationalitiesService>();
             importerService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {
@@ -229,7 +229,7 @@
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
             var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
 
-            var importerService = new Mock<IImporterHelperService>();
+            var importerService = new Mock<INationalitiesService>();
             importerService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {
@@ -277,7 +277,7 @@
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
             var likeRepository = new EfDeletableEntityRepository<Like>(dbContext);
 
-            var importerService = new Mock<IImporterHelperService>();
+            var importerService = new Mock<INationalitiesService>();
             importerService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {

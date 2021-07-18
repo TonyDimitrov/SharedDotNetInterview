@@ -8,6 +8,10 @@
 
     public class ManageNationalitiesVM
     {
+        public int Id { get; set; }
+
+        public int NationalityId { get; set; }
+
         [Display(Name = "Delete company nationality")]
         public string Delete { get; set; }
 

@@ -4,6 +4,7 @@ namespace DotNetInterview.Data.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using DotNetInterview.Data.Common.Models;
     using DotNetInterview.Data.Models.Enums;
@@ -34,7 +35,10 @@ namespace DotNetInterview.Data.Models
 
         public DateTime? DateOfBirth { get; set; }
 
-        public string Nationality { get; set; }
+        [MinLength(NationalityMinLength)]
+        [MaxLength(NationalityMaxLength)]
+        [Column("UserNationality")]
+        public string UserNationality { get; set; }
 
         public WorkPosition Position { get; set; }
 
@@ -47,6 +51,10 @@ namespace DotNetInterview.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public int? NationalityId { get; set; }
+
+        public Nationality Nationality { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

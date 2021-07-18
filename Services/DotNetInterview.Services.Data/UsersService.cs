@@ -15,10 +15,14 @@
     public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
+        private readonly INationalitiesService nationalitiesService;
 
-        public UsersService(IDeletableEntityRepository<ApplicationUser> userRepository)
+        public UsersService(
+            IDeletableEntityRepository<ApplicationUser> userRepository,
+            INationalitiesService nationalitiesService)
         {
             this.userRepository = userRepository;
+            this.nationalitiesService = nationalitiesService;
         }
 
         public DetailsUserVM Details(string userId, bool isLoggedInUser, bool isAdmin)
@@ -32,7 +36,7 @@
                     UserName = u.UserName,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    Nationality = u.Nationality,
+                    Nationality = u.UserNationality,
                     Position = u.Position.ToString(),
                     Description = u.Description,
                     MemberSince = u.CreatedOn,
@@ -79,12 +83,22 @@
 
         public async Task Update(ApplicationUser user, UpdateUserDTO formModel, IFileService fileService, string fileDirectory)
         {
+            if (!int.TryParse(formModel.NationalityId, out var nationalityId))
+            {
+                throw new ArgumentException($"Company nationality Id : '{formModel.NationalityId}' is invalid!");
+            }
+
+            var nationality = await this.nationalitiesService.GetById(nationalityId);
+
             user.FirstName = formModel.FirstName;
             user.LastName = formModel.LastName;
-            user.Nationality = formModel.Nationality;
+            user.UserNationality = nationality?.CompanyNationality;
+            user.Nationality = nationality;
             user.Position = Enum.Parse<WorkPosition>(formModel.Position.ToString());
             user.DateOfBirth = formModel.DateOfBirth;
             user.Description = formModel.Description;
+            user.NationalityId = nationality?.Id;
+            user.Nationality = nationality;
 
             var savedFileName = await fileService.SaveFile(formModel.Image, fileDirectory);
 

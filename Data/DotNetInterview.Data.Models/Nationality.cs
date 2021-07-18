@@ -10,8 +10,8 @@
         public int Id { get; set; }
 
         [Required]
-        [MinLength(LocationlMinLength)]
-        [MaxLength(LocationlMaxLength)]
+        [MinLength(NationalityMinLength)]
+        [MaxLength(NationalityMaxLength)]
         public string CompanyNationality { get; set; }
     }
 }

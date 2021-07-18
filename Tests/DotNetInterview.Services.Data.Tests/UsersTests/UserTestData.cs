@@ -15,6 +15,9 @@
                 LastName = "Dimitrov",
                 IsDeleted = false,
                 Image = "avatar",
+                NationalityId = 5,
+                Nationality = new Nationality { Id = 5, CompanyNationality = "Italy" },
+                UserNationality = "Bulgarian",
             };
         }
     }

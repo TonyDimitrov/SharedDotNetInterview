@@ -77,7 +77,11 @@
 
             <div class="form-group">
                 <label asp-for="CompanyNationality" class="control-label required"></label>
-                <select asp-for="CompanyNationality" class="form-control" data-val="true" aria-describedby="CompanyNationality-error" asp-items="Model.CompanyListNationalities">
+                <select asp-for="CompanyNationalityId" class="form-control" data-val="true" aria-describedby="CompanyNationality-error">
+                    @foreach (var nationality in Model.CompanyListNationalities)
+                    {
+                        <option value="@nationality.Value" selected="@nationality.Selected">@nationality.Text</option>
+                    }
                 </select>
                 <span asp-validation-for="CompanyNationality" class="text-danger"></span>
             </div>

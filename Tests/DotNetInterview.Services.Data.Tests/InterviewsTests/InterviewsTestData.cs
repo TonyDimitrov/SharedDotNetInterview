@@ -31,6 +31,11 @@
                     Employees = EmployeesSize.Between100And1000,
                     IsDeleted = false,
                     UserId = "1",
+                    Nationality = new Nationality
+                    {
+                        Id = 1,
+                        CompanyNationality = "Bulgarian",
+                    },
                     User = new ApplicationUser
                     {
                         Id = "1",
@@ -417,7 +422,7 @@
                 PositionDescription = "Junior with some experience on .net core",
                 LocationType = LocationType.InOffice.ToString(),
                 BasedPositionLocation = "Sofia",
-                CompanyNationality = "Bulgarian",
+                CompanyNationalityId = "1",
                 Employees = EmployeesSizeVM.Between100And1000,
                 Questions = new List<CreateInterviewQuestionVM>
                 {
