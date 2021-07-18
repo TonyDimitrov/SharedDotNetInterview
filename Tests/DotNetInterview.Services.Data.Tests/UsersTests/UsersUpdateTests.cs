@@ -10,9 +10,7 @@
     using DotNetInterview.Data.Models;
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Data.Repositories;
-    using DotNetInterview.Services.Data.Tests.InterviewsTests;
     using DotNetInterview.Web.ViewModels.Enums;
-    using DotNetInterview.Web.ViewModels.Users;
     using DotNetInterview.Web.ViewModels.Users.DTO;
     using Microsoft.AspNetCore.Http.Internal;
     using Microsoft.EntityFrameworkCore;
@@ -30,8 +28,15 @@
 
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(new ApplicationDbContext(options.Options));
 
+            using var dbContext = new ApplicationDbContext(options.Options);
+            dbContext.Add<Nationality>(new Nationality { Id = 2, CompanyNationality = "German" });
+            dbContext.Add<Nationality>(new Nationality { Id = 3, CompanyNationality = "English" });
+            await dbContext.SaveChangesAsync();
+
             using var dbNationalities = new ApplicationDbContext(options.Options);
-            var nationalityRepository = new NationalitiesService(dbNationalities);
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(2))
+                .ReturnsAsync(new Nationality { Id = 2, CompanyNationality = "German" });
 
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
@@ -40,7 +45,6 @@
                 .ReturnsAsync("fileNameChanged");
 
             var user = UserTestData.GetUserTestData();
-            user.UserNationality = "Bulgarian";
             user.Position = WorkPosition.SeniorDeveloper;
             user.Description = "Experienced";
 
@@ -48,13 +52,13 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var usersService = new UsersService(userRepository, nationalityRepository);
+            var usersService = new UsersService(userRepository, nationalitiesService.Object);
             var updateUser = new UpdateUserDTO
             {
                 FirstName = "Antony",
                 LastName = "O`Sallivan",
                 Position = PersonSeniorityVM.TechnicalArchitect,
-                Nationality = "English",
+                NationalityId = "2",
                 Description = "Very",
                 DateOfBirth = DateTime.UtcNow,
                 Image = mockedFile,
@@ -67,7 +71,7 @@
             // Assert
             Assert.Equal("toni@toni.com", userDetails.UserName);
             Assert.Equal("Antony O`Sallivan", userDetails.FullName);
-            Assert.Equal("English", userDetails.Nationality);
+            Assert.Equal("German", userDetails.Nationality);
             Assert.Equal("Very", userDetails.Description);
             Assert.NotNull(userDetails.DateOfBirth);
             Assert.Equal("fileNameChanged", userDetails.Image);

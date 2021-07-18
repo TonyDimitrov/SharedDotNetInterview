@@ -36,15 +36,18 @@
             fileService
                 .Setup(f => f.SaveFile(mockedFile, "fileDirectory"))
                 .ReturnsAsync("fileName");
-            using var dbNationalities = new ApplicationDbContext(options.Options);
-            var nationalityService = new NationalitiesService(dbNationalities);
+
+            var nationalitiesService = new Mock<INationalitiesService>();
+
+            nationalitiesService.Setup(s => s.GetById(3))
+                .ReturnsAsync(new Nationality { Id = 3, CompanyNationality = "German" });
 
             var user = UserTestData.GetUserTestData();
             await userRepository.AddAsync(user);
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, commentRepository, null, nationalityService);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, commentRepository, null, nationalitiesService.Object);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
@@ -82,6 +85,8 @@
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("delete_comments2");
+
+            var nationalitiesService = new Mock<INationalitiesService>();
 
             using var dbContext = new ApplicationDbContext(options.Options);
 

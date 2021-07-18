@@ -185,7 +185,7 @@ namespace DotNetInterview.Web.Areas.Identity.Pages.Account.Manage
             {
                 FirstName = this.Input.FirstName,
                 LastName = this.Input.LastName,
-                Nationality = this.Input.Nationality,
+                NationalityId = this.Input.Nationality,
                 Position = this.Input.Position,
                 Description = this.Input.Description,
                 DateOfBirth = this.Input.DateOfBirth,

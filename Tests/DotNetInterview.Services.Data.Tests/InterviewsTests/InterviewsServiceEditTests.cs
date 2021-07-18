@@ -30,18 +30,18 @@
             var interviews = InterviewsTestData.GetInterviewsTestData();
             interviewRepo.Setup(r => r.All()).Returns(interviews);
 
-            var importerService = new Mock<INationalitiesService>();
-            importerService.Setup(s => s.GetAllWithSelected(1))
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetAllWithSelected(1))
                 .ReturnsAsync(new List<SelectListItem>
                 {
                     new SelectListItem { Value = "Bulgarian", Text = "Bulgarian", Selected = true },
                     new SelectListItem { Value = "US", Text = "US" },
                 });
 
-            var service = new InterviewsService(null, interviewRepo.Object, null, null, null, importerService.Object);
+            var interviewsService = new InterviewsService(null, interviewRepo.Object, null, null, null, nationalitiesService.Object);
 
             // Act
-            var interviewVM = await service.EditGet("1");
+            var interviewVM = await interviewsService.EditGet("1");
 
             // Asssert
             Assert.Equal("Junior with some experience", interviewVM.PositionTitle);
@@ -84,21 +84,27 @@
             nationalitiesService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {
-                    new SelectListItem { Value = "Bulgaria", Text = "Bulgaria" },
-                    new SelectListItem { Value = "US", Text = "US" },
+                    new SelectListItem { Value = "1", Text = "Bulgaria" },
+                    new SelectListItem { Value = "2", Text = "US" },
                 });
 
-            var service = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
+
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[1].FormFile = fileMock;
 
-            await service.Create(newInterview, "1", "fileDirectory", fileService.Object);
+            await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
+
             var interviewId = interviewRepository.All().FirstOrDefault().Id;
+
             var interviewQuestionsIds = interviewRepository.All()
                 .SelectMany(i => i.Questions)
                 .Select(q => q.Id)
                 .ToArray();
-            var interviewVM = await service.EditGet(interviewId);
+
+            var interviewVM = await interviewService.EditGet(interviewId);
 
             interviewVM.InterviewId = interviewId;
             interviewVM.Seniority = PositionSeniorityVM.RegularDeveloper;
@@ -106,7 +112,9 @@
             interviewVM.PositionDescription = "3+ Years";
             interviewVM.LocationType = LocationTypeVM.InOffice;
             interviewVM.BasedPositionLocation = "Plovdiv";
-            interviewVM.CompanyNationality = "German";
+            interviewVM.CompanyNationalityId = 1;
+            interviewVM.CompanyNationality = "Bulgarian";
+            interviewVM.CompanyNationalityId = 1;
             interviewVM.Employees = EmployeesSizeVM.MoreThan1000;
 
             interviewVM.Questions[1].Content = "Interface segregation";
@@ -118,14 +126,14 @@
                 .ReturnsAsync("fileForInterviewQuestionChanged");
 
             // Act
-            await service.Edit(interviewVM, "1", "fileDirectory", fileService.Object);
+            await interviewService.Edit(interviewVM, "1", "fileDirectory", fileService.Object);
             var editedInterview = interviewRepository.All().FirstOrDefault(i => i.Id == interviewId);
 
             // Asssert
             Assert.Equal(PositionSeniority.RegularDeveloper.ToString(), editedInterview.Seniority.ToString());
             Assert.Equal("Regular developer", editedInterview.PositionTitle);
             Assert.Equal("3+ Years", editedInterview.PositionDescription);
-            Assert.Equal("German", editedInterview.CompanyNationality);
+            Assert.Equal("Bulgarian", editedInterview.CompanyNationality);
             Assert.Equal(LocationType.InOffice.ToString(), editedInterview.LocationType.ToString());
             Assert.Equal("Plovdiv", editedInterview.BasedPositionLocation);
             Assert.Equal(EmployeesSize.MoreThan1000.ToString(), editedInterview.Employees.ToString());
@@ -147,37 +155,50 @@
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase("edit_interview2");
+            .UseInMemoryDatabase("edit_interview_2");
 
             using var dbContext = new ApplicationDbContext(options.Options);
 
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+            dbContext.Add<Nationality>(new Nationality { Id = 2, CompanyNationality = "US" });
+            dbContext.Add<Nationality>(new Nationality { Id = 3, CompanyNationality = "Germany" });
+            await dbContext.SaveChangesAsync();
 
             var fileService = new Mock<IFileService>();
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var importerService = new Mock<INationalitiesService>();
-            importerService.Setup(s => s.GetAll())
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {
-                    new SelectListItem { Value = "Bulgaria", Text = "Bulgaria" },
-                    new SelectListItem { Value = "US", Text = "US" },
+                    new SelectListItem { Value = "1", Text = "Bulgaria" },
+                    new SelectListItem { Value = "2", Text = "US" },
+                    new SelectListItem { Value = "3", Text = "German" },
                 });
 
-            var service = new InterviewsService(null, interviewRepository, questionRepository, null, null, importerService.Object);
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgaria" });
+
+            nationalitiesService.Setup(s => s.GetById(3))
+                .ReturnsAsync(new Nationality { Id = 3, CompanyNationality = "German" });
+
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[1].FormFile = fileMock;
 
-            await service.Create(newInterview, "1", "fileDirectory", fileService.Object);
+            await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
+
             var interviewId = interviewRepository.All().FirstOrDefault().Id;
+
             var interviewQuestionsIds = interviewRepository.All()
                 .SelectMany(i => i.Questions)
                 .Select(q => q.Id)
                 .ToArray();
-            var interviewVM = await service.EditGet(interviewId);
+
+            var interviewVM = await interviewService.EditGet(interviewId);
 
             interviewVM.InterviewId = interviewId;
             interviewVM.Seniority = PositionSeniorityVM.RegularDeveloper;
@@ -185,6 +206,7 @@
             interviewVM.PositionDescription = "3+ Years";
             interviewVM.LocationType = LocationTypeVM.InOffice;
             interviewVM.BasedPositionLocation = "Plovdiv";
+            interviewVM.CompanyNationalityId = 3;
             interviewVM.CompanyNationality = "German";
             interviewVM.Employees = EmployeesSizeVM.MoreThan1000;
 
@@ -206,7 +228,7 @@
                 .ReturnsAsync("fileForInterviewQuestionChanged");
 
             // Act
-            await service.Edit(interviewVM, "1", "fileDirectory", fileService.Object);
+            await interviewService.Edit(interviewVM, "1", "fileDirectory", fileService.Object);
             var editedInterview = interviewRepository.All().FirstOrDefault(i => i.Id == interviewId);
 
             // Asssert
@@ -214,6 +236,7 @@
             Assert.Equal("Regular developer", editedInterview.PositionTitle);
             Assert.Equal("3+ Years", editedInterview.PositionDescription);
             Assert.Equal("German", editedInterview.CompanyNationality);
+            Assert.Equal(3, editedInterview.NationalityId);
             Assert.Equal(LocationType.InOffice.ToString(), editedInterview.LocationType.ToString());
             Assert.Equal("Plovdiv", editedInterview.BasedPositionLocation);
             Assert.Equal(EmployeesSize.MoreThan1000.ToString(), editedInterview.Employees.ToString());

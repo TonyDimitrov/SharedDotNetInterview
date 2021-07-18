@@ -33,6 +33,10 @@
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
+
             var mockedFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             var fileService = new Mock<IFileService>();
             fileService
@@ -48,7 +52,7 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
@@ -82,6 +86,10 @@
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
+
             using var dbNationalities = new ApplicationDbContext(options.Options);
             var nationalityRepository = new NationalitiesService(dbNationalities);
 
@@ -100,7 +108,7 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 
@@ -134,6 +142,10 @@
             var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
             var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
 
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { Id = 1, CompanyNationality = "Bulgarian" });
+
             using var dbNationalities = new ApplicationDbContext(options.Options);
             var nationalityRepository = new NationalitiesService(dbNationalities);
 
@@ -152,7 +164,7 @@
             await userRepository.SaveChangesAsync();
             var dbUserId = userRepository.AllAsNoTracking().First().Id;
 
-            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, null);
+            var interviewsService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalitiesService.Object);
 
             var interview = InterviewsTestData.CreateInterviewTestData();
 

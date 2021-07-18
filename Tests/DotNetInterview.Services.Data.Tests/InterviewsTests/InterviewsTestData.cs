@@ -31,6 +31,11 @@
                     Employees = EmployeesSize.Between100And1000,
                     IsDeleted = false,
                     UserId = "1",
+                    Nationality = new Nationality
+                    {
+                        Id = 1,
+                        CompanyNationality = "Bulgarian",
+                    },
                     User = new ApplicationUser
                     {
                         Id = "1",

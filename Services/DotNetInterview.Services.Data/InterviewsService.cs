@@ -351,7 +351,7 @@
                     HodlOnDate = i.HeldOnDate,
                     ShowLocation = i.LocationType == LocationType.Remote ? GlobalConstants.Hidden : string.Empty,
                     BasedPositionLocation = i.BasedPositionLocation,
-                    CompanyNationalityId = i.Nationality.Id,
+                    CompanyNationalityId = i.Nationality != null ? i.Nationality.Id : null,
                     CompanyNationality = i.CompanyNationality,
                     Questions = i.Questions
                         .Where(q => !q.IsDeleted)
@@ -410,7 +410,8 @@
             dbInterview.PositionDescription = interviewDTO.PositionDescription;
             dbInterview.ModifiedOn = DateTime.UtcNow;
             dbInterview.HeldOnDate = interviewDTO.HodlOnDate;
-            dbInterview.CompanyNationality = nationality.CompanyNationality;
+            dbInterview.CompanyNationality = nationality?.CompanyNationality;
+            dbInterview.NationalityId = nationality.Id;
             dbInterview.Nationality = nationality;
             dbInterview.Employees = (EmployeesSize)interviewDTO.Employees;
             dbInterview.LocationType = locationType;

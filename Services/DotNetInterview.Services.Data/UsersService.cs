@@ -83,20 +83,22 @@
 
         public async Task Update(ApplicationUser user, UpdateUserDTO formModel, IFileService fileService, string fileDirectory)
         {
-            if (!int.TryParse(formModel.Nationality, out var nationalityId))
+            if (!int.TryParse(formModel.NationalityId, out var nationalityId))
             {
-                throw new ArgumentException($"Company nationality Id : '{formModel.Nationality}' is invalid!");
+                throw new ArgumentException($"Company nationality Id : '{formModel.NationalityId}' is invalid!");
             }
 
             var nationality = await this.nationalitiesService.GetById(nationalityId);
 
             user.FirstName = formModel.FirstName;
             user.LastName = formModel.LastName;
-            user.UserNationality = nationality.CompanyNationality;
+            user.UserNationality = nationality?.CompanyNationality;
             user.Nationality = nationality;
             user.Position = Enum.Parse<WorkPosition>(formModel.Position.ToString());
             user.DateOfBirth = formModel.DateOfBirth;
             user.Description = formModel.Description;
+            user.NationalityId = nationality?.Id;
+            user.Nationality = nationality;
 
             var savedFileName = await fileService.SaveFile(formModel.Image, fileDirectory);
 
