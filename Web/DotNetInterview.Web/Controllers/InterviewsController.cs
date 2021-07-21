@@ -43,7 +43,7 @@
         {
             var interviewsVM = await this.interviewsService.All(seniority);
 
-            var interviewsByPage = this.interviewsService.AllByPage(page, new AllInterviewsVM(seniority), interviewsVM.Interviews);
+            var interviewsByPage = this.interviewsService.AllByPage(page, interviewsVM, interviewsVM.Interviews);
 
             return this.View(interviewsByPage);
         }

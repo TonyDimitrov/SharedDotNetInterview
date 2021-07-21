@@ -93,6 +93,8 @@
                 }),
             };
 
+            interviewsVM.Nationalities = await this.nationalitiesService.GetAll();
+
             return interviewsVM;
         }
 
@@ -174,6 +176,8 @@
                     DisableUserLink = i.CreatorUsername != null ? string.Empty : GlobalConstants.DisableLink,
                 }),
             };
+
+            interviewsVM.Nationalities = await this.nationalitiesService.GetAllWithSelected(interviewDTO.NationalityId);
 
             return interviewsVM;
         }

@@ -1,4 +1,5 @@
 ﻿@model DotNetInterview.Web.ViewModels.Interviews.AllInterviewsVM
+@using DotNetInterview.Web.ViewModels.Enums;
 
 @{
     ViewData["Title"] = "All";
@@ -22,21 +23,16 @@
             <div class="form-group nationality-company">
                 <label class="control-label required" for="CompanyNationality">Company nationality</label>
                 <select class="form-control">
-                    <option value="Åland Island">Åland Island</option>
-                    <option value="Albanian">Albanian</option>
-                    <option value="Algerian">Algerian</option>
+                    @foreach (var nationality in Model.Nationalities)
+                    {
+                        <option value="@nationality.Value" selected="@nationality.Selected">@nationality.Text</option>
+                    }
                 </select>
             </div>
 
             <div class="form-group seniority-position">
                 <label class="control-label required" for="Seniority">Position seniority</label>
-                <select class="form-control valid">
-                    <option value="1">Junior developer</option>
-                    <option value="2">Regular developer</option>
-                    <option value="3">Senior developer</option>
-                    <option value="4">Lead developer</option>
-                    <option value="5">Technical architect</option>
-                    <option value="99">Other</option>
+                <select asp-for="Seniority" class="form-control valid" asp-items="Html.GetEnumSelectList<PersonSeniorityVM>()">
                 </select>
             </div>
         </div>
