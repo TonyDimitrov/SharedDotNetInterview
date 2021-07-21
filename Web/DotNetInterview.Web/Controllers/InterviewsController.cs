@@ -48,6 +48,21 @@
             return this.View(interviewsByPage);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AllAjax(AllAjaxInterviewDTO model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("All", new { model.Seniority, model.Page });
+            }
+
+            var interviewsVM = await this.interviewsService.AllByFilter(model);
+
+            interviewsVM = this.interviewsService.AllByPage(model.Page.Value, interviewsVM, interviewsVM.Interviews);
+
+            return this.Json(interviewsVM);
+        }
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Create()

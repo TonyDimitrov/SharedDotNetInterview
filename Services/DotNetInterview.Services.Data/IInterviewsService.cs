@@ -14,6 +14,8 @@
 
         AllInterviewsVM AllByPage(int page, AllInterviewsVM interviewVM, IEnumerable<InterviewVM> interviews);
 
+        Task<AllInterviewsVM> AllByFilter(AllAjaxInterviewDTO interviewDTO);
+
         CreateInterviewVM CreateGetVM();
 
         Task Create(CreateInterviewVM model, string userId, string filePath, IFileService fileService);
