@@ -107,7 +107,6 @@
 
         public async Task<AllInterviewsVM> AllByFilter(AllAjaxInterviewDTO interviewDTO)
         {
-            var selectAllSeniorities = interviewDTO.Seniority == 0;
 
             var interviewsDto = await Task.Run(() =>
             {

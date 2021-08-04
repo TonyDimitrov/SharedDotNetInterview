@@ -39,7 +39,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery]int seniority, int page = 1)
+        public async Task<IActionResult> All([FromQuery] int seniority, int page = 1)
         {
             var interviewsVM = await this.interviewsService.All(seniority);
 
@@ -58,7 +58,10 @@
 
             var interviewsVM = await this.interviewsService.AllByFilter(model);
 
-            interviewsVM = this.interviewsService.AllByPage(model.Page.Value, interviewsVM, interviewsVM.Interviews);
+            if (model.Page.HasValue)
+            {
+                interviewsVM = this.interviewsService.AllByPage(model.Page.Value, interviewsVM, interviewsVM.Interviews);
+            }
 
             return this.Json(interviewsVM);
         }
@@ -189,7 +192,7 @@
         [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddComment([FromBody]AddCommentDTO model)
+        public async Task<IActionResult> AddComment([FromBody] AddCommentDTO model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -216,7 +219,7 @@
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Like([FromQuery]string interviewId)
+        public async Task<IActionResult> Like([FromQuery] string interviewId)
         {
             if (string.IsNullOrWhiteSpace(interviewId))
             {
