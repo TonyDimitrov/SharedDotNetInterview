@@ -22,7 +22,7 @@
         <div class="company-position-div">
             <div class="form-group nationality-company">
                 <label class="control-label required" for="CompanyNationality">Company nationality</label>
-                <select class="form-control">
+                <select class="form-control nationality-selection">
                     @foreach (var nationality in Model.Nationalities)
                     {
                         <option value="@nationality.Value" selected="@nationality.Selected">@nationality.Text</option>
@@ -32,7 +32,7 @@
 
             <div class="form-group seniority-position">
                 <label class="control-label required" for="Seniority">Position seniority</label>
-                <select asp-for="Seniority" class="form-control valid" asp-items="Html.GetEnumSelectList<PersonSeniorityVM>()">
+                <select asp-for="Seniority" class="form-control valid seniority-selection" asp-items="Html.GetEnumSelectList<PersonSeniorityVM>()">
                 </select>
             </div>
         </div>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="col-12 btn-detail find-btn-div">
-            <button class="btn btn-sm btn-primary find-button" href="/Interviews/All?seniority=0">Find</button>
+            <button class="btn btn-sm btn-primary find-button" href="/Interviews">Find</button>
         </div>
     </div>
 </div>
