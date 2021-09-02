@@ -102,27 +102,29 @@
     <div class="d-none d-sm-block col-sm-1">Check</div>
 </div>
 
-@foreach (var i in Model.Interviews)
-{
-    <div class="row div-row div-question-border-bottom">
-        <div class="col-10 col-sm-3">@i.PositionTitle</div>
-        <div class="d-none d-sm-block col-sm-2 seniority-wrapper">
-            <img class="seniority" src="/img/@i.Seniority">
-            <span class="seniority-tooltiptext">@i.SeniorityTooltip</span>
+<div class="interviews-result-box">
+    @foreach (var i in Model.Interviews)
+    {
+        <div class="row div-row div-question-border-bottom">
+            <div class="col-10 col-sm-3">@i.PositionTitle</div>
+            <div class="d-none d-sm-block col-sm-2 seniority-wrapper">
+                <img class="seniority" src="/img/@i.Seniority">
+                <span class="seniority-tooltiptext">@i.SeniorityTooltip</span>
+            </div>
+            <div class="col-1 col-sm-1"><span class="badge badge-pill span-items-count">@i.Questions</span></div>
+            <div class="d-none d-sm-block col-sm-2">@i.Date</div>
+            <div class="d-none d-sm-block col-sm-1"><span class="badge badge-pill span-items-count">@i.Likes</span></div>
+            <div class="d-none d-sm-block col-sm-2">
+                <a class="a-user @i.DisableUserLink" asp-controller="Users" asp-action="Details" asp-route-userId="@i.CreatorId">
+                    @i.CreatorName
+                </a>
+            </div>
+            <div class="col-12 col-sm-1 btn-detail">
+                <a class="btn btn-sm btn-primary" asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@i.InterviewId">Details</a>
+            </div>
         </div>
-        <div class="col-1 col-sm-1"><span class="badge badge-pill span-items-count">@i.Questions</span></div>
-        <div class="d-none d-sm-block col-sm-2">@i.Date</div>
-        <div class="d-none d-sm-block col-sm-1"><span class="badge badge-pill span-items-count">@i.Likes</span></div>
-        <div class="d-none d-sm-block col-sm-2">
-            <a class="a-user @i.DisableUserLink" asp-controller="Users" asp-action="Details" asp-route-userId="@i.CreatorId">
-                @i.CreatorName
-            </a>
-        </div>
-        <div class="col-12 col-sm-1 btn-detail">
-            <a class="btn btn-sm btn-primary" asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@i.InterviewId">Details</a>
-        </div>
-    </div>
-}
+    }
+</div>
 
 <div class="pagination-container">
     <ul class="pagination">
