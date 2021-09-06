@@ -117,7 +117,7 @@
                     interviewsDb = interviewsDb.Where(i => i.Seniority == (PositionSeniority)interviewDTO.Seniority);
                 }
 
-                if (interviewDTO.NationalityId.HasValue)
+                if (interviewDTO.NationalityId.HasValue && interviewDTO.NationalityId != 0)
                 {
                     interviewsDb = interviewsDb.Where(i => i.NationalityId == interviewDTO.NationalityId);
                 }
@@ -274,7 +274,7 @@
                     SeniorityImg = (PositionSeniorityImgVM)(int)i.Seniority,
                     PositionTitle = i.PositionTitle,
                     PositionDescription = i.PositionDescription,
-                    CompanyNationality = i.CompanyNationality,
+                    CompanyNationality = i.Nationality.CompanyNationality,
                     CompanySize = i.Employees.ToString(),
                     LocationType = i.LocationType.ToString(),
                     InterviewLocation = i.BasedPositionLocation,

@@ -37,8 +37,8 @@
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
 
-            var importerService = new Mock<INationalitiesService>();
-            importerService.Setup(s => s.GetAll())
+            var nationalitiesService = new Mock<INationalitiesService>();
+            nationalitiesService.Setup(s => s.GetAll())
                 .ReturnsAsync(new List<SelectListItem>
                 {
                     new SelectListItem { Value = "Bulgaria", Text = "Bulgaria" },
@@ -51,7 +51,7 @@
                 questionRepository,
                 commentRepository,
                 likeRepository,
-                importerService.Object);
+                nationalitiesService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
             newInterview.Questions[1].FormFile = fileMock;
 

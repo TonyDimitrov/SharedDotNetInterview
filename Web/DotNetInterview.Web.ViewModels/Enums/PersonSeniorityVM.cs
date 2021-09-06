@@ -4,6 +4,8 @@
 
     public enum PersonSeniorityVM
     {
+        [Display(Name = "All")]
+        All = 0,
         [Display(Name = "Junior developer")]
         JuniorDeveloper = 1,
         [Display(Name = "Regular developer")]

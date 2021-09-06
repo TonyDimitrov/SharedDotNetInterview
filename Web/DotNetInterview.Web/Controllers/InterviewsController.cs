@@ -9,6 +9,7 @@
     using DotNetInterview.Common;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Services.Data.Helpers;
+    using DotNetInterview.Web.Infrastructure.Extensions;
     using DotNetInterview.Web.ViewModels;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
@@ -39,11 +40,15 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery] int seniority, int page = 1)
+        public async Task<IActionResult> All([FromQuery] AllAjaxInterviewDTO model)
         {
-            var interviewsVM = await this.interviewsService.All(seniority);
+            var interviewsVM = await this.interviewsService.All(model.Seniority);
 
-            var interviewsByPage = this.interviewsService.AllByPage(page, interviewsVM, interviewsVM.Interviews);
+            var nationalities = interviewsVM.Nationalities.InsertCommonElementInList("All");
+
+            interviewsVM.Nationalities = nationalities;
+
+            var interviewsByPage = this.interviewsService.AllByPage(model.Page.HasValue ? model.Page.Value : 0, interviewsVM, interviewsVM.Interviews);
 
             return this.View(interviewsByPage);
         }
@@ -57,6 +62,10 @@
             }
 
             var interviewsVM = await this.interviewsService.AllByFilter(model);
+
+            var nationalities = interviewsVM.Nationalities.InsertCommonElementInList("All");
+
+            interviewsVM.Nationalities = nationalities;
 
             if (model.Page.HasValue)
             {
