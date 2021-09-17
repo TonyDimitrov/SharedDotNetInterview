@@ -48,7 +48,7 @@
 
             interviewsVM.Nationalities = nationalities;
 
-            var interviewsByPage = this.interviewsService.AllByPage(model.Page.HasValue ? model.Page.Value : 0, interviewsVM, interviewsVM.Interviews);
+            var interviewsByPage = this.interviewsService.AllByPage(model.Page.HasValue ? model.Page.Value : 1, interviewsVM, interviewsVM.Interviews);
 
             return this.View(interviewsByPage);
         }
@@ -67,10 +67,7 @@
 
             interviewsVM.Nationalities = nationalities;
 
-            if (model.Page.HasValue)
-            {
-                interviewsVM = this.interviewsService.AllByPage(model.Page.Value, interviewsVM, interviewsVM.Interviews);
-            }
+            interviewsVM = this.interviewsService.AllByPage(model.Page.HasValue ? model.Page.Value : 1, interviewsVM, interviewsVM.Interviews);
 
             return this.Json(interviewsVM);
         }
