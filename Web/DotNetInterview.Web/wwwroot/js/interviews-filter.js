@@ -44,8 +44,6 @@ findButton.addEventListener('click', function (e) {
     var seniorityLevel = document.querySelector('.seniority-selection').value
     var startDate = document.querySelector('#start-date').value
     var endDate = document.querySelector('#end-date').value
-
-    var [interviewsResultBox, interviewsPagination] = clearContent();
     let interviewItem = ''
 
     console.log(e)
@@ -73,7 +71,7 @@ findButton.addEventListener('click', function (e) {
         .then(response => response.json())
         .then(response => {
             console.log(response)
-
+            let interviewItems = '';
             response.interviews.map(item => {
                 interviewItem = `
                     <div class="row div-row div-question-border-bottom">
@@ -95,13 +93,15 @@ findButton.addEventListener('click', function (e) {
                         </div>
                     </div>
                 `
-                interviewsResultBox.innerHTML += interviewItem
+                interviewItems += interviewItem
             })
+            var [interviewsResultBox, interviewsPagination] = clearContent();
+            interviewsResultBox.innerHTML = interviewItems;
 
             var pages = '';
 
             for (var setNumber = response.previousPage + 1; setNumber <= response.previousPage + response.paginationLength; setNumber++) {
-               var page = `<li class="page-item">
+                var page = `<li class="page-item">
                          <a class="page-link ${setNumber == response.currentPage ? 'mark-box' : ''}" href="${finalUrl}&page=${setNumber}">${setNumber}</a>
                        </li>`
                 pages += page;
@@ -136,11 +136,11 @@ function getInterviewsByPage(e) {
     e.preventDefault();
     console.log(e);
     var finalUrl = e.path[0].href.split('&page')[0];
-    var [interviewsResultBox, interviewsPagination] = clearContent();
     fetch(e.path[0].href)
         .then(response => response.json())
         .then(response => {
             console.log(response)
+            let interviewItems = '';
             response.interviews.map(item => {
                 interviewItem = `
                     <div class="row div-row div-question-border-bottom">
@@ -162,8 +162,10 @@ function getInterviewsByPage(e) {
                         </div>
                     </div>
                 `
-                interviewsResultBox.innerHTML += interviewItem
+                interviewItems += interviewItem
             })
+            var [interviewsResultBox, interviewsPagination] = clearContent();
+            interviewsResultBox.innerHTML = interviewItems;
 
             var pages = '';
 
