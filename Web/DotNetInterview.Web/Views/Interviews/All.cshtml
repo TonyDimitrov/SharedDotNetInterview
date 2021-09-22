@@ -1,4 +1,5 @@
 ﻿@model DotNetInterview.Web.ViewModels.Interviews.AllInterviewsVM
+@using DotNetInterview.Web.ViewModels.Enums;
 
 @{
     ViewData["Title"] = "All";
@@ -21,22 +22,17 @@
         <div class="company-position-div">
             <div class="form-group nationality-company">
                 <label class="control-label required" for="CompanyNationality">Company nationality</label>
-                <select class="form-control">
-                    <option value="Åland Island">Åland Island</option>
-                    <option value="Albanian">Albanian</option>
-                    <option value="Algerian">Algerian</option>
+                <select class="form-control nationality-selection">
+                    @foreach (var nationality in Model.Nationalities)
+                    {
+                        <option value="@nationality.Value" selected="@nationality.Selected">@nationality.Text</option>
+                    }
                 </select>
             </div>
 
             <div class="form-group seniority-position">
                 <label class="control-label required" for="Seniority">Position seniority</label>
-                <select class="form-control valid">
-                    <option value="1">Junior developer</option>
-                    <option value="2">Regular developer</option>
-                    <option value="3">Senior developer</option>
-                    <option value="4">Lead developer</option>
-                    <option value="5">Technical architect</option>
-                    <option value="99">Other</option>
+                <select asp-for="Seniority" class="form-control valid seniority-selection" asp-items="Html.GetEnumSelectList<PersonSeniorityVM>()">
                 </select>
             </div>
         </div>
@@ -57,7 +53,7 @@
         </div>
 
         <div class="col-12 btn-detail find-btn-div">
-            <button class="btn btn-sm btn-primary find-button" href="/Interviews/All?seniority=0">Find</button>
+            <button class="btn btn-sm btn-primary find-button" href="/Interviews">Find</button>
         </div>
     </div>
 </div>
@@ -106,27 +102,29 @@
     <div class="d-none d-sm-block col-sm-1">Check</div>
 </div>
 
-@foreach (var i in Model.Interviews)
-{
-    <div class="row div-row div-question-border-bottom">
-        <div class="col-10 col-sm-3">@i.PositionTitle</div>
-        <div class="d-none d-sm-block col-sm-2 seniority-wrapper">
-            <img class="seniority" src="/img/@i.Seniority">
-            <span class="seniority-tooltiptext">@i.SeniorityTooltip</span>
+<div class="interviews-result-box">
+    @foreach (var i in Model.Interviews)
+    {
+        <div class="row div-row div-question-border-bottom">
+            <div class="col-10 col-sm-3">@i.PositionTitle</div>
+            <div class="d-none d-sm-block col-sm-2 seniority-wrapper">
+                <img class="seniority" src="/img/@i.Seniority">
+                <span class="seniority-tooltiptext">@i.SeniorityTooltip</span>
+            </div>
+            <div class="col-1 col-sm-1"><span class="badge badge-pill span-items-count">@i.Questions</span></div>
+            <div class="d-none d-sm-block col-sm-2">@i.Date</div>
+            <div class="d-none d-sm-block col-sm-1"><span class="badge badge-pill span-items-count">@i.Likes</span></div>
+            <div class="d-none d-sm-block col-sm-2">
+                <a class="a-user @i.DisableUserLink" asp-controller="Users" asp-action="Details" asp-route-userId="@i.CreatorId">
+                    @i.CreatorName
+                </a>
+            </div>
+            <div class="col-12 col-sm-1 btn-detail">
+                <a class="btn btn-sm btn-primary" asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@i.InterviewId">Details</a>
+            </div>
         </div>
-        <div class="col-1 col-sm-1"><span class="badge badge-pill span-items-count">@i.Questions</span></div>
-        <div class="d-none d-sm-block col-sm-2">@i.Date</div>
-        <div class="d-none d-sm-block col-sm-1"><span class="badge badge-pill span-items-count">@i.Likes</span></div>
-        <div class="d-none d-sm-block col-sm-2">
-            <a class="a-user @i.DisableUserLink" asp-controller="Users" asp-action="Details" asp-route-userId="@i.CreatorId">
-                @i.CreatorName
-            </a>
-        </div>
-        <div class="col-12 col-sm-1 btn-detail">
-            <a class="btn btn-sm btn-primary" asp-controller="Interviews" asp-action="Details" asp-route-interviewId="@i.InterviewId">Details</a>
-        </div>
-    </div>
-}
+    }
+</div>
 
 <div class="pagination-container">
     <ul class="pagination">

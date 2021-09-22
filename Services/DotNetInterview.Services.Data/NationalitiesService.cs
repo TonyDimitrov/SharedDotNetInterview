@@ -46,7 +46,7 @@
                     .AsEnumerable()
                     .Select(n =>
                     {
-                        if (n.Id == selectedNationalityId.Value)
+                        if (selectedNationalityId.HasValue && n.Id == selectedNationalityId.Value)
                         {
                             return new SelectListItem { Text = n.CompanyNationality, Value = n.Id.ToString(), Selected = true };
                         }

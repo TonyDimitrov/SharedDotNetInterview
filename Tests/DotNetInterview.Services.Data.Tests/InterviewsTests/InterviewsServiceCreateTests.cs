@@ -44,7 +44,6 @@
             var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
             fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
                 .ReturnsAsync("fileForInterviewQuestion");
-            using var dbNationalities = new ApplicationDbContext(options.Options);
 
             var nationalityService = new Mock<INationalitiesService>();
             nationalityService.Setup(s => s.GetById(1))
@@ -78,6 +77,40 @@
             Assert.Equal(newInterview.Questions[1].GivenAnswer, createdInterview.Questions.ToArray()[1].GivenAnswer);
             Assert.Equal(0, (int)createdInterview.Questions.ToArray()[1].RankType);
             Assert.Null(createdInterview.Questions.ToArray()[1].UrlTask);
+        }
+
+        [Fact]
+        public async Task Create_CreateInterviewWithCorrectNationality_StoreCorrectData()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+         .UseInMemoryDatabase("add_interview_2");
+
+            using var dbContext = new ApplicationDbContext(options.Options);
+
+            var interviewRepository = new EfDeletableEntityRepository<Interview>(dbContext);
+            var questionRepository = new EfDeletableEntityRepository<Question>(dbContext);
+
+            var fileService = new Mock<IFileService>();
+            var fileMock = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
+            fileService.Setup(f => f.SaveFile(fileMock, "fileDirectory"))
+                .ReturnsAsync("fileForInterviewQuestion");
+
+            var nationalityService = new Mock<INationalitiesService>();
+            nationalityService.Setup(s => s.GetById(1))
+                .ReturnsAsync(new Nationality { CompanyNationality = "Bulgarian", Id = 1 });
+
+            var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalityService.Object);
+            var newInterview = InterviewsTestData.CreateInterviewTestData();
+            newInterview.Questions[0].FormFile = fileMock;
+
+            // Act
+            await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
+            var interviews = interviewRepository.All().ToList();
+            var createdInterview = interviews.First();
+
+            // Assert
+            Assert.Equal("Bulgarian", createdInterview.CompanyNationality);
+            Assert.Equal(1, createdInterview.NationalityId);
         }
 
         [Fact]

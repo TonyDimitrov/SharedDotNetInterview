@@ -9,6 +9,7 @@
     using DotNetInterview.Common;
     using DotNetInterview.Services.Data;
     using DotNetInterview.Services.Data.Helpers;
+    using DotNetInterview.Web.Infrastructure.Extensions;
     using DotNetInterview.Web.ViewModels;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Comments.DTO;
@@ -39,13 +40,36 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery]int seniority, int page = 1)
+        public async Task<IActionResult> All([FromQuery] AllAjaxInterviewDTO model)
         {
-            var interviewsVM = await this.interviewsService.All(seniority);
+            var interviewsVM = await this.interviewsService.All(model.Seniority);
 
-            var interviewsByPage = this.interviewsService.AllByPage(page, new AllInterviewsVM(seniority), interviewsVM.Interviews);
+            var nationalities = interviewsVM.Nationalities.InsertCommonElementInList("All");
+
+            interviewsVM.Nationalities = nationalities;
+
+            var interviewsByPage = this.interviewsService.AllByPage(model.Page.HasValue ? model.Page.Value : 1, interviewsVM, interviewsVM.Interviews);
 
             return this.View(interviewsByPage);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllAjax(AllAjaxInterviewDTO model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("All", new { model.Seniority, model.Page });
+            }
+
+            var interviewsVM = await this.interviewsService.AllByFilter(model);
+
+            var nationalities = interviewsVM.Nationalities.InsertCommonElementInList("All");
+
+            interviewsVM.Nationalities = nationalities;
+
+            interviewsVM = this.interviewsService.AllByPage(model.Page.HasValue ? model.Page.Value : 1, interviewsVM, interviewsVM.Interviews);
+
+            return this.Json(interviewsVM);
         }
 
         [Authorize]
@@ -174,7 +198,7 @@
         [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddComment([FromBody]AddCommentDTO model)
+        public async Task<IActionResult> AddComment([FromBody] AddCommentDTO model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -201,7 +225,7 @@
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Like([FromQuery]string interviewId)
+        public async Task<IActionResult> Like([FromQuery] string interviewId)
         {
             if (string.IsNullOrWhiteSpace(interviewId))
             {

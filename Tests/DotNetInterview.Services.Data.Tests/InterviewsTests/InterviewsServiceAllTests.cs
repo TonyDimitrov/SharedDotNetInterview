@@ -11,6 +11,7 @@
     using DotNetInterview.Data.Models.Enums;
     using DotNetInterview.Web.ViewModels.Comments;
     using DotNetInterview.Web.ViewModels.Interviews;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Moq;
     using Xunit;
 
@@ -30,7 +31,15 @@
                 .Setup(r => r.All())
                 .Returns(mockedData);
 
-            var service = new InterviewsService(null, interviewRepo.Object, null, null, null, null);
+            var nalionalitiesService = new Mock<INationalitiesService>();
+            nalionalitiesService.Setup(s => s.GetAll())
+                .ReturnsAsync(new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "Bulgaria", Text = "Bulgaria" },
+                    new SelectListItem { Value = "US", Text = "US" },
+                });
+
+            var service = new InterviewsService(null, interviewRepo.Object, null, null, null, nalionalitiesService.Object);
 
             // Arrange
             var interviewsVM = await service.All(seniority: 0);
@@ -82,7 +91,15 @@
             interviewRepo.Setup(r => r.All())
                 .Returns(mockedData);
 
-            var service = new InterviewsService(null, interviewRepo.Object, null, null, null, null);
+            var nalionalitiesService = new Mock<INationalitiesService>();
+            nalionalitiesService.Setup(s => s.GetAll())
+                .ReturnsAsync(new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "Bulgaria", Text = "Bulgaria" },
+                    new SelectListItem { Value = "US", Text = "US" },
+                });
+
+            var service = new InterviewsService(null, interviewRepo.Object, null, null, null, nalionalitiesService.Object);
 
             // Act
             var interviewsVM = await service.All((int)PositionSeniority.RegularDeveloper);

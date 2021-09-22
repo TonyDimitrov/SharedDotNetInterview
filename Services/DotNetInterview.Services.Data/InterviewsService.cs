@@ -93,6 +93,8 @@
                 }),
             };
 
+            interviewsVM.Nationalities = await this.nationalitiesService.GetAll();
+
             return interviewsVM;
         }
 
@@ -101,6 +103,82 @@
             interviewVM.Interviews = interviewVM.SetPagination<InterviewVM>(interviews, page);
 
             return interviewVM;
+        }
+
+        public async Task<AllInterviewsVM> AllByFilter(AllAjaxInterviewDTO interviewDTO)
+        {
+
+            var interviewsDto = await Task.Run(() =>
+            {
+                var interviewsDb = this.interviewsRepository.All();
+
+                if (interviewDTO.Seniority != 0)
+                {
+                    interviewsDb = interviewsDb.Where(i => i.Seniority == (PositionSeniority)interviewDTO.Seniority);
+                }
+
+                if (interviewDTO.NationalityId.HasValue && interviewDTO.NationalityId != 0)
+                {
+                    interviewsDb = interviewsDb.Where(i => i.NationalityId == interviewDTO.NationalityId);
+                }
+
+                if (interviewDTO.From.HasValue)
+                {
+                    interviewsDb = interviewsDb.Where(i => i.HeldOnDate >= interviewDTO.From.Value);
+                }
+
+                if (interviewDTO.To.HasValue)
+                {
+                    interviewsDb = interviewsDb.Where(i => i.HeldOnDate <= interviewDTO.To.Value);
+                }
+
+                var interviewsDto = interviewsDb.OrderByDescending(i => i.CreatedOn)
+                .Select(i => new AllInterviewDTO
+                {
+                    InterviewId = i.Id,
+                    PositionTitle = i.PositionTitle,
+                    PositionSeniority = (PositionSeniorityImgVM)(int)i.Seniority,
+                    Date = i.CreatedOn,
+                    Likes = i.Likes
+                    .Where(l => l.IsLiked)
+                    .Count(),
+                    Questions = i.Questions.Count,
+                    CreatorId = i.UserId,
+                    CreatorFName = i.User.FirstName,
+                    CreatorLName = i.User.LastName != null ? i.User.LastName : string.Empty,
+                    CreatorAvatar = i.User.Image,
+                    CreatorUsername = i.User.UserName,
+                });
+
+                return interviewsDto;
+            });
+
+            var interviewsVM = new AllInterviewsVM(interviewDTO.Seniority)
+            {
+                NationalityId = interviewDTO.NationalityId,
+                From = interviewDTO.From,
+                To = interviewDTO.To,
+                Interviews = interviewsDto
+                .Select(i =>
+                new InterviewVM
+                {
+                    InterviewId = i.InterviewId,
+                    Seniority = i.PositionSeniority.DisplayName(),
+                    SeniorityTooltip = i.PositionSeniority.DisplayTooltipClass(),
+                    PositionTitle = i.PositionTitle.PositionTitleParser(),
+                    Date = i.Date.DateTimeViewFormater(),
+                    Likes = i.Likes,
+                    Questions = i.Questions,
+                    CreatorId = i.CreatorUsername != null ? i.CreatorId : string.Empty,
+                    CreatorName = i.CreatorUsername != null ? i.CreatorFName.FullUserNameParser(i.CreatorLName) : GlobalConstants.UserDeleted,
+                    CreatorAvatar = i.CreatorUsername != null ? i.CreatorAvatar != null ? i.CreatorAvatar : GlobalConstants.DefaultAvatar : null,
+                    DisableUserLink = i.CreatorUsername != null ? string.Empty : GlobalConstants.DisableLink,
+                }),
+            };
+
+            interviewsVM.Nationalities = await this.nationalitiesService.GetAllWithSelected(interviewDTO.NationalityId);
+
+            return interviewsVM;
         }
 
         public CreateInterviewVM CreateGetVM()
@@ -196,7 +274,7 @@
                     SeniorityImg = (PositionSeniorityImgVM)(int)i.Seniority,
                     PositionTitle = i.PositionTitle,
                     PositionDescription = i.PositionDescription,
-                    CompanyNationality = i.CompanyNationality,
+                    CompanyNationality = i.Nationality.CompanyNationality,
                     CompanySize = i.Employees.ToString(),
                     LocationType = i.LocationType.ToString(),
                     InterviewLocation = i.BasedPositionLocation,
