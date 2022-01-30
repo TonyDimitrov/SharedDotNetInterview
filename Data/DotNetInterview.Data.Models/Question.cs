@@ -14,7 +14,9 @@
         public Question()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.Answers = new HashSet<Answer>();
             this.Comments = new HashSet<Comment>();
+            this.Likes = new HashSet<Like>();
         }
 
         [Required]
@@ -38,12 +40,14 @@
 
         public QuestionRankType RankType { get; set; }
 
-        public int Likes { get; set; }
-
         public string InterviewId { get; set; }
 
         public Interview Interview { get; set; }
 
+        public virtual ICollection<Answer> Answers { get; set; }
+
         public virtual ICollection<Comment> Comments { get; set; }
+
+        public virtual ICollection<Like> Likes { get; set; }
     }
 }

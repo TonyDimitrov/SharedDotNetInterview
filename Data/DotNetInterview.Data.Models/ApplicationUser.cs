@@ -22,6 +22,7 @@ namespace DotNetInterview.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Interviews = new HashSet<Interview>();
             this.Comments = new HashSet<Comment>();
+            this.Answers = new HashSet<Answer>();
         }
 
         [Required]
@@ -56,16 +57,18 @@ namespace DotNetInterview.Data.Models
 
         public Nationality Nationality { get; set; }
 
+        public virtual string Image { get; set; }
+
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
-        public virtual string Image { get; set; }
-
         public virtual ICollection<Interview> Interviews { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
+
+        public virtual ICollection<Answer> Answers { get; set; }
     }
 }

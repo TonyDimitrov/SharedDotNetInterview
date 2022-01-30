@@ -47,6 +47,13 @@
         [MaxLength(TagsMaxLength)]
         public string Tags { get; set; }
 
+        [Range(SalaryMin, SalaryMax)]
+        public double Salary { get; set; }
+
+        public CurrencyType CurrencyType { get; set; }
+
+        public SalaryType SalaryType { get; set; }
+
         public string UserId { get; set; }
 
         public ApplicationUser User { get; set; }

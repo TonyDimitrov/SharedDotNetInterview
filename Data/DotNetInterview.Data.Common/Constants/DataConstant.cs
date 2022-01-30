@@ -43,5 +43,12 @@
         public const int NationalityMinLength = 2;
         public const int NationalityMaxLength = 100;
 
+        // Salary constants
+        public const double SalaryMax = 0d;
+        public const double SalaryMin = 1000_000d;
+
+        // Answer constants
+        public const int AnswerContentMaxLength = 6000;
+        public const int AnswerContentMinLength = 1;
     }
 }
