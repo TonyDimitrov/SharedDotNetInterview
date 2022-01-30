@@ -54,6 +54,15 @@
         [Display(Name = "Company size of employees")]
         public EmployeesSizeVM Employees { get; set; }
 
+        [Display(Name = "Monthly - Annually salary")]
+        public SalaryTypeVM SalaryType { get; set; }
+
+        [Display(Name = "Currency")]
+        public CurrencyTypeVM CurrencyType { get; set; }
+
+        [Display(Name = "Position salary")]
+        public double? Salary { get; set; }
+
         [CollectionMinLengthAttribute(1)]
         public List<CreateInterviewQuestionVM> Questions { get; set; }
 

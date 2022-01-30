@@ -29,7 +29,15 @@
 
         public string File { get; set; }
 
+        public int Answers { get; set; }
+
+        public string InitiallyAnsweredCss { get; set; }
+
         public string InterviewId { get; set; }
+
+        public string UserId { get; set; }
+
+        public string UserFullName { get; set; }
 
         public IEnumerable<AllCommentsVM> QnsComments { get; set; }
     }

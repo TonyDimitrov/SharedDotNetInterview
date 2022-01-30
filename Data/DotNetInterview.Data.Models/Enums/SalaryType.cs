@@ -3,6 +3,6 @@
     public enum SalaryType
     {
         Month = 1,
-        Year = 1,
+        Year = 2,
     }
 }

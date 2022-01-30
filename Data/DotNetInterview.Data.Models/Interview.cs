@@ -48,7 +48,7 @@
         public string Tags { get; set; }
 
         [Range(SalaryMin, SalaryMax)]
-        public double Salary { get; set; }
+        public double? Salary { get; set; }
 
         public CurrencyType CurrencyType { get; set; }
 

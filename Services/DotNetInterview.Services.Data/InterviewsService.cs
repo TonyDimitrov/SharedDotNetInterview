@@ -28,6 +28,7 @@
         private readonly IDeletableEntityRepository<Question> questionsRepository;
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
         private readonly IDeletableEntityRepository<Like> likesRepository;
+        private readonly IDeletableEntityRepository<Answer> answersRepository;
         private readonly INationalitiesService nationalitiesService;
 
         public InterviewsService(
@@ -36,6 +37,7 @@
             IDeletableEntityRepository<Question> questionsRepository,
             IDeletableEntityRepository<Comment> commentsRepository,
             IDeletableEntityRepository<Like> likesRepository,
+            IDeletableEntityRepository<Answer> answersRepository,
             INationalitiesService nationalitiesService)
         {
             this.db = db;
@@ -43,6 +45,7 @@
             this.questionsRepository = questionsRepository;
             this.commentsRepository = commentsRepository;
             this.likesRepository = likesRepository;
+            this.answersRepository = answersRepository;
             this.nationalitiesService = nationalitiesService;
         }
 
@@ -107,7 +110,6 @@
 
         public async Task<AllInterviewsVM> AllByFilter(AllAjaxInterviewDTO interviewDTO)
         {
-
             var interviewsDto = await Task.Run(() =>
             {
                 var interviewsDb = this.interviewsRepository.All();
@@ -206,6 +208,13 @@
 
                 var rankValue = Math.Max(q.Interesting, Math.Max(q.Unexpected, q.Difficult));
 
+                var answer = new Answer
+                {
+                    Content = q.GivenAnswer,
+                    IsInitiallyAnswered = true,
+                    UserId = userId,
+                };
+
                 var question = new Question
                 {
                     Content = q.Content,
@@ -215,6 +224,9 @@
                     UrlTask = fileName,
                 };
 
+                question.Answers.Add(answer);
+
+                await this.answersRepository.AddAsync(answer);
                 await this.questionsRepository.AddAsync(question);
                 await this.questionsRepository.SaveChangesAsync();
 
@@ -298,6 +310,11 @@
                             RankImgType = (QuestionRankImgType)(int)q.RankType,
                             File = q.UrlTask,
                             InterviewId = q.InterviewId,
+                            Answers = q.Answers.Count(),
+                            //FName = i.User.FirstName,
+                            //LName = i.User.LastName,
+                            //UserId = i.User.Id,
+                            IsInitiallyAnswered = q.Answers.Any(a => a.IsInitiallyAnswered),
                             QnsComments = q.Comments
                             .Select(c => new AllCommentsDTO
                             {
@@ -377,6 +394,8 @@
                         HideFile = q.File == null,
                         File = q.File,
                         InterviewId = q.InterviewId,
+                        Answers = q.Answers,
+                        InitiallyAnsweredCss = q.IsInitiallyAnswered ? string.Empty : GlobalConstants.DisableLink,
                         QnsComments = q.QnsComments
                         .Select(c => new AllCommentsVM
                         {
@@ -437,7 +456,10 @@
                         {
                             QuestionId = q.Id,
                             Content = q.Content,
-                            GivenAnswer = q.GivenAnswer,
+                            GivenAnswer = q.Answers
+                            .Where(a => a.QuestionId == q.Id && a.IsInitiallyAnswered && !a.IsDeleted)
+                            .Select(a => a.Content)
+                            .FirstOrDefault(),
                             Ranked = Enum.Parse<QuestionRankTypeVM>(q.RankType.ToString()),
                             File = q.UrlTask,
                         })
@@ -461,6 +483,7 @@
             var dbInterview = this.interviewsRepository.All()
                 .Where(i => i.Id == interviewDTO.InterviewId)
                 .Include(i => i.Questions)
+                .ThenInclude(q => q.Answers)
                 .ToList()
                 .FirstOrDefault();
 
@@ -497,11 +520,11 @@
 
             var allChangedQnsIds = interviewDTO.Questions.Where(q => q.QuestionId != null);
 
-            var dbListInterviews = dbInterview.Questions.ToArray();
+            var dbInterviewQuestions = dbInterview.Questions.ToArray();
 
-            for (var qdb = dbListInterviews.Length - 1; qdb >= 0; qdb--)
+            for (var qdb = dbInterviewQuestions.Length - 1; qdb >= 0; qdb--)
             {
-                var questionDTO = interviewDTO.Questions.FirstOrDefault(qu => qu.QuestionId != null && qu.QuestionId == dbListInterviews[qdb].Id);
+                var questionDTO = interviewDTO.Questions.FirstOrDefault(qu => qu.QuestionId != null && qu.QuestionId == dbInterviewQuestions[qdb].Id);
 
                 if (questionDTO != null)
                 {
@@ -513,15 +536,21 @@
 
                     var fileName = await fileService.SaveFile(questionDTO.FormFile, fileDirectory);
 
-                    dbListInterviews[qdb].Content = questionDTO.Content;
-                    dbListInterviews[qdb].GivenAnswer = questionDTO.GivenAnswer;
-                    dbListInterviews[qdb].ModifiedOn = DateTime.UtcNow;
-                    dbListInterviews[qdb].RankType = (QuestionRankType)rankValue;
-                    dbListInterviews[qdb].UrlTask = fileName == null ? dbListInterviews[qdb].UrlTask : fileName;
+                    dbInterviewQuestions[qdb].Content = questionDTO.Content;
+
+                    var dbGivenAnswer = dbInterviewQuestions[qdb].Answers.FirstOrDefault(a => a.IsInitiallyAnswered);
+                    if (dbGivenAnswer != null)
+                    {
+                        dbGivenAnswer.Content = questionDTO.GivenAnswer;
+                    }
+
+                    dbInterviewQuestions[qdb].ModifiedOn = DateTime.UtcNow;
+                    dbInterviewQuestions[qdb].RankType = (QuestionRankType)rankValue;
+                    dbInterviewQuestions[qdb].UrlTask = fileName == null ? dbInterviewQuestions[qdb].UrlTask : fileName;
                 }
                 else
                 {
-                    dbInterview.Questions.Remove(dbListInterviews[qdb]);
+                    dbInterview.Questions.Remove(dbInterviewQuestions[qdb]);
                 }
             }
 

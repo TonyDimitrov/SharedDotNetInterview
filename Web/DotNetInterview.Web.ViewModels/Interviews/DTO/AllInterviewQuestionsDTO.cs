@@ -14,6 +14,16 @@
 
         public string Answer { get; set; }
 
+        public int Answers { get; set; }
+
+        public string UserId { get; set; }
+
+        public string FName { get; set; }
+
+        public string LName { get; set; }
+
+        public bool IsInitiallyAnswered { get; set; }
+
         public string Ranked { get; set; }
 
         public QuestionRankImgType RankImgType { get; set; }

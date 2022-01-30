@@ -197,7 +197,7 @@
 </div>
 
 <div class="legend-wrapper">
-@*Questions legend*@
+    @*Questions legend*@
 
     @{
         foreach (var rank in Model.QuestionRanks)
@@ -227,59 +227,70 @@
                             </a>
                         </div>
                     </div>
-                    <div class="row justify-content-center div-row div-question-border-bottom" hidden="@q.HideAnswer">
+                    @*<div class="row justify-content-center div-row div-question-border-bottom" hidden="@q.HideAnswer">
                         <div class="col-12"><span class="span-text">Ans</span> @Html.Raw(@q.Answer)</div>
-                    </div>
+                    </div>*@
                 </div>
+            </div>
+            <div>
+                <ul>
+                    <li><a asp-controller="Questions" asp-action="Details" asp-route-questionId="@q.QuestionId">Answers @q.Answers</a></li>
+                    <li><a asp-controller="Questions" asp-action="Details" asp-route-questionId="@q.QuestionId">Comments @q.QnsComments.Count()</a></li>
+                    <li><a asp-controller="Questions" asp-action="Details" asp-route-questionId="@q.QuestionId">Add answer</a></li>
+                </ul>
+
+                <ul>
+                    <li>@q.CreatedOn</li>
+                </ul>
             </div>
             @*Comments HTML*@
-            <div class="row justify-content-center">
-                <div class="col-12 col-sm-10 div-r-border borderless-under div-m2">
-                    <div class="row justify-content-center div-row">
-                        <div class="col-3 comment-count2">Comments @q.QnsComments.Count()</div>
-                        <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments2">Show</button></div>
-                    </div>
+            @*<div class="row justify-content-center">
+                    <div class="col-12 col-sm-10 div-r-border borderless-under div-m2">
+                        <div class="row justify-content-center div-row">
+                            <div class="col-3 comment-count2">Comments @q.QnsComments.Count()</div>
+                            <div class="col-1"><button type="button" class="btn btn-sm btn-light btn-comments2">Show</button></div>
+                        </div>
 
-                    @foreach (var comment in q.QnsComments)
-                    {
-                        <div class="row justify-content-center div-row div-question-border-bottom div-comment2 div-q-comment" hidden>
-                            <div class="col-9 col-sm-8 wrap">@comment.Content</div>
-                            <div class="col-2 div-small-fond show-over">@comment.ModifiedOn</div>
-                            <div class="col-3 col-sm-2 div-small-fond">
-                                <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
-                                    @comment.UserFullName
-                                </a>
+                        @foreach (var comment in q.QnsComments)
+                        {
+                            <div class="row justify-content-center div-row div-question-border-bottom div-comment2 div-q-comment" hidden>
+                                <div class="col-9 col-sm-8 wrap">@comment.Content</div>
+                                <div class="col-2 div-small-fond show-over">@comment.ModifiedOn</div>
+                                <div class="col-3 col-sm-2 div-small-fond">
+                                    <a href="/Users/Details?UserId=@comment.UserId" class="a-user-link">
+                                        @comment.UserFullName
+                                    </a>
 
-                                <div class="dis-flex div-small-fond" @comment.HideDelete>
-                                    <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete2">
-                                        <div class="form-group mb-2" hidden>
-                                            <input class="form-control" name="id" value="@comment.CommentId">
-                                        </div>
-                                        <button type="submit" class="btn btn-link a-user-link div-small-fond b-q-delete p-0">Delete</button>
-                                    </form>
+                                    <div class="dis-flex div-small-fond" @comment.HideDelete>
+                                        <form asp-controller="Comments" asp-action="Delete" method="post" class="p-0 form-delete2">
+                                            <div class="form-group mb-2" hidden>
+                                                <input class="form-control" name="id" value="@comment.CommentId">
+                                            </div>
+                                            <button type="submit" class="btn btn-link a-user-link div-small-fond b-q-delete p-0">Delete</button>
+                                        </form>
+                                    </div>
+
                                 </div>
+                            </div>
+                        }
 
+                        <div class="row justify-content-start div-row div-question-border-bottom div-comment2 div-q-button" hidden>
+                            <div class="col-md-10">
+                                <form asp-controller="Questions" asp-action="AddComment" method="post" class="form form-q-comments">
+                                    <div class="form-group mb-2">
+                                        <input class="form-control" name="id" value="@q.QuestionId" hidden>
+                                    </div>
+                                    <div class="form-row align-items-start" @Model.HideAddCommentForm>
+                                        <div class="form-group mb-2 div-textarea">
+                                            <textarea class="form-control comment2" name="content" rows="1"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-light btn-sm btn-comments2">Add</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    }
-
-                    <div class="row justify-content-start div-row div-question-border-bottom div-comment2 div-q-button" hidden>
-                        <div class="col-md-10">
-                            <form asp-controller="Questions" asp-action="AddComment" method="post" class="form form-q-comments">
-                                <div class="form-group mb-2">
-                                    <input class="form-control" name="id" value="@q.QuestionId" hidden>
-                                </div>
-                                <div class="form-row align-items-start" @Model.HideAddCommentForm>
-                                    <div class="form-group mb-2 div-textarea">
-                                        <textarea class="form-control comment2" name="content" rows="1"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-light btn-sm btn-comments2">Add</button>
-                                </div>
-                            </form>
-                        </div>
                     </div>
-                </div>
-            </div>
+                </div>*@
 
         </div>
     }

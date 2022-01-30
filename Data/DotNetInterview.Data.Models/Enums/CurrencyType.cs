@@ -3,6 +3,6 @@
     public enum CurrencyType
     {
         EUR = 1,
-        USE = 2,
+        USD = 2,
     }
 }

@@ -21,6 +21,8 @@
         [MaxLength(AnswerContentMaxLength)]
         public string Content { get; set; }
 
+        public bool IsInitiallyAnswered { get; set; }
+
         public string QuestionId { get; set; }
 
         public Question Question { get; set; }

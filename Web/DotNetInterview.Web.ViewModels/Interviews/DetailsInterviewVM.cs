@@ -38,6 +38,12 @@
 
         public string CompanySize { get; set; }
 
+        public string Salary { get; set; }
+
+        public int SalaryCurrency { get; set; }
+
+        public int SalaryType { get; set; }
+
         public string HeldOn { get; set; }
 
         public string CreatedOn { get; set; }
