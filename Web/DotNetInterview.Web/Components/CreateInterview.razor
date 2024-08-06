@@ -1,0 +1,31 @@
+﻿<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Parent count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="ParentCountIncrease">Parent Click me</button>
+
+<EditForm Model="CreateInterviewVM" OnSubmit="HandleFormSubmit">
+
+    <InputText @bind-Value=CreateInterviewVM.PositionTitle />
+
+    <InputText @bind-Value=CreateInterviewVM.PositionDescription />
+
+    <input type="submit" class="btn btn-primary" value="Save" />
+</EditForm>
+
+@code {
+    private int currentCount = 0;
+
+    private void ParentCountIncrease()
+    {
+        currentCount++;
+    }
+}
+
+@* @inherits ComponentBase<Page, IPageFacade>
+@* @attribute [Authorize(Constants.AuthPolicies.Backend.Channel.Edit)] *@
+
+
+

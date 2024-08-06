@@ -26,6 +26,8 @@
             });
         </script>
 
+        @(await Html.RenderComponentAsync<DotNetInterview.Web.Components.CreateInterview>(RenderMode.ServerPrerendered))
+
         <form asp-controller="Interviews" asp-action="Create" method="post" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
