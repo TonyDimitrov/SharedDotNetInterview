@@ -74,7 +74,8 @@
                                 UserFName = c.User.FirstName,
                                 UserLName = c.User.LastName,
                             })
-                            .OrderBy(c => c.CreatedOn),
+                            .OrderBy(c => c.CreatedOn)
+                            .AsEnumerable(),
                         });
 
             var questions = new AllIQuestionsVM(rank, Utils.HideAddComment(currentUserId))
