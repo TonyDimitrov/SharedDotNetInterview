@@ -21,6 +21,8 @@
         [Display(Name = "Position seniority")]
         public PositionSeniorityVM Seniority { get; set; }
 
+        public int SeniorityToInt { get; set; }
+
         [Required(ErrorMessage = "Position title required!")]
         [MinLength(PositionTitleMinLength, ErrorMessage = "Position title should be minimum 2 characters!")]
         [MaxLength(PositionTitleMaxLength, ErrorMessage = "Position title should be maximum 200 characters!")]
@@ -41,7 +43,7 @@
         [MinLength(LocationTypeMinLength)]
         [MaxLength(LocationTypeMaxLength)]
         [Display(Name = "Location type spesification")]
-        public string LocationType { get; set; }
+        public string LocationType { get; set; } = "Remote";
 
         [MinLength(LocationTypeMinLength, ErrorMessage = "Position location should be minimum 2 characters!")]
         [MaxLength(LocationTypeMaxLength, ErrorMessage = "Position location should be maximum 2 characters!")]
@@ -54,8 +56,12 @@
         [Display(Name = "Company size of employees")]
         public EmployeesSizeVM Employees { get; set; }
 
+        public int EmployeesToInt { get; set; } = 2;
+
         [CollectionMinLengthAttribute(1)]
         public List<CreateInterviewQuestionVM> Questions { get; set; }
+
+        public CreateInterviewQuestionVM Question { get; set; } = new CreateInterviewQuestionVM();
 
         public IEnumerable<SelectListItem> CompanyListNationalities { get; set; }
     }

@@ -87,6 +87,7 @@
             services.AddTransient<IFileService, FileService>();
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddScoped<IHtmlToPdfConverter, HtmlToPdfConverter>();
+            services.AddScoped<IPresentationService, PresentationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

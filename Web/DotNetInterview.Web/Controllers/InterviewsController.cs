@@ -80,7 +80,7 @@
 
             getCreateInterviewVM.CompanyListNationalities = await this.nationalitiesService.GetAll();
             getCreateInterviewVM.HodlOnDate = DateTime.Now;
-
+            getCreateInterviewVM.Questions = new List<CreateInterviewQuestionVM>();
             return this.View(getCreateInterviewVM);
         }
 
