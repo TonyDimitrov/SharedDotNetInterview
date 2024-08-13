@@ -2,78 +2,90 @@
 @using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 <EditForm Model="@VmModel" OnSubmit="HandleFormSubmit">
-    <div class="form-group row">
-        <div class="col-sm-6">
-            <label class="control-label required">Position seniority</label>
-            <InputSelect class="form-control" @bind-Value="VmModel.SeniorityToInt">
-
-                @foreach (var selectItem in PresentationService.GetSelectItemsFromEnum<PersonSeniorityVM>())
-                {
-                    <option value="@selectItem.Value">@selectItem.Text</option>
-                }
-            </InputSelect>
-        </div>
-        <div class="col-sm-6">
-            <label class="control-label">Date of interview</label>
-            <InputDate @bind-Value=VmModel.HodlOnDate class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label required">Position title</label>
-        <InputText @bind-Value=VmModel.PositionTitle class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label class="control-label">Position description</label>
-        <InputText @bind-Value=VmModel.PositionDescription class="form-control" />
-    </div>
-
-    <div class="form-group row">
-        <div class="col-sm-6">
-            <label class="control-label required">Company nationality</label>
-            <InputSelect class="form-control" @bind-Value="VmModel.CompanyNationalityId">
-                @foreach (var selectItem in VmModel.CompanyListNationalities)
-                {
-                    <option value="@selectItem.Value">@selectItem.Text</option>
-                }
-            </InputSelect>
-        </div>
-        <div class="col-sm-6">
-            <label class="control-label required">Company size</label>
-            <InputSelect class="form-control" @bind-Value="VmModel.EmployeesToInt">
-
-                @foreach (var selectItem in PresentationService.GetSelectItemsFromEnum<EmployeesSizeVM>(1))
-                {
-                    <option value="@selectItem.Value">@selectItem.Text</option>
-                }
-            </InputSelect>
-        </div>
-    </div>
-
     <div class="form-group inner-form">
-        <p>Position location</p>
-        <div class="form-check form-check-inline">
-            <input type="radio" name="locationType" checked="@(VmModel.LocationType == "InOffice")" @onclick='(() => HandleInputRadioChange("InOffice"))' />
-            <label class="form-check-label" for="office-type">In office</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input type="radio" name="locationType" checked="@(VmModel.LocationType  == "Remote")" @onclick='(() => HandleInputRadioChange("Remote"))' />
-            <label class="form-check-label" for="materialInline2">Remote</label>
-        </div>
-    </div>
-    @if (ShowLocationField)
-    {
-        <div class="form-group" id="div-location">
-            <label class="control-label required">Specify where position is based</label>
-            <InputText @bind-Value=VmModel.BasedPositionLocation class="form-control" />
-        </div>
-    }
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label class="control-label required">Position seniority</label>
 
-    <Questions Question="VmModel.Question" />
-    <input type="button" @onclick="() => SaveQuestion(VmModel.Question)" class="btn btn-primary" value="Add question" />
-    <br />
-    <input type="submit" class="btn btn-primary" value="Save" />
+                <InputSelect class="form-control" @bind-Value="VmModel.SeniorityToInt">
+
+                    @foreach (var selectItem in PresentationService.GetSelectItemsFromEnum<PersonSeniorityVM>())
+                    {
+                        <option value="@selectItem.Value">@selectItem.Text</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-sm-6">
+                <label class="control-label">Date of interview</label>
+                <InputDate @bind-Value=VmModel.HodlOnDate class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label required">Position title</label>
+            <InputText @bind-Value=VmModel.PositionTitle class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Position description</label>
+            <InputText @bind-Value=VmModel.PositionDescription class="form-control" />
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label class="control-label required">Company nationality</label>
+                <InputSelect class="form-control" @bind-Value="VmModel.CompanyNationalityId">
+                    @foreach (var selectItem in VmModel.CompanyListNationalities)
+                    {
+                        <option value="@selectItem.Value">@selectItem.Text</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-sm-6">
+                <label class="control-label required">Company size</label>
+                <InputSelect class="form-control" @bind-Value="VmModel.EmployeesToInt">
+
+                    @foreach (var selectItem in PresentationService.GetSelectItemsFromEnum<EmployeesSizeVM>(1))
+                    {
+                        <option value="@selectItem.Value">@selectItem.Text</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+
+        <div class="form-group inner-form">
+            <p>Position location</p>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="locationType" checked="@(VmModel.LocationType == "InOffice")" @onclick='(() => HandleInputRadioChange("InOffice"))' />
+                <label class="form-check-label" for="office-type">In office</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="locationType" checked="@(VmModel.LocationType  == "Remote")" @onclick='(() => HandleInputRadioChange("Remote"))' />
+                <label class="form-check-label" for="materialInline2">Remote</label>
+            </div>
+        </div>
+        @if (ShowLocationField)
+        {
+            <div class="form-group" id="div-location">
+                <label class="control-label required">Specify where position is based</label>
+                <InputText @bind-Value=VmModel.BasedPositionLocation class="form-control" />
+            </div>
+        }
+    </div>
+    <div class="form-group inner-form">
+        <Questions Question="VmModel.Question" />
+        @if (!VmModel.IsBeingEdited)
+        {
+            <input type="button" @onclick="() => SaveNewQuestion(VmModel.Question)" class="btn btn-primary" value="Add question" />
+        }
+        @if (VmModel.IsBeingEdited)
+        {
+            <input type="button" @onclick="() => SaveEditedQuestion(VmModel.CurentQuestionIndex)" class="btn btn-primary" value="Edit question" />
+        }
+
+        <Pagination OnChange="GetEditQuestion" Interview="VmModel" />
+    </div>
+    <input type="submit" class="btn btn-primary" value="Save Interview" />
 </EditForm>
 
 

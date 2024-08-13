@@ -1,0 +1,13 @@
+﻿@if (Interview.Questions.Count > 0)
+{
+    <p class="created-questions">Created questions:</p>
+}
+
+<ul class="pagination">
+    @for (int i = 0; i < Interview.Questions.Count; i++)
+     {
+        var preservedItem = i;
+        var setColor = Interview.CurentQuestionIndex == preservedItem ? "#cf6e2d" : string.Empty;
+        <li style="background-color:@setColor" @onclick="() => EditQuestion(preservedItem)">@(i + 1)</li>
+    }
+</ul>

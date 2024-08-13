@@ -2,7 +2,6 @@
 @using DotNetInterview.Web.ViewModels.Interviews;
 
 <h5>Add interview questions information</h5>
-
 <div class="form-group">
     <div class="form-group">
         <label class="control-label required">Question</label>
@@ -13,20 +12,20 @@
         <InputText @bind-Value=Question.GivenAnswer class="form-control" />
     </div>
     <div>
-          <div class="form-check form-check-inline">
-              <p>You can rank this question as most:</p>
-          </div>
-          <div class="form-check form-check-inline">
-              <input class="form-check-input interesting" type="checkbox" name="Question.Interesting" value="1">
-              <label class="form-check-label" for="inlineCheckbox1">interesting</label>
-          </div>
-          <div class="form-check form-check-inline">
-              <input class="form-check-input unexpected" type="checkbox" name="Question.Interesting" value="2">
-              <label class="form-check-label" for="inlineCheckbox2">unexpected</label>
-          </div>
-          <div class="form-check form-check-inline">
-              <input class="form-check-input difficult" type="checkbox" name="Question.Interesting" value="3">
-              <label class="form-check-label" for="inlineCheckbox3">difficult</label>
-          </div>
-      </div>
-</div
+        <div class="form-check form-check-inline">
+            <p>You can rank this question as most:</p>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input interesting" type="checkbox" name="Question.Interesting" value="1">
+            <label class="form-check-label" for="inlineCheckbox1">interesting</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input unexpected" type="checkbox" name="Question.Interesting" value="2">
+            <label class="form-check-label" for="inlineCheckbox2">unexpected</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input difficult" type="checkbox" name="Question.Interesting" value="3">
+            <label class="form-check-label" for="inlineCheckbox3">difficult</label>
+        </div>
+    </div>
+</div>

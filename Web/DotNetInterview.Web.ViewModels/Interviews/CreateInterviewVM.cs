@@ -11,7 +11,7 @@
     using static DotNetInterview.Web.ViewModels.Constants.DataConstantVM;
 
     public class CreateInterviewVM
-        {
+    {
         public CreateInterviewVM()
         {
             this.Questions = new List<CreateInterviewQuestionVM>();
@@ -64,5 +64,9 @@
         public CreateInterviewQuestionVM Question { get; set; } = new CreateInterviewQuestionVM();
 
         public IEnumerable<SelectListItem> CompanyListNationalities { get; set; }
+
+        public bool IsBeingEdited { get; set; } = false;
+
+        public int CurentQuestionIndex { get; set; } = -1;
     }
 }
