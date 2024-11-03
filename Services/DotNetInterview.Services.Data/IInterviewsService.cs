@@ -18,7 +18,7 @@
 
         CreateInterviewVM CreateGetVM();
 
-        Task Create(CreateInterviewVM model, string userId, string filePath, IFileService fileService);
+        Task<int> Create(CreateInterviewVM model, string userId, string filePath, IFileService fileService);
 
         DetailsInterviewVM Details(string interviewId, string currentUserId, bool isAdmin);
 

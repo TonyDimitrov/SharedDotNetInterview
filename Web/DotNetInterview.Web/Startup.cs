@@ -1,5 +1,6 @@
 ﻿namespace DotNetInterview.Web
 {
+    using System;
     using System.Reflection;
 
     using DotNetInterview.Data;
@@ -35,9 +36,9 @@
         {
             services.AddControllersWithViews();
             services.AddServerSideBlazor();
-
             services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+                options =>
+                options.UseNpgsql(this.configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>()

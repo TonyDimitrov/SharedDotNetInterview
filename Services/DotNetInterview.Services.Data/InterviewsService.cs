@@ -196,7 +196,7 @@
             };
         }
 
-        public async Task Create(CreateInterviewVM model, string userId, string fileDirectory, IFileService fileService)
+        public async Task<int> Create(CreateInterviewVM model, string userId, string fileDirectory, IFileService fileService)
         {
             LocationType locationType;
 
@@ -217,7 +217,7 @@
                 Seniority = (PositionSeniority)model.Seniority,
                 PositionTitle = model.PositionTitle,
                 PositionDescription = model.PositionDescription,
-                HeldOnDate = model.HodlOnDate,
+                HeldOnDate = model.HodlOnDate.ToUniversalTime(),
                 CreatedOn = DateTime.UtcNow,
                 Nationality = nationality,
                 CompanyNationality = nationality?.CompanyNationality,
@@ -246,7 +246,8 @@
             }
 
             await this.interviewsRepository.AddAsync(interview);
-            await this.interviewsRepository.SaveChangesAsync();
+
+            return await this.interviewsRepository.SaveChangesAsync();
         }
 
         public DetailsInterviewVM Details(string interviewId, string currentUserId, bool isAdmin)

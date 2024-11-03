@@ -84,7 +84,7 @@
             var mockedData = InterviewsTestData.GetInterviewsTestData();
             int hour = 12;
             mockedData.ToArray()[0].CreatedOn = new DateTime(2015, 05, 15, hour, 10, 10, DateTimeKind.Utc);
-            var localDifferentHoursFromUtc = DateTime.Now.Hour - DateTime.UtcNow.Hour;
+            var localDifferentHoursFromUtc = DateTime.UtcNow.Hour - DateTime.UtcNow.Hour;
             var formattedHour = hour + localDifferentHoursFromUtc;
 
             var interviewRepo = new Mock<IDeletableEntityRepository<Interview>>();

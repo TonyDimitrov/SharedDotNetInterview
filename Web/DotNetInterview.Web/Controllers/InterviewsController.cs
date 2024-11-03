@@ -79,7 +79,7 @@
             var getCreateInterviewVM = this.interviewsService.CreateGetVM();
 
             getCreateInterviewVM.CompanyListNationalities = await this.nationalitiesService.GetAll();
-            getCreateInterviewVM.HodlOnDate = DateTime.Now;
+            getCreateInterviewVM.HodlOnDate = DateTime.UtcNow;
             getCreateInterviewVM.Questions = new List<CreateInterviewQuestionVM>();
             return this.View(getCreateInterviewVM);
         }
