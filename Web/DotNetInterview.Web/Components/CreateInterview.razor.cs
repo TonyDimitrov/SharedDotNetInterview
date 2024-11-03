@@ -1,10 +1,13 @@
 ﻿namespace DotNetInterview.Web.Components
 {
+    using System.Net.Http;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using DotNetInterview.Services.Data;
     using DotNetInterview.Web.ViewModels.Interviews;
     using Microsoft.AspNetCore.Components;
+    using Microsoft.AspNetCore.Components.Authorization;
     using Microsoft.AspNetCore.Components.Forms;
 
     public partial class CreateInterview
@@ -12,7 +15,17 @@
         private const string LocationInOffice = "InOffice";
 
         [Inject]
-        public IPresentationService PresentationService { get; set; }
+        private IPresentationService PresentationService { get; set; }
+
+        [Inject]
+        private IInterviewsService interviewsService { get; set; }
+
+        [Inject]
+        private IFileService fileService { get; set; }
+
+        [Inject]
+        public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
 
         [Parameter]
         public CreateInterviewVM VmModel { get; set; } = new CreateInterviewVM();
@@ -25,6 +38,12 @@
 
             var jobTitle = this.VmModel.PositionTitle;
             var seniort = this.VmModel.Seniority;
+
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            await interviewsService.Create(VmModel, userId, null, fileService);
         }
 
         public void SaveNewQuestion(CreateInterviewQuestionVM question)

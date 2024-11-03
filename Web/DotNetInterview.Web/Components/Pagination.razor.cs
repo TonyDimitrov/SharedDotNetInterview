@@ -15,9 +15,9 @@
 
         public async Task EditQuestion(int questionIndex)
         {
-            //var editedQuestion = this.Interview.Questions[questionIndex];
-            //this.Interview.Question.Content = editedQuestion.Content;
-            //this.Interview.Question.GivenAnswer = editedQuestion.GivenAnswer;
+            var editedQuestion = this.Interview.Questions[questionIndex];
+            this.Interview.Question.Content = editedQuestion.Content;
+            this.Interview.Question.GivenAnswer = editedQuestion.GivenAnswer;
 
             await this.OnChange.InvokeAsync(questionIndex);
         }

@@ -198,29 +198,6 @@
 
         public async Task Create(CreateInterviewVM model, string userId, string fileDirectory, IFileService fileService)
         {
-            var questions = new List<Question>();
-
-            foreach (var q in model.Questions)
-            {
-                var fileName = await fileService.SaveFile(q.FormFile, fileDirectory);
-
-                var rankValue = Math.Max(q.Interesting, Math.Max(q.Unexpected, q.Difficult));
-
-                var question = new Question
-                {
-                    Content = q.Content,
-                    GivenAnswer = q.GivenAnswer,
-                    CreatedOn = DateTime.UtcNow,
-                    RankType = (QuestionRankType)rankValue,
-                    UrlTask = fileName,
-                };
-
-                await this.questionsRepository.AddAsync(question);
-                await this.questionsRepository.SaveChangesAsync();
-
-                questions.Add(question);
-            }
-
             LocationType locationType;
 
             if (!Enum.TryParse<LocationType>(model.LocationType, out locationType))
@@ -250,9 +227,22 @@
                 UserId = userId,
             };
 
-            foreach (var q in questions)
+            foreach (var q in model.Questions)
             {
-                interview.Questions.Add(q);
+                var fileName = await fileService.SaveFile(q.FormFile, fileDirectory);
+
+                var rankValue = Math.Max(q.Interesting, Math.Max(q.Unexpected, q.Difficult));
+
+                var question = new Question
+                {
+                    Content = q.Content,
+                    GivenAnswer = q.GivenAnswer,
+                    CreatedOn = DateTime.UtcNow,
+                    RankType = (QuestionRankType)rankValue,
+                    UrlTask = fileName,
+                };
+
+                interview.Questions.Add(question);
             }
 
             await this.interviewsRepository.AddAsync(interview);
