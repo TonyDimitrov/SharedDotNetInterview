@@ -53,7 +53,7 @@
                 likeRepository,
                 nationalitiesService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
-            newInterview.Questions[1].FormFile = fileMock;
+            newInterview.CultFitQuestions[1].FormFile = fileMock;
 
             await service.Create(newInterview, "1", "fileDirectory", fileService.Object);
             var dbInterview = interviewRepository.All().First();
@@ -121,7 +121,7 @@
                 likeRepository,
                 importerService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
-            newInterview.Questions[1].FormFile = fileMock;
+            newInterview.CultFitQuestions[1].FormFile = fileMock;
 
             await service.Create(newInterview, "1", "fileDirectory", fileService.Object);
             var dbInterview = interviewRepository.All().First();
@@ -186,7 +186,7 @@
                 likeRepository,
                 importerService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
-            newInterview.Questions[1].FormFile = fileMock;
+            newInterview.CultFitQuestions[1].FormFile = fileMock;
 
             await service.Create(newInterview, "1", "fileDirectory", fileService.Object);
             var dbInterview = interviewRepository.All().First();

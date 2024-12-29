@@ -6,6 +6,9 @@
     public partial class Questions
     {
         [Parameter]
+        public string Title { get; set; }
+
+        [Parameter]
         public CreateInterviewQuestionVM Question { get; set; }
     }
 }

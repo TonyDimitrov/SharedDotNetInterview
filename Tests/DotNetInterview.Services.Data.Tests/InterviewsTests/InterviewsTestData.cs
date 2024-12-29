@@ -424,7 +424,7 @@
                 BasedPositionLocation = "Sofia",
                 CompanyNationalityId = "1",
                 Employees = EmployeesSizeVM.Between100And1000,
-                Questions = new List<CreateInterviewQuestionVM>
+                CultFitQuestions = new List<CreateInterviewQuestionVM>
                 {
                     new CreateInterviewQuestionVM
                     {

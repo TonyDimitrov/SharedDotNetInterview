@@ -22,6 +22,12 @@
         [MaxLength(QuestionContentMaxLength)]
         public string Content { get; set; }
 
+        [MinLength(GivenAnswerMinLength)]
+        [MaxLength(GivenAnswerMaxLength)]
+        public string GivenAnswer { get; set; }
+
+        public QuestionGeneralType QuestionGeneralType { get; set; }
+
         public byte[] FileTask { get; set; }
 
         [MinLength(UrlMinLength)]
@@ -31,10 +37,6 @@
         [MinLength(UrlMinLength)]
         [MaxLength(UrlMaxLength)]
         public string UrlGitRepo { get; set; }
-
-        [MinLength(GivenAnswerMinLength)]
-        [MaxLength(GivenAnswerMaxLength)]
-        public string GivenAnswer { get; set; }
 
         public QuestionRankType RankType { get; set; }
 

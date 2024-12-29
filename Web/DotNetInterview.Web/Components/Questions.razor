@@ -1,14 +1,14 @@
 ﻿@using System.Linq;
 @using DotNetInterview.Web.ViewModels.Interviews;
 
-<h5>Add interview questions information</h5>
+<h5>@Title</h5>
 <div class="form-group">
     <div class="form-group">
         <label class="control-label required">Question</label>
         <InputText @bind-Value=Question.Content class="form-control" />
     </div>
     <div class="form-group">
-        <label class="control-label required">Given answer</label>
+        <label class="control-label">Given answer (Optional)</label>
         <InputText @bind-Value=Question.GivenAnswer class="form-control" />
     </div>
     <div>
@@ -16,16 +16,22 @@
             <p>You can rank this question as most:</p>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input interesting" type="checkbox" name="Question.Interesting" value="1">
-            <label class="form-check-label" for="inlineCheckbox1">interesting</label>
+            <input class="form-check-input interesting"
+                   type="checkbox"
+                   @bind="Question.IsInteresting" />
+            <label class="form-check-label">interesting</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input unexpected" type="checkbox" name="Question.Interesting" value="2">
-            <label class="form-check-label" for="inlineCheckbox2">unexpected</label>
+            <input class="form-check-input unexpected"
+                   type="checkbox"
+                   @bind="Question.IsUnexpected">
+            <label class="form-check-label">unexpected</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input difficult" type="checkbox" name="Question.Interesting" value="3">
-            <label class="form-check-label" for="inlineCheckbox3">difficult</label>
+            <input class="form-check-input difficult"
+                   type="checkbox"
+                   @bind="Question.IsDifficult">
+            <label class="form-check-label">difficult</label>
         </div>
     </div>
 </div>

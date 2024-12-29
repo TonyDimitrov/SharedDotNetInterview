@@ -14,7 +14,7 @@
     {
         public CreateInterviewVM()
         {
-            this.Questions = new List<CreateInterviewQuestionVM>();
+            this.CultFitQuestions = new List<CreateInterviewQuestionVM>();
         }
 
         [Required(ErrorMessage = "Position seniority required!")]
@@ -34,6 +34,19 @@
         [Display(Name = "Position description")]
         public string PositionDescription { get; set; }
 
+        [Required(ErrorMessage = "Employer name required!")]
+        [MinLength(NameEmpMinLength, ErrorMessage = "Employer name should be minimum 2 characters!")]
+        [MaxLength(NameEmpMaxLength, ErrorMessage = "Employer name should be maximum 40 characters!")]
+        public string EmployerName { get; set; }
+
+        public int Salary { get; set; }
+
+        [Required(ErrorMessage = "Salary type required!")]
+        [Display(Name = "Salary type")]
+        public SalaryTypeVm SalaryType { get; set; } = SalaryTypeVm.Monthly;
+
+        public int SalaryTypeToInt { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Date of interview")]
@@ -42,7 +55,7 @@
         [Required]
         [MinLength(LocationTypeMinLength)]
         [MaxLength(LocationTypeMaxLength)]
-        [Display(Name = "Location type spesification")]
+        [Display(Name = "Location type spesification")] 
         public string LocationType { get; set; } = "Remote";
 
         [MinLength(LocationTypeMinLength, ErrorMessage = "Position location should be minimum 2 characters!")]
@@ -58,15 +71,26 @@
 
         public int EmployeesToInt { get; set; } = 2;
 
-        [CollectionMinLengthAttribute(1)]
-        public List<CreateInterviewQuestionVM> Questions { get; set; }
+        public bool ShowCultFitQuestions { get; set; } = false;
 
-        public CreateInterviewQuestionVM Question { get; set; } = new CreateInterviewQuestionVM();
+        public bool ShowTechQuestions { get; set; } = false;
+
+        public bool ShowGeneralQuestions { get; set; } = true;
+
+        [CollectionMinLengthAttribute(1)]
+        public List<CreateInterviewQuestionVM> CultFitQuestions { get; set; } = new List<CreateInterviewQuestionVM>();
+
+        public CreateInterviewQuestionVM CultFitQuestion { get; set; } = new CreateInterviewQuestionVM();
+
+        public List<CreateInterviewQuestionVM> TechnicalQuestions { get; set; } = new List<CreateInterviewQuestionVM>();
+
+        public CreateInterviewQuestionVM TechnicalQuestion { get; set; } = new CreateInterviewQuestionVM();
 
         public IEnumerable<SelectListItem> CompanyListNationalities { get; set; }
 
         public bool IsBeingEdited { get; set; } = false;
 
-        public int CurentQuestionIndex { get; set; } = -1;
+        public int CurrentCultFitQuestionIndex { get; set; } = -1;
+        public int CurrentTechQuestionIndex { get; set; } = -1;
     }
 }

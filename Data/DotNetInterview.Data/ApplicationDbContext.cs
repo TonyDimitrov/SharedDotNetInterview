@@ -26,6 +26,8 @@
 
         public DbSet<Interview> Interviews { get; set; }
 
+        public DbSet<Employer> Employers { get; set; }
+
         public DbSet<Question> Questions { get; set; }
 
         public DbSet<Comment> Comments { get; set; }

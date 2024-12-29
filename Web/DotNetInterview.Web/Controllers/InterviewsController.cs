@@ -80,7 +80,7 @@
 
             getCreateInterviewVM.CompanyListNationalities = await this.nationalitiesService.GetAll();
             getCreateInterviewVM.HodlOnDate = DateTime.UtcNow;
-            getCreateInterviewVM.Questions = new List<CreateInterviewQuestionVM>();
+            getCreateInterviewVM.CultFitQuestions = new List<CreateInterviewQuestionVM>();
             return this.View(getCreateInterviewVM);
         }
 
@@ -91,7 +91,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                foreach (var q in model.Questions)
+                foreach (var q in model.CultFitQuestions)
                 {
                     Utils.SetStringValues<CreateInterviewQuestionVM>(q, q.GivenAnswer);
                 }

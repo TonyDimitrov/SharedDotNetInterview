@@ -12,6 +12,10 @@
         public const int EmailMinLength = 5;
         public const int EmailMaxLength = 100;
 
+        // Employer constants
+        public const int NameEmpMinLength = 2;
+        public const int NameEmpMaxLength = 40;
+
         // Interview constants
         public const int LocationlMinLength = 2;
         public const int LocationlMaxLength = 100;

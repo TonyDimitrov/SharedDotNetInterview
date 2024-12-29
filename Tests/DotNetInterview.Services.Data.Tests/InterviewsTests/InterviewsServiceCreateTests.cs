@@ -26,7 +26,7 @@
             var viewModel = service.CreateGetVM();
 
             // Assert
-            Assert.Single(viewModel.Questions);
+            Assert.Single(viewModel.CultFitQuestions);
         }
 
         [Fact]
@@ -51,7 +51,7 @@
 
             var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalityService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
-            newInterview.Questions[0].FormFile = fileMock;
+            newInterview.CultFitQuestions[0].FormFile = fileMock;
 
             // Act
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);
@@ -68,13 +68,13 @@
             Assert.Equal(newInterview.PositionDescription, createdInterview.PositionDescription);
             Assert.Equal(newInterview.BasedPositionLocation, createdInterview.BasedPositionLocation);
 
-            Assert.Equal(newInterview.Questions[0].Content, createdInterview.Questions.ToArray()[0].Content);
-            Assert.Equal(newInterview.Questions[0].GivenAnswer, createdInterview.Questions.ToArray()[0].GivenAnswer);
-            Assert.Equal(newInterview.Questions[0].Unexpected, (int)createdInterview.Questions.ToArray()[0].RankType);
+            Assert.Equal(newInterview.CultFitQuestions[0].Content, createdInterview.Questions.ToArray()[0].Content);
+            Assert.Equal(newInterview.CultFitQuestions[0].GivenAnswer, createdInterview.Questions.ToArray()[0].GivenAnswer);
+            Assert.Equal(newInterview.CultFitQuestions[0].Unexpected, (int)createdInterview.Questions.ToArray()[0].RankType);
             Assert.Equal("fileForInterviewQuestion", createdInterview.Questions.ToArray()[0].UrlTask);
 
-            Assert.Equal(newInterview.Questions[1].Content, createdInterview.Questions.ToArray()[1].Content);
-            Assert.Equal(newInterview.Questions[1].GivenAnswer, createdInterview.Questions.ToArray()[1].GivenAnswer);
+            Assert.Equal(newInterview.CultFitQuestions[1].Content, createdInterview.Questions.ToArray()[1].Content);
+            Assert.Equal(newInterview.CultFitQuestions[1].GivenAnswer, createdInterview.Questions.ToArray()[1].GivenAnswer);
             Assert.Equal(0, (int)createdInterview.Questions.ToArray()[1].RankType);
             Assert.Null(createdInterview.Questions.ToArray()[1].UrlTask);
         }
@@ -101,7 +101,7 @@
 
             var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalityService.Object);
             var newInterview = InterviewsTestData.CreateInterviewTestData();
-            newInterview.Questions[0].FormFile = fileMock;
+            newInterview.CultFitQuestions[0].FormFile = fileMock;
 
             // Act
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);

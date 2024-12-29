@@ -185,7 +185,7 @@
         {
             return new CreateInterviewVM
             {
-                Questions = new List<CreateInterviewQuestionVM>
+                CultFitQuestions = new List<CreateInterviewQuestionVM>
                 {
                     new CreateInterviewQuestionVM
                     {
@@ -227,7 +227,7 @@
                 UserId = userId,
             };
 
-            foreach (var q in model.Questions)
+            foreach (var q in model.CultFitQuestions)
             {
                 var fileName = await fileService.SaveFile(q.FormFile, fileDirectory);
 

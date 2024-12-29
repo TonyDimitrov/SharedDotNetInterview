@@ -1,14 +1,27 @@
 ﻿@using DotNetInterview.Web.ViewModels.Enums;
 @using Microsoft.AspNetCore.Mvc.ViewFeatures;
+@using DotNetInterview.Web.ViewModels.Enums;
 
 <EditForm Model="@VmModel" OnSubmit="HandleFormSubmit">
-    <div class="form-group inner-form">
+    @if (VmModel.ShowGeneralQuestions)
+    {
+       <div class="form-group inner-form">
+        <div class="form-group">
+            <label class="control-label required">Employer</label>
+            <InputText @bind-Value=VmModel.EmployerName class="form-control" />
+        </div>
+        <div class="form-group">
+            <label class="control-label required">Position title</label>
+            <InputText @bind-Value=VmModel.PositionTitle class="form-control" />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Position description</label>
+            <textarea value=VmModel.PositionDescription class="form-control" rows="3" cols="30" />
+        </div>
         <div class="form-group row">
             <div class="col-sm-6">
                 <label class="control-label required">Position seniority</label>
-
                 <InputSelect class="form-control" @bind-Value="VmModel.SeniorityToInt">
-
                     @foreach (var selectItem in PresentationService.GetSelectItemsFromEnum<PersonSeniorityVM>())
                     {
                         <option value="@selectItem.Value">@selectItem.Text</option>
@@ -16,43 +29,23 @@
                 </InputSelect>
             </div>
             <div class="col-sm-6">
-                <label class="control-label">Date of interview</label>
-                <InputDate @bind-Value=VmModel.HodlOnDate class="form-control" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label required">Position title</label>
-            <InputText @bind-Value=VmModel.PositionTitle class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label class="control-label">Position description</label>
-            <InputText @bind-Value=VmModel.PositionDescription class="form-control" />
-        </div>
-
-        <div class="form-group row">
-            <div class="col-sm-6">
-                <label class="control-label required">Company nationality</label>
-                <InputSelect class="form-control" @bind-Value="VmModel.CompanyNationalityId">
-                    @foreach (var selectItem in VmModel.CompanyListNationalities)
-                    {
-                        <option value="@selectItem.Value">@selectItem.Text</option>
-                    }
-                </InputSelect>
+                <label class="control-label">Salary in USD (Optional)</label>
+                <InputNumber @bind-Value=VmModel.Salary class="form-control" />
             </div>
             <div class="col-sm-6">
-                <label class="control-label required">Company size</label>
-                <InputSelect class="form-control" @bind-Value="VmModel.EmployeesToInt">
-
-                    @foreach (var selectItem in PresentationService.GetSelectItemsFromEnum<EmployeesSizeVM>(1))
-                    {
-                        <option value="@selectItem.Value">@selectItem.Text</option>
-                    }
-                </InputSelect>
+                <label class="control-label"></label>
+            </div>
+            <div class="col-sm-6 radio-group">
+                <InputRadioGroup @bind-Value="VmModel.SalaryType">
+                    <div class="padding-top-bottom-10">
+                        <InputRadio Value="SalaryTypeVm.Monthly" /> Monthly
+                    </div>
+                    <div>
+                        <InputRadio Value="SalaryTypeVm.Yearly" /> Yearly
+                    </div>
+                </InputRadioGroup>
             </div>
         </div>
-
         <div class="form-group inner-form">
             <p>Position location</p>
             <div class="form-check form-check-inline">
@@ -67,25 +60,65 @@
         @if (ShowLocationField)
         {
             <div class="form-group" id="div-location">
-                <label class="control-label required">Specify where position is based</label>
+                <label class="control-label oi oi-arrow-right required">Specify where position is based</label>
                 <InputText @bind-Value=VmModel.BasedPositionLocation class="form-control" />
             </div>
         }
     </div>
-    <div class="form-group inner-form">
-        <Questions Question="VmModel.Question" />
-        @if (!VmModel.IsBeingEdited)
-        {
-            <input type="button" @onclick="() => SaveNewQuestion(VmModel.Question)" class="btn btn-primary" value="Add question" />
-        }
-        @if (VmModel.IsBeingEdited)
-        {
-            <input type="button" @onclick="() => SaveEditedQuestion(VmModel.CurentQuestionIndex)" class="btn btn-primary" value="Edit question" />
-        }
+    <div class="d-flex justify-content-center">
+        <button type="button" @onclick="MoveToCultFitQuestions" class="btn btn-primary">
+            Next
+        </button>
+    </div> 
+    }
+    
+    @if (VmModel.ShowCultFitQuestions)
+    {
+        <div class="form-group inner-form">
+            <Questions Question="VmModel.CultFitQuestion" Title="Add cultural fit questions" />
+            @if (!VmModel.IsBeingEdited)
+            {
+                <input type="button" @onclick="() => SaveNewQuestion(VmModel.CultFitQuestions, VmModel.CultFitQuestion)" class="btn btn-primary" value="Add question" />
+            }
+            @if (VmModel.IsBeingEdited)
+            {
+                <input type="button" @onclick="() => SaveEditedQuestion(VmModel.CurrentCultFitQuestionIndex, QuestionGeneralTypeVM.CultyralFit)" class="btn btn-primary" value="Edit question" />
+            }
+            <Pagination OnChange="GetEditCultFitQuestion" CurrentQuestionIndex="VmModel.CurrentCultFitQuestionIndex" Question="VmModel.CultFitQuestion" Questions="VmModel.CultFitQuestions" />
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="button" @onclick="BackToGeneralQuestions" class="btn btn-primary m-1">
+                Back
+            </button>
+            <button type="button" @onclick="MoveToTechQuestions" class="btn btn-primary m-1">
+                Next
+            </button>
+        </div>
+    }
 
-        <Pagination OnChange="GetEditQuestion" Interview="VmModel" />
-    </div>
-    <input type="submit" class="btn btn-primary" value="Save Interview" />
+    @if (VmModel.ShowTechQuestions)
+    {
+        <div class="form-group inner-form">
+            <Questions Question="VmModel.TechnicalQuestion" Title="Add technical questions" />
+            @if (!VmModel.IsBeingEdited)
+            {
+                <input type="button" @onclick="() => SaveNewQuestion(VmModel.TechnicalQuestions, VmModel.TechnicalQuestion)" class="btn btn-primary" value="Add question" />
+            }
+            @if (VmModel.IsBeingEdited)
+            {
+                <input type="button" @onclick="() => SaveEditedQuestion(VmModel.CurrentTechQuestionIndex, QuestionGeneralTypeVM.Technical)" class="btn btn-primary" value="Edit question" />
+            }
+            <Pagination OnChange="GetEditTechtQuestion" CurrentQuestionIndex="VmModel.CurrentTechQuestionIndex" Question="VmModel.TechnicalQuestion" Questions="VmModel.TechnicalQuestions" />
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="button" @onclick="BackToCultFitQuestions" class="btn btn-primary m-1">
+                Back
+            </button>
+            <button type="submit" class="btn btn-primary m-1">
+                Create Interview
+            </button>
+        </div>
+    }
 </EditForm>
 
 

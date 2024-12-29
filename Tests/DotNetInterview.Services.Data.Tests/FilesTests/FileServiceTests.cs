@@ -40,7 +40,7 @@
             var interviewService = new InterviewsService(null, interviewRepository, questionRepository, null, null, nationalityService);
 
             var newInterview = InterviewsTestData.CreateInterviewTestData();
-            newInterview.Questions[0].FormFile = fileMock;
+            newInterview.CultFitQuestions[0].FormFile = fileMock;
 
             // Act
             await interviewService.Create(newInterview, "1", "fileDirectory", fileService.Object);

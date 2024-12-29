@@ -1,8 +1,9 @@
 ﻿namespace DotNetInterview.Web.ViewModels.Interviews
 {
-    using System.ComponentModel.DataAnnotations;
-
+    using DotNetInterview.Web.ViewModels.Enums;
     using Microsoft.AspNetCore.Http;
+
+    using System.ComponentModel.DataAnnotations;
 
     using static DotNetInterview.Web.ViewModels.Constants.DataConstantVM;
 
@@ -12,6 +13,12 @@
         [MinLength(QuestionContentMinLength, ErrorMessage = "Question content should have minimum 2 characters!")]
         [MaxLength(QuestionContentMaxLength, ErrorMessage = "Question content should have maximum 4000 characters!")]
         public string Content { get; set; }
+
+        public bool IsInteresting { get; set; }
+        public bool IsDifficult { get; set; }
+        public bool IsUnexpected { get; set; }
+
+        public QuestionGeneralTypeVM QuestionGeneral { get; set; }
 
         public IFormFile FormFile { get; set; }
 

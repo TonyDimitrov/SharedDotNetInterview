@@ -31,6 +31,10 @@
         public string PositionDescription { get; set; }
 
         public LocationType LocationType { get; set; }
+        
+        public int Salary { get; set; }
+
+        public SalaryType SalaryType { get; set; }
 
         [MinLength(LocationlMinLength)]
         [MaxLength(LocationlMaxLength)]
@@ -54,6 +58,10 @@
         public int? NationalityId { get; set; }
 
         public Nationality Nationality { get; set; }
+
+        public string EmployerId { get; set; }
+
+        public Employer Employer { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
 
