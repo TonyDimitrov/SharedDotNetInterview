@@ -83,6 +83,7 @@
             @if (VmModel.IsBeingEdited)
             {
                 <input type="button" @onclick="() => SaveEditedQuestion(VmModel.CurrentCultFitQuestionIndex, QuestionGeneralTypeVM.CultyralFit)" class="btn btn-primary" value="Edit question" />
+                <input type="button" @onclick="() => DeleteQuestion(VmModel.CurrentCultFitQuestionIndex)" class="btn btn-danger" value="Delete" />
             }
             <Pagination OnChange="GetEditCultFitQuestion" CurrentQuestionIndex="VmModel.CurrentCultFitQuestionIndex" Question="VmModel.CultFitQuestion" Questions="VmModel.CultFitQuestions" />
         </div>
@@ -106,7 +107,8 @@
             }
             @if (VmModel.IsBeingEdited)
             {
-                <input type="button" @onclick="() => SaveEditedQuestion(VmModel.CurrentTechQuestionIndex, QuestionGeneralTypeVM.Technical)" class="btn btn-primary" value="Edit question" />
+                <input type="button" @onclick="() => SaveEditedQuestion(VmModel.CurrentTechQuestionIndex, QuestionGeneralTypeVM.Technical)" class="btn btn-primary" value="Save" />
+                <input type="button" @onclick="() => DeleteQuestion(VmModel.CurrentTechQuestionIndex)" class="btn btn-danger" value="Delete" />
             }
             <Pagination OnChange="GetEditTechtQuestion" CurrentQuestionIndex="VmModel.CurrentTechQuestionIndex" Question="VmModel.TechnicalQuestion" Questions="VmModel.TechnicalQuestions" />
         </div>

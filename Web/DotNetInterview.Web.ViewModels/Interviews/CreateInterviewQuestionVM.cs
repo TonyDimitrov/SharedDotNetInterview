@@ -18,6 +18,8 @@
         public bool IsDifficult { get; set; }
         public bool IsUnexpected { get; set; }
 
+        public string SelectedRank { get; set; } = "Unexpected";
+
         public QuestionGeneralTypeVM QuestionGeneral { get; set; }
 
         public IFormFile FormFile { get; set; }

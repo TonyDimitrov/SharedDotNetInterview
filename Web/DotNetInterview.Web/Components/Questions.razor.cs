@@ -2,6 +2,7 @@
 {
     using DotNetInterview.Web.ViewModels.Interviews;
     using Microsoft.AspNetCore.Components;
+    using System;
 
     public partial class Questions
     {
@@ -10,5 +11,10 @@
 
         [Parameter]
         public CreateInterviewQuestionVM Question { get; set; }
+
+        private void HandleInputRadioChange(string radioValue)
+        {
+            Question.SelectedRank = radioValue;
+        }
     }
 }

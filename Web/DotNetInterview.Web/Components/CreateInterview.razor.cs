@@ -92,6 +92,11 @@
             }
         }
 
+        private void DeleteQuestion(int index)
+        { 
+        
+        }
+
         public void GetEditCultFitQuestion(int questionIndex)
         {
             var editedQuestion = this.VmModel.CultFitQuestions[questionIndex];

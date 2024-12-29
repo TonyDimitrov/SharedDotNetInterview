@@ -11,27 +11,20 @@
         <label class="control-label">Given answer (Optional)</label>
         <InputText @bind-Value=Question.GivenAnswer class="form-control" />
     </div>
-    <div>
+    <div class="form-group inner-form">
+        <p>You can rank this question as most:</p>
         <div class="form-check form-check-inline">
-            <p>You can rank this question as most:</p>
+            <input type="radio" name="questionRank" checked="@(Question.SelectedRank == "Interesting")" @onclick=@(() => HandleInputRadioChange("Interesting")) />
+            <label class="form-check-label" for="interesting">Interesting</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input interesting"
-                   type="checkbox"
-                   @bind="Question.IsInteresting" />
-            <label class="form-check-label">interesting</label>
+            <input type="radio" name="questionRank" checked="@(Question.SelectedRank == "Unexpected")" @onclick=@(() => HandleInputRadioChange("Unexpected")) />
+            <label class="form-check-label" for="unexpected">Unexpected</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input unexpected"
-                   type="checkbox"
-                   @bind="Question.IsUnexpected">
-            <label class="form-check-label">unexpected</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input difficult"
-                   type="checkbox"
-                   @bind="Question.IsDifficult">
-            <label class="form-check-label">difficult</label>
+            <input type="radio" name="questionRank" checked="@(Question.SelectedRank == "Difficult")" @onclick=@(() => HandleInputRadioChange("Difficult")) />
+            <label class="form-check-label" for="difficult">Difficult</label>
         </div>
     </div>
+
 </div>
